@@ -1,0 +1,66 @@
+<div class="quarters"  [ngStyle]="{'direction':getLanguage() === 'en' ? 'rtl': ''}">
+  <!--div class="half-no-margin" id="{{isShowInHalfs}}">
+    <div class="quarter quarter-circle-bottom-right" [animation]="'pulse'"
+         [ngClass]="{'selected': enabled && topping.FirstQuarter}"
+         (click)="!isShowInHalfs ? selectQuarter('Quarter1', topping, $event) : selectQuarter('Quarter1', topping, $event); selectQuarter('Quarter4', topping, $event)"></div>
+    <div class="quarter quarter-circle-top-right" [animation]="'pulse'"
+         [ngClass]="{'selected': enabled && topping.ForthQuarter}"
+         (click)="!isShowInHalfs ? selectQuarter('Quarter4', topping, $event):  selectQuarter('Quarter4', topping, $event); selectQuarter('Quarter1', topping, $event)"></div>
+  </div>
+  <div class="half">
+    <div class="quarter quarter-circle-bottom-left" [animation]="'pulse'"
+         [ngClass]="{'selected': enabled &&  topping.SecondQuarter}"
+         (click)="!isShowInHalfs ? selectQuarter('Quarter2', topping, $event): selectQuarter('Quarter2', topping, $event); selectQuarter('Quarter3', topping, $event)"></div>
+    <div class="quarter quarter-circle-top-left" [animation]="'pulse'"
+         [ngClass]="{'selected': enabled && topping.ThirdQuarter}"
+         (click)="!isShowInHalfs ? selectQuarter('Quarter3', topping, $event): selectQuarter('Quarter3', topping, $event); selectQuarter('Quarter2', topping, $event)"></div>
+  </div-->
+
+  <div class="half"  *ngIf="isShowInHalfs" style="padding-top: 2px;">
+     <div class="quarter quarter-circle-top-right" [animation]="'pulse'" style="margin: 0;"
+          [ngClass]="{'selected': enabled &&  topping.ForthQuarter}"
+          [ngStyle]="{'background': enabled && topping.ForthQuarter ? selectedColor :  '#c4c4c4'}"
+          (click)="selectQuarter('Quarter4', topping, $event); selectQuarter('Quarter3', topping, $event)"></div>
+     <div class="quarter quarter-circle-top-left" [animation]="'pulse'" style="margin: 0;"
+          [ngClass]="{'selected': enabled && topping.ThirdQuarter}"
+          [ngStyle]="{'background': enabled && topping.ThirdQuarter ? selectedColor :  '#c4c4c4'}"
+          (click)="selectQuarter('Quarter3', topping, $event); selectQuarter('Quarter4', topping, $event)"></div>
+   </div>
+
+  <div class="half-no-margin" *ngIf="isShowInHalfs" style="padding-top: 2px;">
+    <div class="quarter quarter-circle-bottom-right" [animation]="'pulse'"  style="margin: 0;"
+         [ngClass]="{'selected': enabled && topping.FirstQuarter}"
+         [ngStyle]="{'background': enabled && topping.FirstQuarter ? selectedColor :  '#c4c4c4'}"
+         (click)="selectQuarter('Quarter1', topping, $event); selectQuarter('Quarter2', topping, $event)"></div>
+    <div class="quarter quarter-circle-bottom-left" [animation]="'pulse'"  style="margin: 0;"
+         [ngClass]="{'selected': enabled && topping.SecondQuarter}"
+         [ngStyle]="{'background': enabled && topping.SecondQuarter ? selectedColor :  '#c4c4c4'}"
+         (click)="selectQuarter('Quarter2', topping, $event); selectQuarter('Quarter1', topping, $event)"></div>
+  </div>
+ 
+
+  <div class="half"*ngIf="!isShowInHalfs">
+     <div class="quarter quarter-circle-top-right" [animation]="'pulse'"
+          [ngClass]="{'selected': enabled &&  topping.ForthQuarter}"
+          [ngStyle]="{'background': enabled && topping.ForthQuarter ? selectedColor :  '#c4c4c4'}"
+          (click)="selectQuarter('Quarter4', topping, $event)"></div>
+     <div class="quarter quarter-circle-top-left" [animation]="'pulse'"
+          [ngClass]="{'selected': enabled && topping.ThirdQuarter}"
+          [ngStyle]="{'background': enabled && topping.ThirdQuarter ? selectedColor :  '#c4c4c4'}"
+          (click)="selectQuarter('Quarter3', topping, $event)"></div>
+   </div>
+  <div class="half-no-margin"  *ngIf="!isShowInHalfs">
+     <div class="quarter quarter-circle-bottom-right" [animation]="'pulse'"
+          [ngClass]="{'selected': enabled && topping.FirstQuarter}"
+          [ngStyle]="{'background': enabled && topping.FirstQuarter ? selectedColor :  '#c4c4c4'}"
+          (click)="selectQuarter('Quarter1', topping, $event)"></div>
+     <div class="quarter quarter-circle-bottom-left" [animation]="'pulse'"
+          [ngClass]="{'selected': enabled && topping.SecondQuarter}"
+          [ngStyle]="{'background': enabled && topping.SecondQuarter ? selectedColor :  '#c4c4c4'}"
+          (click)="selectQuarter('Quarter2', topping, $event)"></div>
+   </div>
+  
+
+
+
+</div>

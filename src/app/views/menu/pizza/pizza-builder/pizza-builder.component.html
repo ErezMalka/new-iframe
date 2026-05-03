@@ -1,0 +1,211 @@
+ <!-- Pizza Builder-->
+ <div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+  <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="closeToppingSelect(false)"></span>
+   
+  </div>
+  <div class="garnishes-container">
+    <div class="header" mat-dialog-title [ngClass]="{'direction': lang != 'he'}" style="text-align: center; color:#636363; font-size: 20px; ">
+      <b>{{"CHOOSE_SIDES_FOR_TOPPING" | translate}} <br> {{currentTopping.Name}}</b> 
+    </div>
+    <mat-dialog-content class="mat-dialog-content-custom" style="overflow-y: hidden;">
+      <div class="pizza-builder pizza-info" style=" padding: 1rem;">
+        <div class="pizzaToppingImages" *ngIf="isShowInHalfs">
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter}" style="top: 1.5vw !important;"
+            (click)="selectQuarter('Quarter1', topping, $event); selectQuarter('Quarter2', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-1.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(1) == -1 || top.toppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf=" currentTopping?.FirstQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter}"
+            (click)="selectQuarter('Quarter2', topping, $event); selectQuarter('Quarter1', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-2.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(2) == -1 || top.toppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf=" currentTopping?.SecondQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter}"
+            (click)="selectQuarter('Quarter4', topping, $event); selectQuarter('Quarter3', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-3.png" class="pizza-quarter-image" />
+   
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(3) == -1 || top.toppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf=" currentTopping?.ThirdQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter}" style="top: 1.5vw !important;"
+            (click)="selectQuarter('Quarter3', topping, $event); selectQuarter('Quarter4', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-4.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(4) == -1 || top.toppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf=" currentTopping?.ForthQuarter" />
+          </div>
+        </div>
+   
+        <div class="pizzaToppingImages" *ngIf="!isShowInHalfs" >
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter }"
+            (click)="selectQuarter('Quarter1', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-1.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(1) == -1 || top.ToppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf="currentTopping?.FirstQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter }"
+            (click)="selectQuarter('Quarter2', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-2.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(2) == -1 || top.ToppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf="currentTopping?.SecondQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ThirdQuarter}"
+            (click)="selectQuarter('Quarter3', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-3.png" class="pizza-quarter-image" />
+   
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(3) == -1 || top.ToppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf="currentTopping?.ThirdQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ForthQuarter}"
+            (click)="selectQuarter('Quarter4', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-4.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(4) == -1 || top.ToppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf="currentTopping?.ForthQuarter" />
+          </div>
+   
+   
+   
+   
+   
+        </div>
+     </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <div class="btn-group" style="width: 100%;">
+        <button   (click)="closeToppingSelect(true)"  type="button" class="btn btn-custom btn-block text-center"  >
+           
+              {{ "PIZZA_OK" | translate }}
+           
+        </button>
+        
+      </div>
+   
+    </mat-dialog-actions>
+  </div>
+
+
+ <!--div class="modal-dialog mx-0 modal-lg " role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="modal-title">
+        <b> {{currentTopping.Name}}</b> 
+      </span>
+     
+      <button type="button" class="close" style="color:dimgrey"
+          (click)="closeToppingSelect(false)" >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row text-center">
+        <div class="col text-center">
+          בחר שטח תוספת
+        </div>
+      </div>
+      <div class="pizza-builder pizza-info">
+        <div class="pizzaToppingImages" *ngIf="isShowInHalfs">
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter}"
+            (click)="selectQuarter('Quarter1', topping, $event); selectQuarter('Quarter2', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-1.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(1) == -1 || top.toppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf=" currentTopping?.FirstQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter}"
+            (click)="selectQuarter('Quarter2', topping, $event); selectQuarter('Quarter1', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-2.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(2) == -1 || top.toppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf=" currentTopping?.SecondQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter}"
+            (click)="selectQuarter('Quarter4', topping, $event); selectQuarter('Quarter3', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-3.png" class="pizza-quarter-image" />
+   
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(3) == -1 || top.toppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf=" currentTopping?.ThirdQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter}"
+            (click)="selectQuarter('Quarter3', topping, $event); selectQuarter('Quarter4', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-4.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(4) == -1 || top.toppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf=" currentTopping?.ForthQuarter" />
+          </div>
+        </div>
+   
+        <div class="pizzaToppingImages" *ngIf="!isShowInHalfs" >
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter }"
+            (click)="selectQuarter('Quarter1', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-1.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(1) == -1 || top.ToppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf="currentTopping?.FirstQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter }"
+            (click)="selectQuarter('Quarter2', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-2.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(2) == -1 || top.ToppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf="currentTopping?.SecondQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ThirdQuarter}"
+            (click)="selectQuarter('Quarter3', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-3.png" class="pizza-quarter-image" />
+   
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(3) == -1 || top.ToppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf="currentTopping?.ThirdQuarter" />
+          </div>
+          <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ForthQuarter}"
+            (click)="selectQuarter('Quarter4', topping, $event)">
+            <img src="../../../../assets/images/items/quarter-pizza-4.png" class="pizza-quarter-image" />
+            <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+              [hidden]="top.QuarterNums.indexOf(4) == -1 || top.ToppingId == currentTopping.Id" />
+            <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+              *ngIf="currentTopping?.ForthQuarter" />
+          </div>
+   
+   
+   
+   
+   
+        </div>
+     </div>
+    </div> 
+    <div class="modal-footer">       
+      <button  type="button" class="btn btn-block text-white" (click)="closeToppingSelect(true)"
+               [ngStyle]="{'background-color': buttonColor}" >
+       <span>{{ "PIZZA_OK" | translate }}</span>
+      </button>    
+    </div>
+  </div> 
+</div--> 
+
+ 
+   

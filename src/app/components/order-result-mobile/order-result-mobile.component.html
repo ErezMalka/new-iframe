@@ -1,0 +1,38 @@
+<div class="order animated fadeIn" (window:resize)="onResize($event)" *ngIf="isMobileMode() && (order.Sum > 0 || countOfItems() > 0)">
+
+  <div class="card "  
+       *ngIf="isMobileMode()" style="margin-bottom: 0rem; border:none">
+    <div class="card-body py-0"  
+         style="border:none; background-color: #fff; font-weight: bold;">
+      <div class="row">
+        <div class="col">
+          <span  [ngStyle]="{'color': colors.buttonColor}">
+            {{"MENU_TOTAL_PAYMENT" | translate}} :
+          </span>
+          <span [ngStyle]="{'color': colors.buttonColor}" 
+                *ngIf="order && order.Sum >= 0">
+                {{roundSum(order.Sum, 2) }} {{"COMMON_CASH" | translate}}
+          </span>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-custom btn-block"
+                  [ngStyle]="{'background-color': colors.menuColor}"
+                  (click)="toMakeOrder()">
+            {{"MENU_ORDER" | translate}}
+          </button>
+          
+        </div>
+      </div>
+    </div>
+    <!--div class="total-payment">
+      <span class="total-payment" [ngStyle]="{'color': colors.buttonColor}">{{"MENU_TOTAL_PAYMENT" | translate}} :</span>
+      <span class="total-payment-price" [ngStyle]="{'color': colors.buttonColor}" *ngIf="order && order.Sum >= 0">{{roundSum(order.Sum, 2) }} {{"COMMON_CASH" | translate}}</span>
+    </div>
+    <div class="order-btn">
+      <button (click)="toMakeOrder()" class="scale-item" [ngStyle]="{'background-color': colors.menuColor}">
+        <img src="../../../assets/images/items/check.svg">
+        <span>{{"MENU_ORDER" | translate}}</span>
+      </button>
+    </div-->
+  </div>
+</div>

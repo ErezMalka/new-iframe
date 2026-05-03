@@ -1,0 +1,20 @@
+<div class="popup-wrapper animated fadeIn">
+  <!--div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></span>
+  </div-->
+  <div class="delivery-condition-container-wrapper">
+    <div class="header">
+      {{'DELIVERY_CONDITION_HEADER' | translate}} {{getPriceDisplay()}}
+    </div>
+    <div class="delivery-condition-container-wrapper-internal">
+      <div class="delivery-condition-button-wrapper" [ngClass]="{'direction': lang != 'he'}">
+        <div class="delivery-condition-button-line">
+          <button class="delivery-condition-button-use" (click)="continue()" [ngStyle]="{'background-color': colors.buttonColor}">
+            <div class="half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+            {{'DELIVERY_CONDITION_CONTINUE' | translate}}
+          </button>
+        </div>
+      </div>
+  </div>
+</div>
+</div>

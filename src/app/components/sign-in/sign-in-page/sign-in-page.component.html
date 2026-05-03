@@ -1,0 +1,114 @@
+<div class=" full-height" 
+[ngStyle]="{'background-image': 'url(' + ( isMobileMode() ? graphics.coverMobile : graphics.coverBackground2 )  + ')'}">
+
+<!--div class="row pt-2" *ngIf="languages.length > 0" >
+  <div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      Dropdown link
+    </a>
+  
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item" href="#">Action</a></li>
+      <li><a class="dropdown-item" href="#">Another action</a></li>
+      <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
+  </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" 
+              id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="flag-icon flag-icon-us"></span> English            
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li *ngFor="let l of languages" > <button> {{l.Code}}</button>
+        </li>
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+      </ul>   
+      <div class="dropdown-menu" aria-labelledby="dropdown09">
+          <div class="dropdown-item" ><span class="flag-icon flag-icon-fr"> </span>  French</div>
+          <div class="dropdown-item" ><span class="flag-icon flag-icon-it"> </span>  Italian</div>
+          <div class="dropdown-item" ><span class="flag-icon flag-icon-ru"> </span>  Russian</div>
+      </div>
+    </div>
+   
+</div-->
+
+<!--div class="row pt-2" *ngIf="languages.length > 0" >
+  <div class="col-auto">
+     
+  </div>
+  <div class="col-auto">
+    <select id="lang" 
+    data-show-icon="true" data-show-content="true" class="selectpicker" data-width="fit"
+    (change)="changeLanguage($event)">
+      <option data-content="Cutlery <i class='fa fa-cutlery'></i>"
+              [value]="he">          
+       he
+      </option>
+      <option *ngFor="let l of languages" [value]="l.Code" data-icon="flag-icon flag-icon-fr">          
+       {{l.Code}}
+      </option>
+    </select>   
+  </div>
+</div-->
+
+<div class="sign-in-wrapper container" >
+  <!-- [ngStyle]="{'background-image': 'url(' + (!isMobileMode() ? graphics.cover : graphics.coverMobile)  + ')'}" -->
+ 
+  <div class="sign-in-dialog sign-in-dialog-container"> <!--  [ngStyle]="{'background-color': colors.menuColor + '80'}" -->
+
+    <div class="mobile animated fadeIn" *ngIf="!showCodeForm">
+      <div class="header" [ngClass]="{'direction': lang != 'he'}" >
+
+      </div>
+      <div class="description" [ngClass]="{'direction': lang != 'he'}" >
+        {{'ORDER_SIGN_IN_DESCRIPTION_PAGE' | translate}}
+      </div>
+    </div>
+    <div class="code animated fadeIn" *ngIf="showCodeForm">
+      <div class="header">
+        {{'ORDER_SIGN_IN_CODE_SENT_HEADER' | translate}}
+      </div>
+      <div class="description" >
+        {{'ORDER_SIGN_IN_CODE_SENT_DESCRIPTION' | translate}}
+      </div>
+      <div class="mobile-phone-number animated fadeIn" *ngIf="showCodeForm">
+        {{(lang === 'en' ? '+1' : '') + phone}}
+      </div>
+    </div>
+
+    <div class="sign-in-form animated fadeIn">
+      <div class="input-group">
+        <div class="phone-error animated fadeInUp" *ngIf="errorMessage" [ngClass]="{'direction': lang != 'he'}">
+          {{errorMessage}}
+        </div>
+        <div class="input-wrapper animated" *ngIf="!showCodeForm">
+          <div class="us-one" *ngIf="country === 'us'">+1</div>
+          <input type="tel" class="input-field input-phone-number placeholder-appear" maxlength="{{countOfDigitsInNumber}}"
+                 (keypress)="restrictKeysExceptDigits($event)" [(ngModel)]="phone"
+                 (focus)="hidePhoneNumberError()"
+                 placeholder="{{'SIGN_IN_PHONE' | translate}}"/>
+        </div>
+        <div *ngIf="showCodeForm" class="input-wrapper animated fadeIn">
+          <input class="input-field input-phone-code placeholder-appear" maxlength="{{countOfDigitsForCode}}"
+                 (keypress)="restrictKeysExceptDigits($event)"
+                 (focus)="hidePhoneNumberError()"
+                 placeholder="{{'SIGN_IN_CODE' | translate}}" [(ngModel)]="code"/>
+        </div>
+      </div>
+      <div class="form-sign-in-btns">
+        <div class="button-confirm-container animated fadeIn"
+             [ngClass]="{'direction': lang != 'he'}">
+          <div class="button-confirm noselect" [animation]="'pulse'" (click)="handlerCode()" [ngStyle]="{'background-color': colors.buttonColor}">
+            {{ "FORM_SIGN_IN" | translate }}
+          </div>
+        </div>
+        <div class="skip-link" (click)="skip()">
+          {{ "SIGN_IN_SKIP" | translate }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>

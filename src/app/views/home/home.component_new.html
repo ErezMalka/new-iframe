@@ -1,0 +1,282 @@
+<div *ngIf="!isDigitalMenu()">
+
+  <div class=" full-height"
+    style="position: relative; height: 100dvh; display: flex; flex-direction: column;  justify-content: space-around;"
+    [ngStyle]="{'background-image': 'url(' + ( isMobileMode() ? graphics.coverMobile : graphics.coverBackground2)  + ')'}">
+
+
+
+    <!--DESKTOP-->
+
+
+    <div *ngIf="multilingual" class="d-none d-lg-flex" style="position: fixed; top: 0; margin-top: 1vh; min-width: none;
+    left: 1vw; max-width: max-content;">
+      <!--div  type="button" [ngClass]="{'active': translationsService.language() == 'en' }"
+            class="my-btn-lang"  (click)="translationsService.setLanguage('en')">
+          English
+      </div>
+      <div  type="button" [ngClass]="{'active': translationsService.language() == 'he' }"
+            class="my-btn-lang"   (click)="translationsService.setLanguage('he')">
+        Hebrew
+      </div-->
+      <div class="col-auto">
+        <select class="form-control" [(ngModel)]="selectedLang"  (change)="selectedLangChanged($event)">
+          <option *ngFor="let lang of languages" [value]="lang.Code">
+              {{lang.Descriprion}}
+          </option>
+        </select>
+      </div>
+
+    </div>
+
+
+    <div class="d-lg-block d-none row" style="position: absolute; width: 100%; bottom: 10%;"
+      *ngIf="isSomeOrderOptionsAvailable()">
+
+
+
+      <div class="col-12">
+
+        <div class="row btn-animate" [id]="'DEL'" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+          <div class="col-12 " *ngIf="orderReceipt?.isDelivery">
+            <div  type="button" *ngIf="isLoaded" class="my-card text-white text-center"
+            [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}"
+              (click)="selectCurrentOrderReceipt(false, true, false, false)">
+              <div class="row" style="height: 100%;">
+                <div class="col-2">
+                  <div class="rectangle-12">
+                    <img class="group-93" src="../../../assets/images/items/delivery-icon-new.svg" />
+                  </div>
+                </div>
+                <div class="col-8 textlabel" [ngStyle]="{'color': txtColor}">
+                  {{ "HOME_OPTION_DELIVERY" | translate }}
+                </div>
+                <div class="col-2" style="align-self: center;" [ngStyle]="{'color': txtColor}">
+                  <i class="fa fa-chevron-left fa-lg"
+                    [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row btn-animate" [id]="'TA'" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+          <div class="col-12  " *ngIf="orderReceipt?.isTakeAway">
+            <div  type="button" *ngIf="isLoaded" class="my-card text-white text-center"
+            [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}"
+              (click)="selectCurrentOrderReceipt(false, false, true, false)">
+              <div class="row" style="height: 100%;">
+                <div class="col-2">
+                  <div class="rectangle-12">
+                    <img class="group-93" src="../../../assets/images/items/TA-icon-new.svg" />
+                  </div>
+                </div>
+                <div class="col-8 textlabel" [ngStyle]="{'color': txtColor}">
+                  {{ "HOME_OPTION_TAKE_AWAY" | translate }}
+                </div>
+                <div class="col-2" style="align-self: center;" [ngStyle]="{'color': txtColor}">
+                  <i class="fa fa-chevron-left fa-lg"
+                    [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row btn-animate" [id]="'SIT'" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+          <div class="col-12 " *ngIf="orderReceipt?.isSit">
+            <div  type="button" *ngIf="isLoaded" class="my-card text-white text-center"
+            [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}"
+              (click)="selectCurrentOrderReceipt(true, false, false, false)">
+
+              <div class="row" style="height: 100%;">
+                <div class="col-2">
+                  <div class="rectangle-12">
+                    <img class="group-93" src="../../../assets/images/items/dine-icon-new.svg" />
+                  </div>
+                </div>
+                <div class="col-8 textlabel" [ngStyle]="{'color': txtColor}">
+                  {{ "SEAT" | translate }}
+                </div>
+                <div class="col-2" style="align-self: center;" [ngStyle]="{'color': txtColor}">
+                  <i class="fa fa-chevron-left fa-lg"
+                    [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row btn-animate" [id]="'WATCH'" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+          <div class="col-12 " *ngIf="orderReceipt?.isDigitalMenu">
+            <div  type="button" *ngIf="isLoaded" class="my-card text-white text-center"
+            [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}"
+              (click)="selectCurrentOrderReceipt(false, false, false, true)">
+
+              <div class="row" style="height: 100%;">
+                <div class="col-2">
+                  <div class="rectangle-12">
+                    <img class="group-93" src="../../../assets/images/items/menu-icon-new.svg" />
+                  </div>
+                </div>
+                <div class="col-8 textlabel" [ngStyle]="{'color': txtColor}">
+                  {{'WATCH_MENU' | translate}}
+                </div>
+                <div class="col-2" style="align-self: center;" [ngStyle]="{'color': txtColor}">
+                  <i class="fa fa-chevron-left fa-lg"
+                    [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div  type="button" *ngIf="!isSignedUser" (click)="loadSignInForm()" class="row btn-animate" [id]="'LOGIN'">
+          <div class="col-12 " *ngIf="orderReceipt?.isDelivery">
+            <div *ngIf="isLoaded" class="my-card text-white text-center"
+            [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}">
+              <div class="row" style="height: 100%; margin-top: 5%;">
+                <div class="col-12 textlabel" [ngStyle]="{'color': txtColor}">
+                  {{ "LOG_IN" | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div *ngIf="displayFranchisePhone()" class="row" style="position: fixed; width: 102%; bottom: 3rem; background: #232222; ">
+          <div class="col-12 align-middle" style="text-align: center; height: 2rem; font-size: 1.5rem;">
+            <div style="margin-top: 10px; color: white;">
+              <a [href]="'tel:' + phoneNumber" style="color: white !important;">{{ 'PHONE' | translate }}: {{phoneNumber}}</a>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="position: fixed; width: 102%; bottom: 0; background: #232222; ">
+          <div class="col-12 align-middle" style="text-align: center; height: 3rem;">
+            <div style="margin-top: 10px; color: white;">Powered by <a style="color: white" href="https://bite.co.il">
+                Bite Technology</a>
+              version 789</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--MOBILE-->
+
+    <div class="d-flex d-lg-none" *ngIf="multilingual" style="position: absolute;
+       top: 0; margin-top: 1vh; min-width: none;
+       left: 1vw; max-width: max-content;">
+      <!--div  [ngClass]="{'active': translationsService.language() == 'en' }"
+      class="my-btn-lang-mobile"  (click)="translationsService.setLanguage('en')">
+      English
+    </div>
+    <div [ngClass]="{'active': translationsService.language() == 'he' }"
+    class="my-btn-lang-mobile"   (click)="translationsService.setLanguage('he')">
+      Hebrew
+
+  </div-->
+  <div class="col-auto">
+    <select class="form-control" [(ngModel)]="selectedLang"  (change)="selectedLangChanged($event)">
+      <option *ngFor="let lang of languages" [value]="lang.Code">
+          {{lang.Descriprion}}
+      </option>
+    </select>
+  </div>
+
+    </div>
+
+
+    <div class="row  mx-0  d-flex d-lg-none" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+      style="position: absolute; width: 100%; bottom: 10vh;" *ngIf="isSomeOrderOptionsAvailable()">
+      <div class="col align-end" *ngIf="isLoaded" style="text-align: center; height: 100%;">
+
+        <div *ngIf="orderReceipt?.isDelivery" type="button" class="rectangle-3 btn-animate row "
+          [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}"
+          (click)="selectCurrentOrderReceipt(false, true, false, false)">
+          <div class="col-3">
+            <div class="rectangle-12">
+              <img class="group-93" src="../../../assets/images/items/delivery-icon-new.svg" />
+            </div>
+          </div>
+          <div class="col-6" style="align-self: center;">
+            <div class="textlabel" [ngStyle]="{'color': txtColor}">{{ "HOME_OPTION_DELIVERY" | translate }}</div>
+          </div>
+          <div class="col-3" style="align-self: center;" [ngStyle]="{'color': txtColor}">
+            <i class="fa fa-chevron-left fa-lg"
+              [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+          </div>
+
+        </div>
+
+        <div *ngIf="orderReceipt?.isTakeAway" type="button" class="rectangle-3 btn-animate row"
+        [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}"
+          (click)="selectCurrentOrderReceipt(false, false, true, false)">
+          <div class="col-3">
+            <div class="rectangle-12">
+              <img class="group-93" src="../../../assets/images/items/TA-icon-new.svg" />
+            </div>
+          </div>
+          <div class="col-6" style="align-self: center;">
+            <div class="textlabel" [ngStyle]="{'color': txtColor}">{{ "HOME_OPTION_TAKE_AWAY" | translate }}</div>
+          </div>
+          <div class="col-3" style="align-self: center;" [ngStyle]="{'color': txtColor}">
+            <i class="fa fa-chevron-left fa-lg"
+              [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+          </div>
+        </div>
+
+
+        <div *ngIf="orderReceipt?.isSit" type="button" class="rectangle-3 btn-animate row"
+        [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}"
+          (click)="selectCurrentOrderReceipt(true, false, false, false)">
+          <div class="col-3">
+            <div class="rectangle-12">
+              <img class="group-93" src="../../../assets/images/items/dine-icon-new.svg" />
+            </div>
+          </div>
+          <div class="col-6" style="align-self: center;">
+            <div class="textlabel" [ngStyle]="{'color': txtColor}">{{ "SEAT" | translate }}</div>
+          </div>
+          <div class="col-3" style="align-self: center;" [ngStyle]="{'color': txtColor}">
+            <i class="fa fa-chevron-left fa-lg"
+              [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+          </div>
+        </div>
+
+        <div *ngIf="orderReceipt?.isDigitalMenu" type="button" class="rectangle-3 btn-animate row"
+        [ngStyle]="{'background-color': colors.mainButtonColor != null ? colors.mainButtonColor : 'white'}"
+          (click)="selectCurrentOrderReceipt(false, false, false, true)">
+          <div class="col-3">
+            <div class="rectangle-12">
+              <img class="group-93" src="../../../assets/images/items/menu-icon-new.svg" />
+            </div>
+          </div>
+          <div class="col-6" style="align-self: center;">
+            <div class="textlabel" [ngStyle]="{'color': txtColor}">{{'WATCH_MENU' | translate}}</div>
+          </div>
+          <div class="col-3" style="align-self: center;" [ngStyle]="{'color': txtColor}">
+            <i class="fa fa-chevron-left fa-lg"
+              [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+          </div>
+        </div>
+        <div class="row" *ngIf="displayFranchisePhone()"
+          style="display: flex; background: rgba(255, 255, 255, 1); width: 100%; margin-top: 25px; position: fixed; bottom: 1.2rem;">
+          <span class="ml-auto"><a [href]="'tel:'+ phoneNumber">{{ 'PHONE' | translate }}: {{phoneNumber}}</a>
+           </span>
+        </div>
+        <div class="row"
+          style="display: flex; background: rgba(255, 255, 255, 1); width: 100%; margin-top: 25px; position: fixed; bottom: 0;">
+          <span class="ml-auto">Powered by <a style="color: var(--orange);" href="https://bite.co.il"> Bite
+              Technology</a> version 789</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<loader [show]="!isLoaded"></loader>

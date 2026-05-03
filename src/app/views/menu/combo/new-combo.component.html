@@ -1,0 +1,1145 @@
+<!--div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+  <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="cancel()"></span>   
+</div-->
+
+<!--div class="modal-header">
+  <h5 class="modal-title">{{combo.Name}}</h5-->
+
+<!--button type="button" class="close" data-dismiss="modal" 
+          (click)="cancel()" style="margin-left: -1rem!important; margin-right: auto!important;">
+      <span aria-hidden="true">&times;</span>
+  </button>
+ 
+</div-->
+
+
+<!--MOBILE-->
+<div class="modal-body d-block d-lg-none" style="overflow-y: hidden;"> <!-- max-height: 90vh;-->
+  <!--style="max-height: 70vh;"-->
+  <!--div  class="item-combos" [ngClass]="{'direction': lang === 'he'}"
+  style="height: 60vh; overflow-y: auto;"-->
+  <!--div *ngIf="showErrorComboMessage" class="row my-3 " style="font-weight: bolder;">
+    <div class="col">
+      {{displayErrorComboMessage()}}
+    </div>
+  </div-->
+  
+  <div *ngIf="showErrorComboMessage" id="message-notice" class="message-notice d-block d-lg-none">
+    <!---->
+    <div class="row mb-3 ">
+      <div class="col text-center" style="background-color: #ECECEC; color:var(--orange);
+                    font-size: 24px; line-height: 21px; border-radius: 10px; 
+                    font-weight: 700; margin-right:20px; margin-left:20px; 
+                    vertical-align: middle; padding: 10px;">
+        {{"PAY_ATTENTION" | translate}}
+      </div>
+    </div>
+    <div class="row my-4 ">
+      <div class="col">
+        <img class="img-fluid" style="margin: auto;" src="../../../../assets/images/items/hand-alert.svg" />
+      </div>
+    </div>
+    <div class="row my-3 " style="font-weight: bolder;">
+      <div class="col">
+        {{displayErrorComboMessage()}}
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="item-card"  style="max-height: 30vh;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+    <div class="product-image text-center">
+      <img class="img-fluid" [src]="combo?.ImageUrl" style="width: 100%;" (error)="logo($event)"
+      alt="" /><!-- onerror="this.style.display='none';"-->
+
+    </div>
+    <div style="background: var(--orange); height: 4px; width:inherit; margin: auto;
+    border-radius: 4px;"></div>
+    <div class="product-details" style="padding-top: 0; padding-bottom: 2.5vh;"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+      <div class="row">
+        <div class="col product-name">
+          <b>{{combo?.Name}}</b>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col product-desc" style="padding-left: 66px; padding-right: 15px;">
+          <span *ngIf="combo?.Description!=undefined && combo?.Description!='combo?.Description'">{{combo?.Description}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="product-price"  [ngStyle]="{'left':getLanguage() === 'en' ? '': '0', 'right':getLanguage() === 'en' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+          <span style="font-size: 15px;">{{combo?.Price}}</span>
+          <span>{{"COMMON_CASH" | translate}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--COMBO-->
+  <div *ngIf="!isItemWithItemGroups" style="overflow-y:auto ; height:49vh;"[ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl' }">
+    <perfect-scrollbar class="my-scroll" style="height: 50vh;">
+   
+      <ng-container *ngIf="combo.NewPizzaCombos.length > 0">
+        <div *ngFor="let pizzaCombo of combo.NewPizzaCombos; let $parent = index" class="">
+          <div class="card" style="margin-bottom:0.6rem;  box-shadow: 0px 4px 15px #dbdbdb;"
+               *ngFor="let selectedItem of selectedPizzas[pizzaCombo.Id]; let $ii = index">
+            <div [id]="pizzaCombo.Id" class="card-header"  style="display: inline-flex; padding-left: 0.5rem;"
+               (click)="selectedItem.IsCollapsed = !selectedItem.IsCollapsed; focusElement(pizzaCombo.Id) "> <!---->
+               <div class="col" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                 <span><b>{{pizzaCombo.Name}}</b></span>
+                 <span *ngIf="selectedItem.IsCollapsed && pizzaCombo.Name">
+                   <br />
+                   <img *ngIf="selectedItem.Name" src="../../../../assets/images/items/green-select.svg" style="width: 16px">
+                   <span *ngIf="selectedItem.Name">{{selectedItem?.Name}}</span>
+     
+                  </span>
+               </div>
+     
+     
+               <span *ngIf="selectedItem.IsCollapsed" style="margin-right: auto; color:#A6A6A6;">
+                 <i class="fa fa-chevron-down fa-md"></i>
+               </span>
+               <span *ngIf="!selectedItem.IsCollapsed" style="margin-right: auto; color:var(--orange);">
+                 <i class="fa fa-chevron-up fa-md"></i>
+               </span>
+     
+             </div>
+             <div class="card-body" [collapse]="selectedItem.IsCollapsed">
+              <div class="row " *ngFor="let item of pizzaCombo.Pizzas; let $index = index;" [id]="pizzaCombo.Id + '-' + $index"
+                style="border-radius: 10px;background-color: #F3F3F3;
+                              border: 2px solid rgba(141, 141, 141, 0.15);
+                              padding: 1rem 0.5rem;
+                              margin: 0.75rem 0.15rem;"
+                (click)="addPizzaToppingsNew(item, pizzaCombo, pizzaCombo.SizeId, selectedPizzas[pizzaCombo.Id], $ii)"> 
+                 
+                <div class="col-3" style="padding: 0; align-self: center;">
+                  <img class="img-fluid" [src]="item?.ImageUrl" style="mix-blend-mode: multiply; " (error)="logo($event)" />
+                </div>
+                <div class="col text-center mt-1" style="align-self: center;">
+                  {{item.Name}}
+                </div>
+                <div class="col-3 price-mobile"
+                  style="background: white; height: 52px; align-self: center;
+                          width: 52px; border-radius: 9px; vertical-align: middle; display: flex; flex-direction: column; justify-content: center; font-family: 'Alef-Regular', sans-serif; text-align: center;"
+                  *ngIf="item.PriceInCombo != 0" [hidden]="item.Price == 0">{{"COMMON_CASH" |
+                  translate}}{{item.PriceInCombo}}
+                </div>
+    
+              </div>
+            </div>
+            
+            
+            <!--div class="mb-2 menu-item"
+              (click)="addPizzaToppings(selectedItem, pizzaCombo.ToppingGroupId, pizzaCombo.MaxToppings, pizzaCombo.Id, pizzaCombo.SizeId, selectedPizzas[pizzaCombo.Id], $index)">
+              
+              <div class="col-4 round-image" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                <img src="{{pizzaCombo.Pizza.ImageUrl}}" />
+              </div>
+               
+              <div class="col" style="text-align: center;">
+                <div class="name">
+                  <b>{{pizzaCombo.Pizza.Name}}</b>
+                </div>
+                 
+                <div class="topping-btn">
+                  <span *ngIf="pizzaCombo.MaxToppings > 0"> {{pizzaCombo.MaxToppings}} {{ 'COMBO_FREETOP' | translate
+                    }}</span>
+                  <span *ngIf="pizzaCombo.MaxToppings == 0 || !pizzaCombo.MaxToppings">{{ 'COMBO_TOPPINGS' | translate
+                    }}</span>
+                </div>
+              </div>
+              <div class="col-2" style="color: var(--orange); text-align: end;">
+                <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-chevron-left fa-lg"></i>
+              </div>
+    
+            </div-->
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="combo.PizzaCombos.length > 0">
+        <div *ngFor="let pizzaCombo of combo.PizzaCombos; let $parent = index" class="mt-1 combo-item">
+          <div *ngFor="let selectedItem of selectedPizzas[pizzaCombo.Id]; let $index = index">
+            <div class="mb-2 menu-item"
+              (click)="addPizzaToppings(selectedItem, pizzaCombo.ToppingGroupId, pizzaCombo.MaxToppings, pizzaCombo.Id, pizzaCombo.SizeId, selectedPizzas[pizzaCombo.Id], $index)">
+              <!-- Image -->
+              <div class="col-4 round-image" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                <img src="{{pizzaCombo.Pizza.ImageUrl}}" />
+              </div>
+              <!-- Name -->
+              <div class="col" style="text-align: center;">
+                <div class="name">
+                  <b>{{pizzaCombo.Pizza.Name}}</b>
+                </div>
+                <!-- Garnishes -->
+                <div class="topping-btn">
+                  <span *ngIf="pizzaCombo.MaxToppings > 0"> {{pizzaCombo.MaxToppings}} {{ 'COMBO_FREETOP' | translate
+                    }}</span>
+                  <span *ngIf="pizzaCombo.MaxToppings == 0 || !pizzaCombo.MaxToppings">{{ 'COMBO_TOPPINGS' | translate
+                    }}</span>
+                </div>
+              </div>
+              <div class="col-2" style="color: var(--orange); text-align: end;">
+                <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-chevron-left fa-lg"></i>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      
+
+
+    <div class="" *ngFor="let comboItem of combo.ItemCombos; ">
+      <!--let $parent = index-->
+      <div class="card" style="margin-bottom:0.6rem;  box-shadow: 0px 4px 15px #dbdbdb;"
+        *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $ii=index;">
+        <div [id]="comboItem.Id" class="card-header"  style="display: inline-flex; padding-left: 0.5rem;"
+          (click)="selectedItem.IsCollapsed = !selectedItem.IsCollapsed; focusElement(comboItem.Id) "> <!---->
+          <div class="col" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+            <span><b>{{comboItem.Name}}</b></span>
+            <span *ngIf="selectedItem.IsCollapsed && comboItem.Name">
+              <br />
+              <img *ngIf="selectedItem.Name" src="../../../../assets/images/items/green-select.svg" style="width: 16px">
+              <span *ngIf="selectedItem.Name">{{selectedItem?.Name}}</span>
+
+            </span>
+          </div>
+
+
+          <span *ngIf="selectedItem.IsCollapsed" style="margin-right: auto; color:#A6A6A6;">
+            <i class="fa fa-chevron-down fa-md"></i>
+          </span>
+          <span *ngIf="!selectedItem.IsCollapsed" style="margin-right: auto; color:var(--orange);">
+            <i class="fa fa-chevron-up fa-md"></i>
+          </span>
+
+        </div>
+        <div class="card-body" [collapse]="selectedItem.IsCollapsed">
+          <div class="row " *ngFor="let item of comboItem.Items; let $index = index;" [id]="comboItem.Id + '-' + $index"
+            style="border-radius: 10px;background-color: #F3F3F3;
+                          border: 2px solid rgba(141, 141, 141, 0.15);
+                          padding: 1rem 0.5rem;
+                          margin: 0.75rem 0.15rem;"
+            (click)="addItem(item, comboItem.Id, selectedItems[comboItem.Id], $ii, comboItem)">
+            
+            <div class="col-3" style="padding: 0; align-self: center;">
+              <img class="img-fluid" [src]="item?.ImageUrl" style="mix-blend-mode: multiply; " (error)="logo($event)" />
+            </div>
+            <div class="col text-center mt-1" style="align-self: center;">
+              {{item.Name}}
+            </div>
+            <!--div class="col-3 price-mobile"
+              style="background: white; height: 52px; align-self: center;
+                      width: 52px; border-radius: 9px; vertical-align: middle; display: flex; flex-direction: column; justify-content: center; font-family: 'Alef-Regular', sans-serif; text-align: center;"
+              >
+              {{"COMMON_CASH" | translate}}{{item.Price}}
+            </div-->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="" *ngFor="let comboItem of combo.NewItemCombos; ">
+      <!--let $parent = index-->
+      <div class="card" style="margin-bottom:0.6rem;  box-shadow: 0px 4px 15px #dbdbdb;"
+        *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $ii=index;">
+        <div [id]="comboItem.Id" class="card-header"  style="display: inline-flex; padding-left: 0.5rem;"
+          (click)="selectedItem.IsCollapsed = !selectedItem.IsCollapsed; focusElement(comboItem.Id) "> <!---->
+          <div class="col" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+            <span><b>{{comboItem.Name}}</b></span>
+            <span *ngIf="selectedItem.IsCollapsed && comboItem.Name">
+              <br />
+              <img *ngIf="selectedItem.Name" src="../../../../assets/images/items/green-select.svg" style="width: 16px">
+              <span *ngIf="selectedItem.Name">{{selectedItem?.Name}}</span>
+
+            </span>
+          </div>
+
+
+          <span *ngIf="selectedItem.IsCollapsed" style="margin-right: auto; color:#A6A6A6;">
+            <i class="fa fa-chevron-down fa-md"></i>
+          </span>
+          <span *ngIf="!selectedItem.IsCollapsed" style="margin-right: auto; color:var(--orange);">
+            <i class="fa fa-chevron-up fa-md"></i>
+          </span>
+
+        </div>
+        <div class="card-body" [collapse]="selectedItem.IsCollapsed">
+          <div class="row " *ngFor="let item of comboItem.Items; let $index = index;" [id]="comboItem.Id + '-' + $index"
+            style="border-radius: 10px;background-color: #F3F3F3;
+                          border: 2px solid rgba(141, 141, 141, 0.15);
+                          padding: 1rem 0.5rem;
+                          margin: 0.75rem 0.15rem;"
+            (click)="addItem(item, comboItem.Id, selectedItems[comboItem.Id], $ii, comboItem)">
+            
+            <div class="col-3" style="padding: 0; align-self: center;">
+              <img class="img-fluid" [src]="item?.ImageUrl" style="mix-blend-mode: multiply; " (error)="logo($event)" />
+            </div>
+            <div class="col  text-center mt-1" style="align-self: center;">
+              {{item.Name}}
+            </div>
+            <div class="col-3 price-mobile"
+              style="background: white; height: 52px; align-self: center;
+                      width: 52px; border-radius: 9px; vertical-align: middle; display: flex; flex-direction: column; justify-content: center; font-family: 'Alef-Regular', sans-serif; text-align: center;"
+              *ngIf="item.Price != 0" [hidden]="item.Price == 0">{{"COMMON_CASH" |
+              translate}}{{item.Price}}
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    </perfect-scrollbar>
+  </div>
+
+  <!--ITEM WITH GROUPS-->
+  <div *ngIf="isItemWithItemGroups" style="overflow-y:auto ; height:49vh;"[ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl' }">
+    <perfect-scrollbar class="my-scroll" style="height: 55vh;">
+
+    <div class="" *ngFor="let comboItem of combo.ItemGroups; ">
+      <!--let $parent = index-->
+      <div class="card" style="margin-bottom:0.6rem;  box-shadow: 0px 4px 15px #dbdbdb;"
+       ><!-- *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $ii=index;"-->
+        <div [id]="comboItem.Id" class="card-header"  style="display: inline-flex; padding-left: 0.5rem;"
+          (click)="comboItem.IsCollapsed = !comboItem.IsCollapsed; focusElement(comboItem.Id) "> <!---->
+          <div class="col-1">
+             <span *ngIf="comboItem.IsCollapsed && comboItem.Name">
+              <img *ngIf="selectedItems[comboItem.Id][0].Name" 
+                    src="../../../../assets/images/items/green-select.svg" style="width: 16px">             
+             </span>
+          </div>
+          <div class="col" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+           
+            <span><b>{{comboItem.Name}}</b></span>
+            <span *ngIf="comboItem.IsCollapsed && comboItem.Name">
+             
+               <ng-container *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $ii=index;">
+                <span *ngIf="selectedItem.Name"> <br />{{selectedItem?.Name}}</span>
+              </ng-container>
+            </span>
+             
+          </div>
+
+
+          <span *ngIf="comboItem.IsCollapsed" style="margin-right: auto; color:#A6A6A6;">
+            <i class="fa fa-chevron-down fa-md"></i>
+          </span>
+          <span *ngIf="!comboItem.IsCollapsed" style="margin-right: auto; color:var(--orange);">
+            <i class="fa fa-chevron-up fa-md"></i>
+          </span>
+
+        </div>
+        <div class="card-body" [collapse]="comboItem.IsCollapsed">
+          <div class="row " *ngFor="let item of comboItem.GroupItems; let $index = index;" [id]="comboItem.Id + '-' + $index"
+            style="border-radius: 10px;background-color: #F3F3F3;
+                                    border: 2px solid rgba(141, 141, 141, 0.15);
+                                    padding: 1rem 0.5rem;
+                                    margin: 0.75rem 0.15rem;"
+            [ngStyle]="{'opacity': useInventory && item.Quantity < 1 ? '50%': '100%'}"
+
+            (click)="addItem(item, comboItem.Id, selectedItems[comboItem.Id], 0, comboItem)">
+            <ng-container *ngIf="!(comboItem.Max && comboItem.Max > 1)">
+              <div class="col-3" style="padding: 0; align-self: center;">
+                <img class="img-fluid" [src]="item?.ImageUrl" style="mix-blend-mode: multiply; " (error)="logo($event)" />
+              </div>
+              <div class="col text-center mt-1" style="align-self: center;">
+                <span> {{item.Name}}</span>
+                <!--span *ngIf="useInventory "
+                      style="color: red;">{{item.Quantity}}</span-->
+                <span *ngIf="useInventory && item.Quantity < 1"
+                      style="color: red;">אזל מהמלאי</span>
+                <span *ngIf="useInventory && item.Quantity == 1"
+                      style="color: red;">נותר 1 במלאי</span>
+              </div>
+              <div class="col-3 price-mobile"
+                style="background: white; height: 52px; align-self: center;
+                        width: 52px; border-radius: 9px; vertical-align: middle; display: flex; flex-direction: column; justify-content: center; font-family: 'Alef-Regular', sans-serif; text-align: center;"
+                *ngIf="item.Price != 0" [hidden]="item.Price == 0">{{"COMMON_CASH" |
+                translate}}{{item.Price}}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="comboItem.Max && comboItem.Max > 1">
+              <div class="col-12" >
+                <div class="row " *ngIf="item.Price != 0">
+                  <div class="col  mb-1" style="align-self: center;">
+                    <span> {{item.Name}}</span>
+                    <!--span *ngIf="useInventory "
+                          style="color: red;">{{item.Quantity}}
+                    </span-->
+                    <span *ngIf="useInventory && item.Quantity < 1 "
+                          style="color: red;">אזל מהמלאי
+                    </span>
+                    <span *ngIf="useInventory && item.Quantity == 1"
+                          style="color: red;">נותר 1 במלאי
+                    </span>
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col-3" style="padding: 0; align-self: center;">
+                    <img class="img-fluid" [src]="item?.ImageUrl" style="mix-blend-mode: multiply; " (error)="logo($event)" />
+                  </div>
+                   <div *ngIf="item.Price == 0" class="col text-center"  
+                      style="align-self:center;"
+                       >
+                        <span> {{item.Name}}</span>
+                    <!--span *ngIf="useInventory "
+                          style="color: red;">{{item.Quantity}}
+                    </span-->
+                    <span *ngIf="useInventory && item.Quantity < 1"
+                          style="color: red;">אזל מהמלאי
+                    </span>
+                    <span *ngIf="useInventory && item.Quantity == 1"
+                          style="color: red;">נותר 1 במלאי
+                    </span>
+                      <!--div>{{getTotalAmount(selectedItems[comboItem.Id])}}</div-->
+                  </div>
+                  <div class="col-auto" [ngStyle]="{'text-align':getLanguage() != 'he' ? 'left': 'right'}"
+                      style="direction: rtl !important; display:inline-flex; justify-content: space-between; padding: 0; margin-right: 1rem;align-self:center;"
+                       >
+                      <button class="btn btn-plus text-white" type="button"
+                        [disabled]="getTotalAmount(selectedItems[comboItem.Id]) >= comboItem.Max || (useInventory && item.Amount == item.Quantity) || (useInventory && item.Quantity < 1)"
+                        (click)="addGroupItem(item, selectedItems[comboItem.Id],comboItem)">
+                        <img src="../../../../assets/images/items/plus.svg" style="width: 18px; height: 18px;">
+                      </button>
+                      <span class="col col text-center" *ngIf="item.Amount"  >
+                        {{item.Amount}}
+                      </span>
+                      <span class="col col text-center" *ngIf="!item.Amount"  >
+                        0
+                      </span>
+                      <button class="btn btn-minus text-white" type="button"
+                              [disabled]="!item.Amount || item.Amount < 1"
+                              (click)="subAmountItem(item , selectedItems[comboItem.Id])">
+                        <img src="../../../../assets/images/items/minus.svg" style="width: 18px; height: 18px;">
+                      </button>
+                  </div>
+
+
+                  
+                  <div class="col-3 price-mobile"
+                    style="height: 52px; align-self: center;
+                            width: 52px; border-radius: 9px; vertical-align: middle; display: flex; flex-direction: column;   font-family: 'Alef-Regular', sans-serif; text-align: center;"
+                    *ngIf="item.Price != 0" [hidden]="item.Price == 0">
+                    {{"COMMON_CASH" | translate}}{{item.Price}}
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    </perfect-scrollbar>
+  </div>
+  <div class="form-group" *ngIf="isItemWithItemGroups" style="position:fixed; bottom:8vh; right:0; left:0;margin:0; padding: 1rem;">
+    <div class="input-group">
+      <div class="input-group-prepend"
+        [ngStyle]="{'border-left':getLanguage() === 'he' ? 'none': '1px solid rgb(211, 211, 211)', 'border-right':getLanguage() === 'en' ? 'none': '1px solid rgb(211, 211, 211)'}"
+        style="align-items: baseline; background: #F4F4F4;border: 1px solid #D3D3D3;box-sizing: border-box;">
+        <span class="input-group-text" style="border: none; opacity: 0.7;"><img
+            src="../../../assets/images/items/pencil-icon-new.svg"></span>
+      </div>
+      <textarea rows="2" class="form-control" [(ngModel)]="comments"
+        [ngStyle]="{'border-left':getLanguage() === 'he' ? '1px solid rgb(211, 211, 211)': 'none', 'border-right':getLanguage() === 'en' ? '1px solid rgb(211, 211, 211)': 'none'}"
+        style="background: #F4F4F4;border: 1px solid #D3D3D3; box-sizing: border-box; height: 50px;"
+        placeholder="{{'ITEM_COMMENTS' | translate}}">
+      </textarea>
+    </div>
+  </div>
+  <!--/div-->
+ 
+
+</div>
+
+<!--DESKTOP-->
+
+<div class="modal-body d-none d-lg-block"
+  style="overflow-y: hidden; max-height: 75vh; position: relative;">
+  <!--style="max-height: 70vh;"-->
+  <!--div  class="item-combos" [ngClass]="{'direction': lang === 'he'}"
+  style="height: 60vh; overflow-y: auto;"-->
+
+  <div *ngIf="showErrorComboMessage" id="message-notice" class="message-notice d-none d-lg-block">
+    <!---->
+    <div class="row mb-3 ">
+      <div class="col text-center" style="background-color: #ECECEC; color:var(--orange);
+                    font-size: 24px; line-height: 21px; border-radius: 10px; 
+                    font-weight: 700; margin-right:20px; margin-left:20px; 
+                    vertical-align: middle; padding: 10px;">
+        {{"PAY_ATTENTION" | translate}}
+      </div>
+    </div>
+    <div class="row my-4 ">
+      <div class="col">
+        <img class="img-fluid" style="margin: auto;" src="../../../../assets/images/items/hand-alert.svg" />
+      </div>
+    </div>
+    <div class="row my-3 " style="font-weight: bolder;">
+      <div class="col">
+        {{displayErrorComboMessage()}}
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="item-card"  style="flex-direction: row; "  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+    <img class="img-fluid" [src]="combo?.ImageUrl"  alt="" (error)="logo($event)"
+        style="    width: 32%;height: 215px;object-fit: cover;" /><!--onerror="this.style.display='none';"-->
+    <div class="product-image" style="text-align: end;display: flex;">
+      <div class="product-details" style="width: 100%;" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+        <div class="row">
+          <div class="col product-name">
+            <b>{{combo?.Name}}</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col product-desc">
+            <span *ngIf="combo.Description!=undefined && combo.Description!='undefined'">{{combo?.Description}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="product-price"  [ngStyle]="{'left':getLanguage() === 'en' ? '': '0', 'right':getLanguage() === 'en' ? '0': '', 'border-top-left-radius':getLanguage() === 'en' ? '5px': '0', 'border-top-right-radius':getLanguage() === 'en' ? '0': '5px'}" >
+            <span style="font-size: 15px;">{{combo?.Price}}</span>
+            <span>{{"COMMON_CASH" | translate}}</span>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+    <!--div style="background: var(--orange); height: 4px; width:inherit; margin: auto;
+    border-radius: 4px;"></div-->
+
+  </div>
+
+
+  <div class="row" style="height: 50vh;display: flex;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl' }">
+    <!--COMBO GROUPS SELECTION RIGHT SIDE-->
+    <div *ngIf="!isItemWithItemGroups" class="col-3" style="overflow-y: auto; max-height: 50vh; background-color: #F1F1F1;padding-top: 13px; position:initial;">
+      
+      
+      <ng-container *ngIf="combo.NewPizzaCombos.length > 0">
+        <div class="" *ngFor="let pizzaCombo of combo.NewPizzaCombos; let $parent = index " style="position: relative;">
+      
+          <ng-container *ngFor="let selectedItem of selectedPizzas[pizzaCombo.Id]; let $index = index" >
+        
+            <div class="card " style="margin-bottom:0.6rem;  border: none; background-color: #F1F1F1;" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }">
+        
+              <div [id]="pizzaCombo.Id" class="card-header"
+                style="display: inline-flex; padding-left: 0.5rem; background-color: #F1F1F1; cursor: pointer;"
+                (click)="selectComboItem(pizzaCombo)">
+        
+                <div class="card-header-junior col" [ngClass]="{'selected': pizzaCombo.IsSelected}"
+                  style="border-bottom: 3px solid #B9B9B9;padding-bottom: 10px;  font-size: 18px; ">
+        
+                  <span><b>{{pizzaCombo.Name}}</b></span>
+  
+                  <div *ngIf="pizzaCombo.ItemIsSelected">
+                    <span *ngIf="selectedItem.Name">{{selectedItem?.Name}}</span>
+                    <div style="display: flex;">
+                      <ng-container *ngFor="let top of selectedItem.SelectedToppings; let $index=index">
+                        <span style="font-size: 16px; display: flex; flex: none;" *ngIf="top">{{top.Name}}</span>
+                        <span style="font-size: 16px;" *ngIf="$index != selectedItem.SelectedToppings.length-1"> , &nbsp;</span>
+                      </ng-container>                     
+                    </div>
+                    <ng-container *ngFor="let gar of selectedItem.SelectedGarnishes;">
+                      <span style="font-size: 16px; display: flex; flex: none;" *ngIf="gar">{{gar.Name}}</span>
+                      <!--span style="font-size: 16px;" *ngIf="$index != SelectedGarnishes.SelectedToppings.length-1"> , &nbsp;</span-->
+                    </ng-container>
+                  </div>
+  
+        
+                </div>
+              </div>
+  
+  
+  
+              
+            </div>
+  
+            <div class="select-image" *ngIf="pizzaCombo.ItemIsSelected" (click)="printItem(selectedItem)" style="z-index: 100; position: absolute; top: 16px;">
+              <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+            </div>
+  
+  
+  
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="combo.PizzaCombos.length > 0">
+        <div class="" *ngFor="let pizzaCombo of combo.PizzaCombos; let $parent = index " style="position: relative;">
+      
+          <ng-container *ngFor="let selectedItem of selectedPizzas[pizzaCombo.Id]; let $index = index" >
+        
+            <div class="card " style="margin-bottom:0.6rem;  border: none; background-color: #F1F1F1;" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }">
+        
+              <div [id]="pizzaCombo.Id" class="card-header"
+                style="display: inline-flex; padding-left: 0.5rem; background-color: #F1F1F1; cursor: pointer;"
+                (click)="addPizzaToppings(selectedItem, pizzaCombo.ToppingGroupId, pizzaCombo.MaxToppings, pizzaCombo.Id, pizzaCombo.SizeId, selectedPizzas[pizzaCombo.Id], $index)">
+        
+                <div class="card-header-junior col" [ngClass]="{'selected': pizzaCombo.IsSelected}"
+                  style="border-bottom: 3px solid #B9B9B9;padding-bottom: 10px;  font-size: 18px; ">
+        
+                  <span><b>{{pizzaCombo.Pizza.Name}}</b></span>
+  
+                  <div *ngIf="pizzaCombo.ItemIsSelected">
+                    <span *ngIf="selectedItem.Name">{{selectedItem?.Name}}</span>
+                    <div style="display: flex;">
+                      <ng-container *ngFor="let top of selectedItem.SelectedToppings; let $index=index">
+                        <span style="font-size: 16px; display: flex; flex: none;" *ngIf="top">{{top.Name}}</span>
+                        <span style="font-size: 16px;" *ngIf="$index != selectedItem.SelectedToppings.length-1"> , &nbsp;</span>
+                      </ng-container>
+                      
+                    </div>
+                    <ng-container *ngFor="let gar of selectedItem.SelectedGarnishes;">
+                      <span style="font-size: 16px; display: flex; flex: none;" *ngIf="gar">{{gar.Name}}</span>
+                      <!--span style="font-size: 16px;" *ngIf="$index != SelectedGarnishes.SelectedToppings.length-1"> , &nbsp;</span-->
+                    </ng-container>
+                  </div>
+  
+        
+                </div>
+              </div>
+  
+  
+  
+              
+            </div>
+  
+            <div class="select-image" *ngIf="pizzaCombo.ItemIsSelected" (click)="printItem(selectedItem)" style="z-index: 100; position: absolute; top: 16px;">
+              <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+            </div>
+  
+  
+  
+          </ng-container>
+        </div>
+      </ng-container>
+ 
+
+      
+
+
+      <ng-container class="" *ngFor="let comboItem of combo.ItemCombos; " >
+        <div *ngFor="let selectedItem of selectedItems[comboItem.Id]; " style="position: relative;">
+      
+      
+      
+          <div class="card " style="margin-bottom:0.6rem;  border: none; background-color: #F1F1F1;" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }">
+      
+            <div [id]="comboItem.Id" class="card-header"
+              style="display: inline-flex; padding-left: 0.5rem; background-color: #F1F1F1; cursor: pointer;"
+              (click)="selectComboItem(comboItem);selectedItem.IsSelected=true;">
+      
+              <div class="card-header-junior col" [ngClass]="{'selected': comboItem.IsSelected && selectedItem.IsSelected}"
+                style="border-bottom: 3px solid #B9B9B9;padding-bottom: 10px; font-size: 18px;"><!--TANYA [ngClass]="{'selected': comboItem.IsSelected}"-->
+      
+                <span><b>{{comboItem.Name}}</b></span>
+
+                <div *ngIf="comboItem.ItemIsSelected">
+                  <span *ngIf="selectedItem.Name">{{selectedItem?.Name}}</span>
+                  <div>
+                    <ng-container *ngFor="let gar of selectedItem.SelectedGarnishes; let $index=index">
+                      <span style="font-size: 16px;" *ngIf="gar">{{gar.Name}}</span>
+                      <span style="font-size: 16px;" *ngIf="$index != selectedItem.SelectedGarnishes.length-1"> , &nbsp;</span>
+                    </ng-container>
+                  </div>
+                </div>
+      
+              </div>
+
+            </div>
+      
+
+      
+          </div>
+      
+          <div class="select-image" *ngIf="selectedItem?.Id > 0" (click)="printItem(selectedItem)" 
+          style="z-index: 100; position: absolute; top: 17px;"> <!--*ngIf="comboItem.ItemIsSelected" --> 
+            <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+          </div>
+      
+        </div>
+      
+      </ng-container>
+
+      <ng-container class="" *ngFor="let comboItem of combo.NewItemCombos; " >
+        <div *ngFor="let selectedItem of selectedItems[comboItem.Id]; " style="position: relative;">
+      
+      
+      
+          <div class="card " style="margin-bottom:0.6rem;  border: none; background-color: #F1F1F1;" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }">
+      
+            <div [id]="comboItem.Id" class="card-header"
+              style="display: inline-flex; padding-left: 0.5rem; background-color: #F1F1F1; cursor: pointer;"
+              (click)="selectComboItem(comboItem); selectedItem.IsSelected=true;">
+      
+              <div class="card-header-junior col" [ngClass]="{'selected': comboItem.IsSelected && selectedItem.IsSelected}"
+                style="border-bottom: 3px solid #B9B9B9;padding-bottom: 10px; font-size: 18px;">  
+      
+                <span><b>{{comboItem.Name}}</b></span>
+
+                <div *ngIf="comboItem.ItemIsSelected">
+                  <span *ngIf="selectedItem.Name">{{selectedItem?.Name}}</span>
+                  <div>
+                    <ng-container *ngFor="let gar of selectedItem.SelectedGarnishes; let $index=index">
+                      <span style="font-size: 16px;" *ngIf="gar">{{gar.Name}}</span>
+                      <span style="font-size: 16px;" *ngIf="$index != selectedItem.SelectedGarnishes.length-1"> , &nbsp;</span>
+                    </ng-container>
+                  </div>
+                </div>
+      
+              </div>
+
+            </div>
+      
+
+      
+          </div>
+      
+          <div class="select-image" *ngIf="selectedItem?.Id >0" (click)="printItem(selectedItem)" style="z-index: 100; position: absolute; top: 17px;">
+            <img src="../../../../assets/images/items/green-select.svg" style="width: 26px"><!--*ngIf="comboItem.ItemIsSelected"-->
+          </div>
+      
+        </div>
+      
+      </ng-container>
+
+
+    </div>
+
+    <!--ITEM GROUPS SELECTION RIGHT SIDE-->
+
+    <div *ngIf="isItemWithItemGroups" class="col-3" style="overflow-y: hidden;  background-color: #F1F1F1;padding-top: 13px; position:initial;"><!--max-height: 50vh;-->
+      <div  style="position: relative; height: 70%; overflow-y: auto;"> 
+      <div class="" *ngFor="let comboItem of combo.ItemGroups; " >
+       
+      
+          <div class="card " style="margin-bottom:0.6rem;  border: none; background-color: #F1F1F1;" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }">
+      
+            <div [id]="comboItem.Id" class="card-header"
+              style="display: inline-flex; padding-left: 0.5rem; background-color: #F1F1F1; cursor: pointer;"
+              (click)="selectComboItem(comboItem)">
+      
+              <div class="card-header-junior col" [ngClass]="{'selected': comboItem.IsSelected}"
+                style="border-bottom: 3px solid #B9B9B9;padding-bottom: 10px; font-size: 18px;">
+      
+                <span><b>{{comboItem.Name}}</b></span>
+
+                <div *ngIf="comboItem.ItemIsSelected">
+                   <ng-container *ngFor="let selectedItem of selectedItems[comboItem.Id]; ">
+                    <span *ngIf="selectedItem.Name">{{selectedItem?.Name}}</span>
+                  <div>
+                    <ng-container *ngFor="let gar of selectedItem.SelectedGarnishes; let $index=index">
+                      <span style="font-size: 16px;" *ngIf="gar">{{gar.Name}}</span>
+                      <span style="font-size: 16px;" *ngIf="$index != selectedItem.SelectedGarnishes.length-1"> , &nbsp;</span>
+                    </ng-container>
+                  </div>
+                   </ng-container>
+      
+                  
+                </div>
+      
+              </div>
+
+            </div>
+          </div>
+          <div class="select-image" *ngIf="comboItem.ItemIsSelected" (click)="printItem(selectedItem)" style="z-index: 100; position: absolute; top: 17px;">
+            <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+          </div>
+       
+      </div>
+</div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend"
+            [ngStyle]="{'border-left':getLanguage() === 'he' ? 'none': '1px solid rgb(211, 211, 211)', 'border-right':getLanguage() === 'en' ? 'none': '1px solid rgb(211, 211, 211)'}"
+            style="align-items: baseline; background: #F4F4F4;border: 1px solid #D3D3D3;box-sizing: border-box;">
+            <span class="input-group-text" style="border: none; opacity: 0.7;"><img
+                src="../../../assets/images/items/pencil-icon-new.svg"></span>
+          </div>
+          <textarea rows="4" class="form-control" [(ngModel)]="comments"
+            [ngStyle]="{'border-left':getLanguage() === 'he' ? '1px solid rgb(211, 211, 211)': 'none', 'border-right':getLanguage() === 'en' ? '1px solid rgb(211, 211, 211)': 'none'}"
+            style="background: #F4F4F4;border: 1px solid #D3D3D3; box-sizing: border-box; height: 100px;"
+            placeholder="{{'ITEM_COMMENTS' | translate}}">
+          </textarea>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+    <div class="col-9" *ngIf="!isItemWithItemGroups">
+
+      <ng-container *ngFor="let comboItem of combo.ItemCombos; let $index = index; ">
+        <!--div  class="row"  style="position: relative; width: 100%; max-height: 48vh; overflow-y: auto;" ><!--*ngIf="comboItem.IsSelected"-->
+
+
+          <ng-container *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $ii=index;">
+             <div  class="row"  style="position: relative; width: 100%; max-height: 48vh; overflow-y: auto;" *ngIf="comboItem.IsSelected && selectedItem.IsSelected">  
+              <div class="col-3" *ngFor="let item of comboItem.Items; " style="margin-bottom: 1rem;"  >
+                <!--div style="background: var(--orange); height: 4px;border-radius: 4px;"></div-->
+                <div class="card my-card my-item-card" style="height: 100%; border-top-left-radius: 7px; border-top-right-radius: 7px; cursor: pointer; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);"
+                  (click)="addItem(item, comboItem.Id, selectedItems[comboItem.Id], $ii, comboItem)"
+                  [ngClass]="{'selected': item.Id == selectedItem.Id}"><!--[ngClass]="{'selected': item.IsSelected}"-->
+                  <div *ngIf="item.Information && item.Information.length > item.ShortInfo.length" class="col item-desc-card font-style: normal;font-weight: bold;" >
+                    <div style="margin-top:auto; margin-bottom: auto;font-style: normal; display:block; font-size: 18px;" >
+                      {{item.Information}}
+                    </div>
+                  </div>
+                  <div class="select-image" *ngIf="item.Id == selectedItem.Id" style="z-index: 100; position: absolute;"><!--nfif="item.IsSelected"-->
+                    <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+                  </div>
+            
+                  <div>
+                    <img class="" [src]="item?.ImageUrl" (error) = "logo($event)"
+                      style="mix-blend-mode: multiply; height: 137px; width: 100%;border-top-left-radius: 5px; border-top-right-radius: 5px;" />
+                  </div>
+                  <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }"
+                    style="font-style: normal;font-weight: bold;font-size: 22px;line-height: 30px;color: #595959;padding: 5px 10px;">
+                    {{item.Name}}
+                  </div>
+                  <div *ngIf="item.Information" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }"
+                    style="font-style: normal;font-size: 18px;line-height: 20px;color: #595959;padding: 5px 10px;">
+                    {{item.ShortInfo}}
+                  </div>
+
+                
+
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+        <!--/div-->
+      </ng-container>
+
+      <ng-container *ngFor="let comboItem of combo.NewItemCombos; let $index = index; ">
+       
+
+          <ng-container *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $ii=index;">
+             <div class="row" style="position: relative; width: 100%; max-height: 48vh; overflow-y: auto;" *ngIf="comboItem.IsSelected && selectedItem.IsSelected"> 
+              <div class="col-3" *ngFor="let item of comboItem.Items; " style="margin-bottom: 1rem;">
+                <!--div style="background: var(--orange); height: 4px;border-radius: 4px;"></div-->
+                <div class="card my-card my-item-card"  style="padding-bottom: 1vh; height: 100%; border-top-left-radius: 7px; border-top-right-radius: 7px; cursor: pointer; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);"
+                  (click)="addItem(item, comboItem.Id, selectedItems[comboItem.Id], $ii, comboItem)"
+                  [ngClass]="{'selected': item.Id == selectedItem.Id}">
+                  <div *ngIf="item?.Information && item.Information?.length > item.ShortInfo?.length" class="col item-desc-card font-style: normal;font-weight: bold;" >
+                    <div style="margin-top:auto; margin-bottom: auto;font-style: normal; display:block; font-size: 18px;" >
+                      {{item.Information}}
+                    </div>
+                  </div>
+                  <div class="select-image" *ngIf="item.Id == selectedItem.Id" style="z-index: 100; position: absolute;">
+                    <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+                  </div>
+            
+                  <div>
+                    <img class="" [src]="item?.ImageUrl" (error) = "logo($event)"
+                      style="mix-blend-mode: multiply; height: 137px; width: 100%;border-top-left-radius: 5px; border-top-right-radius: 5px;" />
+                  </div>
+                  <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }"
+                    style="font-style: normal;font-weight: bold;font-size: 22px;line-height: 30px;color: #595959;padding: 5px 10px;">
+                    {{item.Name}}
+                  </div>
+                  <div *ngIf="item.Information" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }"
+                    style="font-style: normal;font-size: 18px;line-height: 20px;color: #595959;padding: 5px 10px;">
+                    {{item.ShortInfo}}
+                  </div>
+
+                  <div class="row" *ngIf="item && item.Price && item.IsItemNewCombo">
+                    <div class="product-price" style="margin-top: auto;
+                    background-color: var(--orange); position: absolute; bottom: 0; left: 0;
+                    border-radius: 0 5px; padding: 5px 10px; border: none;" [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+                      <span style="font-family: Open Sans Hebrew;
+                      font-style: normal;
+                      font-weight: 700;
+                      font-size: 14px;
+                      line-height: 21px;
+                      color: #fff;">{{item?.Price}}</span>
+                      <span style="font-family: Open Sans Hebrew;
+                      font-style: normal;
+                      font-weight: 700;
+                      font-size: 14px;
+                      line-height: 21px;
+                      color: #fff;">{{"COMMON_CASH" | translate}}</span>
+                    </div>
+                  </div>
+            
+            
+            
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+        
+      </ng-container>
+
+      <ng-container *ngFor="let comboPizza of combo.NewPizzaCombos; let $index = index; ">
+        <div class="row" style="position: relative; width: 100%; max-height: 48vh; overflow-y: auto;" *ngIf="comboPizza.IsSelected">
+
+
+          <ng-container *ngFor="let selectedItem of selectedPizzas[comboPizza.Id]; let $ii=index;">
+            
+            <div class="col-3" *ngFor="let item of comboPizza.Pizzas; " style="margin-bottom: 1rem;">
+              <!--div style="background: var(--orange); height: 4px;border-radius: 4px;"></div-->
+              <div class="card my-card"  style="padding-bottom: 1vh; height: 100%; border-top-left-radius: 7px; border-top-right-radius: 7px; cursor: pointer; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);"
+                (click)="addPizzaToppingsNew(item, comboPizza, comboPizza.SizeId, selectedPizzas[comboPizza.Id], $ii);"
+                [ngClass]="{'selected': item.IsSelected}">
+
+                <div class="select-image" *ngIf="item.IsSelected" style="z-index: 100; position: absolute;">
+                  <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+                </div>
+          
+                <div>
+                  <img class="" [src]="item?.ImageUrl" (error) = "logo($event)"
+                    style="mix-blend-mode: multiply; height: 137px; width: 100%;border-top-left-radius: 5px; border-top-right-radius: 5px;" />
+                </div>
+                <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }"
+                  style="font-style: normal;font-weight: bold;font-size: 22px;line-height: 30px;color: #595959;padding: 5px 10px;">
+                  {{item.Name}}  
+                </div>
+                <div *ngIf="item.Information" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right' }"
+                  style="font-style: normal;font-size: 18px;line-height: 20px;color: #595959;padding: 5px 10px;">
+                  {{item?.Information}}
+                </div>
+
+                <div class="row" *ngIf="item.PriceInCombo > 0">
+                  <div class="product-price" style="margin-top: auto;
+                  background-color: var(--orange); position: absolute; bottom: 0; left: 0;
+                  border-radius: 0 5px; padding: 5px 10px; border: none;" [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+                    <span style="font-family: Open Sans Hebrew;
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 21px;
+                    color: #fff;">{{item?.PriceInCombo}}</span>
+                    <span style="font-family: Open Sans Hebrew;
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 21px;
+                    color: #fff;">{{"COMMON_CASH" | translate}}</span>
+                  </div>
+                </div>
+          
+          
+          
+              </div>
+            </div>
+          </ng-container>
+
+        </div>
+      </ng-container>
+
+
+    </div>
+
+    <div class="col-9" *ngIf="isItemWithItemGroups">
+
+      <ng-container *ngFor="let comboItem of combo.ItemGroups; let $index = index; ">
+        <div class="row" style="position: relative; width: 100%; max-height: 48vh; overflow-y: auto;" *ngIf="comboItem.IsSelected">
+
+
+          <!--ng-container *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $ii=index;"-->
+            
+            <div class="col-3" *ngFor="let item of comboItem.GroupItems; " style="margin-bottom: 1rem;">
+              <!--div style="background: var(--orange); height: 4px;border-radius: 4px;"></div-->
+              <div class="card my-card" style="height: 100%; border-top-left-radius: 7px; border-top-right-radius: 7px; cursor: pointer; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);"
+                (click)="addItem(item, comboItem.Id, selectedItems[comboItem.Id], 0, comboItem)"
+                [ngStyle]="{'opacity': useInventory && item.Quantity < 1 ? '50%': '100%'}"
+                [ngClass]="{'selected': item.IsSelected}">
+
+                <div class="select-image" *ngIf="item.IsSelected" style="z-index: 100; position: absolute;">
+                  <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+                </div>
+          
+                <div>
+                  <img class="" [src]="item?.ImageUrl" (error) = "logo($event)"
+                    style="mix-blend-mode: multiply; height: 137px; width: 100%;border-top-left-radius: 5px; border-top-right-radius: 5px;" />
+                </div>
+                <div class="text-center" 
+                  style="font-style: normal;font-weight: bold;font-size: 22px;line-height: 30px;color: #595959;padding: 5px 10px;">
+                  {{item.Name}}
+                </div>
+                <div *ngIf="item.Information" class="mb-2 text-center"  
+                  style="font-style: normal;font-size: 18px;line-height: 20px;color: #595959;padding: 5px 10px;">
+                  {{item.ShortInfo}}
+                </div>
+                <!--div *ngIf="useInventory " class="row mb-2">
+                  <div class="col text-center" style="color: red;"> {{item.Quantity}}</div>
+                </div-->
+                <div *ngIf="useInventory && item.Quantity < 1" class="row mb-2">
+                  <div class="col text-center" style="color: red;">אזל מהמלאי</div>
+                </div>
+                <div *ngIf="useInventory && item.Quantity == 1" class="row mb-2">
+                  <div class="col text-center" style="color: red;">נותר 1 במלאי</div>
+                </div>
+                <!--div>{{getTotalAmount(selectedItems[comboItem.Id])}}</div-->
+                <div class="price-container" style="direction: rtl !important;">
+                    <div class="plus-minus " style="display:inline-flex; "
+                        *ngIf="comboItem.Max && comboItem.Max > 1">
+                        <button class="btn btn-plus text-white" type="button" style="height: 25px; width: 25px;"
+                           [disabled]="getTotalAmount(selectedItems[comboItem.Id]) >= comboItem.Max || (useInventory && item.Amount == item.Quantity) || (useInventory && item.Quantity < 1)"
+                           (click)="addGroupItem(item, selectedItems[comboItem.Id],comboItem)">
+                          <!--[disabled]="item.Amount == comboItem.Max || garnishGroup.Max==totalGarnishsSum"-->
+                          <img src="../../../assets/images/items/plus.svg" style="width: 18px; height: 18px;">
+                        </button>
+                        <span class="col price" *ngIf="item.Amount" style="margin: auto;">
+                          {{item.Amount}}
+                        </span>
+                        <span class="col price" *ngIf="!item.Amount" style="margin: auto;">
+                          0
+                        </span>
+                        <button class="btn btn-minus text-white" type="button" style="height: 25px; width: 25px;"
+                          [disabled]="!item.Amount || item.Amount < 1"
+                          (click)="subAmountItem(item , selectedItems[comboItem.Id])">
+                          <!--[disabled]="!garnish.SelectedAmount || garnish.SelectedAmount < 1"-->
+                          <img src="../../../../assets/images/items/minus.svg" style="width: 18px; height: 18px;">
+                        </button>
+                    </div>
+                  </div>
+                 
+
+                <div class="row" *ngIf="item && item.Price && item.Price>0">
+                  <div class="product-price" style="margin-top: auto;
+                  background-color: var(--orange); position: absolute; bottom: 0; left: 0;
+                  border-radius: 0 5px; padding: 5px 10px; border: none;" [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+                    <span style="font-family: Open Sans Hebrew;
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 21px;
+                    color: #fff;">{{item?.Price}}</span>
+                    <span style="font-family: Open Sans Hebrew;
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 21px;
+                    color: #fff;">{{"COMMON_CASH" | translate}}</span>
+                  </div>
+                </div>
+          
+          
+          
+              </div>
+            </div>
+          <!--/ng-container-->
+
+        </div>
+      </ng-container>
+      
+    </div>
+
+  </div>
+
+  <!--/div-->
+
+</div>
+
+
+
+
+<div class="modal-footer d-block d-lg-none" style="padding: 0px; position: fixed; bottom: 0; top: auto;
+            padding-bottom: env(safe-area-inset-bottom, 0px); width: 100%;">
+  <div class="btn-group" style="width: 100%;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+    <button data-dismiss="modal" (click)="cancel()" class="btn btn-cancel">
+      {{ "COMBO_CANCEL" | translate }}
+    </button>
+
+    <button (click)="save()" type="button"  class="btn btn-custom btn-block" style="display: inline-flex;">
+      <span style="margin: auto; ">
+        {{ "COMBO_OK" | translate }}
+      </span>
+      <span style="margin: auto;  " [ngStyle]="{'margin-right':getLanguage() === 'en' ? '10px': '', 'margin-left':getLanguage() === 'en' ? '10px': '' , 'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"> 
+        <i class="fa fa-long-arrow-left fa-lg  "></i>
+      </span>
+    </button>
+  </div>
+
+</div>
+
+
+
+<div class="modal-footer d-none d-lg-block" style="padding: 0px; position: relative; bottom: 0; top: auto;
+            width: 100%;">
+  <div class="btn-group" style="width: 100%;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+    <button data-dismiss="modal" [ngStyle]="{'border-bottom-left-radius':getLanguage() === 'en' ? '20px !important': '' , 'border-bottom-right-radius':getLanguage() === 'he' ? '20px !important': ''}" (click)="cancel()" class="btn btn-cancel" style="border-bottom-right-radius: 20px !important;">
+      {{ "COMBO_CANCEL" | translate }}
+    </button>
+
+    <button (click)="save()"  [ngStyle]="{'border-bottom-left-radius':getLanguage() === 'he' ? '20px !important': '' , 'border-bottom-right-radius':getLanguage() === 'en' ? '20px !important': ''}" type="button" class="btn btn-custom btn-block" style="display: inline-flex; border-bottom-left-radius: 20px !important;">
+      <span style="margin: auto;">
+        {{ "COMBO_OK" | translate }}
+      </span>
+      <span style="margin: auto;" [ngStyle]="{'margin-right':getLanguage() === 'en' ? '10px': '', 'margin-left':getLanguage() === 'en' ? '10px': '' , 'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}">
+        <i  class="fa fa-long-arrow-left fa-lg  "></i>
+      </span>
+    </button>
+  </div>
+
+
+
+
+  <!--button type="button" class="btn btn-secondary" 
+          data-dismiss="modal" (click)="cancel()">
+          {{ "COMBO_CANCEL" | translate }}
+  </button>
+  <button type="button" class="btn btn-primary" 
+          (click)="save()" 
+          [ngStyle]="{'background-color': colors.menuColor}" 
+          >
+          {{ "COMBO_OK" | translate }}
+  </button-->
+</div>
+
+
+
+<!--div class="combo-popup-wrapper popup-wrapper animated fadeIn" (window:resize)="onResize($event)">
+  <div *ngIf="showErrorComboMessage" class="row error-container">
+    <messsage *ngIf="showErrorComboMessage" [type]="'error'" [message]="displayErrorComboMessage()"></messsage>
+  </div>
+
+
+  <div class="garnishes-container">
+    <div class="header" mat-dialog-title [ngClass]="{'direction': lang != 'he'}">
+      <div class="description" [ngClass]="{'direction': lang != 'he'}">{{combo.Name}}</div>
+    </div>
+  
+    
+ 
+    <mat-dialog-actions>
+      <div class="comments-save-actions">
+        <span class="btn-group">
+          <button class="save-order scale-item" (click)="save()" [ngStyle]="{'background-color': colors.menuColor}" [ngClass]="{'mobile-btn': isMobileMode()}">
+            <span>{{ "COMBO_OK" | translate }}</span>
+            <img src="../../../../assets/images/items/ok.svg" *ngIf="!isMobileMode()"/>
+          </button>
+          <button (click)="cancel()" class="cancel-order scale-item" [ngClass]="{'mobile-btn': isMobileMode()}">
+            <span>{{ "COMBO_CANCEL" | translate }}</span>
+          </button>
+        </span>
+      </div>
+    </mat-dialog-actions>
+  </div>
+</div-->
+
+
+
+<!--OLD 2 COLUMnS-->

@@ -1,0 +1,731 @@
+<div *ngIf="!isMobileMode()">
+  <div class="modal-header" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="text-align:right; font-style: normal; font-size: 25px;line-height: 21px;color: #636363;">
+    <span class="modal-title d-none d-lg-block" style="margin: 0;">
+      <b>{{pizza.Name}}</b> <span *ngIf="pizza.Information!=undefined && pizza.Information!='undefined'  && pizza.Information != 'null'"> - {{pizza.Information}}</span>
+    </span>
+    <span class="text-center modal-title d-block d-lg-none">
+      <b>{{pizza.Name}}</b>
+
+    </span>
+    <!-- <div class="error-container">
+      </div>-->
+    <button type="button" class="close" data-dismiss="modal" (click)="closeAndNotSaveGarnishes()"
+      style="color:dimgrey;">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body d-none d-lg-block" style="margin-bottom: 0.7rem; height: 70vh; overflow-y: hidden!important;">
+    <div class=" row " [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="overflow-y: hidden;">
+      <!--row-->
+
+
+
+      <div class="col-4" *ngIf="!isMobileMode()">
+        <!--content-right -->
+
+        <div class="header row" *ngIf="isCombo  && selectFreeTop"
+          style="margin-bottom: 25px; margin-top: 10px; font-style: normal; font-weight: normal; font-size: 25px; line-height: 21px; color: #636363;">
+          <div class="col" style="display: flex; justify-content: center;">
+            <div><b>{{"CHOOSE" | translate}}&nbsp;</b></div>
+            <div><b>{{maxToppings}}&nbsp;</b></div>
+            <div><b>{{"FREE_TOPS" | translate}}</b></div>
+          </div>
+        </div>
+
+        <div class="header row"  *ngIf="isCombo  && !selectFreeTop"
+        style="margin-bottom: 25px; margin-top: 10px; font-style: normal; font-weight: normal; font-size: 25px; line-height: 21px; color: #636363;">
+        <div class="col">{{ "PIZZA_HEADER" | translate}}</div>
+      </div>
+
+
+        <div *ngIf="isCombo  && selectFreeTop" class="row">
+          <!--pizza-ingredients -->
+          <div  class="pizza-list pizza-list-right col" id="style-content-1"
+            style="overflow-x: hidden; overflow-y: auto; max-height: 65vh; padding-right: 25px !important;">
+            <!-- height:700px;-->
+            <ng-container *ngFor="let topping of toppings" > <!--(mouseDown)="selectQuartersTopping(topping)"-->
+
+              <div class="item-elem row"  
+                  *ngIf="topping.ToppingGroupId == toppingGroupId && !checkToppingsInPizza(topping)"
+                style="background: #F3F3F3; border-radius: 15px; padding: 5px 10px; margin-bottom: 8px"
+                [ngClass]="{'selected': topping.IsSelect}" > <!--(click)="selectTopping(topping)"-->
+            
+                <div class="topping-image col-2" style="align-self: center; mix-blend-mode: multiply;" [ngStyle]="{'background-image': 'url(' + (!topping.IsFailedLoadedImg ? topping.ImageUrl : '') + ')', 
+                                      'background-size': 'contain'}">
+                </div>
+                <div class=" item-desktop noselect col" style="border: none;">
+                  <div class="topping-name">
+                    <span>{{topping?.Name}}</span>
+                    <!--span *ngIf="topping.IsSelect"> - {{topping?.Description}}</span-->
+                  </div>
+                  <!--div class="topping-price" style="display: flex;">
+                    <div *ngIf="!topping.IsSelect" class="topping-price-item" style="display: flex;">
+                      <span>{{topping?.CurrentPrice | roundPrice: 2}}</span>
+                      <span>{{'COMMON_CASH' | translate}}</span>
+                    </div>
+                    <div class="topping-price-item" style="display: flex;" *ngIf="topping?.TotalPrice !== 0 && topping.IsSelect">
+                      <span>{{topping?.TotalPrice | roundPrice: 2}}</span>
+                      <span>{{'COMMON_CASH' | translate}}</span>
+                    </div>
+                  </div-->
+                </div>
+                <div class="  col-3">
+                  <quarters (quartersSelected)="selectedQuarters($event)" [pizza]="pizza" [isShouldBeSelected]="false"
+                    [isShowInHalfs]="franchise.IsShowInHalfs" [topping]="topping"></quarters>
+                  <!-- [enabled]="topping.IsSelect" [disabled]="checkToppingDefaultSelectedInPizza(topping)"-->
+            
+                </div>
+            
+            
+            
+              </div>
+            </ng-container>
+            <div style="height: 2rem;"></div>
+          </div>
+        </div>
+
+
+        <!--NOT FREE TOP-->
+
+
+        <div *ngIf="isCombo  && !selectFreeTop" class="row">
+          <!--pizza-ingredients -->
+          <div  class="pizza-list pizza-list-right col" id="style-content-1"
+            style="overflow-x: hidden; overflow-y: auto; max-height: 65vh; padding-right: 25px !important;">
+            <!-- height:700px;-->
+            <ng-container *ngFor="let topping of notSelectedToppingsArr">
+              <div class="item-elem row"  (mouseDown)="selectQuartersTopping(topping)"
+                style="background: #F3F3F3; border-radius: 15px; padding: 5px 10px; margin-bottom: 8px"
+                [ngClass]="{'selected': topping.IsSelect}" (click)="selectToppingElse(topping)">
+            
+                <div class="topping-image col-2" style="align-self: center; mix-blend-mode: multiply;" [ngStyle]="{'background-image': 'url(' + (!topping.IsFailedLoadedImg ? topping.ImageUrl : '') + ')', 
+                                      'background-size': 'contain'}">
+                </div>
+                <div class=" item-desktop noselect col" style="border: none;">
+                  <div class="topping-name">
+                    <span>{{topping?.Name}}</span>
+                    <!--span *ngIf="topping.IsSelect"> - {{topping?.Description}}</span-->
+                  </div>
+                  <div class="topping-price" style="display: flex;">
+                    <div *ngIf="!topping.IsSelect" class="topping-price-item" style="display: flex;">
+                      <span>{{topping?.CurrentPrice | roundPrice: 2}}</span>
+                      <span>{{'COMMON_CASH' | translate}}</span>
+                    </div>
+                    <div class="topping-price-item" style="display: flex;" *ngIf="topping?.TotalPrice !== 0 && topping.IsSelect">
+                      <span>{{topping?.TotalPrice | roundPrice: 2}}</span>
+                      <span>{{'COMMON_CASH' | translate}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="  col-3">
+                  <quarters (quartersSelected)="selectedQuarters($event)" [isShouldBeSelected]="false"
+                    [isShowInHalfs]="franchise.IsShowInHalfs" [topping]="topping"></quarters>
+                  <!-- [enabled]="topping.IsSelect" [disabled]="checkToppingDefaultSelectedInPizza(topping)"-->
+            
+                </div>
+            
+            
+            
+              </div>
+            </ng-container>
+            <div style="height: 2rem;"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-8 overflow-hidden">
+       
+
+        <div *ngIf="pizza.PizzaPrices.length > 1 && !isCombo" class="pizza-size-container">
+          <div class="header" [ngClass]="{'direction': lang != 'he'}"
+            style="margin-bottom: 25px;margin-top: 10px;font-style: normal;font-weight: normal;font-size: 25px;line-height: 21px;color: #636363;margin-right: 100px;">
+            {{ "PIZZA_SIZE_HEADER" | translate}}
+          </div>
+          <div class="pizza-sizes">
+            <div class="item-size noselect" [ngClass]="{'selected': selectedPrice === pizzaSize, 'first' : index==0}"
+              [ngStyle]="{'background': selectedPrice === pizzaSize ? colors.buttonColor :  '#c4c4c4'}"
+              *ngFor="let pizzaSize of  pizza.PizzaPrices; let $index=index;" (click)="selectSize(pizzaSize)"
+              [animation]="'pulse'">
+
+
+              <div class="item-size-name">{{pizzaSize.PizzaSizeName}}</div>
+              <div class="item-size-price">
+                <span>{{pizzaSize.Price}}</span>
+                <span>{{'COMMON_CASH' | translate}}</span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--div style="height: 80px;" *ngIf="pizza.PizzaPrices.length == 1 || isCombo == true"></div-->
+
+        <!-- Pizza Builder-->
+        <div *ngIf="franchise.IsShowInHalfs" class="pizza-info">
+          <div *ngIf="franchise.IsShowInHalfs"
+            style="width: 590px;height: 580px;margin: auto; padding-top: 5rem; background: #F9F9F9; border-radius: 20px;">
+            <div class="pizza-topping-images" *ngIf="franchise.IsShowInHalfs"
+              style="height: 400px !important; width: 410px !important;">
+              <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter}"
+                (click)="selectQuarter(1, currentTopping);selectQuarter(2, currentTopping);$event.stopPropagation();">
+                <img src="../../../../assets/images/items/quarter-pizza-1.png" class="pizza-quarter-image" />
+                <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                  [hidden]="top.QuarterNums.indexOf(1) == -1 || top.toppingId == currentTopping.Id" />
+                <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                  *ngIf=" currentTopping?.FirstQuarter" />
+              </div>
+              <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter}"
+                (click)="selectQuarter(2, currentTopping);selectQuarter(1, currentTopping);$event.stopPropagation();">
+                <img src="../../../../assets/images/items/quarter-pizza-2.png" class="pizza-quarter-image" />
+                <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                  [hidden]="top.QuarterNums.indexOf(2) == -1 || top.toppingId == currentTopping.Id" />
+                <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                  *ngIf=" currentTopping?.SecondQuarter" />
+              </div>
+              <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ThirdQuarter}"
+                (click)="selectQuarter(4, currentTopping);selectQuarter(3, currentTopping);$event.stopPropagation();">
+                <img src="../../../../assets/images/items/quarter-pizza-3.png" class="pizza-quarter-image" />
+
+                <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                  [hidden]="top.QuarterNums.indexOf(3) == -1 || top.toppingId == currentTopping.Id" />
+                <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                  *ngIf=" currentTopping?.ThirdQuarter" />
+              </div>
+              <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ForthQuarter}"
+                (click)="selectQuarter(3, currentTopping);selectQuarter(4, currentTopping);$event.stopPropagation();">
+                <img src="../../../../assets/images/items/quarter-pizza-4.png" class="pizza-quarter-image" />
+                <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                  [hidden]="top.QuarterNums.indexOf(4) == -1 || top.toppingId == currentTopping.Id" />
+                <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                  *ngIf=" currentTopping?.ForthQuarter" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!franchise.IsShowInHalfs" class="pizza-info" style="margin-top: 35px;">
+          <div *ngIf="!franchise.IsShowInHalfs"
+            style="width: 600px;height: 600px;margin: auto; padding-top: 3rem; background: #F9F9F9; border-radius: 20px;">
+            <div class="pizza-topping-images" *ngIf="!franchise.IsShowInHalfs"
+              style="position: relative;height: 410px;width: 410px; margin-top: 40px !important; margin: auto; text-align: center; border-radius: 50%;">
+              <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter }"
+                (click)="selectQuarter(1, currentTopping);$event.stopPropagation();">
+                <img src="../../../../assets/images/items/quarter-pizza-1.png" class="pizza-quarter-image" />
+                <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                  [hidden]="top.QuarterNums.indexOf(1) == -1 || top.ToppingId == currentTopping.Id" />
+                <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                  *ngIf="currentTopping?.FirstQuarter" />
+              </div>
+              <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter }"
+                (click)="selectQuarter(2, currentTopping);$event.stopPropagation();">
+                <img src="../../../../assets/images/items/quarter-pizza-2.png" class="pizza-quarter-image" />
+                <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                  [hidden]="top.QuarterNums.indexOf(2) == -1 || top.ToppingId == currentTopping.Id" />
+                <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                  *ngIf="currentTopping?.SecondQuarter" />
+              </div>
+              <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ThirdQuarter}"
+                (click)="selectQuarter(3, currentTopping);$event.stopPropagation();">
+                <img src="../../../../assets/images/items/quarter-pizza-3.png" class="pizza-quarter-image" />
+
+                <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                  [hidden]="top.QuarterNums.indexOf(3) == -1 || top.ToppingId == currentTopping.Id" />
+                <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                  *ngIf="currentTopping?.ThirdQuarter" />
+              </div>
+              <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ForthQuarter}"
+                (click)="selectQuarter(4, currentTopping);$event.stopPropagation();">
+                <img src="../../../../assets/images/items/quarter-pizza-4.png" class="pizza-quarter-image" />
+                <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                  [hidden]="top.QuarterNums.indexOf(4) == -1 || top.ToppingId == currentTopping.Id" />
+                <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                  *ngIf="currentTopping?.ForthQuarter" />
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+
+        <!-- End of Pizza Builder-->
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+  </div>
+
+  <div class="row not-free-top" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"  style="border-top: none !important; margin-right: -25px !important; margin-left: -25px !important;">
+    <button *ngIf="!selectFreeTop && maxToppings > 0" type="button" 
+            class="btn btn-cancel" data-dismiss="modal" (click)="previousSection()" 
+            style="width: 20% !important;">
+      {{ "PIZZA_CANCEL" | translate }}
+    </button>
+    <button  *ngIf="selectFreeTop || maxToppings < 1" type="button" 
+             class="btn btn-cancel" data-dismiss="modal" (click)="previousSection()" 
+             style="width: 20% !important;">
+      {{ "PIZZA_CANCEL" | translate }}
+    </button>
+    <button *ngIf="!selectFreeTop" type="button" 
+            class="btn btn-custom btn-block" 
+            style="width: 80% !important; background-color: var(--orange); "
+            (click)="savePizza()">
+      {{ "PIZZA_OK" | translate }}
+    </button>
+    <button *ngIf="selectFreeTop" type="button" 
+            class="btn btn-custom btn-block" 
+            style="width: 80% !important; background-color: var(--orange);"
+            (click)="buildNotSelectedArray();">
+     {{ "PIZZA_OK" | translate }}
+   </button>
+  </div>
+
+  <div class="row free-top" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="border-top: none !important; margin-right: -25px !important; margin-left: -25px !important;">
+    
+  
+  </div>
+
+  
+  <div class="modal-body d-block d-lg-none" style="max-height: 75vh;">
+    <div class=" row " style="overflow-y: hidden;">
+      <div class="col ">
+        <!--content-mobile -->
+
+        <div *ngIf="!isCombo" class="row">
+          <!-- pizza-size-container-->
+          <div class="col text-center">
+            <!-- header [ngClass]="{'direction': lang != 'he'}"-->
+            <b>{{ "PIZZA_SIZE_HEADER" | translate}}</b>
+          </div>
+        </div>
+        <div class="row mt-2 mb-2" *ngIf="!isCombo">
+          <!-- pizza-sizes-->
+          <ng-container *ngFor="let pizzaSize of pizza.PizzaPrices">
+            <div [ngClass]="{'active': selectedPrice === pizzaSize}" class="col h-100 btn btn-block btn-outline-dark"
+              style="margin-left: 0.5rem; margin-right: 0.5rem; margin-top:0px!important"
+              (click)="selectSize(pizzaSize)">
+              {{pizzaSize.PizzaSizeName}}
+              &nbsp;
+              {{'COMMON_CASH' | translate}}{{pizzaSize.Price}}
+              <!--span></span>
+      <span></span-->
+              <!---->
+            </div>
+          </ng-container>
+
+
+
+        </div>
+
+
+        <div class="row header">
+          <div class="col text-center">
+            {{ "PIZZA_HEADER" | translate}}
+          </div>
+        </div>
+
+        <!--div class="content content-right" [ngClass]="{'mobile': isMobileMode()}"-->
+
+        <!-- Toppings -->
+
+        <div class="row">
+
+          <div class="col" id="style-content-1" style="overflow-y: auto; overflow-x:hidden;max-height:50vh;  ">
+            <!--pizza-list pizza-list-right-->
+            <div class="row item-elem" *ngFor="let topping of toppings">
+
+              <div *ngIf="!checkToppingsInPizza(topping)" class="item noselect" [ngClass]="{'selected': topping.IsSelect}"
+                (click)="selectToppingMobile(topping)"
+                [ngStyle]="{'color': topping.IsSelect ? colors.buttonColor :  '#3a3a3a'}">
+
+                <div class="col" style="font-size: 0.8rem;">
+                  <!--[ngStyle]="{'color': colors.buttonColor}"-->
+                  <div class="topping-price-item">
+                    <!--span *ngIf="!topping.IsSelect"></span-->
+                    <span *ngIf="!topping.IsSelect">{{topping?.CurrentPrice | roundPrice: 2}}{{'COMMON_CASH' |
+                      translate}}</span>
+                  </div>
+                  <div class="topping-price-item">
+                    <!--span *ngIf="topping?.TotalPrice !== 0 && topping.IsSelect">{{'COMMON_CASH' | translate}}</span-->
+                    <!--span
+                      *ngIf="topping?.TotalPrice !== 0 && topping.IsSelect">{{topping?.TotalPrice | roundPrice: 2}}</span-->
+                    <span *ngIf="topping?.TotalPrice !== 0 && topping.IsSelect">
+                      {{"ORDER_TOTAL" | translate}} {{topping?.TotalPrice | roundPrice: 2}}{{'COMMON_CASH' | translate}}
+                    </span>
+                  </div>
+                </div>
+                <div class="topping-name col">
+                  <span *ngIf="topping.IsSelect">{{topping?.Description}} - </span>
+                  <span>{{topping?.Name}}</span>
+                </div>
+                <div class="topping-image col" [ngStyle]="{'background-image': 'url(' + (!topping.IsFailedLoadedImg ? topping.ImageUrl : '') + ')', 
+                'background-size': 'contain'}">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <!--/div-->
+
+
+
+
+      </div>
+
+    </div>
+
+    <div class="row not-free-top" *ngIf="!selectFreeTop" style="border-top: none !important;">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="selectFreeTop = true">
+        {{ "PIZZA_CANCEL" | translate }}
+      </button>
+      <button type="button" class="btn btn-custom btn-block" style="border-bottom-left-radius: 20px; display: inline-flex;"
+       (click)="savePizza()"
+        [ngStyle]="{'background-color': colors.menuColor}">
+        {{ "PIZZA_OK" | translate }}
+      </button>
+    </div>
+
+    <div class="row free-top" *ngIf="selectFreeTop" style="border-top: none !important;">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="previousSection()">
+        {{ "PIZZA_CANCEL" | translate }}
+      </button>
+      <button type="button" class="btn btn-custom btn-block" (click)="buildNotSelectedArray();"
+        [ngStyle]="{'background-color': colors.menuColor}">
+        {{ "PIZZA_OK" | translate }}
+      </button>
+    </div>
+
+
+  </div>
+
+
+
+</div>
+
+
+
+<ng-container *ngIf="isMobileMode()">
+
+  <div class="garnishes-container" style="overflow-y: hidden; max-height: 90vh;">
+    <mat-dialog-content class="mat-dialog-content-custom" style="overflow: hidden; background: white; height: 98vh; max-height: none !important;">
+      <div class="item-card">
+        <div *ngIf="sizeSelection && !isCombo" class="product-image">
+          <img class="img-fluid" [src]="pizza?.ImageUrl" onerror="this.style.display='none';" alt="" />
+
+        </div>
+
+        <div *ngIf="!sizeSelection || isCombo" class="pizza-info">
+          <div class="pizza-topping-images" *ngIf="franchise.IsShowInHalfs">
+            <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter}"
+              (click)="selectQuarter(1, currentTopping);selectQuarter(2, currentTopping);$event.stopPropagation();">
+              <img src="../../../../assets/images/items/quarter-pizza-1.png" class="pizza-quarter-image" />
+              <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                [hidden]="top.QuarterNums.indexOf(1) == -1 || top.toppingId == currentTopping.Id" />
+              <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                *ngIf=" currentTopping?.FirstQuarter" />
+            </div>
+            <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter}"
+              (click)="selectQuarter(2, currentTopping);selectQuarter(1, currentTopping);$event.stopPropagation();">
+              <img src="../../../../assets/images/items/quarter-pizza-2.png" class="pizza-quarter-image" />
+              <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                [hidden]="top.QuarterNums.indexOf(2) == -1 || top.toppingId == currentTopping.Id" />
+              <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                *ngIf=" currentTopping?.SecondQuarter" />
+            </div>
+            <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ThirdQuarter}"
+              (click)="selectQuarter(4, currentTopping);selectQuarter(3, currentTopping);$event.stopPropagation();">
+              <img src="../../../../assets/images/items/quarter-pizza-3.png" class="pizza-quarter-image" />
+
+              <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                [hidden]="top.QuarterNums.indexOf(3) == -1 || top.toppingId == currentTopping.Id" />
+              <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                *ngIf=" currentTopping?.ThirdQuarter" />
+            </div>
+            <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ForthQuarter}"
+              (click)="selectQuarter(3, currentTopping);selectQuarter(4, currentTopping);$event.stopPropagation();">
+              <img src="../../../../assets/images/items/quarter-pizza-4.png" class="pizza-quarter-image" />
+              <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                [hidden]="top.QuarterNums.indexOf(4) == -1 || top.toppingId == currentTopping.Id" />
+              <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                *ngIf=" currentTopping?.ForthQuarter" />
+            </div>
+          </div>
+
+
+
+          <div class="pizza-topping-images" *ngIf="!franchise.IsShowInHalfs">
+            <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.FirstQuarter }"
+              (click)="selectQuarter(1, currentTopping);$event.stopPropagation();">
+              <img src="../../../../assets/images/items/quarter-pizza-1.png" class="pizza-quarter-image" />
+              <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                [hidden]="top.QuarterNums.indexOf(1) == -1 || top.ToppingId == currentTopping.Id" />
+              <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                *ngIf="currentTopping?.FirstQuarter" />
+            </div>
+            <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.SecondQuarter }"
+              (click)="selectQuarter(2, currentTopping);$event.stopPropagation();">
+              <img src="../../../../assets/images/items/quarter-pizza-2.png" class="pizza-quarter-image" />
+              <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                [hidden]="top.QuarterNums.indexOf(2) == -1 || top.ToppingId == currentTopping.Id" />
+              <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                *ngIf="currentTopping?.SecondQuarter" />
+            </div>
+            <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ThirdQuarter}"
+              (click)="selectQuarter(3, currentTopping);$event.stopPropagation();">
+              <img src="../../../../assets/images/items/quarter-pizza-3.png" class="pizza-quarter-image" />
+
+              <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                [hidden]="top.QuarterNums.indexOf(3) == -1 || top.ToppingId == currentTopping.Id" />
+              <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                *ngIf="currentTopping?.ThirdQuarter" />
+            </div>
+            <div class="pizza-quarter" [ngClass]="{'active' : currentTopping?.ForthQuarter}"
+              (click)="selectQuarter(4, currentTopping);$event.stopPropagation();">
+              <img src="../../../../assets/images/items/quarter-pizza-4.png" class="pizza-quarter-image" />
+              <img *ngFor="let top of pizza.SelectedToppings" src="{{top.QuarterPizzaImageUrl}}" class="top-layer"
+                [hidden]="top.QuarterNums.indexOf(4) == -1 || top.ToppingId == currentTopping.Id" />
+              <img src="{{currentTopping.QuarterPizzaImageUrl}}" class="top-layer"
+                *ngIf="currentTopping?.ForthQuarter" />
+            </div>
+
+
+
+
+
+          </div>
+        </div>
+        <div style="background: var(--orange); height: 4px; width:inherit; margin: auto;
+              border-radius: 4px;">
+        </div>
+        <div class="product-details  text-center" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+          <div class="row">
+            <div class="col product-name">
+              <span><b>{{pizza?.Name}}</b></span>
+              <span *ngIf="!sizeSelection || isCombo">&nbsp;</span>
+              <span *ngIf="!sizeSelection || isCombo" style="font-size: 14px;">
+                <b>{{pizza?.SelectedPizzaPriceSize?.PizzaSizeName}}</b>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col product-desc" *ngIf="sizeSelection && !isCombo">
+              {{pizza?.Information}}
+            </div>
+            <div class="col product-desc" *ngIf="!sizeSelection || isCombo">
+              <ng-container *ngFor="let top of pizza.SelectedToppings;let $i=index;">
+                <span *ngIf="$i > 0" style="color:var(--orange)">
+                  |
+                </span>
+                <span>
+                  {{top?.Description}} {{top?.Name}}
+                </span>
+              </ng-container>
+
+            </div>
+          </div>
+          <div class="row pt-4" *ngIf="!sizeSelection && !isCombo">
+            <div class="product-price">
+              <span style="font-size: 20px;">
+                {{ priceOfPizza() | roundPrice: 2}}{{'COMMON_CASH' | translate}}
+              </span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="sizeSelection && !isCombo" class="col"
+        style="width: 100%; overflow-y: scroll; height: calc(100%-500px); ">
+        <div class=" text-center" style="color: #4F4F4F;">
+          <div class="py-2"><b>{{ "PIZZA_SIZE_HEADER" | translate}}</b></div>
+
+          <ng-container *ngFor="let pizzaSize of pizza.PizzaPrices">
+            <div class="row item noselect" [animation]="'pulse'" [ngClass]="{'selected': selectedPrice === pizzaSize}"
+              style="padding-left:15px; padding-right:0px;" (click)="selectSize(pizzaSize)">
+
+              <div class="description">
+                <div class="col" style="padding-right: 0px;">
+                  {{pizzaSize.PizzaSizeName}}
+                </div>
+                <div class="col-3" style="align-self: center; text-align: -webkit-center;">
+                  <div class="price-mobile">
+                    {{"COMMON_CASH" | translate}}{{pizzaSize.Price}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <ng-container *ngIf="isCombo && !this.selectFreeTop">
+        <div class="row py-2 text-center" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="color: #4F4F4F;">
+          <div class="col"><b>{{ "PIZZA_HEADER" | translate}}</b></div>
+        </div>
+        <div class="col" style="width: 100%; height:40vh;  overflow-y: scroll;">
+          <ng-container *ngFor="let topping of toppings">
+            <div class="row item noselect" *ngIf="checkFreeToppingsStep(topping) && !checkToppingsInPizza(topping)" [animation]="'pulse'"
+              [ngClass]="{'selected': topping.IsSelect}" (click)="selectToppingMobile(topping)">
+              <div class="select-image" *ngIf="topping.IsSelect">
+                <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+              </div>
+              <div class="col-3 garnish-image">
+                <img class="img-fluid" *ngIf="!topping.IsFailedLoadImg" [src]="topping.ImageUrl"
+                  style="mix-blend-mode: multiply; " (error)="errorLoadingImage(topping)" />
+              </div>
+              <div class="col h-100 my-auto"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                <span><b>{{topping?.Name}}</b></span>
+
+                <span *ngIf="topping.IsSelect">
+                  <br />
+                  {{topping?.Description}}
+                </span>
+
+              </div>
+
+              <div class="col-3" style="align-self: center; text-align: -webkit-center;">
+                <div class="price-mobile">
+                  <span *ngIf="!topping.IsSelect">{{topping?.CurrentPrice | roundPrice: 2}}{{'COMMON_CASH' |
+                    translate}}
+                  </span>
+                  <span *ngIf="topping?.TotalPrice !== 0 && topping.IsSelect">
+                    {{topping?.TotalPrice | roundPrice: 2}}{{'COMMON_CASH' | translate}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="isCombo  && selectFreeTop">
+        <div class="row py-2 text-center" style="color: #4F4F4F; ">
+          <div class="col-auto" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="display: flex; margin: auto;"> 
+            <div><b>{{"CHOOSE" | translate}}&nbsp;</b></div>
+            <div><b>{{maxToppings}}&nbsp;</b></div>
+            <div><b>{{"FREE_TOPS" | translate}}</b></div>
+          </div>
+        </div>
+        <div class="col" style="width: 100%; height:40vh;  overflow-y: scroll;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+          <ng-container *ngFor="let topping of toppings">
+            <div class="row item noselect" *ngIf="topping.ToppingGroupId == toppingGroupId && !checkToppingsInPizza(topping)" [animation]="'pulse'"
+              [ngClass]="{'selected': topping.IsSelect}" (click)="selectToppingMobile(topping)">
+              <div class="select-image" *ngIf="topping.IsSelect">
+                <img src="../../../../assets/images/items/green-select.svg" style="width: 26px">
+              </div>
+              <div class="col-3 garnish-image">
+                <img class="img-fluid" *ngIf="!topping.IsFailedLoadImg" [src]="topping.ImageUrl"
+                  style="mix-blend-mode: multiply; " (error)="errorLoadingImage(topping)" />
+              </div>
+              <div class="col h-100 my-auto" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                <span><b>{{topping?.Name}}</b></span>
+
+                <span *ngIf="topping.IsSelect">
+                  <br />
+                  {{topping?.Description}}
+                </span>
+
+              </div>
+
+              <div class="col-3">
+                <!--div class="price-mobile"  >
+                  <span *ngIf="!topping.IsSelect">{{topping?.CurrentPrice | roundPrice: 2}}{{'COMMON_CASH' |
+                    translate}}
+                  </span>
+                  <span *ngIf="topping?.TotalPrice !== 0 && topping.IsSelect">
+                     {{topping?.TotalPrice | roundPrice: 2}}{{'COMMON_CASH' | translate}}
+                  </span>
+                </div-->
+              </div>
+            </div>
+          </ng-container>
+
+        </div>
+      </ng-container>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions style="padding: 0px; position: fixed; bottom: 0; top: auto;
+             padding-bottom: env(safe-area-inset-bottom, 0px); width: 100%;">
+      <div *ngIf="sizeSelection && !isCombo " class="btn-group" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="width: 100%;">
+        <button data-dismiss="modal" (click)="previousSection()" class="btn btn-cancel">
+          {{ "PIZZA_CANCEL" | translate }}
+        </button>
+        <button (click)="sizeSelection=false;" type="button" class="btn btn-custom btn-block"
+          style="display: inline-flex;">
+          <span style="margin: auto;">
+            לבחירת תוספות
+          </span>
+          <span style="margin: auto;">
+            <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i>
+          </span>
+        </button>
+      </div>
+
+      <div *ngIf="isCombo &&  this.maxToppings > 0 && this.toppingGroupId > 0 && !selectFreeTop" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" class="btn-group"
+        style="width: 100%;">
+        <button data-dismiss="modal" (click)="previousSection()" class="btn btn-cancel"><!-- (click)="selectFreeTop = true;"-->
+          {{ "PIZZA_CANCEL" | translate }}
+        </button>
+        <button (click)="savePizza()" type="button" class="btn btn-custom btn-block" style="display: inline-flex;">
+          <span style="margin: auto;">
+            {{ "PIZZA_OK" | translate }}
+          </span>
+          <span style="margin: auto;">
+            <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i>
+          </span>
+        </button>
+      </div>
+
+      <div *ngIf="isCombo && selectFreeTop " class="btn-group" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="width: 100%;">
+        <button data-dismiss="modal" (click)="previousSection()" class="btn btn-cancel">
+          {{ "PIZZA_CANCEL" | translate }}
+        </button>
+        <button (click)="continueToSelectNotFreeTops()" type="button" class="btn btn-custom btn-block"
+          style="display: inline-flex;">
+          <span style="margin: auto;">
+            {{ "PIZZA_OK" | translate }}
+          </span>
+
+          <!--MOBILE CONTIMUE AFTER FREE GROUP TOP-->
+          <span style="margin: auto; ">
+            <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i>
+          </span>
+        </button>
+      </div>
+
+      <div *ngIf="isCombo && !(this.maxToppings > 0 && this.toppingGroupId > 0)" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" class="btn-group" style="width: 100%;">
+
+        <button *ngIf="!isEdit" data-dismiss="modal" (click)="previousSection()" class="btn btn-cancel">
+          {{ "PIZZA_CANCEL" | translate }} 
+        </button>
+
+        <button (click)="savePizza()" type="button" class="btn btn-custom btn-block" style="display: inline-flex;">
+          <span style="margin: auto;">
+            {{ "PIZZA_OK" | translate }}
+          </span>
+          <span style="margin: auto; ">
+            <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i>
+          </span>
+        </button>
+      </div>
+
+
+    </mat-dialog-actions>
+
+  </div>
+
+</ng-container>

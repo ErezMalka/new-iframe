@@ -1,0 +1,49 @@
+<div class="sign-in animated fadeIn" 
+     style="background-color: white;">
+  <div class="sign-in-header">
+    <!--div class="sign-in-header">
+      {{ (!isDisplayedSignInForm ? "SIGN_IN_HEADER_FOR_DISCOUNT" : "") | translate }}
+    </div--> <!-- SIGN_IN_INPUT -->
+    <button type="button" class="btn btn-custom btn-block" 
+            style="background-color: black; color:white"
+            [animation]="'pulse'" (click)="displaySignInForm()"> 
+            <!--[ngStyle]="{'background-color': colors.buttonColor}"-->
+        {{ (!isDisplayedSignInForm ? "LOGIN" : "SIGN_IN_REGISTRATION") | translate }}
+    </button>
+    <!--div class="button-display-sign-in-form noselect"
+      [animation]="'pulse'" (click)="displaySignInForm()">
+      {{ (!isDisplayedSignInForm ?
+        "SIGN_IN_BUTTON_OPEN_FORM_SIGN_IN" : "SIGN_IN_REGISTRATION") | translate }}
+    </div-->
+  </div>
+  <div class="sign-in-form animated fadeIn" *ngIf="isDisplayedSignInForm">
+    <div class="input-group">
+      <div class="phone-error animated fadeInUp" *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
+      <div class="input-wrapper animated" *ngIf="!showCodeForm" [ngClass]="{'slideInUp': !showCodeForm,
+          'slideOutDown': showCodeForm}">
+        <div class="us-one" *ngIf="country === 'us'">+1</div>
+        <input type="tel" class="input-field input-phone-number placeholder-appear" maxlength="{{countOfDigitsInNumber}}"
+               [ngStyle]="{'background-image': 'url(../../../assets/images/items/sign-in-phone.png)'}"
+          (keypress)="restrictKeysExceptDigits($event)" [(ngModel)]="phone" (focus)="hidePhoneNumberError()"
+          placeholder="{{'SIGN_IN_PHONE' | translate}}"/>
+        <!-- (focus)="hidePhoneNumberError()" -->
+      </div>
+      <div *ngIf="showCodeForm" class="input-wrapper animated" [ngClass]="{'slideInUp': showCodeForm,
+             'slideOutDown': !showCodeForm }">
+        <input class="input-field input-phone-code placeholder-appear" maxlength="{{countOfDigitsForCode}}"
+          (keypress)="restrictKeysExceptDigits($event)"
+          [ngStyle]="{'background-image': 'url(../../../assets/images/items/sign-in-code.png)'}"
+          (focus)="hidePhoneNumberError()"
+          placeholder="{{'SIGN_IN_CODE' | translate}}" [(ngModel)]="code"/>
+      </div>
+    </div>
+    <div class="button-confirm-container animated fadeIn">
+      <div class="button-confirm noselect" [animation]="'pulse'" (click)="handlerCode()"
+        [ngStyle]="{'background-color': colors.menuColor}">
+        {{ "SIGN_IN" | translate }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+
+{
+ "serverUrl": "https://api.bite-tech.co.il/",
+ "testserverUrl": "https://localhost:44391/",
+    "imagePath": "https://admin.bite-tech.co.il/Images/IFrame/",
+    "tvImagePath": "https://admin.bite-tech.co.il/Images/TV/",
+    "url":"https://test-api.bite-tech.co.il/",
+    "franchiseId":"293",
+    "useTranzilaIframe" :true,
+    "useMeshulamIframe" : false,
+    "meshulamEnviroment" : "DEV",
+    "tvColumns" :2,
+    "tvRows":6,
+    "tvTimer":15
+
+  }
+  
+    

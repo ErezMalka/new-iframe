@@ -1,0 +1,129 @@
+<!--div class="container order-container-wrapper animated fadeIn" (window:resize)="onResize($event)"-->
+<div class="row app-header-new d-none d-lg-flex" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+  style="position: fixed; top: 0; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);">
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn">
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/menu" routerLinkActive="active">
+        <span>{{"MENU" | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn">
+      <a class="link" style="color:#505050;" routerLink="/{{franchiseId}}/my-order" routerLinkActive="active">
+        <span>{{"MY_ADRESSES" | translate}}</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!--div class="col-auto" style="align-self: center;">
+    <div class="nav-btn" >
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/my-order-status/{{this.lastOrderId}}"
+        routerLinkActive="active">
+        <span>מעקב הזמנה</span>
+      </a>
+    </div>
+  </div-->
+
+
+
+  <div class="col"></div>
+
+
+  <!--div class="col-auto" style="align-self: center;">
+    <div class="lang" style="display: flex;">
+      <div class="wrapper" [ngClass]="{'selected': selectedLang == 'he'}" (click)="changeLanguage('he')">
+        עב
+      </div>
+      <div>
+        /
+      </div>
+      <div class="wrapper"  (click)="changeLanguage('en')">
+        EN
+      </div>
+    </div>
+  </div-->
+
+
+  <div *ngIf="currentBranch.BranchPhone!=null && currentBranch.BranchPhone!='null'" class="col-auto"
+    style="align-self: center;">
+    <div class="var-btn" style="display: flex;">
+      <div style="padding-bottom: 2px;">
+        <img src="../../../assets/images/items/tel-white-new.svg">
+      </div>
+      <div>
+        <div style="padding-right: 20px;">
+          {{currentBranch.BranchPhone}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="discount && discount.type=='Sum' && discount.sum!=0" class="col-auto" style="align-self: center;">
+    <div class="grey-btn">
+      {{"DISCOUNT" | translate}}: {{discount.sum}}{{"COMMON_CASH" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="discount && discount.type=='Percent' && discount.sum!=0" class="col-auto" style="align-self: center;">
+    <div class="grey-btn">
+      {{"DISCOUNT" | translate}}: {{discount.sum}}%
+    </div>
+  </div>
+
+  <div *ngIf="!isSignedUser" class="col-auto" style="align-self: center;">
+    <div class="grey-btn" (click)="loadSignInAndCoupons()">
+      {{"LOG_IN" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="isSignedUser" class="col-auto" style="align-self: center;">
+    <div class="red-btn" (click)="signOut()">
+      {{"SIGN_OUT" | translate}}
+    </div>
+  </div>
+</div>
+
+
+
+<div class="  animated fadeIn">
+  <div class="row pb-4">
+    <div class="col menu-category-name">
+      {{"MY_ADRESSES" | translate}}
+    </div>
+  </div>
+
+  <div class="row" *ngFor="let a of addresses; let $i=index">
+    <div class="col">
+    <button class="btn btn-block  address-btn" *ngIf="$i==0" >
+      <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+      <span class="textlabelh2" *ngIf=" a.ApartmentNum != null && a.ApartmentNum != undefined">
+        דירה {{a.ApartmentNum}}
+      </span>
+      <span class="textlabelh2" *ngIf=" a.Floor != null && a.Floor != undefined">
+        קומה {{a.Floor}}
+      </span>
+    </button>
+  
+
+  
+    <button class="btn btn-block address-btn " *ngIf="$i>0" >
+
+      <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+      <span class="textlabelh2" *ngIf="a.ApartmentNum != null && a.ApartmentNum != undefined">
+        דירה {{a.ApartmentNum}}
+      </span>
+      <span class="textlabelh2" *ngIf="a.Floor != null && a.Floor != undefined">
+        קומה {{a.Floor}}
+      </span>
+    </button>
+  </div>
+
+  <!--CUSTOMER INFO -->
+
+
+
+  <!--loader [show]="!checkLoading()"></loader-->

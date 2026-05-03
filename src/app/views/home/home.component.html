@@ -1,0 +1,187 @@
+<div *ngIf="!isDigitalMenu()">
+
+  <div class=" full-height" style="display: flex; flex-direction: column;  justify-content: space-around;"
+    [ngStyle]="{'background-image': 'url(' + ( isMobileMode() ? graphics.coverMobile : graphics.coverBackground2 )  + ')'}">
+    <!--div class="row mr-0 ml-0 mb-3"></div-->
+    <div class="row mr-0 ml-0 mt-3 mb-3">
+      <div class="col"></div>
+      <div class="col-auto ml-auto mr-auto">
+        <img *ngIf="displayLogo()" src="{{graphics.logo}}" style="width: 100px; height:100px; " />
+      </div>
+      <div class="col"></div>
+    </div>
+    <!--div *ngIf="!isMobileMode()" class="row mr-0 ml-0" style="min-height:350px;"></div-->
+    <!--div *ngIf="isMobileMode()"  class="row mr-0 ml-0" style="min-height:350px;"></div-->
+    <div class="row mr-0 ml-0 " *ngIf="isSomeOrderOptionsAvailable()">
+      <div class="col-auto ml-auto mr-auto pb-2" *ngIf="orderReceipt?.isDelivery"
+        (click)="!isMobileMode() ? selectCurrentOrderReceipt(false, true, false) : null">
+      <!--(click)="!isMobileMode() ? selectCurrentOrderReceipt(false, !selectedOrderReceipt.isDelivery, false) : null">-->
+        <!--img *ngIf="!isMobileMode()"
+          src="{{isMobileMode() ? graphics.deliveryUrlImageMobile : graphics.deliveryUrlImage}}"
+          style="margin-left: auto; margin-right: auto; width:250px;"/-->
+
+        <div *ngIf="!isMobileMode() && isLoaded" class="card text-white text-center"
+          [ngStyle]="{'background-color': colors.menuColor}">
+          <div class="row">
+            <div class="col"></div>
+            <div class="col-auto">
+              <img class="img-fluid" src="../../../assets/images/items/delivery-icon.png" />
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row pb-3" style="font-size: 1.5rem; font-weight: bold; letter-spacing: 2px;">
+            <div class="col">
+              {{ "HOME_OPTION_DELIVERY" | translate }}
+            </div>
+          </div>
+        </div>
+        <button *ngIf="isMobileMode()" type="button" class=" row btn btn-custom btn-home"
+          [ngStyle]="{'background-color': colors.menuColor}"
+          (click)="selectCurrentOrderReceipt(false, true, false)">
+          <!--(click)="selectCurrentOrderReceipt(false, !selectedOrderReceipt.isDelivery, false)">-->
+          <img src="../../../assets/images/items/delivery-icon.png" style="width: auto; height:60px; " />
+
+          <span class="btn-home-txt">{{ "HOME_OPTION_DELIVERY" | translate }}</span>
+        </button>
+        <!--img *ngIf="isMobileMode()"
+          src="{{isMobileMode() ? graphics.deliveryUrlImageMobile : graphics.deliveryUrlImage}}"
+          style="width: 100%; height:auto;" /-->
+      </div>
+      <div class="col-auto ml-auto mr-auto pb-2" *ngIf="orderReceipt?.isTakeAway"
+        (click)="!isMobileMode() ? selectCurrentOrderReceipt(false, false, !selectedOrderReceipt.isTakeAway) : null">
+        <!--img *ngIf="!isMobileMode()"
+          src="{{isMobileMode() ? graphics.takeAwayUrlImageMobile : graphics.takeAwayUrlImage}}"
+          style="margin-left: auto; margin-right: auto;"
+          [ngStyle]="{'width': isMobileMode() ? '100%!important': '250px'}" /-->
+
+        <div *ngIf="!isMobileMode()" class="card text-white text-center"
+          [ngStyle]="{'background-color': colors.menuColor}">
+          <div class="row">
+            <div class="col"></div>
+            <div class="col-auto">
+              <img class="img-fluid" src="../../../assets/images/items/TA-icon.png" />
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row pb-3" style="font-size: 1.5rem; font-weight: bold; letter-spacing: 2px;">
+            <div class="col">
+              {{ "HOME_OPTION_TAKE_AWAY" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <button *ngIf="isMobileMode()" type="button" class=" row btn btn-custom btn-home"
+          [ngStyle]="{'background-color': colors.menuColor}"
+          (click)="selectCurrentOrderReceipt(false, false, !selectedOrderReceipt.isTakeAway)">
+          <img src="../../../assets/images/items/TA-icon.png" style="width: auto; height:60px; " />
+          <span class="btn-home-txt">{{ "HOME_OPTION_TAKE_AWAY" | translate }}</span>
+        </button>
+        <!--img *ngIf="isMobileMode()"
+          src="{{isMobileMode() ? graphics.takeAwayUrlImageMobile : graphics.takeAwayUrlImage}}"
+          style="width: 100%; height:auto;" /-->
+      </div>
+      <div class="col-auto ml-auto mr-auto pb-2" *ngIf="orderReceipt?.isSit"
+        (click)="!isMobileMode() ? selectCurrentOrderReceipt(!selectedOrderReceipt.isSit, false, false) : null">
+        <!--img *ngIf="!isMobileMode()" src="{{isMobileMode() ? graphics.sitUrlImageMobile : graphics.sitUrlImage}}"
+          style="margin-left: auto; margin-right: auto;"
+          [ngStyle]="{'width': isMobileMode() ? '100%!important': '250px'}" /-->
+        <div *ngIf="!isMobileMode()" class="card text-white text-center"
+          [ngStyle]="{'background-color': colors.menuColor}">
+          <div class="row">
+            <div class="col"></div>
+            <div class="col-auto">
+              <img class="img-fluid" src="../../../assets/images/items/sit-icon.png" />
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row pb-3" style="font-size: 1.5rem; font-weight: bold; letter-spacing: 2px;">
+            <div class="col">
+              {{ "HOME_OPTION_SIT" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <button *ngIf="isMobileMode()" type="button" class="row btn btn-custom btn-home"
+          [ngStyle]="{'background-color': colors.menuColor}"
+          (click)="selectCurrentOrderReceipt(!selectedOrderReceipt.isSit, false, false)">
+          <img src="../../../assets/images/items/sit-icon.png" style="width: auto; height:60px;" />
+          <span class="btn-home-txt">{{ "HOME_OPTION_SIT" | translate }}</span>
+        </button>
+        <!--img *ngIf="isMobileMode()" src="{{isMobileMode() ? graphics.sitUrlImageMobile : graphics.sitUrlImage}}"
+          style="width: 100%; height:auto;" /-->
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!isMobileMode()">
+      <div class="col"></div>
+      <div class="col">
+        <div class="card animated fadeIn"
+          *ngIf="(!isMobileMode()) && isSomeOptionsSelected() && (_filteredBranches.length > 1)">
+          <div class="card-header">
+            {{ "HOME_SELECT_BRANCH" | translate }}
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <select (change)="selectedBranchChanged($event)" id="selectBranch" name="selectBranch"
+                  style="font-size: 1rem; width:100%">
+                  <option value="-2" disabled selected>{{ 'HOME_SELECT_BRANCH' | translate }}</option>
+                  <option *ngFor="let branch of _filteredBranches" [ngValue]="branch">
+                    <!-- [(ngModel)]="selectedBranch.Name"-->
+                    {{branch.Name}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-custom btn-block"
+                  [ngStyle]="{'background-color': colors.menuColor ? colors.menuColor : 'black' }"
+                  (click)="continueOrder()" [disabled]="!branchLoaded">
+                  {{ "HOME_OK" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col"></div>
+    </div>
+
+
+    <!--div class="select-branch-container animated fadeIn" *ngIf="(!isMobileMode()) && isSomeOptionsSelected() && (_filteredBranches.length > 1)">
+      <div class="select-branch-header">
+        {{ "HOME_SELECT_BRANCH" | translate }}
+      </div>
+      <div class="select-branch-list">
+       <form class="select-branch-form" >
+          <input type="text" [placeholder]="'HOME_BRANCH_ORDER' | translate"
+            class="select-branch" matInput [formControl]="branchControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let branch of filteredBranches | async" [value]="branch">
+              {{order?.IsDelivery ? '(' + ('COMMON_CASH' | translate) + branch.DeliveryBranchGroup?.DeliveryFee + ')' : ''}} {{branch.Name}}
+            </mat-option>
+          </mat-autocomplete>
+        </form>
+      </div>
+    </div>
+
+    <div class="button-submit-container" *ngIf="!isMobileMode() && isSomeOptionsSelected() && (_filteredBranches.length > 1)">
+    <button [disabled]="!isAvailableContinue()" (click)="continueOrder()"
+      [ngClass]="{'button-submit': !isAvailableContinue()}"
+      [ngStyle]="{'background-color': colors.buttonColor}" class="animated fadeIn">
+      <div class="button-container" [ngClass]="{'direction': lang != directionLanguage()}">
+        <div class="half-ellipse-confirm" [ngClass]="{'direction': lang != directionLanguage()}"></div>
+        <div class="content">
+          {{ "HOME_OK" | translate }}
+        </div>
+        <div class="arrow" [ngClass]="{'direction': lang != directionLanguage()}">
+          <img src="../../../assets/images/items/arrow-white-left.svg">
+        </div>
+      </div>
+    </button>
+  </div-->
+
+  </div>
+
+</div>
+
+<loader [show]="!isLoaded"></loader>

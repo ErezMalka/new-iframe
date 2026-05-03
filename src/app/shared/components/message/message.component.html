@@ -1,0 +1,8 @@
+<div class="message-container animated fadeIn" [ngClass]="{'direction': lang != 'he'}">
+  <div class="message-description" [ngClass]="{'error': type === 'error'}">
+    {{message}}
+  </div>
+  <div class="message-icon">
+    <img *ngIf="type === 'error'" src="../../../../assets/images/items/attention.png"/>
+  </div>
+</div>

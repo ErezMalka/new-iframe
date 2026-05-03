@@ -1,0 +1,168 @@
+<div class="popup-wrapper select-time-popup animated fadeIn">
+  <!--<div class="close-options-select-time" [ngClass]="{'direction': lang != 'he'}">
+    <div class="close-select-time" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></div>
+  </div>-->
+
+  <div class="select-time-container animated fadeIn">
+
+    <div *ngIf="isDelivery" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" class="row">
+
+      <div class="col-3" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+        <img src="../../../assets/images/items/delivery-icon-new.svg" />
+      </div>
+
+      <div class="col-6">
+        <div class="text-label-h2">{{'HOME_OPTION_DELIVERY' | translate}} </div>
+      </div>
+
+      <div class="col-3" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'right': 'left'}" [ngClass]="{'direction': lang != 'he'}" (click)="close()"
+        style="text-align: end; color: var(--orange); ">
+        <i class="fa fa-times fa-lg"></i>
+      </div>
+    </div>
+
+    <div *ngIf="isTA" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" class="row">
+
+      <div class="col-3" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+        <img src="../../../assets/images/items/TA-icon-new.svg" />
+      </div>
+
+      <div class="col-6">
+        <div class="text-label-h2">{{'HOME_OPTION_TAKE_AWAY' | translate}} </div>
+      </div>
+
+      <div class="col-3 " [ngStyle]="{'text-align':getLanguage() === 'en' ? 'right': 'left'}" [ngClass]="{'direction': lang != 'he'}" (click)="close()"
+        style="text-align: end; color: var(--orange); ">
+        <i class="fa fa-times fa-lg" ></i>
+      </div>
+    </div>
+
+    <div *ngIf="!branchOpen" style="margin-top: 12px;"></div>
+
+
+
+    <!--<div *ngIf="branchOpen">
+      <button class="save-order scale-item" (click)="continueOrder()">
+        <span>{{"START_MAKE_MY_FOOD" | translate}}</span>
+
+      </button>
+
+    </div>-->
+
+    <!--<div class="row" style="align-items: end; padding-bottom: 10px;">
+      <div class="col-5">
+        <div class="dotted-line"></div>
+      </div>
+      <div class="col-2" style="margin-bottom: -9px;">
+        <div class="text-label">{{ "OR" | translate }}</div>
+      </div>
+      <div class="col-5">
+        <div class="dotted-line"></div>
+      </div>
+    </div>-->
+
+    <div
+      style="border-bottom: 1px dashed #CECECE; margin-right: -14px; margin-left: -15px; margin-top: 16px; margin-bottom: 10px;">
+    </div>
+
+    <div class="time-selection" style="margin-bottom: -13px;">
+      <div class="row">
+        <div class="col-12">
+          <div class="header">{{ "SELECT_TIME" | translate }}
+            <!--{{header}}-->
+          </div>
+        </div>
+      </div>
+
+
+      <div class="select-branch-list">
+
+        <mat-dialog-content class="mat-dialog-content-custom">
+
+
+          <ng-container *ngFor="let option of txtArray; let $index=index">
+            <div *ngIf="option==selectedText" class="row item noselect" [ngClass]="{'selected': IsSelected}"
+              (click)="IsSelected=true; selectedText=option;">
+
+              <div style="position: relative;"> 
+                <i style=" position: absolute; left: -8px; top: 9px; transform: rotate(90deg); color: var(--orange); font-size: 40px;" class="fa fa-sort-down fa-lg"></i>
+              </div>
+
+              <div class="d-flex d-lg-none" style="position: relative;">
+                <i style=" position: absolute; left: -289px; top: 9px; transform: rotate(270deg); color: var(--orange); font-size: 40px;" class="fa fa-sort-down fa-lg"></i>
+              </div>
+
+              <div class="d-none d-lg-flex" style="position: relative;">
+                <i style=" position: absolute; left: -529px; top: 9px; transform: rotate(270deg); color: var(--orange); font-size: 40px;" class="fa fa-sort-down fa-lg"></i>
+              </div>
+              
+              <div class="col-12" style="align-self: center;"><b>{{option}}</b></div>
+
+            </div>
+
+            <div *ngIf="option!=selectedText" class="row item noselect" [ngClass]="{'selected': IsSelected}"
+              (click)="IsSelected=true; selectedText=option;">
+              <div class="col-12" style="align-self: center;">{{option}}</div>
+            </div>
+
+
+          </ng-container>
+
+
+
+
+
+          <!--<mat-label> </mat-label>
+                                    <mat-selection-list >
+                                      <!--mat-option></mat-option-->
+          <!--<mat-list-option class="option-custom" style="text-align: center !important;" *ngFor="let option of txtArray">{{ option }}</mat-list-option>
+                                    </mat-selection-list>-->
+        </mat-dialog-content>
+      </div>
+
+
+    </div>
+
+    <!--<mat-selection-list >
+      <!--mat-option></mat-option-->
+    <!--<mat-list-option class="option-custom" style="text-align: center !important;" *ngFor="let option of txtArray">{{ option }}</mat-list-option>
+    </mat-selection-list>-->
+
+
+
+
+    <div class="dotted-line"></div>
+
+  </div>
+
+  <div *ngIf="!isDelivery" class="row branch-info" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+    <div class="col-auto branch-icon">
+      <img *ngIf="branchOpen" src="../../../assets/images/items/branch-open.svg" />
+      <img *ngIf="!branchOpen" src="../../../assets/images/items/branch-close.svg" />
+    </div>
+    <div class="col" [ngStyle]="{'margin-left':getLanguage() === 'en' ? '-53px': ''}">
+      <div class="branch-name">{{branchName}}</div>
+    </div>
+  </div>
+
+
+
+
+  <div class="row">
+    <div class="col-12" style="padding: 0;">
+      <button class="save-order scale-item" (click)="continueOrder()"
+        style="width: 100%; padding: 0.5rem; border-radius: 5px; background-color: var(--orange); border: none; font-style: normal; font-weight: normal; font-size: 21px; line-height: 31px; letter-spacing: 0.1em; color: #FFFFFF;">
+        <span>{{ "HOME_OK" | translate }}</span>
+
+      </button>
+      <!--
+          <button (click)="cancelOrder()" class="cancel-order scale-item">
+            <span>{{ "HOME_CANCEL" | translate }}</span>
+          </button>-->
+    </div>
+  </div>
+
+
+
+
+</div>

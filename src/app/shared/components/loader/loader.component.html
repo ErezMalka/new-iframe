@@ -1,0 +1,5 @@
+<div class="loader" [ngStyle]="{'display': !show ? 'none': 'block'}">
+  <div class="ball-grid-pulse">
+    <div [ngStyle]="{'background-color' : color || ''}" *ngFor="let i of [1,2,3,4,5,6,7,8,9]"></div>
+  </div>
+</div>

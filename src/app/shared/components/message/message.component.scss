@@ -1,0 +1,44 @@
+@import "../../../../constants";
+
+.message-container {
+  margin: auto;
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  margin-left: -25%;
+
+  padding: $padding-normal-size;
+  font-size: $font-default-size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 0;
+  border-radius: $font-default-size;
+  box-shadow: 0px 3px 27px 0 rgba(53, 52, 52, 0.17);
+  background-color: #ffffff;
+  font-family: 'Alef-Regular', sans-serif;
+  .message-description {
+    flex: 0 0 90%;
+    font-family: 'Alef-Regular', sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+  }
+  .message-description.error {
+    color: #eb3e3e;
+  }
+  .message-icon {
+    flex: 0 0 10%;
+    img {
+      width: $font-default-size * 1.75;
+      height: $font-default-size * 1.75;
+    }
+  }
+}
+.message-container.direction {
+  flex-direction: row-reverse;
+}

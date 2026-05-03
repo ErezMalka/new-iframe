@@ -1,0 +1,5 @@
+<div class="arrow-wrapper">
+  <span class="arrow" [ngClass]="{'right': direction !== 'left', 'left': direction === 'left'}"
+        [ngStyle]="{'border-color': color}"
+    (click)="returnResult()"></span>
+</div>

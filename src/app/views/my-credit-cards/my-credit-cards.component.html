@@ -1,0 +1,95 @@
+<!--div class="container usableOrder-container-wrapper animated fadeIn" (window:resize)="onResize($event)"-->
+<div class="row app-header-new d-none d-lg-flex" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+  style="position: fixed; top: 0; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);">
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn">
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/menu" routerLinkActive="active">
+        <span>{{"MENU" | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn">
+      <a class="link" style="color:#505050;" routerLink="/{{franchiseId}}/my-usableOrder" routerLinkActive="active">
+        <span>{{"MY_SAVED_CARDS" | translate}}</span>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="col"></div>
+
+</div>
+
+
+
+<div class="animated fadeIn">
+  <div class="row masha">
+    <div class="col menu-category-name" style="font-weight: 600; font-size: 5vw; margin: 3vw 0;">
+      <span>{{"MY_SAVED_CARDS" | translate}}</span>
+    </div>
+  </div>
+
+  <div 
+    *ngIf="usableOrder.CCTokens && usableOrder.CCTokens.length > 0"
+    class="card" style="border: none;">
+    <perfect-scrollbar style="overflow-y: auto; height: 75vh;">
+      <!--div class="card-header">
+        <span style="vertical-align: middle;">
+          {{"CHOOSE_CREDIT_FOR_PAYMENT" | translate}}
+        </span>
+        <div class="card-header-actions">
+          <button type="button" class="btn btn-block btn-dark" (click)="addCC=true"
+            style="background-color: var(--orange) !important;">
+            <i class="fa fa-plus"></i>
+            {{"ADD_CREDIT_CARD" | translate}}
+          </button>
+        </div>y
+      </div-->
+      <div class="card-body" >
+
+        
+  
+  
+        <div class="btn-group-vertical " *ngIf="usableOrder.CCTokens && usableOrder.CCTokens.length > 0" style="width:100%;">
+          <button *ngFor="let cc of usableOrder.CCTokens" id="my-btn" type="button"
+            style="margin-bottom: 5vw; background: #FFFFFF; box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px; border: 1px solid #c8ced3;"
+            class="btn btn-block btn-outline-dark my-btn">
+            <div class="row">
+              <div class="col-3">              
+                <img style="width: 22px; height: 22px; margin-bottom: -5vw;" src="../../../assets/images/items/credit-card-new.svg" />
+              </div>
+
+              <div class="col-6">  
+                <span>{{cc.CardNumber }} **** **** **** </span>            
+                <!--{{"CARD_ENDING_WITH" | translate}}-->
+              </div>
+
+              <div class="col-3" type="button" (click)="removeCard(cc.Id)">              
+                <img style="width: 22px; height: 22px; margin-bottom: -5vw;" src="../../../assets/images/items/trash-new.svg" />
+                <!--span (click)="removeCard(cc)">{{"REMOVE_CARD" | translate}}</span-->
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <span>{{getExpDateStr(cc.ExpDate)}}</span>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
+
+  <!--CUSTOMER INFO -->
+
+
+
+</div>
+
+
+
+<!--loader [show]="!checkLoading()"></loader-->

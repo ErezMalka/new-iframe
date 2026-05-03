@@ -1,0 +1,109 @@
+<!--div class="container order-container-wrapper animated fadeIn" (window:resize)="onResize($event)"-->
+  <div class="  animated fadeIn" *ngIf="myOrder">
+    <div class="row pb-4">
+      <div class="col menu-category-name">
+        <span class="primary">{{ "ORDER_TRACK" | translate }}</span>
+        <span>{{myOrder.Id}}</span> 
+      </div>
+     
+    </div>
+    <div class="card d-none d-md-block" style="border: none;">
+      <!--div class="card-header">
+        <h6>Order ID: OD45345345435</h6>
+      </div-->
+      <div class="card-header" style="border: none;">
+        <!--div class="card-body row">
+          <div class="col"> <strong>Estimated Delivery time:</strong> <br>29 nov 2019 </div>
+          <div class="col"> <strong>Shipping BY:</strong> <br> BLUEDART, | <i class="fa fa-phone"></i> +1598675986 </div>
+          <div class="col"> <strong>Status:</strong> <br> Picked by the courier </div>
+          <div class="col"> <strong>Tracking #:</strong> <br> BD045903594059 </div>
+        </div-->
+        <div class="track">
+          <div class="step" [ngClass]="{'active': myOrder.OrderUserStatusId==0}"> 
+            <span class="icon"><i class="fa fa-check"></i></span> 
+            <span class="text" [ngClass]="{'text-active': myOrder.OrderUserStatusId==0}"> 
+              {{ "INCOMING" | translate }}
+            </span> 
+          </div>
+          <div class="step" [ngClass]="{'active': myOrder.OrderUserStatusId==1}"> 
+            <span class="icon"> <i class="fa fa-spinner"></i></span> 
+            <span class="text" [ngClass]="{'text-active': myOrder.OrderUserStatusId==1}"> 
+              {{ "INPROGRESS" | translate }}
+            </span> 
+          </div>
+          <div class="step" [ngClass]="{'active': myOrder.OrderUserStatusId==2}"> 
+            <span class="icon"> <i class="fa fa-bell"></i> </span> 
+            <span class="text"[ngClass]="{'text-active': myOrder.OrderUserStatusId==2}"> 
+              {{ "READY" | translate }}
+            </span> 
+          </div>
+          <div class="step" [ngClass]="{'active': myOrder.OrderUserStatusId==3}"> 
+            <span class="icon"> <i class="fa fa-motorcycle"></i> </span> 
+            <span class="text" [ngClass]="{'text-active': myOrder.OrderUserStatusId==3}"> 
+              {{ "INDELIVERY" | translate }}
+            </span> 
+          </div>
+          <div class="step" [ngClass]="{'active': myOrder.OrderUserStatusId==4}"> 
+            <span class="icon"> <i class="fa fa-shopping-bag"></i> </span> 
+            <span class="text" [ngClass]="{'text-active': myOrder.OrderUserStatusId==4}"> 
+              {{ "DELIVERED" | translate }}
+            </span> 
+          </div>
+        </div>
+      </div>
+    </div>
+        <!--mobile-->
+        <div class="row d-block d-md-none" style="border: none;">
+          <!--div class="card-header">
+            <h6>Order ID: OD45345345435</h6>
+          </div-->
+          <div class="col" style="border: none;">
+        <div class="track ">
+          <div class="step-mobile " [ngClass]="{'active': myOrder.OrderUserStatusId==0}"> 
+            <span class="icon-mobile">
+              <i class="fa fa-check fa-sm"></i> 
+            </span> <span class="text-mobile " [ngClass]="{'text-mobile-active': myOrder.OrderUserStatusId==0}">
+              {{ "INCOMING" | translate }}
+            </span> 
+          </div>
+          <div class="step-mobile" [ngClass]="{'active': myOrder.OrderUserStatusId==1}"> 
+            <span class="icon-mobile"> 
+              <i class="fa fa-spinner fa-sm"></i> 
+            </span> 
+            <span class="text-mobile" [ngClass]="{'text-mobile-active': myOrder.OrderUserStatusId==1}">
+              {{ "INPROGRESS" | translate }}
+            </span> 
+          </div>
+          <div class="step-mobile" [ngClass]="{'active': myOrder.OrderUserStatusId==2}"> 
+            <span class="icon-mobile"> 
+              <i class="fa fa-bell fa-sm"></i>
+             </span> 
+            <span class="text-mobile" [ngClass]="{'text-mobile-active': myOrder.OrderUserStatusId==2}">
+              {{ "READY" | translate }}
+            </span> 
+          </div>
+          <div class="step-mobile" [ngClass]="{'active': myOrder.OrderUserStatusId==3}"> 
+            <span class="icon-mobile"> 
+              <i class="fa fa-motorcycle fa-sm"></i> 
+            </span> 
+            <span class="text-mobile" [ngClass]="{'text-mobile-active': myOrder.OrderUserStatusId==3}">
+              {{ "INDELIVERY" | translate }}
+
+            </span> 
+          </div>
+          <div class="step-mobile" [ngClass]="{'active': myOrder.OrderUserStatusId==4}"> 
+            <span class="icon-mobile"> 
+              <i class="fa fa-shopping-bag fa-sm"></i> 
+            </span> 
+            <span class="text-mobile" [ngClass]="{'text-mobile-active': myOrder.OrderUserStatusId==4}">
+              {{ "DELIVERED" | translate }}
+            </span> 
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+ 
+
+<!--loader [show]="!checkLoading()"></loader-->

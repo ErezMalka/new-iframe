@@ -1,0 +1,18 @@
+{
+  "title": "yo yo welcome",
+  "header": "Payment by Credit Card",
+  "lbl_card_number": "Card Number:",
+  "lbl_expiry": "Expiry date:",
+  "lbl_cvv": "CVV:",
+  "lbl_card_holder_id": "Card holder ID:",
+  "lbl_amount": "Amount:",
+  "VALIDATION_CARD_NUMBER": "Incorrect credit card number.",
+  "VALIDATION_EXPIRY": "Invalid card expiration date.",
+  "VALIDATION_CVV": "Invalid CVV.",
+  "VALIDATION_HOLDER_ID": "Invalid holder ID number",
+  "placeholder_card_holder_id": "ID",
+  "placeholder_card_number": "Credit card number",
+  "placeholder_expiry": "MM/YYYY",
+  "placeholder_cvv": "CVV",
+  "copyright_message": "Tranzila ©Tranzilla Services - All rights reserved"
+}

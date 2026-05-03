@@ -1,0 +1,1192 @@
+<!--div class="container order-container-wrapper animated fadeIn" (window:resize)="onResize($event)"-->
+  <div class="  animated fadeIn">
+  <div class="row container mobile-branch-info d-flex d-lg-none"
+        [ngStyle]="{'color': getColor(), 'background-color': colors.menuColor}">
+    <div class="col-9 px-0" style="font-size: 0.9rem;">
+      {{displaySelectionOption()}} {{currentBranch?.Name}}
+    </div>
+   
+    <div  class="col-3 px-0" style="font-size: 0.9rem; text-align: left!important;" (click)="returnToPrevPage()">
+      {{'ORDER_GO_BACK_TO_MENU' | translate}}
+    </div>
+  </div>
+  <div class="order-container">
+    <div class="mobile-order-menu-top">
+      <div class="order-top-navigation" [ngClass]="{'background-color': this.colors.menuColor}" *ngIf="!isMobileMode()">
+        <div class="title" [ngStyle]="{'direction': lang != directionLanguage()}">
+          <span class="return-btn">
+            <return (returnAction)="returnToPrevPage()" [direction]="lang == directionLanguage() ? 'right' : 'left'"
+              [color]="colors.buttonColor"></return>
+          </span>
+          <span class="header" *ngIf="!isMobileMode()"
+            [ngStyle]="{'color': colors.buttonColor}">
+            {{ "ORDER_HEADER" | translate }}
+          </span>
+        </div>
+        <div class="logo">
+          <!--          <img [src]="graphics.logo"  *ngIf="!isMobileMode()" >-->
+          <span class="sign-out-container" *ngIf="isSignedUser">
+            <sign-out (signOut)="checkSigning($event)"></sign-out>
+          </span>
+        </div>
+      </div>
+      <!--div *ngIf="isMobileMode()" class="mobile-header"
+        [ngStyle]="{'background-color': defaultCategoryColor, 'background-image': 'url(' + graphics.logo + ')'}">
+        <span class="sign-out-container" *ngIf="isSignedUser">
+          <sign-out (signOut)="checkSigning($event)"></sign-out>
+        </span>
+      </div-->
+      <!--Tanya 190420-->
+
+      <!--div *ngIf="isMobileMode()" class="branch-information" [ngClass]="{'direction': lang != directionLanguage()}"
+        [ngStyle]="{'color': getColor(), 'background-color': colors.menuColor}">
+        <div class="menu-branch-information">{{displaySelectionOption()}} {{currentBranch?.Name}}</div>
+        <div class="reset">
+          <span (click)="returnToPrevPage()" class="reset-btn">{{'ORDER_GO_BACK_TO_MENU' | translate}}</span>
+        </div>
+      </div-->
+
+    </div>
+  </div>
+
+</div>
+
+<div class="col px-0"> <!--mobile-order-list-mobile-->
+  <div class="row" ><!--order-common-->
+    <div class="col short-explanation animated fadeIn" *ngIf="order?.IsDelivery && deliveryGroup && !isOrderOption">
+      <div class="line-group">
+        <div class="line" *ngIf="deliveryGroup.MinSumForDelivery"
+          [ngClass]="{'direction': lang != directionLanguage()}">
+          <img src="../../../assets/images/items/attention.svg" />
+          <span class="description" [ngStyle]="{ 'color' : colors.buttonColor }">
+            {{"ORDER_MINIMUM_ORDER" | translate}}
+          </span>
+          <span class="value">{{deliveryGroup.MinSumForDelivery}} {{"COMMON_CASH" | translate}}</span>
+        </div>
+        <div class="line" *ngIf="deliveryGroup.DeliveryFee" [ngClass]="{'direction': lang != directionLanguage()}">
+          <img src="../../../assets/images/items/delivery-guy.svg" />
+          <span class="description" [ngStyle]="{ 'color' : colors.buttonColor }">
+            {{"ORDER_DELIVERY_FEE" | translate}}
+          </span>
+          <span class="value">{{deliveryGroup.DeliveryFee}} {{"COMMON_CASH" | translate}} </span>
+        </div>
+      </div>
+
+      <div class="line-group">
+        <div class="line" *ngIf="branch.DeliveryTimeInMinutes" [ngClass]="{'direction': lang != directionLanguage()}">
+          <img src="../../../assets/images/items/time.svg" />
+          <span class="description" [ngStyle]="{ 'color' : colors.buttonColor }">
+            {{"ORDER_ESTIMATED_DELIVER_TIME" | translate}}
+          </span>
+          <span class="value">{{branch.DeliveryTimeInMinutes}} </span>
+        </div>
+
+      </div>
+
+    </div>
+    <!--    <div class="options"></div>-->
+  </div>
+
+  <div *ngIf="isOrderOption " class="card pt-0 px-0 side-cart" style="border:none"> <!--&& isMobileMode()-->
+    <!--div class="card-header">
+      {{ "ORDER_ORDER_DETAILS" | translate }}
+    </div-->
+    <div class="card-body pt-0 px-0" style="max-height:55vh; overflow-y: auto; overflow-x: hidden;">
+      <div class="row pb-2">
+        <div class="col"  style="font-weight: bold; text-align: center; font-size: 1.2rem" 
+             [ngStyle]="{'color': colors.menuColor}">
+          {{ "ORDER_ORDER_DETAILS" | translate }}
+        </div>
+      </div>
+     
+      <ng-container *ngFor="let itemOrderCombo of order.OrderCombos">
+        <div class="row  pt-2 pb-0">
+          <div class="col-6">
+            <!--<b>{{item?.Name}}</b>-->
+            <b>{{itemOrderCombo?.Name}}</b>
+            <br />
+            {{itemOrderCombo?.SpecialRequests}}
+          </div>
+         
+          <div class="col-3" style="padding-left: 2px; padding-right: 2px;">
+            <i class="fa fa-minus-circle fa-lg"  style="color:gray;"
+               (click)="subAmount(item)"></i>
+            <span><b>{{itemOrderCombo.Amount}}</b></span>
+            <i class="fa fa-plus-circle fa-lg" style="color: green;"
+               (click)="addAmount(item)"></i>
+          </div>
+          <div class="col-2" style="padding-left: 2px; padding-right: 2px;">
+            {{"COMMON_CASH" | translate}}{{itemOrderCombo?.Price}}
+          </div>
+          <div class="col-1" style="padding-left: 2px; padding-right: 2px;">
+            <i class="fa fa-remove fa-lg"  style="color:maroon;"
+               (click)="remove(item)"></i>
+          </div>
+        </div>
+        <ng-container *ngFor="let item of itemOrderCombo.Pizzas">
+          <div class="row  pt-2 pb-2">
+            <div class="col-6">
+              <!--<b>{{item?.Name}}</b>-->
+              {{item?.Name}}
+            </div>
+            <div class="col-2" style="padding-left: 2px; padding-right: 2px;">
+              {{"COMMON_CASH" | translate}}{{item?.Price}}
+            </div>              
+          </div>
+          <div class="row" 
+               *ngFor="let top of item.Toppings">
+            <div class="col-6">+ {{top.FullTopping.Name}}
+              <span *ngIf="top.FullTopping.QuarterNums.length > 0"> - </span>
+              <span *ngIf="top.FullTopping.QuarterNums.length == 1">
+                        {{ 'ORDER_QUARTER' | translate }}
+              </span>
+              <span *ngIf="top.FullTopping.QuarterNums.length == 2">
+                        {{ 'ORDER_HALF' | translate }}
+              </span>
+              <span *ngIf="top.FullTopping.QuarterNums.length == 3">
+                        {{ 'ORDER_THREEQUARTER' | translate }}
+                      </span>
+                      <span *ngIf="top.FullTopping.QuarterNums.length == 4">
+                        {{ 'ORDER_ALLPIZZA' | translate }}
+                      </span>
+              </div>
+            <div class="col-auto" *ngIf="top.Price > 0">
+              {{"COMMON_CASH" | translate}}{{(top.Price * itemOrderCombo.Amount)| roundPrice:2 }}
+            </div>
+            <div class="col-auto"></div>
+            <div class="col-auto"></div>
+            <div class="col-auto"></div>
+            <div class="col-auto"></div>
+          </div>
+        </ng-container>
+        <ng-container *ngFor="let item of itemOrderCombo.Items">
+          <div class="row  pt-2 pb-2">
+            <div class="col-6">
+              <!--<b>{{item?.Name}}</b>-->
+              {{item?.Name}}
+            </div>
+           </div>
+          <div class="row" *ngFor="let garnish of item.Garnishes">
+            <div class="col-6">+ {{garnish?.Name}}</div>
+            <div class="col-auto" *ngIf="garnish.Price > 0">
+              {{"COMMON_CASH" | translate}}{{ garnish.Price }}
+            </div>
+            
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngFor="let item of order.OrderPizzas">
+        <div class="row  pt-2 pb-2">
+          <div class="col-6">
+            <!--<b>{{item?.Name}}</b>-->
+            {{item?.FullPizza?.Name}}
+            <br />
+            {{item.SpecialRequests}}
+          </div>
+         
+          <div class="col-3" style="padding-left: 2px; padding-right: 2px;">
+            <i class="fa fa-minus-circle fa-lg"  style="color:gray;"
+               (click)="subAmount(item, true)"></i>
+            <span><b>{{item?.FullPizza?.Amount}}</b></span>
+            <i class="fa fa-plus-circle fa-lg" style="color: green;"
+               (click)="addAmount(item, true)"></i>
+          </div>
+          <div class="col-2" style="padding-left: 2px; padding-right: 2px;">
+            {{"COMMON_CASH" | translate}}{{item.FullPizza.SelectedPizzaPriceSize.Price}}
+          </div>
+          <div class="col-1" style="padding-left: 2px; padding-right: 2px;">
+            <i class="fa fa-remove fa-lg"  style="color:maroon;"
+               (click)="remove(item)"></i>
+          </div>
+        </div>
+        <div class="row" 
+             *ngFor="let top of item.FullPizza.SelectedToppings">
+          <div class="col-6">+ {{top?.Name}}
+          <span *ngIf="top.QuarterNums.length > 0"> - </span>
+                    <span *ngIf="top.QuarterNums.length == 1">
+                      {{ 'ORDER_QUARTER' | translate }}
+                    </span>
+                    <span *ngIf="top.QuarterNums.length == 2">
+                      {{ 'ORDER_HALF' | translate }}
+                    </span>
+                    <span *ngIf="top.QuarterNums.length == 3">
+                      {{ 'ORDER_THREEQUARTER' | translate }}
+                    </span>
+                    <span *ngIf="top.QuarterNums.length == 4">
+                      {{ 'ORDER_ALLPIZZA' | translate }}
+                    </span>
+            </div>
+          <div class="col-auto" *ngIf="top.TotalPrice > 0">
+            {{"COMMON_CASH" | translate}}{{(top.TotalPrice * item.FullPizza.Amount) | roundPrice:2 }}
+          </div>
+          <div class="col-auto"></div>
+          <div class="col-auto"></div>
+          <div class="col-auto"></div>
+          <div class="col-auto"></div>
+        </div>
+      </ng-container>
+      <ng-container *ngFor="let item of order.OrderItems">
+        <div class="row  pt-2 pb-2">
+          <div class="col-6">
+            <!--<b>{{item?.Name}}</b>-->
+            {{item?.Name}}
+            <br />
+            {{item.SpecialRequests}}
+          </div>
+         
+          <div class="col-3" style="padding-left: 2px; padding-right: 2px;">
+            <i *ngIf="!item.IsBonus" class="fa fa-minus-circle fa-lg"  style="color:gray;"
+               (click)="subAmount(item)"></i>
+            <span><b>{{item.Amount}}</b></span>
+            <i *ngIf="!item.IsBonus" class="fa fa-plus-circle fa-lg" style="color: green;"
+               (click)="addAmount(item)"></i>
+          </div>
+          <div class="col-2" style="padding-left: 2px; padding-right: 2px;">
+            {{"COMMON_CASH" | translate}}{{itemPrice(item) | roundPrice:2}}
+          </div>
+          <div class="col-1" style="padding-left: 2px; padding-right: 2px;">
+            <i class="fa fa-remove fa-lg"  style="color:maroon;"
+               (click)="remove(item)"></i>
+          </div>
+        </div>
+        <div class="row" *ngFor="let garnish of item.Garnishes">
+          <div class="col-6">+ {{garnish?.Name}}</div>
+          <div class="col-auto" *ngIf="garnish.Price > 0">
+            {{"COMMON_CASH" | translate}}{{ garnish.Price }}
+          </div>
+          <div class="col-auto"></div>
+          <div class="col-auto">{{garnish.Amount}}</div>
+          <div class="col-auto"></div>
+          <div class="col-auto"></div>
+        </div>
+      </ng-container>
+      <div class="row pt-2 pb-2">
+        <div class="col"><b>{{ "ORDER_TOTAL_PAYMENT" | translate }}</b></div>
+        <div class="col-3" style="padding-left: 2px; padding-right: 2px;">
+          <b>
+            {{ "COMMON_CASH" | translate }}{{ order.Sum  | roundPrice:2 }}
+         </b>
+        </div>
+        
+      </div>
+      <!--Coupon Code-->
+      <ng-container *ngIf="displayCuponCode()">
+        <div class="row">
+          <div class="col">יש לכם קוד קופון?</div>
+        </div>
+        <div class="row pt-2 pb-2">         
+          <div class="col">
+            <input type="text" id="cupon" name="cupon" class="form-control" 
+            [(ngModel)]="userCouponCode" placeholder="הכניסו קוד קופון">
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-custom btn-block"
+                    [ngStyle]="{'background-color': colors.menuColor}"
+                    (click)="checkCuponCode()">
+              השתמש בקופון
+            </button>            
+          </div>
+        </div>
+        <ng-container *ngIf="userCouponValid">
+          <div class="row pt-2 pb-2">
+            <div class="col"><b>{{ "ORDER_OFF"  | translate }}</b></div>
+            <div class="col-3">
+              <b>
+              <span class="sum-value">{{ userCuponDiscount }}%</span>             
+            </b>
+            </div>            
+          </div>
+          <!--div class="row pt-2 pb-2" style="font-weight: bold; font-size: 1.2rem" >
+            <div class="col">{{ "ORDER_TOTAL_PAYMENT" | translate }}</div>
+            <div class="col-3">
+              {{ "COMMON_CASH" | translate }}{{ resulPriceWithCuponCode() }}
+            </div>             
+          </div-->
+        </ng-container>
+       
+      </ng-container>
+     
+      <!--------------->
+       <!-- Scratch Coupon -->
+       <div class="order-item-for-mobile" [ngStyle]="{'direction': lang != directionLanguage()}"
+       *ngIf="isAvailableScratchCoupon()">
+
+       <div class="order-item-line">
+         <div class="column order-count ">
+           <div class="select-count-option">
+             <!--                      <span class="remove-item" [animation]="'pulse'" (click)="remove(item)">X</span>&lt;!&ndash; class="remove"&ndash;&gt;-->
+             <div class="mobile-counter">
+
+               <div class="count">
+                 {{scratchCoupon.CurrentItem.Amount}}
+               </div>
+
+             </div>
+           </div>
+         </div>
+         <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+           <div class="item-header" [ngStyle]="{'color': colors.buttonColor}">{{scratchCoupon.CurrentItem.Name}}
+           </div>
+         </div>
+         <div class="column order-count ">
+         </div>
+       </div>
+       <div class="order-item-line">
+         <div class="column order-count ">
+         </div>
+         <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+           <!--                    <div class="garnish-list">{{getGarnishes(scratchCoupon.CurrentItem)}}</div>-->
+           <!--                    <div class="garnish-list">{{scratchCoupon.CurrentItem?.GarnishesListDisplay}}-->
+           <div *ngFor="let g of scratchCoupon.CurrentItem?.GarnishesListDisplay" class="garnish-item">+ {{g}}
+           </div>
+         </div>
+         <div class="column order-count order-count-scratch-coupon">
+         </div>
+       </div>
+     </div>
+
+     <div class="order-item-for-mobile order-item-for-mobile-discount"
+       [ngStyle]="{'direction': lang != directionLanguage()}" *ngIf="checkAvailabilityDiscount()">
+
+       <div class="order-item-line">
+         <!--                  <div class="column order-count ">-->
+         <!--                  </div>-->
+         <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+           <div class="item-header item-header-discount"></div>
+         </div>
+         <div class="column order-count ">
+           <div class="sum-type-discount">
+             <span class="sum-value">{{ order.Sum  | roundPrice:2 }}</span>
+             <span class="sum-type"> {{ "COMMON_CASH" | translate }}</span>
+           </div>
+         </div>
+       </div>
+
+       <div class="order-item-line">
+         <!--                  <div class="column order-count ">-->
+         <!--                  </div>-->
+         <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+           <div class="item-header item-header-discount">{{ "ORDER_OFF" | translate }}</div>
+         </div>
+         <div class="column order-count ">
+           <div class="sum-type-discount" *ngIf="discount && discount.type == 'Percent'">
+             <span class="sum-value">{{ discount.sum  | roundPrice:2 }}</span>
+             <span class="sum-type"> {{ '' | discountType: discount.type }}</span>
+           </div>
+         </div>
+       </div>
+       <div class="order-item-line">
+   
+         <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+           <div class="item-header item-header-discount"></div>
+         </div>
+         <div class="column order-count ">
+           <div class="result-sum value column-20"
+             [ngClass]="{'direction-result-sum': lang != directionLanguage()}">
+
+             <span class="sign-sub">
+               -
+             </span>
+             <span class="discount-value-result">
+               <span class="value">
+                 {{ resultDiscountSum() | roundPrice: 2 }}
+               </span>
+               <span class="cash">
+                 {{ "COMMON_CASH" | translate }}
+               </span>
+             </span>
+           </div>
+         </div>
+       </div>
+
+     </div>
+    </div>
+  
+    <div class="remove-item-container" [ngClass]="{'direction': lang != directionLanguage()}">
+      <div class="remove-order-button" (click)="removeAll()">
+        <div>
+          <img src="../../../assets/images/items/remove-order.svg" />
+        </div>
+        <div> {{"ORDER_CLEAR" | translate}} </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isOrderOption && !isMobileMode()" class="order-main order-main-mobile" hidden> 
+
+    <div class="order-list-container" *ngIf="!isMobileMode()">
+      <div class="order-list" [ngClass]="{'direction': lang != directionLanguage()}">
+        <div class="order-header" [ngClass]="{'direction': lang != directionLanguage()}">
+          {{ "ORDER_ORDER_DETAILS" | translate }}
+        </div>
+       
+       
+        <div *ngIf="!isMobileMode()" class="scroll-container order-list-items">
+          <!--ng-scrollbar thumbClass="custom-scrollbars"
+                        [viewClass]="'custom-view-definition'"
+                        [disableOnBreakpoints]="false"-->
+      
+          <div class="order-item-container "
+            [ngClass]="{'order-item-container-left': lang == directionLanguage(), 'order-item-container-right': lang != directionLanguage()}">
+            <div class="order-item" *ngFor="let item of order.OrderItems"
+              [ngClass]="{'direction': lang != directionLanguage()}">
+              <div class="order-item-line">
+                <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                  <span class="item-header">{{item.Name}}</span>
+                  <span class="garnish-list"> {{item.SpecialRequests}}</span>
+                </div>
+              </div>
+              <div class="order-item-line">
+                <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                  <!--                    <div class="garnish-list">{{getGranishesWithDevider(item)}}</div>-->
+                  <div class="garnish-list">{{item.GarnishesStringDisplay}}</div>
+                </div>
+                <div class="column order-count ">
+                  <span class="order-price" [ngClass]="{'direction': lang != directionLanguage()}">
+                    {{itemPrice(item) | roundPrice:2}} {{"COMMON_CASH" | translate}}
+                  </span>
+                  <div class="select-count-option">
+                    <div class="counter">
+                      <div *ngIf="!item.IsBonus" class="minus noselect" [ngClass]="{'direction': lang != directionLanguage()}"
+                        (click)="subAmount(item)">
+                        -
+                      </div>
+                      <div class="count">
+                        {{item.Amount}}
+                      </div>
+                      <div *ngIf="!item.IsBonus" class="plus noselect" [ngClass]="{'direction': lang != directionLanguage()}"
+                        (click)="addAmount(item)">
+                        +
+                      </div>
+                    </div>
+                  </div>
+                  <span class="remove-item" [animation]="'pulse'" (click)="remove(item)">X</span><!-- class="remove"-->
+                </div>
+              </div>
+            </div>
+
+            <div class="order-item" *ngFor="let item of order.OrderPizzas"
+              [ngClass]="{'direction': lang != directionLanguage()}">
+              <div class="order-item-line" *ngIf="item && item.FullPizza">
+                <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                  <div class="item-header">{{item.FullPizza.Name}}</div>
+                </div>
+              </div>
+              <div class="order-item-line" *ngIf="item && item.FullPizza">
+                <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                  <div class="garnish-list">
+                    <div class="topping" *ngFor="let top of item.FullPizza.SelectedToppings">
+                      <span>+ {{top.Name}}</span>
+                      <span *ngIf="top.QuarterNums.length > 0"> - </span>
+                      <span *ngIf="top.QuarterNums.length == 1">{{ 'ORDER_QUARTER' | translate }}</span>
+                      <span *ngIf="top.QuarterNums.length == 2">{{ 'ORDER_HALF' | translate }}</span>
+                      <span *ngIf="top.QuarterNums.length == 3">{{ 'ORDER_THREEQUARTER' | translate }}</span>
+                      <span *ngIf="top.QuarterNums.length == 4">{{ 'ORDER_ALLPIZZA' | translate }}</span>
+                      <span *ngIf="top.TotalPrice > 0" class="price"> -
+                        {{ 'COMMON_CASH' | translate }}{{(top.TotalPrice * item.FullPizza.Amount) | roundPrice: 2}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="column order-count ">
+                  <span class="order-price" [ngClass]="{'direction': lang != directionLanguage()}">
+                    {{itemPrice(item, true) | roundPrice:2 }} {{"COMMON_CASH" | translate}}
+                  </span>
+                  <div class="select-count-option">
+                    <div class="counter">
+                      <div class="minus noselect" [ngClass]="{'direction': lang != directionLanguage()}"
+                        (click)="subAmount(item, true)">
+                        -
+                      </div>
+                      <div class="count">
+                        {{item.FullPizza.Amount}}
+                      </div>
+                      <div class="plus noselect" [ngClass]="{'direction': lang != directionLanguage()}"
+                        (click)="addAmount(item, true)">
+                        +
+                      </div>
+                    </div>
+                  </div>
+                  <span class="remove-item" [animation]="'pulse'" (click)="remove(item, true)">X</span>
+                  <!-- class="remove"-->
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Combos -->
+
+
+            <div class="order-item" *ngFor="let itemOrderCombo of order.OrderCombos"
+              [ngClass]="{'direction': lang != directionLanguage()}">
+
+              <div class="order-item-line">
+                <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                  <div class="item-header">{{itemOrderCombo.Name}}</div>
+                </div>
+
+                <div class="column order-count ">
+                  <span class="order-price" [ngClass]="{'direction': lang != directionLanguage()}">
+                    {{itemComboPrice(itemOrderCombo) | roundPrice:2}} {{"COMMON_CASH" | translate}}
+                  </span>
+                  <div class="select-count-option">
+                    <div class="counter">
+                      <div class="minus noselect" [ngClass]="{'direction': lang != directionLanguage()}"
+                        (click)="subAmount(itemOrderCombo)">
+                        -
+                      </div>
+                      <div class="count">
+                        {{itemOrderCombo.Amount}}
+                      </div>
+                      <div class="plus noselect" [ngClass]="{'direction': lang != directionLanguage()}"
+                        (click)="addAmount(itemOrderCombo)">
+                        +
+                      </div>
+                    </div>
+                  </div>
+                  <span class="remove-item" [animation]="'pulse'" (click)="remove(itemOrderCombo)">X</span>
+                  <!-- class="remove"-->
+                </div>
+              </div>
+              <div class="order-item-line order-item-line-combo">
+                <div class="order-item order-item-combo" *ngFor="let item of itemOrderCombo.Pizzas"
+                  [ngClass]="{'direction': lang != directionLanguage()}">
+                  <div class="order-item-line">
+                    <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                      <div class="item-header">{{item.Name}}</div>
+                    </div>
+                  </div>
+                  <div class="order-item-line" *ngIf="item && item.Toppings">
+                    <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                      <div class="garnish-list">
+                        <div class="topping" *ngFor="let top of item.Toppings">
+                          <span>+ {{top.FullTopping.Name}}</span>
+                          <span *ngIf="top.FullTopping.QuarterNums.length > 0"> - </span>
+                          <span *ngIf="top.FullTopping.QuarterNums.length == 1">{{ 'ORDER_QUARTER' | translate }}</span>
+                          <span *ngIf="top.FullTopping.QuarterNums.length == 2">{{ 'ORDER_HALF' | translate }}</span>
+                          <span
+                            *ngIf="top.FullTopping.QuarterNums.length == 3">{{ 'ORDER_THREEQUARTER' | translate }}</span>
+                          <span
+                            *ngIf="top.FullTopping.QuarterNums.length == 4">{{ 'ORDER_ALLPIZZA' | translate }}</span>
+                          <span *ngIf="top.Price > 0" class="price"> -
+                            {{ 'COMMON_CASH' | translate }}{{(top.Price * itemOrderCombo.Amount) | roundPrice: 2}}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="column order-count ">
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="order-item order-item-combo" *ngFor="let item of itemOrderCombo.Items"
+                  [ngClass]="{'direction': lang != directionLanguage()}">
+                  <div class="order-item-line">
+                    <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                      <div class="item-header">{{item.Name}}</div>
+                    </div>
+                  </div>
+                  <div class="order-item-line">
+                    <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                      <div class="garnish-list">
+                        <ng-container *ngFor="let it of item.GarnishGroups">
+                          <div class="topping" *ngFor="let top of it.Garnishes">
+                            <span>+ {{top.Name}}</span>
+                            <span *ngIf="top.Price > 0" class="price"> -
+                              {{ 'COMMON_CASH' | translate }}{{(top.Price * itemOrderCombo.Amount) | roundPrice: 2}}
+                            </span>
+                          </div>
+                        </ng-container>
+                        <div class="topping" *ngFor="let top of item.Garnishes">
+                          <span>+ {{top.Name}}</span>
+                          <span *ngIf="top.Price > 0" class="price"> -
+                            {{ 'COMMON_CASH' | translate }}{{(top.Price * itemOrderCombo.Amount) | roundPrice: 2}}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+ <!--Coupon Code-->
+ <ng-container *ngIf="displayCuponCode()">
+  <div class="row pt-2 pb-2">    
+    <div class="col-auto">יש לכם קוד קופון?</div>     
+    <div class="col">
+      <input type="text" id="cupon" name="cupon" class="form-control" 
+      [(ngModel)]="userCouponCode" placeholder="הכניסו קוד קופון">
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-sm btn-custom btn-block"
+              [ngStyle]="{'background-color': colors.menuColor}"
+              (click)="checkCuponCode()">
+        השתמש בקופון
+      </button>            
+    </div>
+  </div>
+  <ng-container *ngIf="userCouponValid">
+    <div class="row pt-2 pb-2">
+      <div class="col"><b>{{ "ORDER_OFF"  | translate }}</b></div>
+      <div class="col-3">
+        <b>
+        <span class="sum-value">{{ userCuponDiscount }}%</span>             
+      </b>
+      </div>            
+    </div>
+    <!--div class="row pt-2 pb-2" style="font-weight: bold; font-size: 1.2rem" >
+      <div class="col">{{ "ORDER_TOTAL_PAYMENT" | translate }}</div>
+      <div class="col-3">
+        {{ "COMMON_CASH" | translate }}{{ resulPriceWithCuponCode() }}
+      </div>             
+    </div-->
+  </ng-container>
+ 
+</ng-container>
+
+<!--------------->
+
+            <!-- Scratch Coupon -->
+
+            <div class="order-item" [ngStyle]="{'direction': lang != directionLanguage()}"
+              *ngIf="isAvailableScratchCoupon()">
+
+              <div class="order-item-line">
+                <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                  <div class="item-header" [ngStyle]="{'color': colors.buttonColor}">{{scratchCoupon.CurrentItem.Name}}
+                  </div>
+                </div>
+                <div class="column order-count ">
+                </div>
+              </div>
+              <div class="order-item-line">
+                <div class="column order-name" [ngClass]="{'direction': lang != directionLanguage()}">
+                  <!--                    <div class="garnish-list">{{getGranishesWithDevider(scratchCoupon.CurrentItem, false)}}</div>-->
+                  <div class="garnish-list">{{scratchCoupon.CurrentItem?.GarnishesStringDisplay}}</div>
+                </div>
+                <div class="column order-count order-count-scratch-coupon">
+
+                  <div class="select-count-option">
+                    <div class="counter">
+                      <div class="minus noselect" [ngClass]="{'direction': lang != directionLanguage()}">
+                        <!--(click)="subAmount(scratchCoupon.CurrentItem)"-->
+                        <!-- - -->
+                      </div>
+                      <div class="count">
+                        {{scratchCoupon.CurrentItem.Amount}}
+                      </div>
+                      <div class="plus noselect" [ngClass]="{'direction': lang != directionLanguage()}">
+                        <!-- (click)="addAmount(scratchCoupon.CurrentItem)"-->
+                        <!--+-->
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="discount" *ngIf="checkAvailabilityDiscount()">
+              <div class="sum column-auto">
+             
+                <div class="sum-type-discount fixed-direction-left-position"
+                  *ngIf="discount && discount.type == 'Percent'">
+                  <span class="sum-value">{{ discount.sum  | roundPrice:2 }}</span>
+                  <span class="sum-type"> {{ '' | discountType: discount.type }}</span>
+                </div>
+              </div>
+              <div class="description column-auto">
+                {{ "ORDER_OFF" | translate }}
+              </div>
+              <div class="result-sum value column-20" [ngClass]="{'direction-result-sum': lang != directionLanguage()}">
+
+                <span class="sign-sub">
+                  -
+                </span>
+                <span class="discount-value-result">
+                  <span class="value">
+                    {{ resultDiscountSum() | roundPrice: 2 }}
+                  </span>
+                  <span class="cash">
+                    {{ "COMMON_CASH" | translate }}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="go-to-menu">
+              <div class="add-to-order-button" [ngClass]="{'direction': lang != directionLanguage()}">
+                <img src="../../../assets/images/items/add-icon.svg" (click)="addToOrder()">
+                <span>{{"ORDER_ADD_TO_ORDER" | translate}}</span>
+              </div>
+            </div>
+          </div>
+          <!--/ng-scrollbar-->
+        </div>
+
+        <div class="remove-item-container" [ngClass]="{'direction': lang != directionLanguage()}">
+          <div class="remove-order-button" (click)="removeAll()">
+            <div>
+              <img src="../../../assets/images/items/remove-order.svg" />
+            </div>
+            <div> {{"ORDER_CLEAR" | translate}} </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="!isOrderOption" class="order-main">
+
+    <div class="order-list-container order-list-container-mobile">
+      <div class="order-list" [ngClass]="{'direction': lang != directionLanguage()}">
+        <div class="order-header" [ngClass]="{'direction': lang != directionLanguage()}">
+          {{ "ORDER_ORDER_PAYMENT_DETAILS" | translate }}
+        </div>
+        <div class="common-settings common-settings-payment"
+          *ngIf="paymentSettings.Cash || (paymentSettings.CreditCard)">
+          <div class="type-payment" [ngClass]="{'direction': lang != directionLanguage()}">
+            <div *ngIf="paymentSettings.CreditCard" class="type-card" [animation]="'pulse'"
+              [ngClass]="{'selected': paymentType === 'credit'}" (click)="paymentType = 'credit'; clearErrorFields();">
+              <div class="icon">
+                <img src="../../../assets/images/items/credit-card.png" *ngIf="paymentType !== 'credit'">
+                <img src="../../../assets/images/items/credit-card-selected.png" *ngIf="paymentType === 'credit'">
+              </div>
+              <div class="text">
+                {{"ORDER_PAYMENT_TYPE_CREDIT" | translate}}
+              </div>
+            </div>
+            <div *ngIf="paymentSettings.Cash" class="type-cash" [animation]="'pulse'"
+              [ngClass]="{'selected': paymentType === 'cash'}" (click)="paymentType = 'cash';  clearErrorFields();">
+              <div class="icon">
+                <img src="../../../assets/images/items/paper-money-selected.png" *ngIf="paymentType === 'cash'">
+                <img src="../../../assets/images/items/paper-money.png" *ngIf="paymentType !== 'cash'">
+              </div>
+              <div class="text">
+                {{"ORDER_PAYMENT_TYPE_CASH" | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-container order-list-items">
+          <div class="order-information-container-payment">
+            <div class="order-information-cash" *ngIf="paymentType === 'cash'"
+              [ngClass]="{'direction': lang != directionLanguage()}">
+              <div class="order-line">
+                <div class="relative-item">
+                  <label *ngIf="orderErrors.FirstName" [ngClass]="{'error-field-label': orderErrors.FirstName}"></label>
+                  <input class="input-field input-field-small-with-icon placeholder-appear"
+                    [ngClass]="{'error-field': orderErrors.FirstName}" [(ngModel)]="order.FirstName"
+                    placeholder="{{'ORDER_INFO_FIRST_NAME' | translate}}" (focus)="removeErrorWhileFocus('FirstName')"
+                    [ngStyle]="{'background-image': 'url(../../../assets/images/items/face.png'}" type="text" />
+                </div>
+                <div class="relative-item">
+                  <label *ngIf="orderErrors.LastName" [ngClass]="{'error-field-label': orderErrors.LastName}"></label>
+                  <input class="input-field input-field-small-with-icon placeholder-appear" [(ngModel)]="order.LastName"
+                    placeholder="{{'ORDER_INFO_LAST_NAME' | translate}}"
+                    [ngClass]="{'error-field': orderErrors.LastName}" (focus)="removeErrorWhileFocus('LastName')"
+                    [ngStyle]="{'background-image': 'url(../../../assets/images/items/face.png)'}" type="text" />
+                </div>
+              </div>
+              <div class="sub-information sub-information-cash" [ngClass]="{'direction': lang != directionLanguage()}"
+                *ngIf="order.IsDelivery">
+                <div class="order-line order-line order-line-mobile">
+
+                  <div class="relative-item">
+                    <input (keypress)="restrictKeysExceptDigitsAndPlus($event)"
+                      class="input-field input-field-small-with-icon placeholder-appear" [(ngModel)]="order.ExtraPhone"
+                      placeholder="{{'ORDER_INFO_PHONE_NUMBER' | translate}}"
+                      [ngStyle]="{'background-image': 'url(../../../assets/images/items/phone.png)'}" type="text" />
+                  </div>
+
+
+                </div>
+               
+
+
+              </div>
+              <div class="order-line  order-line-mobile">
+                <input class="input-field input-field-with-icon placeholder-appear comments-spec-design"
+                  [ngStyle]="{'background-image': 'url(../../../assets/images/items/comments.png)', 'background-position': '99%'}"
+                  [(ngModel)]="order.Comments" placeholder="{{'ORDER_INFO_GENERAL_COMMENTS' | translate}}">
+              </div>
+              <div class="row pt-2 pb-2">
+                <div class="col">
+                  <div class="form-check form-check-inline ml-0">
+                    <input class="form-check-input" type="checkbox" id="terms"
+                      [(ngModel)]="acceptTerms">
+                    <label class="form-check-label ml-1" for="terms">
+                     קראתי ואני מסכים 
+                     <button type="button" class="btn btn-link px-0 py-0 pt-0 pb-1" style="font-size:1rem;"
+                             data-toggle="modal" (click)="termsModal.show()">
+                      לתנאי השימוש
+                     </button>
+                     <span class="inline">,&nbsp;</span>
+                     <button type="button" class="btn btn-link  px-0 pt-0 pb-1" style="font-size:1rem;"
+                             data-toggle="modal" (click)="policyModal.show()">
+                       ולמדיניות הפרטיות
+                      </button>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="!acceptTerms && acceptTermsError">
+                <div class="col">
+                  <alert type="danger">
+                    יש לאשר תנאי השימוש ואת מדיניות הפרטיות
+                  </alert>
+                </div>               
+              </div>
+            </div>
+            <div class="order-information-credit order-information-credit-mobile" *ngIf="paymentType === 'credit'"
+              [ngClass]="{'direction': lang != directionLanguage()}">
+              <div class="order-line">
+
+                <div class="relative-item">
+                  <label *ngIf="orderErrors.FirstName" [ngClass]="{'error-field-label': orderErrors.FirstName}"></label>
+                  <input class="input-field input-field-small-with-icon placeholder-appear"
+                    [(ngModel)]="order.FirstName" [ngClass]="{'error-field': orderErrors.FirstName}"
+                    (focus)="removeErrorWhileFocus('FirstName')" placeholder="{{'ORDER_INFO_FIRST_NAME' | translate}}"
+                    [ngStyle]="{'background-image': 'url(../../../assets/images/items/face.png)'}" type="text" />
+                </div>
+
+                <div class="relative-item">
+                  <label *ngIf="orderErrors.LastName" [ngClass]="{'error-field-label': orderErrors.LastName}"></label>
+                  <input class="input-field input-field-small-with-icon placeholder-appear"
+                    [ngClass]="{'error-field': orderErrors.LastName}" (focus)="removeErrorWhileFocus('LastName')"
+                    [(ngModel)]="order.LastName" placeholder="{{'ORDER_INFO_LAST_NAME' | translate}}"
+                    [ngStyle]="{'background-image': 'url(../../../assets/images/items/face.png)'}" type="text" />
+                </div>
+
+              </div>
+              <div class="sub-information" [ngClass]="{'direction': lang != directionLanguage()}"
+                *ngIf="order.IsDelivery">
+                <div class="order-line for-phone-mobile">
+                  <div class="relative-item">
+                    <input (keypress)="restrictKeysExceptDigitsAndPlus($event)"
+                      class="input-field input-field-small-with-icon placeholder-appear" [(ngModel)]="order.ExtraPhone"
+                      placeholder="{{'ORDER_INFO_PHONE_NUMBER' | translate}}"
+                      [ngStyle]="{'background-image': 'url(../../../assets/images/items/phone.png)'}" type="text" />
+                  </div>
+            
+
+                </div>
+               
+              </div>
+              <input class="input-field input-field-with-icon  placeholder-appear comments-spec-design"
+                [ngStyle]="{'background-image': 'url(../../../assets/images/items/comments.png)', 'background-position': '99%'}"
+                [(ngModel)]="order.Comments" placeholder="{{'ORDER_INFO_GENERAL_COMMENTS' | translate}}">
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div *ngIf="paymentType === 'credit'" class="credit-details">
+        <div class="order-line order-line-mobile">
+
+          <div class="relative-item">
+            <label *ngIf="orderErrors.ownerId" [ngClass]="{'error-field-label': orderErrors.ownerId}"></label>
+            <input *ngIf="country !== 'us'" [ngClass]="{'error-field': orderErrors.ownerId}"
+              class="input-field input-field-small-with-icon placeholder-appear"
+              (keypress)="restrictKeysExceptDigitsAndPlus($event, true)" placeholder="{{ 'ORDER_CCIDNUM' | translate }}"
+              [(ngModel)]="cashRegisterCreditCard.ownerId" (focus)="removeErrorWhileFocus('ownerId')"
+              [ngStyle]="{'background-image': 'url(../../../assets/images/items/face.png)'}" type="tel" />
+          </div>
+
+          <div class="relative-item">
+            <label *ngIf="orderErrors.number" [ngClass]="{'error-field-label': orderErrors.number}"></label>
+
+            <input class="input-field input-field-small-with-icon placeholder-appear"
+              [ngClass]="{'error-field': orderErrors.number}" (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+              placeholder="{{ 'ORDER_CCNUM' | translate }}" [(ngModel)]="cashRegisterCreditCard.number"
+              (focus)="removeErrorWhileFocus('number')"
+              [ngStyle]="{'background-image': 'url(../../../assets/images/items/credit-number.png)'}" type="tel" />
+          </div>
+
+        </div>
+        <div class="order-line order-line-mobile">
+      
+
+          <div class="relative-item">
+            <label *ngIf="orderErrors.cvv" [ngClass]="{'error-field-label': orderErrors.cvv}"></label>
+
+            <input class="input-field input-field-small-with-icon placeholder-appear"
+              [ngClass]="{'error-field': orderErrors.cvv}" placeholder="{{ 'ORDER_CVV' | translate }}"
+              (keypress)="restrictKeysExceptDigitsAndPlus($event, true)" [(ngModel)]="cashRegisterCreditCard.cvv"
+              (focus)="removeErrorWhileFocus('cvv')" maxlength="3" minlength="3" type="tel"
+              [ngStyle]="{'background-image': 'url(../../../assets/images/items/credit-number.png)'}" type="tel" />
+
+          </div>
+
+          <div class="relative-item form-group">
+            <label *ngIf="orderErrors.expirationMonth || orderErrors.expirationYear"
+              [ngClass]="{'error-field-label': orderErrors.expirationMonth || orderErrors.expirationYear}"></label>
+              <input [(ngModel)]="date" autocomplete="off" class="form-control" 
+                     name="date" bsDatepicker 
+                    [bsConfig]="{dateInputFormat: 'MM/YYYY'}" 
+                    (onShown)="onOpenCalendar($event)"
+                    (bsValueChange)="onValueChange($event)"
+                    class="input-field input-field-small-with-icon placeholder-appear" 
+                    (focus)="removeExpirationErrors()"
+                    [ngStyle]="{'background-image': 'url(../../../assets/images/items/date.png)'}"
+                    >
+<!--
+            <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+              (monthSelected)="chosenMonthHandler($event, dp)">
+            </mat-datepicker>
+            <input readonly matInput (click)="dp.open()"
+              [ngClass]="{'error-field': orderErrors.expirationMonth || orderErrors.expirationYear}"
+              class="input-field input-field-small-with-icon placeholder-appear" (focus)="removeExpirationErrors()"
+              [ngStyle]="{'background-image': 'url(../../../assets/images/items/date.png)'}" [matDatepicker]="dp"
+              placeholder="{{ 'ORDER_VALIDITY' | translate }}" [formControl]="date">
+          -->
+          </div>
+
+
+        </div>
+        <div class="row pt-2 pb-2">
+          <div class="col">
+            <div class="form-check form-check-inline ml-0">
+              <input class="form-check-input" type="checkbox" id="terms"
+                [(ngModel)]="acceptTerms">
+              <label class="form-check-label ml-1" for="terms">
+               קראתי ואני מסכים 
+               <button type="button" class="btn btn-link px-0 pt-0 pb-1" style="font-size:1rem;"
+                       data-toggle="modal" (click)="termsModal.show()">
+                לתנאי השימוש
+               </button>
+               <span class="inline">,</span>
+               <button type="button" class="btn btn-link px-0 pt-0 pb-1" style="font-size:1rem;"
+                       data-toggle="modal" (click)="policyModal.show()">
+                 ולמדיניות הפרטיות
+                </button>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="!acceptTerms && acceptTermsError">
+          <div class="col">
+            <alert type="danger">
+              יש לאשר תנאי השימוש ואת מדיניות הפרטיות
+            </alert>
+          </div>   
+        </div>
+      
+
+        <div class="credit-details-line"></div>
+        <div class="credit-details-bg-line" [ngClass]="{'direction': lang != directionLanguage()}"></div>
+      </div>
+
+    </div>
+
+  </div>
+  
+
+  <ng-container *ngIf="isOrderOption && isMobileMode()"> <!-- -->
+    <div class="row pt-2 pb-2" style="font-weight: bold; font-size: 1.2rem" >
+      <div class="col">{{ "ORDER_TOTAL_PAYMENT" | translate }}</div>
+      <div class="col-3">
+        {{ "COMMON_CASH" | translate }}{{resultSumWithoutDelivery(order.Sum) | roundPrice:2}}
+      </div>             
+    </div>
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-lg btn-custom btn-block" 
+                style="font-size: 1rem"
+                [ngStyle]="{'background-color': this.colors.menuColor}" 
+                [ngClass]="{'direction': lang != directionLanguage(),
+                'disabled-button-submit': !isAllValidDataToContinue()}" 
+                (click)="continuePayment()">
+          {{"ORDER_CONTINUE_TO_PAY" | translate}}
+        </button>
+      </div>
+
+    </div>
+  </ng-container>
+
+  
+
+<!--Old Design + DESKTOP + USA logic!!!-->
+  <div *ngIf="isOrderOption && !isMobileMode()" class="order-main">
+    <div class="order-list-container">
+      <div class="order-list-summary" [ngClass]="{'direction': lang != directionLanguage()}">
+        <div class="order-wrapper-line"></div>
+        <div class="order">
+          <div class="order-count">
+            <div class="count-of-order" [ngClass]="{'direction': lang != directionLanguage()}">
+              <img src="../../../assets/images/items/order-light.svg">
+              <span class="items">
+                {{countOfItems()}} {{"ORDER_ITEMS" | translate}}
+              </span>
+            </div>
+          </div>
+          <div class="order-divider"></div>
+
+          <div class="order-sum">
+
+            <div class="sum-line" *ngIf="branch && branch.UsaTaxProc  &&
+                   order && resultSumWithoutDeliveryAndTax(order.Sum) !== resultSumWithoutDelivery(order.Sum)">
+              <div class="description">{{"ORDER_SUM" | translate}}</div>
+              <div class="price">
+                <span class="symbol">{{"COMMON_CASH" | translate}}</span>
+                <span class="sum">{{resultSumWithoutDeliveryAndTax(order.Sum) | roundPrice:2}}</span>
+              </div>
+            </div>
+            <div class="sum-line" *ngIf="branch && branch.UsaTaxProc  &&
+              order && resultSumWithoutDeliveryAndTax(order.Sum) !== resultSumWithoutDelivery(order.Sum)">
+              <div class="description">{{"ORDER_TAX" | translate}}</div>
+              <div class="price">
+                <span class="symbol"></span>
+                <span class="sum">{{branch.UsaTaxProc | roundPrice:2}}%</span>
+              </div>
+            </div>
+            <div class="sum-line">
+              <div class="description">{{"ORDER_TOTAL_PAYMENT" | translate}}</div>
+              <div class="price">
+                <span class="symbol">{{"COMMON_CASH" | translate}}</span>
+                <span class="sum-total">{{resultSumWithoutDelivery(order.Sum) | roundPrice:2}}</span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="order-information-container">
+      <div class="common-settings" [ngClass]="{'direction': lang != directionLanguage() }">
+        <div class="submit-order-container" [ngClass]="{'direction': lang != directionLanguage() }">
+          <button class="button-submit-order" [ngStyle]="{'background-color': this.colors.menuColor}" [ngClass]="{'direction': lang != directionLanguage(),
+                    'disabled-button-submit': !isAllValidDataToContinue()}" (click)="continuePayment()">
+            {{"ORDER_CONTINUE_TO_PAY" | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isOrderOption" class="order-main"
+    [ngClass]="{'order-list-result': paymentType === 'credit', 'order-list-result-mobile': isMobileMode()}">
+    <div class="order-list-container">
+      <div class="order-list-summary" [ngClass]="{'direction': lang != directionLanguage()}">
+        <div class="order-wrapper-line" *ngIf="!isMobileMode()"></div>
+        <div class="order">
+          <div class="order-count">
+            <div class="count-of-order" [ngClass]="{'direction': lang != directionLanguage()}">
+              <img src="../../../assets/images/items/order-light.svg">
+              <span class="items">
+                {{countOfItems()}} {{"ORDER_ITEMS" | translate}}
+              </span>
+            </div>
+          </div>
+          <div class="order-divider"></div>
+          <div class="order-sum">
+
+            <div class="sum-line" *ngIf="branch && branch.UsaTaxProc  &&
+                   order && resultSumWithoutDeliveryAndTax(order.Sum) !== resultSumWithoutDelivery(order.Sum)">
+              <div class="description">{{"ORDER_SUM_WITHOUT_TAX" | translate}}</div>
+              <div class="price">
+                <span class="symbol">{{"COMMON_CASH" | translate}}</span>
+                <span class="sum">{{resultSumWithoutDeliveryAndTax(order.Sum) | roundPrice:2}}</span>
+              </div>
+            </div>
+
+            <div class="sum-line" *ngIf="branch && branch.UsaTaxProc  &&
+              order && resultSumWithoutTax(order.Sum) !== resultSum(order.Sum)">
+              <div class="description">{{"ORDER_TAX" | translate}}</div>
+              <div class="price">
+                <span class="symbol"></span>
+                <span class="sum">{{branch.UsaTaxProc | roundPrice:2}}%</span>
+              </div>
+            </div>
+
+            <div class="sum-line" *ngIf="deliveryGroup &&
+              order && resultSumWithoutDelivery(order.Sum) !== resultSum(order.Sum)">
+              <div class="description">{{"ORDER_SUM" | translate}}</div>
+              <div class="price">
+                <span class="symbol">{{"COMMON_CASH" | translate}}</span>
+                <span class="sum">{{resultSumWithoutDelivery(order.Sum) | roundPrice:2}}</span>
+              </div>
+            </div>
+            <div class="sum-line"
+              *ngIf="deliveryGroup && order && isDeliveryConditionValid() && resultSumWithoutDelivery(order.Sum) !== resultSum(order.Sum)">
+              <div class="description">{{"ORDER_DELIVERY_FEE" | translate}}</div>
+              <div class="price">
+                <span class="symbol">{{"COMMON_CASH" | translate}}</span>
+                <span class="sum">{{deliveryGroup.DeliveryFee | roundPrice:2}}</span>
+              </div>
+            </div>
+
+            <div class="sum-line">
+              <div class="description">{{"ORDER_TOTAL_PAYMENT" | translate}}</div>
+              <div class="price">
+                <span class="symbol">{{"COMMON_CASH" | translate}}</span>
+                <span class="sum-total">{{resultSum(order.Sum) | roundPrice:2}}</span>
+              </div>
+            </div>
+       
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="order-information-container">
+      <div class="common-settings" [ngClass]="{'direction': lang != directionLanguage() }">
+        <div class="submit-order-container" [ngClass]="{'direction': lang != directionLanguage()}">
+          <button class="button-submit-order" [ngStyle]="{'background-color': this.colors.menuColor}"
+            [ngClass]="{'direction': lang != directionLanguage()}" (click)="payment()">
+            {{"ORDER_SUMMARY" | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div bsModal #termsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dark modal-lg modal-dialog-scrollable " role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h4 class="modal-title">תנאי שימוש</h4>
+        <button type="button" class="close" (click)="termsModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <app-terms></app-terms>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn btn-block btn-dark" (click)="termsModal.hide()">אישור</button>
+        <!--button type="button" class="btn btn-primary">Save changes</button-->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #policyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-dark modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">מדיניות הפרטיות</h4>
+        <button type="button" class="close" (click)="policyModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <app-policy></app-policy>
+      </div>
+      <div class="modal-footer">
+        <button type="button"   class="btn btn-block btn-dark" (click)="policyModal.hide()">אישור</button>
+        <!--button type="button" class="btn btn-primary">Save changes</button-->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<loader [show]="!checkLoading()"></loader>

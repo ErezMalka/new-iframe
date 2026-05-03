@@ -1,0 +1,106 @@
+
+<div class="popup-wrapper-ds animated fadeIn">
+
+  <!--MOBILE-->
+  <div class="d-lg-none d-block   sign-in-dialog-new">
+
+   
+
+    <div class="code animated fadeIn"  >
+      <div class="header-container">
+        <div class="header-new mb-3">
+          {{'CODE_TO_CONTINUE' | translate}}
+        </div>
+      </div>
+      
+       
+    </div>
+
+    <div class="sign-in-form animated fadeIn">
+      <!--<div class="input-group">-->
+      <div class="phone-error animated fadeInUp" *ngIf="errorMessage !=''" [ngClass]="{'direction': lang != 'he'}">
+        {{errorMessage}}
+      </div>
+
+     
+
+      <div   class="input-wrapper-code animated fadeIn">
+        <input type="text" class="input-field input-phone-code-new placeholder-appear"
+          
+          (focus)="errorMessage = '';" placeholder=" " [(ngModel)]="code" />
+      </div>
+      
+      <div class="row">
+        <button type="button"  
+        class="btn btn-block btn-custom text-white"
+        style="font-size: 21px;
+                line-height: 33px;
+                letter-spacing: 0.2em;
+                padding:0;
+                border-radius: 5px;
+                height: 2.5rem;
+                margin-top: 1rem; padding-top: 0.2rem;"
+          
+      (click)="handlerCode()">
+      {{ "FORM_SIGN_IN" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!--DESKTOP-->
+
+  <div class="d-none d-lg-block   sign-in-dialog-new" style="margin: auto; margin-right: auto !important; ">
+     
+    
+
+
+    <div class="code animated fadeIn" >
+      <div class="header-container">
+        <div class="header-new mb-3">
+          {{'CODE_TO_CONTINUE' | translate}}
+        </div>
+      </div>
+     
+       
+    </div>
+
+    <div class="sign-in-form animated fadeIn">
+      <!--<div class="input-group">-->
+      <div class="phone-error animated fadeInUp" *ngIf="errorMessage != ''" [ngClass]="{'direction': lang != 'he'}">
+        {{errorMessage}}
+      </div>
+
+      
+
+      <div   class="input-wrapper-code animated fadeIn">
+        <input type="text" class="input-field input-phone-code-new placeholder-appear"
+          
+          (focus)="errorMessage = '';" placeholder="" [(ngModel)]="code" />
+      </div>
+      <!--</div>-->
+
+      <div class="row">
+ 
+
+        <div class="col">
+           
+            <button type="button" 
+                    class="btn btn-block btn-custom text-white"
+                    style="font-size: 21px;
+                          line-height: 33px;
+                          letter-spacing: 0.2em;
+                          padding:0;
+                          border-radius: 5px;
+                          height: 2.5rem;
+                          margin-top: 1rem; padding-top: 0.2rem;"
+                     
+                  (click)="handlerCode()">
+            {{ "FORM_SIGN_IN" | translate }}
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

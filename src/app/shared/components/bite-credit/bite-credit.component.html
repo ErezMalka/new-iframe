@@ -1,0 +1,1194 @@
+<!--JOIN MEMBERSHIP MOBILE-->
+
+
+<div class="mat-dialog-wrapper-close" *ngIf=" isMobileModeCheck()">
+
+  <div class="row back-container" (click)="close(true)">
+    <div class="col-3"> <i class="fa fa-long-arrow-right" style="color: white;" aria-hidden="true"></i></div>
+    <div class="col-6 back-header">{{"BACK" | translate}}</div>
+    <div class="col-3"></div>
+  </div>
+
+  <div class="mat-dialog-wrapper py-0">
+    <div class="header">{{creditName}} </div>
+    <!--div class="row" style="border-bottom: 1px dashed #B6B6B6; margin: 0px 9vw;"> </div-->
+    <div style="border: 1px dashed #B6B6B6; margin-bottom: 10px;"></div>
+    <ng-container *ngIf="step == 0 ">
+      <div class="row">
+        <div class="col" style="text-align: center; margin: 2vh; font-weight: 700; font-size: 25px;">
+          <span>{{creditName}} - הכסף שלכם שווה יותר </span> 
+        </div>
+      </div>
+  
+      <div class="row" style="margin: 1vh; margin-top: 2vh;">
+        <div class="col" style="text-align: center;  font-weight: 400; font-size: 21px; line-height: normal; color:black">
+          <span>טוענים סכום ומקבלים תוספת</span> 
+          &nbsp;
+          <span style="color: var(--orange);">  {{creditAddedValuePercent}}%</span>
+          
+          <span style="color: var(--orange);">+</span>
+        </div>
+      </div>
+      <div class="row" style="margin: 1vh; margin-top: 2vh;" >
+        <div class="col text-center">
+          <div class="row" style="margin: 1vh; margin-top: 2vh;">
+            <div class="col text-center">
+              <img src="../../../assets/images/bite-credit/credit1.svg" />
+              <div  class="mt-1" style="font-weight: 600; font-size: 16px; line-height: 18px; ">
+                טועמים סכום
+              </div>
+            </div>
+          </div>
+          <div class="row"  style="margin: 1vh; margin-top: 2vh;">
+            <div class="col text-center">
+              <svg width="56" height="52" viewBox="0 0 56 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_56_1120)">
+                  <path
+                    d="M40.543 1.0834C40.9196 2.78793 41.3424 4.49298 41.4721 6.23707C41.6009 7.97198 41.6379 9.72477 41.5507 11.4618C41.3734 14.961 40.7064 18.4482 39.68 21.7902C37.5487 28.7328 33.5163 34.9832 28.2947 39.9766C27.3126 40.9156 26.2732 41.832 25.1867 42.6988C25.3604 42.669 25.5355 42.6386 25.7098 42.6101C29.116 42.0392 32.5323 41.7155 35.9904 41.7444C36.5226 41.7489 36.6638 42.6473 36.1492 42.8023C32.8781 43.7838 29.5762 44.6259 26.268 45.4645C24.6724 45.8693 23.0899 46.3002 21.5245 46.8065C20.7272 47.0644 19.9256 47.3194 19.1356 47.6012C18.204 47.9354 17.3355 48.3996 16.3676 48.6255C15.5546 48.8186 14.6233 48.2705 14.2281 47.5947C13.7662 46.8064 13.8371 45.9697 14.3057 45.2027C15.8206 42.7171 17.0876 40.0772 18.4312 37.493C19.815 34.8307 21.198 32.1703 22.5818 29.508C23.237 28.2486 24.5787 27.56 25.9338 28.3064C27.2789 29.0477 27.4349 30.5589 26.7312 31.7981C25.2585 34.391 23.7877 36.9847 22.315 39.5776C23.143 38.9847 23.949 38.3631 24.7318 37.7103C27.354 35.5238 29.6202 33.0806 31.6062 30.2935C35.3597 25.0265 37.7626 18.8281 38.6191 12.4015C38.8648 10.5602 39.0201 8.70417 39.043 6.84562C39.0656 5.00467 39.1182 3.14902 38.9187 1.31764C38.8024 0.255545 40.3159 0.0538326 40.5441 1.08607L40.543 1.0834Z"
+                    fill="var(--orange)" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_56_1120">
+                    <rect width="42.7827" height="37.49" fill="white"
+                      transform="matrix(0.916217 -0.400683 -0.400683 -0.916217 15.9731 51.6289)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <div class="row"  style="margin: 1vh; margin-top: 2vh;">
+            <div class="col text-center">
+              <img src="../../../../assets/images/bite-credit/credit2.svg" />
+              <div   class="mt-1" style="font-weight: 600; font-size: 16px; line-height: 18px; ">
+                מבצעים הזמנה  
+              </div>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col text-center">
+              <svg width="56" height="52" viewBox="0 0 56 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_56_1120)">
+                  <path
+                    d="M40.543 1.0834C40.9196 2.78793 41.3424 4.49298 41.4721 6.23707C41.6009 7.97198 41.6379 9.72477 41.5507 11.4618C41.3734 14.961 40.7064 18.4482 39.68 21.7902C37.5487 28.7328 33.5163 34.9832 28.2947 39.9766C27.3126 40.9156 26.2732 41.832 25.1867 42.6988C25.3604 42.669 25.5355 42.6386 25.7098 42.6101C29.116 42.0392 32.5323 41.7155 35.9904 41.7444C36.5226 41.7489 36.6638 42.6473 36.1492 42.8023C32.8781 43.7838 29.5762 44.6259 26.268 45.4645C24.6724 45.8693 23.0899 46.3002 21.5245 46.8065C20.7272 47.0644 19.9256 47.3194 19.1356 47.6012C18.204 47.9354 17.3355 48.3996 16.3676 48.6255C15.5546 48.8186 14.6233 48.2705 14.2281 47.5947C13.7662 46.8064 13.8371 45.9697 14.3057 45.2027C15.8206 42.7171 17.0876 40.0772 18.4312 37.493C19.815 34.8307 21.198 32.1703 22.5818 29.508C23.237 28.2486 24.5787 27.56 25.9338 28.3064C27.2789 29.0477 27.4349 30.5589 26.7312 31.7981C25.2585 34.391 23.7877 36.9847 22.315 39.5776C23.143 38.9847 23.949 38.3631 24.7318 37.7103C27.354 35.5238 29.6202 33.0806 31.6062 30.2935C35.3597 25.0265 37.7626 18.8281 38.6191 12.4015C38.8648 10.5602 39.0201 8.70417 39.043 6.84562C39.0656 5.00467 39.1182 3.14902 38.9187 1.31764C38.8024 0.255545 40.3159 0.0538326 40.5441 1.08607L40.543 1.0834Z"
+                    fill="var(--orange)" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_56_1120">
+                    <rect width="42.7827" height="37.49" fill="white"
+                      transform="matrix(0.916217 -0.400683 -0.400683 -0.916217 15.9731 51.6289)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+          </div>
+          <div class="row"  >
+            <div class="col text-center">
+              <img src="../../../../assets/images/bite-credit/credit3.svg" />
+              <div   class="mt-1" style="font-weight: 600; font-size: 16px; line-height: 18px; ">
+                מקבלים הנחה בכל הזמנה
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="step == 1 ">
+      <div class="row">
+        <div class="col" style="text-align: center; margin: 2vh; font-weight: 700; font-size: 25px;">
+          <span>בחרו סכום לטעינה</span> 
+        </div>
+      </div>
+      <div class="row" style="margin: 1vh; margin-top: 3vh;">
+        
+        <div *ngFor="let item of creditOptionsArr" class="col">
+          <button *ngIf="!isSumSelected(item)" type="button" class="btn-block btn btn-primary" (click)="selectSum(item)"
+                  style="color: var(--orange); border-color: var(--orange); background-color: #FFFFFF;">
+            {{item}}
+          </button>
+          <button *ngIf="isSumSelected(item)" type="button" class="btn-block btn btn-primary"
+                  style="background-color: var(--orange); border-color: var(--orange); color: #FFFFFF;">
+            {{item}}
+          </button>
+        </div>
+         
+      </div>
+      <div *ngIf="allowCustomCreditSum" class="row" style="margin: 1vh; margin-top: 3vh;">
+        
+        <div class="col-auto" style="font-weight: 600; font-size: 18px; line-height:auto; ">
+         סכום אחר:
+        </div>
+        <div class="col" >
+          <input type="tel" [(ngModel)]="customSum" style="height: 40px;"/>
+        </div>
+        <div class="col " > </div>
+        
+      </div>
+      <div *ngIf="selectedSum > 0 || customSum > 0" class="row" style="margin: 1vh; margin-top: 3vh;">
+        
+        <div class="col-auto" style="font-weight: 600; font-size: 18px; line-height:auto; ">
+         קרדיט לאחר טעינה:
+        </div>
+        <div class="col-auto"
+          style="font-weight: 600; font-size: 18px; line-height:auto; color: var(--orange)" >
+          {{calcTotalCredit()}} ש"ח
+        </div>
+        <div class="col " > </div>
+        
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="step == 2 ">
+      <div class="row">
+        <div class="col" style="text-align: center; margin: 2vh; font-weight: 700; font-size: 25px;">
+          בחירת אמצעי תשלום
+        </div>
+      </div>
+      <div class="row" style="margin: 1vh; margin-top: 3vh;">
+     
+        <div class="col text-center">
+          <button  type="button" class="btn bite-credit-pay-btn-mobile " 
+                  [ngStyle]="{'border':paymentType == 'credit' ? 'solid': 'none'}"
+                  (click)="paymentType = 'credit';" >
+            <img src="../../../assets/images/bite-credit/cc.svg" />
+            <div style="text-align: center;  color:black; ">אשראי</div>
+            
+          </button>
+           
+        </div>
+        <div *ngIf="Cibus" class="col text-center">
+          <button  type="button"  class="btn bite-credit-pay-btn-mobile " 
+                  [ngStyle]="{'border':paymentType == 'sibus' ? 'solid': 'none'}"
+                   (click)="paymentType = 'sibus';" >
+            <img src="../../../assets/images/bite-credit/cibus.png" />
+            <div style="text-align: center;  color:black; ">סיבוס</div>
+            
+          </button>
+           
+        </div>
+        <div *ngIf="Tenbis" class="col text-center">
+          <button  type="button"  class="btn bite-credit-pay-btn-mobile " 
+                  [ngStyle]="{'border':paymentType == 'tenbis' ? 'solid': 'none'}"
+                  (click)="paymentType = 'tenbis';" >
+            <img src="../../../assets/images/bite-credit/tenbis.png" />
+            <div style="text-align: center; color:black; "> תן ביס</div>
+           
+          </button>
+           
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="step == 3 ">
+      <ng-container *ngIf="paymentType == 'credit' && displayPelecardIframe">
+        <div  class="row pb-3" style="z-index: 50000;">       
+          <div class="col text-center" *ngIf="timer > -1">
+            <alert type="info" style="z-index: 50000;">
+              <strong>
+                {{getTimerMsg()}}
+              </strong>            
+            </alert>
+          </div>
+        </div>
+         <iframe *ngIf="!hidePelecardIframe" id="pelecardIframe"  allowpaymentrequest [src]="pelecardIframeUrlSanitized" 
+                style="position: fixed; top: 15vh; left: 50%; transform: translateX(-50%);border:none; width: 100%; height:75vh; overflow-y: hidden; " ><!--padding-bottom:9vh;-->
+
+      </iframe> 
+      </ng-container>
+      <ng-container *ngIf="paymentType == 'credit' && !usePelecardIframe">
+        <div style="margin: 2vh;"
+        *ngIf="(cashRegister.cashRegisterType == 'Tranzila' || cashRegister.isTranzila) && ccTokens.length > 0 && !addCC"
+        class="card">
+        <perfect-scrollbar>
+          <div class="card-header">
+            <span style="vertical-align: middle;">
+              {{"CHOOSE_CREDIT_FOR_PAYMENT" | translate}}
+            </span>
+            <div class="card-header-actions">
+              <button type="button" class="btn btn-block btn-primary" (click)="addCreditCard()"
+                style="background-color: var(--orange) !important; border-color: var(--orange) !important;">
+                <i class="fa fa-plus"></i>
+                {{"ADD_CREDIT_CARD" | translate}}
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+  
+  
+            <div class="btn-group-vertical " *ngIf="ccTokens.length > 0" style="width:100%;">
+              <button *ngFor="let cc of ccTokens" id="my-btn" type="button"
+                class="btn btn-block btn-outline-dark my-btn" [ngClass]="{'active': selectedCcId === cc.Id}"
+                (click)="selectCCToken(cc.Id);">
+                <i class="fa fa-credit-card fa-xl"></i>
+                &nbsp;
+                <span>{{"CARD_ENDING_WITH" | translate}}</span>
+                &nbsp;
+                <span>{{cc.CardNumber }}</span>
+                <br>
+                <span>{{"EXP_DATE" | translate}} {{getExpDateStr(cc.ExpDate)}}</span>
+                <!--span (click)="removeCard(cc)">{{"REMOVE_CARD" | translate}}</span-->
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </perfect-scrollbar>
+        </div>
+        
+        <div style="margin: 2vh;"
+        *ngIf="(cashRegister.cashRegisterType != 'Tranzila' && !cashRegister.isTranzila) || ccTokens.length == 0 || addCC">
+          <div class="row  " style="font-size: 14px; font-weight: 400;">
+            <div class="col-auto ">
+              אמצעי תשלום: אשראי
+            </div>
+           
+          </div>
+          <div style="border: 1px dashed #B6B6B6; margin-bottom: 10px;"></div>
+  
+          <div class="row" *ngIf="addCC && ccTokens.length > 0">
+            <div class="col" style="margin-bottom: 1vh; text-align: center; text-decoration: underline;">
+              <span (click)="backToSavedCC()">{{"BACK_TO_SAVED_CC" | translate}}</span>
+            </div>
+          </div>
+  
+  
+          <div class="row mt-3 ">
+            <div class="col customer-info-text-mobile"> {{"ORDER_CCIDNUM" | translate}} </div>
+          </div>
+  
+          <div class="row form-group" >
+            <div class="col">
+              <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.ownerId}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-id-card-o"></i></span>
+                </div>
+                <input type="tel" id="ownerId" class="form-control" tabindex="10"
+                  (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+                  [(ngModel)]="cashRegisterCreditCard.ownerId" name="ownerId"
+                  placeholder="{{'WRITE_HERE' | translate}}" (focus)="removeErrorWhileFocus('ownerId')">
+                <!--div class="invalid-feedback">
+                                              Please provide a valid information.
+                                          </div-->
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mt-3 ">
+            <div class="col customer-info-text-mobile"> {{"ORDER_CCNUM" | translate}} </div>
+          </div>
+  
+          <div class="row form-group">
+            <div class="col">
+              <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.number}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                </div>
+                <input type="tel" id="ccnum" class="form-control" tabindex="11"
+                  (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+                  [(ngModel)]="cashRegisterCreditCard.number" name="ccnum" placeholder="{{'WRITE_HERE' | translate}}"
+                  (focus)="removeErrorWhileFocus('number')">
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mt-3 ">
+            <div class="col customer-info-text-mobile"> {{"ORDER_VALIDITY" | translate}} </div>
+            <div class="col customer-info-text-mobile"> {{"EXP_YEAR" | translate}} </div>
+            <div class="col-5 customer-info-text-mobile"> {{"ORDER_CVV" | translate}} </div>
+          </div>
+  
+          <div class="row form-group">
+            <div class="col">
+              <div class="input-group valid"
+                [ngClass]="{'is-invalid': orderErrors.expirationMonth || orderErrors.expirationYear}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <select class="form-control" (focus)="removeExpirationErrors()" tabindex="12"
+                  style="border: none;background-color: whitesmoke; "
+                  [(ngModel)]="cashRegisterCreditCard.expirationMonth" name="exp-month" id="exp-month">
+                  <option value="" disabled selected hidden>{{"EXP_MONTH" | translate}}</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+              </div>
+            </div>
+  
+            <div class="col">
+              <div class="input-group valid"
+                [ngClass]="{'is-invalid': orderErrors.expirationMonth || orderErrors.expirationYear}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+                <select class="form-control" style="border: none;background-color: whitesmoke; "
+                  (focus)="removeExpirationErrors()" tabindex="13" [(ngModel)]="cashRegisterCreditCard.expirationYear"
+                  name="exp-year" id="exp-month">
+                  <option value="" disabled selected hidden>{{"EXP_YEAR" | translate}}</option>
+                  <option *ngFor="let y of years" [value]="y">{{y}}</option>
+                </select>
+              </div>
+            </div>
+  
+            <div class="col-5">
+              <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.cvv}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-credit-card-alt"></i></span>
+                </div>
+                <input type="tel" class="form-control" tabindex="14"
+                  (keypress)="restrictKeysExceptDigitsAndPlus($event, true)" [(ngModel)]="cashRegisterCreditCard.cvv"
+                  name="cvv" placeholder="{{'WRITE_HERE' | translate}}" [ngClass]="{'is-invalid': orderErrors.cvv}"
+                  maxlength="3" minlength="3" (focus)="removeErrorWhileFocus('cvv')">
+              </div>
+            </div>
+          </div>
+  
+          <div class="row mt-3 ">
+            <div class="col-auto mt-1" style="font-size: 14px; height: 50px;">
+              <div style="margin-top: 12px"> {{"SECURED" | translate}}</div>
+             
+            </div>
+            <div class="col-2" style="padding: 0; margin-left: -2rem;"> 
+              <img  class="img-fluid" class="img-fluid" src="../../../assets/images/items/credit1.svg" />
+            </div>
+            <div class="col-2" style="padding: 0; margin-left: -2rem; ">
+              <img  class="img-fluid"src="../../../assets/images/items/credit2.svg" />
+            </div>
+            <div class="col-3" style="padding: 0; margin-top: 0.6rem;">
+              <img  src="../../../assets/images/items/credit3.svg" />
+            </div>
+          </div>
+          <div class="row mt-3 form-group" *ngIf="cashRegister.cashRegisterType == 'Tranzila' || cashRegister.isTranzila">
+            <div class="col">
+              <div class="form-check form-check-inline ml-0" style="font-size: 14px; margin-top: 12px">
+                <input class="form-check-input" type="checkbox" id="saveCC" [(ngModel)]="order.SaveCredit">
+                <label class="form-check-label ml-1" style="font-size: 14px;" for="saveCC">
+                  {{"SAVE_CREDIT_CARD" | translate}}
+                </label>
+              </div>
+            </div>
+            
+            
+          </div>
+          <div class="row  " style="font-size: 18px; font-weight: 700;">             
+            <div class="col ">
+              <span>סכום טעינת הכרטיס:</span>
+              <span>{{order.Sum}}</span>
+              <span>ש"ח</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="paymentType == 'sibus'">
+        <div  style="margin:2vh; ">
+          <div class="row  " style="font-size: 14px; font-weight: 400;">
+            <div class="col-auto ">
+              אמצעי תשלום: סיבוס
+            </div>
+          </div>
+          <div class="row mt-3 ">
+            <div class="col customer-info-text-mobile"> {{'CIBUS_NUMBER' | translate}} </div>
+          </div>
+  
+          <div class="row form-group">
+            <div class="col">
+              <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.number}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                </div>
+                <input type="tel" id="ccnum" class="form-control" tabindex="11"
+                  (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+                  [(ngModel)]="cibusCard.number" name="ccnum" placeholder="{{'WRITE_HERE' | translate}}"
+                  (focus)="removeErrorWhileFocus('number')">
+              </div>
+            </div>
+          </div>
+
+          <div class="row  " style="font-size: 18px; font-weight: 700;">             
+            <div class="col ">
+              <span>סכום טעינת הכרטיס:</span>
+              <span>{{order.Sum}}</span>
+              <span>ש"ח</span>
+            </div>
+          </div>
+        </div>
+        <div style="border: 1px dashed #B6B6B6; margin-bottom: 10px;"></div>
+      </ng-container>
+      <ng-container *ngIf="paymentType == 'tenbis'">
+        <div   style="margin:2vh;  ">
+          <div class="row  " style=" font-size: 14px; font-weight: 400;">
+            <div class="col-auto ">
+              אמצעי תשלום: תן ביס
+            </div>
+          </div>
+          <div class="row mt-3 ">
+            <div class="col customer-info-text-mobile"> {{'TEN_BIS_NUMBER' | translate}} </div>
+          </div>
+  
+          <div class="row form-group">
+            <div class="col">
+              <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.number}">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                </div>
+                <input type="tel" id="ccnum" class="form-control" tabindex="11"
+                  (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+                  [(ngModel)]="tenbisCard.number" name="ccnum" placeholder="{{'WRITE_HERE' | translate}}"
+                  (focus)="removeErrorWhileFocus('number')">
+              </div>
+            </div>
+          </div>
+          <div class="row  " style="font-size: 18px; font-weight: 700;">             
+            <div class="col ">
+              <span>סכום טעינת הכרטיס:</span>
+              <span>{{order.Sum}}</span>
+              <span>ש"ח</span>
+            </div>
+          </div>
+        </div>
+        <div style="border: 1px dashed #B6B6B6; margin-bottom: 10px;"></div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="step == 4 ">
+      <div class="row">
+        <div class="col" style="text-align: center; margin: 2vh; font-weight: 700; font-size: 25px;">
+          בייט קרדיט נטען בהצלחה!
+        </div>
+      </div>
+      <div class="row" style="margin: 1vh; margin-top: 2vh;">
+        <div class="col" style="text-align: center;  font-weight: 600; font-size: 21px; line-height: normal; color:black ">
+          <span>סכום טעינת הכרטיס:</span>
+          <span>{{order.Sum}} ש"ח</span>
+        </div>
+      </div>
+      <div class="row" style="margin: 1vh; margin-top: 2vh;">
+        <div class="col" style="text-align: center;  font-weight: 600; font-size: 21px; line-height: normal; color:black ">
+          <span>יתרתך:</span>
+          <span  style="color: var(--orange);">
+            {{totalCredit}} ש"ח
+          </span>
+        </div>
+      </div>
+      <div class="row" style="margin: 1vh; margin-top: 2vh;">
+        <div class="col text-center">
+          <img src="../../../assets/images/bite-credit/success.svg" />
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+  <div class="modal-footer" style="padding: 0px; position: fixed; bottom: 0; top: auto;
+            width: 100%;">
+
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 0">
+      <!--button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+       (click)="close(true)">
+         
+        {{"NO_THANKS" | translate}}
+      </button-->
+      <button (click)="step = 1;" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        טעינת כרטיס
+      </button>
+    
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 1">
+      <button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="goBack()">
+         {{"BACK" | translate}}
+      </button>
+      <button [disabled]="order.Sum == 0" (click)="step = step+1"  class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button>
+    
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 2">
+      <button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="goBack()">
+         {{"BACK" | translate}}
+      </button>
+      <button *ngIf="!usePelecardIframe || paymentType != 'credit'" [disabled]="order.Sum == 0 || paymentType == ''" (click)="step = step+1"  class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}}  
+      </button>
+      <button *ngIf="usePelecardIframe && paymentType == 'credit'" [disabled]="order.Sum == 0" (click)="payWithPelecardIframe()"  class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button>
+    
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 3 && !displayPelecardIframe">
+      <button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="step = step-1;">
+         {{"BACK" | translate}}
+      </button>
+      <button  [disabled]="order.Sum == 0" (click)="payment()" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button>
+    
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 3 && displayPelecardIframe" >
+      <button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="goBackFromPelecardIframe()">
+         {{"BACK" | translate}}
+      </button>
+      <!--button [disabled]="order.Sum == 0" (click)="payment() && " class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button-->
+    
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 4">
+
+      <button (click)="close()" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        לתפריט
+      </button>
+    
+    </div>
+
+  </div>
+</div>
+
+<!--JOIN MEMBERSHIP DESKTOP-->
+
+
+<div *ngIf="!isMobileModeCheck()" class="mat-dialog-wrapper-desktop" style="width: 45vw;">
+
+
+  <div class="header row" style="color: #474747; font-weight: 700; font-size: 22px; ">
+    <div class="col-1"> </div>
+    <div class="col">{{creditName}}</div>
+    <div class="col-1" type="button" (click)="close()">
+      <img  style="width:20px;" src="../../../assets/images/bite-credit/close-credit.svg" />
+    </div>
+   
+  </div>
+
+
+  <div *ngIf="step == 0;" class="body-container" style="  margin-bottom: 10vh;">
+
+
+    <div class="row" style="margin: 1vh; margin-top: 2vh;">
+      <div class="col" style="text-align: center;  font-weight: 700; font-size: 35px; line-height: normal; color:black ">
+        <span>{{creditName}} - הכסף שלכם שווה יותר </span> 
+        
+      </div>
+    </div>
+    <div class="row" style="margin: 1vh; margin-top: 2vh;">
+      <div class="col" style="text-align: center;  font-weight: 400; font-size: 25px; line-height: normal; color:black">
+        <span>טוענים סכום ומקבלים תוספת</span> 
+        &nbsp;
+        <span style="color: var(--orange);">  {{creditAddedValuePercent}}%</span>
+        
+        <span style="color: var(--orange);">+</span>
+      </div>
+    </div>
+    <div class="row" style="margin: 1vh; margin-top: 2vh;">
+      <div class="col px-0" style="text-align: center;  font-weight: 600; font-size: 18px; line-height: 25px; ">
+        <img src="../../../assets/images/bite-credit/credit1.svg" />
+      </div>
+      <div class="col-1 px-0"  >
+        <svg width="50" height="50" viewBox="0 0 72 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_13_402)">
+            <path
+              d="M70.3956 29.7068C68.8865 31.3232 67.41 32.9881 65.6824 34.375C63.9638 35.7544 62.1605 37.0508 60.2848 38.2063C56.5046 40.5322 52.3857 42.3384 48.1605 43.6651C39.3837 46.4224 29.9653 46.6981 21.0056 44.8307C19.3206 44.4793 17.6181 44.0517 15.9336 43.5396C16.0894 43.6996 16.2467 43.8605 16.4015 44.0221C19.4418 47.1682 22.2313 50.5021 24.6826 54.1328C25.0598 54.6915 24.2234 55.4836 23.6923 55.0576C20.3204 52.3473 17.0718 49.5048 13.8225 46.653C12.2549 45.2779 10.6694 43.9352 9.01756 42.6643C8.17623 42.0172 7.33471 41.3633 6.47368 40.7409C5.45627 40.0082 4.34849 39.4347 3.41812 38.5863C2.63318 37.8763 2.53699 36.5108 2.95882 35.6133C3.45034 34.5654 4.37463 34.039 5.51153 33.9778C9.19332 33.7755 12.8583 33.2038 16.5201 32.7519C20.2923 32.286 24.062 31.8206 27.8341 31.3547C29.619 31.135 31.3007 32.0413 31.4939 33.9916C31.6853 35.9276 30.2197 37.175 28.4212 37.3297C24.6576 37.653 20.8946 37.9788 17.1311 38.3022C18.3442 38.741 19.5714 39.1363 20.8147 39.485C24.9788 40.6533 29.1555 41.2658 33.4901 41.3389C41.6818 41.4776 49.8767 39.538 57.2 35.8204C59.2985 34.7554 61.3474 33.5857 63.304 32.2759C65.242 30.9785 67.2168 29.7018 68.9855 28.1793C70.0107 27.2958 71.3074 28.7309 70.3936 29.7099L70.3956 29.7068Z"
+              fill="var(--orange)" />
+          </g>
+          <defs>
+            <clipPath id="clip0_13_402">
+              <rect width="54.1954" height="47.4908" fill="white"
+                transform="matrix(0.849216 0.528046 0.528046 -0.849216 0 40.3299)" />
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+      <div class="col px-0" style="text-align: center;  font-weight: 600; font-size: 18px; line-height: 25px; ">
+        <img src="../../../assets/images/bite-credit/credit2.svg" />
+      </div>
+      <div class="col-1 px-0"  >
+        <svg width="50" height="50" viewBox="0 0 72 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_13_402)">
+            <path
+              d="M70.3956 29.7068C68.8865 31.3232 67.41 32.9881 65.6824 34.375C63.9638 35.7544 62.1605 37.0508 60.2848 38.2063C56.5046 40.5322 52.3857 42.3384 48.1605 43.6651C39.3837 46.4224 29.9653 46.6981 21.0056 44.8307C19.3206 44.4793 17.6181 44.0517 15.9336 43.5396C16.0894 43.6996 16.2467 43.8605 16.4015 44.0221C19.4418 47.1682 22.2313 50.5021 24.6826 54.1328C25.0598 54.6915 24.2234 55.4836 23.6923 55.0576C20.3204 52.3473 17.0718 49.5048 13.8225 46.653C12.2549 45.2779 10.6694 43.9352 9.01756 42.6643C8.17623 42.0172 7.33471 41.3633 6.47368 40.7409C5.45627 40.0082 4.34849 39.4347 3.41812 38.5863C2.63318 37.8763 2.53699 36.5108 2.95882 35.6133C3.45034 34.5654 4.37463 34.039 5.51153 33.9778C9.19332 33.7755 12.8583 33.2038 16.5201 32.7519C20.2923 32.286 24.062 31.8206 27.8341 31.3547C29.619 31.135 31.3007 32.0413 31.4939 33.9916C31.6853 35.9276 30.2197 37.175 28.4212 37.3297C24.6576 37.653 20.8946 37.9788 17.1311 38.3022C18.3442 38.741 19.5714 39.1363 20.8147 39.485C24.9788 40.6533 29.1555 41.2658 33.4901 41.3389C41.6818 41.4776 49.8767 39.538 57.2 35.8204C59.2985 34.7554 61.3474 33.5857 63.304 32.2759C65.242 30.9785 67.2168 29.7018 68.9855 28.1793C70.0107 27.2958 71.3074 28.7309 70.3936 29.7099L70.3956 29.7068Z"
+              fill="var(--orange)" />
+          </g>
+          <defs>
+            <clipPath id="clip0_13_402">
+              <rect width="54.1954" height="47.4908" fill="white"
+                transform="matrix(0.849216 0.528046 0.528046 -0.849216 0 40.3299)" />
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+      <div class="col px-0" style="text-align: center;  font-weight: 600; font-size: 18px; line-height: 25px; ">
+        <img src="../../../assets/images/bite-credit/credit3.svg" />
+      </div>
+    </div>
+    <div class="row" style="margin: 1vh;">
+      <div class="col px-0" style="text-align: center;  font-weight: 600; font-size: 16px; line-height: 25px; ">
+        טועמים סכום
+      </div>
+      <div class="col-1 px-0"  >
+       
+      </div>
+      <div class="col px-0" style="text-align: center;  font-weight: 600; font-size: 16px; line-height: 25px; ">
+        מבצעים הזמנה    
+      </div>
+      <div class="col-1 px-0"  >
+        
+      </div>
+      <div class="col px-0" style="text-align: center;  font-weight: 600; font-size: 16px; line-height: 25px; ">
+        מקבלים הנחה בכל הזמנה
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="step == 1" class="body-container" style="  margin-bottom: 10vh;">
+    
+    <div  *ngIf="isAddCredit" style="margin: 1vh; margin-top: 3vh;">
+      <div class="col " style="font-weight: 600; font-size: 18px; line-height:auto; " >
+      <span>יתרתך:</span>
+      <span>{{"COMMON_CASH" | translate}}{{appUser.BiteCredit}}</span>
+      </div>
+    </div>
+
+    <div class="row" style="margin: 1vh; margin-top: 3vh;">
+      <div class="col" style="text-align: center;  font-weight: 700; font-size: 35px; line-height: normal; color:black ">
+        <span>בחרו סכום לטעינה</span> 
+        
+      </div>
+    </div>
+    <div class="row" style="margin: 1vh; margin-top: 3vh;">
+      <div class="col-2" > </div>
+      <div *ngFor="let item of creditOptionsArr" class="col">
+        <button *ngIf="!isSumSelected(item)" type="button" class="btn-block btn btn-primary" (click)="selectSum(item)"
+                style="color: var(--orange); border-color: var(--orange); background-color: #FFFFFF;">
+          {{item}}
+        </button>
+        <button *ngIf="isSumSelected(item)" type="button" class="btn-block btn btn-primary"
+                style="background-color: var(--orange); border-color: var(--orange); color: #FFFFFF;">
+          {{item}}
+        </button>
+      </div>
+      <div class="col-2" > </div>
+    </div>
+    <div *ngIf="allowCustomCreditSum" class="row" style="margin: 1vh; margin-top: 3vh;">
+      <div class="col-2" > </div>
+      <div class="col-auto" style="font-weight: 600; font-size: 18px; line-height:auto; ">
+       סכום אחר:
+      </div>
+      <div class="col-1" >
+        <input type="tel" [(ngModel)]="customSum" style="height: 40px;"/>
+      </div>
+      <div class="col " > </div>
+      <div class="col-2" > </div>
+    </div>
+    <div *ngIf="selectedSum > 0 || customSum > 0" class="row" style="margin: 1vh; margin-top: 3vh;">
+      <div class="col-2" > </div>
+      <div class="col-auto" style="font-weight: 600; font-size: 18px; line-height:auto; ">
+       קרדיט לאחר טעינה:
+      </div>
+      <div class="col-auto"
+        style="font-weight: 600; font-size: 18px; line-height:auto; color: var(--orange)" >
+        {{calcTotalCredit()}} ש"ח
+      </div>
+      <div class="col " > </div>
+      <div class="col-2" > </div>
+    </div>
+   
+     
+
+  </div>
+
+  <div *ngIf="step == 2" class="body-container" style="  margin-bottom: 10vh;">
+
+
+    <div class="row" style="margin: 1vh; margin-top: 3vh;">
+      <div class="col" style="text-align: center;  font-weight: 700; font-size: 35px; line-height: normal; color:black ">
+       בחירת אמצעי תשלום
+      </div>
+    </div>
+    <div class="row" style="margin: 1vh; margin-top: 3vh;">
+     
+      <div class="col text-center">
+        <button  type="button" class="btn bite-credit-pay-btn " 
+                [ngStyle]="{'border':paymentType == 'credit' ? 'solid': 'none'}"
+                (click)="paymentType = 'credit';" >
+          <img src="../../../assets/images/bite-credit/cc.svg" />
+          <div style="text-align: center;  font-weight: 600; font-size: 20px; color:black; ">אשראי</div>
+          
+        </button>
+         
+      </div>
+      <div *ngIf="Cibus" class="col text-center">
+        <button  type="button"  class="btn bite-credit-pay-btn " 
+                [ngStyle]="{'border':paymentType == 'sibus' ? 'solid': 'none'}"
+                 (click)="paymentType = 'sibus';" >
+          <img src="../../../assets/images/bite-credit/cibus.png" />
+          <div style="text-align: center;  font-weight: 600; font-size: 20px; color:black; ">סיבוס</div>
+          
+        </button>
+         
+      </div>
+      <div *ngIf="Tenbis" class="col text-center">
+        <button  type="button"  class="btn bite-credit-pay-btn " 
+                [ngStyle]="{'border':paymentType == 'tenbis' ? 'solid': 'none'}"
+                (click)="paymentType = 'tenbis';" >
+          <img src="../../../assets/images/bite-credit/tenbis.png" />
+          <div style="text-align: center;  font-weight: 600; font-size: 20px; color:black; "> תן ביס</div>
+         
+        </button>
+         
+      </div>
+    </div>
+    
+     
+
+  </div>
+
+  <div *ngIf="step == 3" class="body-container" style="  margin-bottom: 5vh;">
+    <ng-container *ngIf="paymentType == 'credit' && usePelecardIframe">
+      <div   class="card">
+        <div  class="row pb-3" style="z-index: 50000;">       
+          <div class="col text-center" *ngIf="timer > -1">
+            <alert type="info" style="z-index: 50000;">
+              <strong>
+                {{getTimerMsg()}}
+              </strong>            
+            </alert>
+          </div>
+        </div>
+         <iframe *ngIf="!hidePelecardIframe" id="pelecardIframe"  allowpaymentrequest [src]="pelecardIframeUrlSanitized" 
+                style=" width: 100%; height:75vh; overflow-y: hidden; " ><!--padding-bottom:9vh;-->
+
+      </iframe> 
+      </div>
+        
+      </ng-container>
+    <ng-container *ngIf="paymentType == 'credit' && !usePelecardIframe">
+      <div style="margin: 2vh;"
+      *ngIf="(cashRegister.cashRegisterType == 'Tranzila' || cashRegister.isTranzila) && ccTokens.length > 0 && !addCC"
+      class="card">
+      <perfect-scrollbar>
+        <div class="card-header">
+          <span style="vertical-align: middle;">
+            {{"CHOOSE_CREDIT_FOR_PAYMENT" | translate}}
+          </span>
+          <div class="card-header-actions">
+            <button type="button" class="btn btn-block btn-primary" (click)="addCreditCard()"
+              style="background-color: var(--orange) !important; border-color: var(--orange) !important;">
+              <i class="fa fa-plus"></i>
+              {{"ADD_CREDIT_CARD" | translate}}
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+
+
+          <div class="btn-group-vertical " *ngIf="ccTokens.length > 0" style="width:100%;">
+            <button *ngFor="let cc of ccTokens" id="my-btn" type="button"
+              class="btn btn-block btn-outline-dark my-btn" [ngClass]="{'active': selectedCcId === cc.Id}"
+              (click)="selectCCToken(cc.Id);">
+              <i class="fa fa-credit-card fa-xl"></i>
+              &nbsp;
+              <span>{{"CARD_ENDING_WITH" | translate}}</span>
+              &nbsp;
+              <span>{{cc.CardNumber }}</span>
+              <br>
+              <span>{{"EXP_DATE" | translate}} {{getExpDateStr(cc.ExpDate)}}</span>
+              <!--span (click)="removeCard(cc)">{{"REMOVE_CARD" | translate}}</span-->
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+      
+      <div style="margin: 2vh;"
+      *ngIf="(cashRegister.cashRegisterType != 'Tranzila' && !cashRegister.isTranzila) || ccTokens.length == 0 || addCC">
+        <div class="row  " style="font-size: 14px; font-weight: 400;">
+          <div class="col-auto ">
+            אמצעי תשלום: אשראי
+          </div>
+          <div class="col ">
+            <span>סכום:</span>
+            <span>{{order.Sum}}</span>
+            <span>ש"ח</span>
+          </div>
+        </div>
+        <div style="border: 1px dashed #B6B6B6; margin-bottom: 10px;"></div>
+
+        <div class="row" *ngIf="addCC && ccTokens.length > 0">
+          <div class="col" style="margin-bottom: 1vh; text-align: center; text-decoration: underline;">
+            <span (click)="backToSavedCC()">{{"BACK_TO_SAVED_CC" | translate}}</span>
+          </div>
+        </div>
+
+
+        <div class="row mt-3 ">
+          <div class="col customer-info-text"> {{"ORDER_CCIDNUM" | translate}} </div>
+        </div>
+
+        <div class="row form-group" >
+          <div class="col">
+            <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.ownerId}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-id-card-o"></i></span>
+              </div>
+              <input type="tel" id="ownerId" class="form-control" tabindex="10"
+                (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+                [(ngModel)]="cashRegisterCreditCard.ownerId" name="ownerId"
+                placeholder="{{'WRITE_HERE' | translate}}" (focus)="removeErrorWhileFocus('ownerId')">
+              <!--div class="invalid-feedback">
+                                            Please provide a valid information.
+                                        </div-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3 ">
+          <div class="col customer-info-text"> {{"ORDER_CCNUM" | translate}} </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col">
+            <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.number}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+              </div>
+              <input type="tel" id="ccnum" class="form-control" tabindex="11"
+                (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+                [(ngModel)]="cashRegisterCreditCard.number" name="ccnum" placeholder="{{'WRITE_HERE' | translate}}"
+                (focus)="removeErrorWhileFocus('number')">
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row mt-3 ">
+          <div class="col customer-info-text"> {{"ORDER_VALIDITY" | translate}} </div>
+          <div class="col customer-info-text"> {{"EXP_YEAR" | translate}} </div>
+          <div class="col customer-info-text"> {{"ORDER_CVV" | translate}} </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col">
+            <div class="input-group valid"
+              [ngClass]="{'is-invalid': orderErrors.expirationMonth || orderErrors.expirationYear}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+              </div>
+              <select class="form-control" (focus)="removeExpirationErrors()" tabindex="12"
+                style="border: none;background-color: whitesmoke; "
+                [(ngModel)]="cashRegisterCreditCard.expirationMonth" name="exp-month" id="exp-month">
+                <option value="" disabled selected hidden>{{"EXP_MONTH" | translate}}</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="input-group valid"
+              [ngClass]="{'is-invalid': orderErrors.expirationMonth || orderErrors.expirationYear}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+              </div>
+              <select class="form-control" style="border: none;background-color: whitesmoke; "
+                (focus)="removeExpirationErrors()" tabindex="13" [(ngModel)]="cashRegisterCreditCard.expirationYear"
+                name="exp-year" id="exp-month">
+                <option value="" disabled selected hidden>{{"EXP_YEAR" | translate}}</option>
+                <option *ngFor="let y of years" [value]="y">{{y}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.cvv}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-credit-card-alt"></i></span>
+              </div>
+              <input type="tel" class="form-control" tabindex="14"
+                (keypress)="restrictKeysExceptDigitsAndPlus($event, true)" [(ngModel)]="cashRegisterCreditCard.cvv"
+                name="cvv" placeholder="{{'WRITE_HERE' | translate}}" [ngClass]="{'is-invalid': orderErrors.cvv}"
+                maxlength="3" minlength="3" (focus)="removeErrorWhileFocus('cvv')">
+            </div>
+          </div>
+        </div>
+
+       
+        <div class="row mt-3 form-group" *ngIf="cashRegister.cashRegisterType == 'Tranzila' || cashRegister.isTranzila">
+          <div class="col">
+            <div class="form-check form-check-inline ml-0" style="font-size: 14px; margin-top: 12px">
+              <input class="form-check-input" type="checkbox" id="saveCC" [(ngModel)]="order.SaveCredit">
+              <label class="form-check-label ml-1" style="font-size: 14px;" for="saveCC">
+                {{"SAVE_CREDIT_CARD" | translate}}
+              </label>
+            </div>
+          </div>
+          <div class="col-auto mt-1" style="font-size: 14px; height: 50px;">
+            <div style="margin-top: 12px"> {{"SECURED" | translate}}</div>
+           
+          </div>
+          <div class="col-2" style="padding: 0; margin-left: -2rem;"> 
+            <img  class="img-fluid" class="img-fluid" src="../../../assets/images/items/credit1.svg" />
+          </div>
+          <div class="col-2" style="padding: 0; margin-left: -2rem; ">
+            <img  class="img-fluid"src="../../../assets/images/items/credit2.svg" />
+          </div>
+          <div class="col-3" style="padding: 0; margin-top: 0.6rem;">
+            <img  src="../../../assets/images/items/credit3.svg" />
+          </div>
+         
+          <!--div class="col">
+            <div class="row">
+              <div class="col-3" style="align-self: center;">{{"SECURED" | translate}}</div>
+               </div>
+          </div-->
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="paymentType == 'sibus'">
+      <div style="margin: 2vh;">
+        <div class="row  " style="margin: 2vh; font-size: 14px; font-weight: 400;">
+          <div class="col-auto ">
+            אמצעי תשלום: סיבוס
+          </div>
+          <div class="col ">
+            <span>סכום:</span>
+            <span>{{order.Sum}}</span>
+            <span>ש"ח</span>
+          </div>
+        </div>
+        <div style="border: 1px dashed #B6B6B6; margin-bottom: 10px;"></div>
+  
+  
+        <div class="row mt-3 ">
+          <div class="col customer-info-text">{{'CIBUS_NUMBER' | translate}} </div>
+        </div>
+  
+        <div class="row form-group">
+          <div class="col">
+            <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.number}">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+              </div>
+              <input type="tel" id="ccnum" class="form-control" tabindex="11"
+                (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+                [(ngModel)]="cibusCard.number" name="ccnum" placeholder="{{'WRITE_HERE' | translate}}"
+                (focus)="removeErrorWhileFocus('number')">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </ng-container>
+    <ng-container *ngIf="paymentType == 'tenbis'">
+      <div style="margin: 2vh;">
+      <div class="row  " style="margin: 2vh; font-size: 14px; font-weight: 400;">
+        <div class="col-auto ">
+          אמצעי תשלום: תן ביס
+        </div>
+        <div class="col ">
+          <span>סכום:</span>
+          <span>{{order.Sum}}</span>
+          <span>ש"ח</span>
+        </div>
+      </div>
+      <div style="border: 1px dashed #B6B6B6; margin-bottom: 10px;"></div>
+
+
+      <div class="row mt-3 ">
+        <div class="col customer-info-text">{{'TEN_BIS_NUMBER' | translate}} </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col">
+          <div class="input-group valid" [ngClass]="{'is-invalid': orderErrors.number}">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+            </div>
+            <input type="tel" id="ccnum" class="form-control" tabindex="11"
+              (keypress)="restrictKeysExceptDigitsAndPlus($event, true)"
+              [(ngModel)]="tenbisCard.number" name="ccnum" placeholder="{{'WRITE_HERE' | translate}}"
+              (focus)="removeErrorWhileFocus('number')">
+          </div>
+        </div>
+      </div>
+      </div>
+    </ng-container>
+  </div>
+  
+  <div *ngIf="step == 4" class="body-container" style="  margin-bottom: 5vh;">
+    <div class="row" style="margin: 1vh; margin-top: 2vh;">
+      <div class="col" style="text-align: center;  font-weight: 700; font-size: 35px; line-height: normal; color:black ">
+        בייט קרדיט נטען בהצלחה!
+        
+      </div>
+    </div>
+    <div class="row" style="margin: 1vh; margin-top: 2vh;">
+      <div class="col" style="text-align: center;  font-weight: 600; font-size: 25px; line-height: normal; color:black ">
+        <span>סכום טעינת הכרטיס:</span>
+        <span>{{order.Sum}} ש"ח</span>
+      </div>
+    </div>
+    <div class="row" style="margin: 1vh; margin-top: 2vh;">
+      <div class="col" style="text-align: center;  font-weight: 600; font-size: 25px; line-height: normal; color:black ">
+        <span>יתרתך:</span>
+        <span  style="color: var(--orange);">
+          {{totalCredit}} ש"ח
+        </span>
+      </div>
+    </div>
+    <div class="row" style="margin: 1vh; margin-top: 2vh;">
+      <div class="col text-center">
+        <img src="../../../assets/images/bite-credit/success.svg" />
+      </div>
+    </div>
+     
+  </div> 
+
+  <div class="modal-footer" style="padding: 0px; bottom: 0; top: auto;
+            width: 100%;">
+
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 0">
+       
+      <button (click)="step = 1;" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+      טעינת כרטיס
+      </button>
+
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step  == 1">
+      <button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="goBack()">
+        <!--returnToPrevPage()-->
+        {{"BACK" | translate}}
+      </button>
+      <button [disabled]="order.Sum == 0" (click)="step = step+1" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button>
+
+    </div>
+     <div class="btn-group" style="width: 100%;" *ngIf="step == 2">
+      <button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="goBack()">
+        <!--returnToPrevPage()-->
+        {{"BACK" | translate}}
+      </button>
+      <button *ngIf="!usePelecardIframe || paymentType != 'credit'" [disabled]="order.Sum == 0 || paymentType == ''"  (click)="step = step+1" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button>
+      <button *ngIf="usePelecardIframe && paymentType == 'credit'" [disabled]="order.Sum == 0"  (click)="payWithPelecardIframe()" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button>
+
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 3 && !displayPelecardIframe">
+      <button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="step = step-1;">
+        <!--returnToPrevPage()-->
+        {{"BACK" | translate}}
+      </button>
+      <button [disabled]="order.Sum == 0" (click)="payment()" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button>
+
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step == 3 && displayPelecardIframe">
+      <button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="goBackFromPelecardIframe()">
+        <!--returnToPrevPage()-->
+        {{"BACK" | translate}}
+      </button>
+      <!--button [disabled]="order.Sum == 0" (click)="payment()" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+        {{"GARNISHES_CONTINUE" | translate}} 
+      </button-->
+
+    </div>
+    <div class="btn-group" style="width: 100%;" *ngIf="step > 0 && step == 4">
+      <!--button class="btn btn-cancel"
+        style=" font-family: Open Sans Hebrew; font-style: normal; font-weight: bold; font-size: 20px; line-height: 21px;"
+        (click)="step = step-1;">
+       
+        {{"BACK" | translate}}
+      </button-->
+      <button [disabled]="order.Sum == 0" (click)="close()" class="btn btn-cancel"
+        style="background-color: var(--orange); font-style: normal; font-weight: 700; font-size: 20px; line-height: 21px; color: #FFFFFF; width: 100%;">
+       לתפריט
+      </button>
+
+    </div>
+    
+  </div>
+</div>
+
+
+
+ 
+ 
+
+<div id="snackbar-club-member" class="snackbar">
+  <img src="../../../assets/images/items/success-check.svg" />
+  <span>{{"MESSAGE_SUCCESS_MEMBER_CLUB_REGISTRATION" | translate}}</span>
+</div>
+
+<div bsModal #termsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" style="z-index: 99999999;">
+  <div class="modal-dialog modal-dark modal-lg modal-dialog-scrollable " role="document">
+    <div class="modal-content" style="height: 100dvh;
+    max-height: none;
+    margin-top: 0;">
+      <div class="modal-header bg-dark text-white">
+        <h4 class="modal-title">תנאי שימוש</h4>
+        <button type="button" class="close" (click)="termsModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{memberClubPolicy}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-block btn-dark" (click)="termsModal.hide()">אישור</button>
+        <!--button type="button" class="btn btn-primary">Save changes</button-->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

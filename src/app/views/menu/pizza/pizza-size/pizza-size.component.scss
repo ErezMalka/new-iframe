@@ -1,0 +1,584 @@
+@import "../../../../../constants";
+
+ng-scrollbar {
+  --scrollbar-size: 8px;
+  --scrollbar-thumb-color: #ff6600;
+  --scrollbar-thumb-hover-color: #ca5900;
+  --scrollbar-border-radius: 4px;
+  --scrollbar-color: #cecece;
+  --scroll-view-margin: 0;
+}
+
+.pizza-size-container {
+  background: #ffffff;
+  border-radius: 5px;
+  position: relative;
+  padding-bottom: 0.5 * $padding-normal-size;
+  box-sizing: border-box;
+
+  .header {
+    font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    font-size: 2 * $font-default-size;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #3a3a3a;
+    padding: $padding-normal-size 3 * $padding-normal-size;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    .description {
+      font-family: 'Alef-Regular', sans-serif;
+      font-size: 1.25 * $font-default-size;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #3a3a3a;
+    }
+  }
+  .header.direction {
+    text-align: left;
+  }
+  .content.dircetion {
+    justify-content: flex-start;
+  }
+  .content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-end;
+    padding: 0.85 * $font-default-size 0;
+    box-sizing: border-box;
+    max-height: 450px;
+    max-height: 40vh;
+    .pizza-ingredients {
+      flex: 1 1 45%;
+    }
+    .pizza-info {
+      flex: 1 1 55%;
+      .pizza-sizes {
+        display: flex;
+        align-items: baseline;
+        flex-direction: row-reverse;
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+        .sizes {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .carousel {
+            direction: ltr!important;
+            width: 85%;
+            flex: 1 1 85%;
+            flex-direction: row-reverse;
+            box-sizing: border-box;
+          }
+        }
+      }
+    }
+    .pizza-ingredients {
+      .pizza-description {
+        font-family: 'Alef-Regular', sans-serif;
+        font-size: 1.5 * $font-default-size;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        letter-spacing: normal;
+        text-align: right;
+        color: #3a3a3a;
+      }
+      .pizza-description.direction {
+        text-align: left;
+      }
+      .pizza-list {
+        max-height: 40vh;
+        .item-elem {
+          display: flex;
+          position: relative;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    .pizza-info {
+      .pizza-image {
+        max-width: 43vh;
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+        margin: auto;
+        img {
+          width: 80%;
+          margin: auto;
+        }
+      }
+    }
+  }
+}
+
+.error-container {
+  position: relative;
+}
+
+.button-wrapper {
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: -2 * $font-default-size;
+  .save-order {
+    outline: none;
+    border-width: 0;
+    border-radius: 0.5 * $font-default-size;
+    box-shadow: inset 0px 3px 7px 0 rgba(0, 0, 0, 0.13);
+    background-color: $main-color;
+    padding: $padding-normal-size * 0.5 $padding-normal-size * 1.25;
+    box-sizing: border-box;
+    flex: 0 0 15%;
+    font-family: 'Alef-Regular', sans-serif;
+    font-size: 1.5 * $font-default-size;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin: 4px;
+    padding: 0.75rem;
+    width: 150px;
+    span {
+      font-family: 'Alef-Regular', sans-serif;
+    }
+
+    img {
+      margin: 2px 4px;
+      height: 1 * $font-default-size;
+      width: 1 * $font-default-size;
+    }
+  }
+}
+
+.popup-wrapper {
+  max-height: 500px;
+  .close-options {
+
+    text-align: left;
+    position: relative;
+    height: 3 * $font-default-size;
+
+    .close {
+      position: absolute;
+      width: 2.5rem;
+      height: 2.5rem;
+      cursor: pointer;
+      border-radius: 50%;
+      background: #fff;
+      top: -1.5rem;
+      right: auto;
+      left: 0;
+    }
+    .close.direction {
+      right: 0;
+      left: auto;
+    }
+    .close:before,
+    .close:after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 7px;
+      width: 26px;
+      height: 1px;
+      background: $text-color;
+    }
+
+    .close:before {
+      webkit-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+
+    .close:after {
+      webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+
+  }
+
+  .close-options.direction {
+    text-align: right;
+  }
+
+}
+
+.error-message {
+  font-size: $font-normal-size;
+  color: $error-text;
+}
+
+
+/*MatDialog Container*/
+.mat-dialog-actions {
+  padding: 0;
+  background-color: #f3f3f3;
+  box-sizing: border-box;
+}
+
+.mat-dialog-content {
+  margin: 0;
+}
+
+.pizza-item {
+  border: 1px solid black;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  padding: $padding-normal-size 0;
+  .item {
+    width: 100%;
+    position: relative;
+    margin-top: $margin-normal-size;
+  }
+
+}
+
+.scale-item {
+  -moz-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  -webkit-transition: all 1s ease-out;
+  transition: all 1s ease-out;
+}
+
+.scale-item:hover:not(.selected) {
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -o-transform: scale(1.02);
+  transform: scale(1.02);
+}
+
+.content {
+  position: relative;
+}
+
+.options-multiple-pizza {
+  position: relative;
+  width: 100%;
+  padding: 1rem 0;
+  box-sizing: border-box;
+}
+
+
+.arrow-item {
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+  background: #959595;
+  cursor: pointer;
+}
+
+.arrow-item.left {
+  left: 0;
+}
+
+.arrow-item.right {
+  right: 0;
+}
+
+.arrow {
+  width: $font-default-size * 0.5;
+  height: $font-default-size  * 0.5 ;
+  margin: $font-default-size  * 0.5;
+  border: 3px solid #ffffff;
+  border-radius: 0.05 * $font-medium-size;
+  border-top: none;
+  cursor: pointer;
+}
+
+
+.arrow.right {
+  border-right: none;
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+.arrow.left {
+  border-left: none;
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.line-item-wrapper {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  .image-bottom-shape {
+    height: 75px;
+    width: 130px;
+    border-bottom: 13px solid #0eb816;
+    border-radius: 40%;
+    border-top-color: transparent;
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    margin: auto;
+  }
+}
+
+
+.image-top-shape {
+  max-width: 70px;
+  max-height: 95px;
+  border-top-left-radius: 50%;
+  background-color: #e1e1e1;
+  height: 50px;
+  width: 50px;
+  margin: auto;
+  border-top-right-radius: 50%;
+  font-family: 'Alef-Bold', sans-serif;
+  font-size: $font-default-size * 0.75;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #3a3a3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  div {
+    font-family: 'Alef-Regular', sans-serif;
+  }
+  img {
+    position: absolute;
+    height: 2 * $font-default-size;
+    width: 2 * $font-default-size;
+    top: -14px;
+  }
+}
+
+.image-circle {
+  margin: auto;
+  background: #dcdcdc;
+  border-radius: 50%;
+  transform: translateY(-0.5 * $font-default-size);
+  position: relative;
+  max-width: 160px;
+  max-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  margin: auto;
+  border: 5px solid #dcdcdc;
+  border-radius: 50%;
+  position: relative;
+  max-width: 130px;
+  max-height: 130px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.description {
+  font-family: 'Alef-Regular', sans-serif;
+  font-size: 1.25 * $font-default-size;
+  margin-top: 0.5 * $font-normal-size;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.71;
+  letter-spacing: normal;
+  text-align: center;
+  color: #585858;
+}
+
+.slide-item {
+  position: relative;
+  padding-top: 1.5 * $padding-normal-size;
+  margin-bottom: 1.5 * $padding-normal-size;
+  cursor: pointer;
+  padding-left: 0.5 * $padding-normal-size;
+  padding-right: 0.5 * $padding-normal-size;
+  box-sizing: border-box;
+}
+
+.carousel {
+  width: 90%;
+  margin: auto;
+}
+
+.slide {
+//  border: 1px solid red;
+}
+
+.pizza-size-name {
+  margin-top: 4px;
+}
+
+.pizza-size-price {
+  font-weight: bold;
+}
+
+
+@media (max-width: $min-site-width) {
+
+  .button-wrapper .save-order {
+    padding: 0.5rem;
+  }
+
+  .pizza-size-price {
+    font-weight: bold;
+    margin: 0 0.25rem;
+  }
+
+  .pizza-size-container .pizza-size-item {
+    padding: 0.5rem;
+  }
+
+  .pizza-size-container {
+    padding: 0.5rem;
+  }
+
+  .pizza-size-container .header {
+    font-size: 1.75rem;
+    margin-bottom: 0;
+    margin-top: 0.25rem;
+  }
+
+  .pizza-size-container-mobile {
+    max-height: 200px;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  .pizza-size-container {
+    padding: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 2rem;
+    .pizza-size-item {
+      position: relative;
+      font-family: 'Alef-Regular', sans-serif;
+      font-size: 1.25 * $font-default-size;
+      margin-top: 0.5 * $font-normal-size;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 0.71;
+      letter-spacing: normal;
+      text-align: center;
+      color: #585858;
+      border-radius: 10px;
+      background-color: #ffffff;
+      border: 2px solid rgba(141, 141, 141, 0.15);
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+    .header {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .pizza-size-item {
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    padding-right: 1.5rem;
+    padding-left: 1rem;
+    box-sizing: border-box;
+  }
+
+  .pizza-size-item:first-child {
+    margin-top: 0!important;
+  }
+  .pizza-size-container {
+
+  }
+  .pizza-size-item.pizza-size-item-mobile {
+    border: 2px solid #5AB53A!important;
+  }
+  .button-wrapper {
+    margin-left: -1rem!important;
+  }
+
+  .select-image {
+    position: absolute;
+    top: -5px;
+    right: 0px;
+    .image-item {
+      width: 2rem;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: translate3d(10px, -10px, 10px);
+    }
+  }
+
+  @media (max-width: 456px) {
+
+    .pizza-size-container .pizza-size-item {
+      padding: 0.5rem;
+    }
+
+    .pizza-size-container {
+      padding: 0.5rem;
+    }
+
+    .pizza-size-container-mobile {
+
+      .pizza-size-item {
+        font-size: 1.15 * $font-default-size;
+      }
+
+    }
+
+    .pizza-size-container .header {
+      font-size: 1.45rem;
+      margin-bottom: 0;
+      margin-top: 0.25rem;
+    }
+
+    .pizza-size-container .description {
+      font-size: 1.25rem;
+    }
+
+  }
+
+}
+
+//@media (max-width: $min-site-width) {
+
+
+  .popup-wrapper {
+
+    .close-options {
+      height: 0;
+      .close {
+        top: 0.25rem;
+        z-index: 9;
+      }
+
+    }
+
+  }
+
+//}

@@ -1,0 +1,146 @@
+<div class="popup-wrapper branch-wrapper animated fadeIn">
+  <!--  <div class="close-options" [ngClass]="{'direction': lang != 'he'}">-->
+  <!--    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></span>-->
+  <!--  </div>-->
+
+
+  <div class="select-branch-container animated fadeIn">
+    <div *ngIf="!displayPickupPoints" class="select-branch-header" >
+      <div class="text-label-in">
+        {{ "HOME_SELECT_BRANCH" | translate }}
+
+        <span *ngIf="order.IsTakeAway">{{'FOR_TA' | translate}}</span>
+        <span *ngIf="order.IsDelivery">{{'FOR_DELIVERY' | translate}}</span>
+        <span *ngIf="order.IsSit">{{'FOR_SIT' | translate}}</span>
+      </div>
+    </div>
+    <div *ngIf="displayPickupPoints" class="select-branch-header" >
+      <div class="text-label-in">
+       בחרו נקודת איסוף
+
+        
+      </div>
+    </div>
+    
+    <div (click)="disable()" style="padding: 1vh;">
+      <!--input class="my-input" type="text" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'background-position':getLanguage() === 'en' ? '-20px -21px': '446px -21px', 'padding-left':getLanguage() === 'en' ? '65px': '' }" [disabled]="disabled" id="myInput" [(ngModel)]="branchName" (keyup)="myFunction()"
+            [placeholder]="'HOME_BRANCH_ORDER' | translate"-->
+    
+      <div *ngIf="!displayPickupPoints" class="row form-group" style="padding: 0 0.8vh; margin: 0.5vh 0 0.5vh 0;">
+        <div class="col" style="padding: 0;">
+          <div class="input-group valid">
+            <div class="input-group-prepend" style="border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;">
+              <span class="input-group-text"  style="border: none; border-bottom-right-radius: 10px;
+              border-top-right-radius: 10px;">
+                <img src="../../../assets/images/items/search-masha.svg">
+              </span>
+            </div>
+            <input type="text" class="form-control my-input" [placeholder]="'HOME_BRANCH_ORDER' | translate"
+              [disabled]="disabled" id="myInput" [(ngModel)]="branchName" (keyup)="myFunction()">
+          </div>
+        </div>
+      </div>
+
+
+
+      <div style=" max-height: 65vh;
+            overflow-y: auto;
+            overflow-x: hidden;">
+        <table id="myTable"
+          [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+          style="width: 100%; border-collapse: separate;
+              border-spacing: 0.9em;">
+              <ng-container *ngIf="!displayPickupPoints">
+                <tr class="trow" *ngFor="let branch of filteredBranches | async; let i = index"
+                          (click)="selectBranchName(branch); ClickedRow(i);" [class.active]="i == HighlightRow">
+                          <td *ngIf="isBranchOpen(branch) && !selectedOrderReceipt.isDigitalMenu" style="background: #FFFFFF;
+                                                    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px; padding: 0.7vh;">
+                            <div class="row">
+                              <span class="col-auto" style="align-self: center;">
+                                <img style="margin: 0.5vh;" src="../../../assets/images/items/branch-open.svg" />
+                              </span>
+                              <span class="col" style="margin: 0.5vh; font-size: 1.7vh; font-weight: 700; padding: 0;">
+                                <div>
+                                  {{branch.Name}}
+                                </div>
+                                <div *ngIf="branch.Address && branch.Address != 'null'" style="font-size: 1.7vh; font-weight: 400;">
+                                  {{branch.Address}}
+                                </div>
+                              </span>
+                              <span class="col-2" style="align-self: center;">
+                                <svg width="19" height="22" viewBox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M18.0726 20.8479C18.711 21.2724 18.1541 22.2745 17.4716 21.9265C11.8856 19.0943 6.42195 16.0082 1.01939 12.8489C-0.335494 12.0765 -0.33889 9.91231 1.01939 9.13989C1.45744 8.87894 2.69687 8.15871 3.15529 7.88732C6.02805 6.24159 9.18945 4.42884 12.0996 2.88748C13.8721 1.93066 15.6515 0.99123 17.4444 0.0726791C18.1541 -0.289174 18.7416 0.747675 18.0794 1.19651C14.5241 3.61467 10.9009 5.91801 7.24711 8.18655C6.24198 8.80588 4.54413 9.83577 3.24018 10.6186C2.95834 10.7891 2.95494 11.2032 3.23339 11.3736C5.33872 12.6749 12.3916 17.0554 18.0692 20.8445L18.0726 20.8479Z"
+                                    fill="var(--orange)" />
+                                </svg>
+                              </span>
+                            </div>
+                          </td>
+                    
+                    
+                          <td *ngIf="!isBranchOpen(branch) && !selectedOrderReceipt.isDigitalMenu" style="background: #FFFFFF;
+                                            box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px; padding: 0.7vh;">
+                            <div class="row">
+                              <span class="col-auto" style="align-self: center;">
+                                <img style="margin: 0.5vh;" src="../../../assets/images/items/branch-close.svg" />
+                              </span>
+                              <span class="col" style="margin: 0.5vh; font-size: 1.7vh; font-weight: 700; padding: 0;">
+                                <div>{{branch.Name}}
+                                  <span *ngIf="branch.IsOpenForTA">{{'BRANCH_OPEN_FOR_TA' | translate}}</span>
+                                  <span *ngIf="branch.IsOpenForDelivery">{{'BRANCH_OPEN_FOR_DELIVERY' | translate}}</span>
+                                </div>
+                                <div *ngIf="branch.Address && branch.Address != 'null'" style="font-size: 1.7vh; font-weight: 400;">
+                                  {{branch.Address}}
+                                </div>
+                              </span>
+                              <!--span class="col-2" style="align-self: center;"><svg width="19" height="22" viewBox="0 0 19 22" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M18.0726 20.8479C18.711 21.2724 18.1541 22.2745 17.4716 21.9265C11.8856 19.0943 6.42195 16.0082 1.01939 12.8489C-0.335494 12.0765 -0.33889 9.91231 1.01939 9.13989C1.45744 8.87894 2.69687 8.15871 3.15529 7.88732C6.02805 6.24159 9.18945 4.42884 12.0996 2.88748C13.8721 1.93066 15.6515 0.99123 17.4444 0.0726791C18.1541 -0.289174 18.7416 0.747675 18.0794 1.19651C14.5241 3.61467 10.9009 5.91801 7.24711 8.18655C6.24198 8.80588 4.54413 9.83577 3.24018 10.6186C2.95834 10.7891 2.95494 11.2032 3.23339 11.3736C5.33872 12.6749 12.3916 17.0554 18.0692 20.8445L18.0726 20.8479Z"
+                                    fill="var(--orange)" />
+                                </svg></span-->
+                    
+                            </div>
+                          </td>
+
+                          <td *ngIf="selectedOrderReceipt.isDigitalMenu" style="background: #FFFFFF;
+                          box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px; padding: 0.7vh;">
+              <div class="row">
+              <span class="col-1" style="align-self: center;">
+              </span>
+              <span class="col" style="margin: 0.5vh; font-size: 1.7vh; font-weight: 700; padding: 0;">
+              <div>{{branch.Name}}
+              <span *ngIf="branch.IsOpenForTA">{{'BRANCH_OPEN_FOR_TA' | translate}}</span>
+              <span *ngIf="branch.IsOpenForDelivery">{{'BRANCH_OPEN_FOR_DELIVERY' | translate}}</span>
+              </div>
+              <div *ngIf="branch.Address && branch.Address != 'null'" style="font-size: 1.7vh; font-weight: 400;">
+              {{branch.Address}}
+              </div>
+              </span>
+              <span class="col-2" style="align-self: center;"><svg width="19" height="22" viewBox="0 0 19 22" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M18.0726 20.8479C18.711 21.2724 18.1541 22.2745 17.4716 21.9265C11.8856 19.0943 6.42195 16.0082 1.01939 12.8489C-0.335494 12.0765 -0.33889 9.91231 1.01939 9.13989C1.45744 8.87894 2.69687 8.15871 3.15529 7.88732C6.02805 6.24159 9.18945 4.42884 12.0996 2.88748C13.8721 1.93066 15.6515 0.99123 17.4444 0.0726791C18.1541 -0.289174 18.7416 0.747675 18.0794 1.19651C14.5241 3.61467 10.9009 5.91801 7.24711 8.18655C6.24198 8.80588 4.54413 9.83577 3.24018 10.6186C2.95834 10.7891 2.95494 11.2032 3.23339 11.3736C5.33872 12.6749 12.3916 17.0554 18.0692 20.8445L18.0726 20.8479Z"
+                fill="var(--orange)" />
+              </svg></span>
+
+              </div>
+                           </td>
+                </tr>
+              </ng-container>
+               <ng-container *ngIf="displayPickupPoints">
+                <tr class="trow" *ngFor="let p of pickUpPointsList" (click)="selectPickUpPoint(p.Name)">
+                  <td  style="background: #FFFFFF;box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px; padding: 0.7vh;">
+                  {{p.Name}}
+                  </td>      
+                </tr>
+              </ng-container>
+        
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="popup-wrapper popup-wrapper-comments animated fadeIn">
+  <div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></span>
+  </div>
+  <div class="discount-container-wrapper">
+    <div class="header">
+      {{'COMMON_SPECIAL_REQUESTS' | translate}}
+    </div>
+    <!--div class="description" [ngClass]="{'direction': lang != 'he'}">
+      <textarea class="comments comments-group" [(ngModel)]="comments"
+                [ngClass]="{'direction': lang != 'he'}" placeholder="{{'COMMON_SPECIAL_REQUESTS' | translate}}">
+        </textarea>
+    </div-->
+
+    <div>
+     
+      <textarea rows="4" class="item-comments"  [(ngModel)]="comments"
+             placeholder="{{'COMMON_SPECIAL_REQUESTS' | translate}}">
+      </textarea>
+     
+    </div>
+
+    <!--textarea rows="4" class="form-control" [(ngModel)]="itemComments"
+                style="background: #F4F4F4;border: 1px solid #D3D3D3; box-sizing: border-box; height: 100px; border-right: none;"
+                placeholder="{{'ITEM_COMMENTS' | translate}}">
+                      </textarea-->
+
+
+    <div class="discount-button-line">
+      <button class="discount-button-use" (click)="ok()" [ngStyle]="{'background-color': colors.buttonColor}">
+        <div class="half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+        {{'COMMON_OK' | translate}}
+      </button>
+    </div>
+  </div>
+</div>
+

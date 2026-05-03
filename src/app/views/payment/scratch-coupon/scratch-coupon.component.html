@@ -1,0 +1,95 @@
+<div class="popup-wrapper-scp animated fadeIn">
+
+  <div class="scratch-container-wrapper-scp card" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+    <div class= "card-body py-0" >
+      <div class="row"
+           style="text-align: center; font-weight: bold; font-size: 1.2rem;">
+        <div class="col">
+          <div class="content">
+          {{'SCRATCH_HEADER' | translate}}
+        </div>
+        </div>
+      </div>
+
+      <div class="scratch-container-sc">
+        <div class="sc__wrapper-p" id="sc__wrapper">
+          <div   id="js--sc--container" class="sc__container-p">
+            <div class="cupon-img-win" id="cupon-img-win">
+              <div class="img-win">
+                <img style="object-fit: cover; max-height: 45vh;; position: absolute;top: 0; left: 0; width: 100%; height: 100%; z-index: 2; border-radius: 15px;" src="{{scratchCoupon.ImageUrl}}" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+      <ng-container *ngIf="displayWinnerInformation">
+        <div class="row pt-2 textlabel-header" 
+             style="text-align: center; font-weight: bold; font-size: 1.2rem; font-family:'Open Sans Hebrew'; color: var(--orange);">
+          <div class="col"> {{scratchCoupon.Item.Name}}</div>
+        </div>
+        <div class="row pt-2" >
+          <div class="col text-center textlabel" > <b>
+            * {{'SCRATCH_NEXTORDER' | translate}}
+          </b>
+          </div>         
+        </div>
+        <div class="row" >
+          <div class="col text-center textlabel"> <b>
+            * {{'SCRATCH_TOORDER' | translate}} {{"COMMON_CASH" | translate}}{{scratchCoupon.MinOrderSum}}
+          </b>
+          </div>         
+        </div>
+        <div class="row" >         
+          <div class="col text-center textlabel"> <b>
+           * {{ 'SCRATCH_AVAILABLE_FOR' | translate }} {{scratchCoupon.ValidDayes}} {{ 'SCRATCH_DAYS' | translate }}
+          </b>
+          </div>
+        </div>
+       
+      </ng-container>
+      <div class="row pt-2" *ngIf="displayWinnerInformation">
+        <div class="col"></div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-coupon" (click)="next()" >      
+            {{'FORM_SIGN_IN' | translate}}
+          </button>
+        </div>
+        <div class="col"></div>   
+      </div>
+    </div>
+    <!--div class="header" [ngStyle]="{'color': colors.menuColor}">
+      {{'SCRATCH_HEADER' | translate}}
+    </div-->
+    
+
+    
+    <!--div class="description" *ngIf="displayWinnerInformation" >
+      <div class="item-name" [ngStyle]="{'color': colors.menuColor}"> {{scratchCoupon.Item.Name}} </div>
+      <div class="item-price">
+        <span>{{'SCRATCH_TOORDER' | translate}}</span>
+        <span class="price">{{scratchCoupon.MinOrderSum}}{{"COMMON_CASH" | translate}}</span>
+      </div>
+     
+      <div class="item-date">
+        <span>{{ 'SCRATCH_AVAILABLE_FOR' | translate }}</span>
+        <span>{{scratchCoupon.ValidDayes}}</span>
+        <span>{{ 'SCRATCH_DAYS' | translate }}</span>
+      </div>
+    </div-->
+  </div>
+
+ 
+
+  <!--div class="button-wrapper-1" *ngIf="displayWinnerInformation" [ngClass]="{'direction': lang != 'he'}">
+    
+    <button class="button-ok animated fadeIn" (click)="next()" [ngStyle]="{'background-color': colors.buttonColor}">
+      <div class="half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+      {{'SCRATCH_COUPON_CONTINUE' | translate}}
+    </button>
+  </div-->
+</div>
+

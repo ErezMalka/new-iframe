@@ -1,0 +1,503 @@
+<div class="d-none d-lg-flex popup-wrapper animated fadeIn" >
+  <!--<div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></span>
+  </div>-->
+  <div class="message-container-wrapper pb-2" style="background: #fff; position: relative;"  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl', 'background-image': fullMessage?.ImageGuid != null ? 'url(' + icon + ')' : null, 'background-repeat': fullMessage?.ImageGuid != null ? 'no-repeat': '', 'background-size': fullMessage?.ImageGuid != null ? 'cover': '', 'min-height': fullMessage?.ImageGuid != null ? '300px': '300px','width': fullMessage?.ImageGuid != null ? '40vh': '40vh'}" >
+    <div >
+
+      <div *ngIf="!isBranchClose && fullMessage?.ImageGuid == null" class="d-flex d-lg-none row pb-2" style="padding-left: 10px; padding-right: 10px;">
+        <div class="col-12 header">
+          {{header}}
+        </div>
+      </div>
+
+      <div *ngIf="isBranchClose" class="d-flex d-lg-none row pb-2"  style="padding-left: 10px; padding-right: 10px;">
+        <div class="col-12 header-branch-close">
+          {{header}}
+        </div>
+      </div>
+
+      <div *ngIf="!isBranchClose && fullMessage?.ImageGuid == null" class="d-none d-lg-flex">
+        <div class="header" style="width: 100%; padding: 16px !important; margin-bottom: 15px;">
+          {{header}}
+        </div>
+      </div>
+
+      <div *ngIf="!isBranchClose && fullMessage?.ImageGuid != null" class="d-none d-lg-flex">
+        <div class="header" style="width: 100%; padding: 16px !important; margin-bottom: 15px;">
+          {{messageText}}
+        </div>
+      </div>
+
+      <div *ngIf="isBranchClose" class="d-none d-lg-flex">
+        <div class="header-branch-close" style="width: 100%; padding: 16px !important; margin-bottom: 15px;">
+          {{header}}
+        </div>
+      </div>
+
+
+      <!--<div *ngIf="isBranchClose" style="text-align: center;">
+        <img style="padding-bottom: 9px; width: 69px;" src="../../../assets/images/items/branch-close.svg" />
+      </div>-->
+
+      <div *ngIf="icon != null && icon && fullMessage?.ImageGuid == null" style="text-align: center;">
+        <img style="padding-bottom: 9px; width: 69px;" [src]=icon />
+      </div>
+
+
+
+      <div *ngIf="messageText && messageText != undefined && messageText != 'undefined' && fullMessage?.ImageGuid == null" class="row justify-content-center pb-2 text-style" style="text-align: center;">
+        <div class="col" *ngIf="!isUsedPre">
+          <div style="padding: 15px;">
+          {{messageText}}
+          </div>
+        </div>
+        <div class="col pre-message" *ngIf="isUsedPre && txtArr?.length > 1">
+          <ng-container *ngFor="let r of txtArr">
+            <div *ngIf="r !=''" class="row" style="direction: ltr;">
+              <div class="col">
+                {{r}}
+              </div>
+            </div>
+            <div *ngIf="trimEmptySpace(r).length<2" class="row pt-2" style="direction: ltr;">
+
+            </div>
+          </ng-container>
+
+
+        </div>
+        <div class="col pre-message" *ngIf="isUsedPre && txtArr?.length<2">
+          <div style="white-space: pre;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'rtl': 'ltr'}">{{trimEmptySpace(messageText)}}</div>
+        </div>
+      </div>
+
+      
+
+      <div *ngIf="isAbout" class="row justify-content-center pb-2 text-style" style="text-align: center;">
+        <!--div class="col-3" style="padding-top: 10px;">
+          <img style="width: 30px;" src="../../../assets/images/items/phone.png" alt="">
+        </div-->
+        <div class="col-12">
+          <perfect-scrollbar  style="overflow-y: auto; max-height: 50vh; padding: 2vh; text-align: start;">
+          <span>{{desc}}</span>
+          </perfect-scrollbar>
+        </div>
+      </div>
+
+      <div *ngIf="isContact && phoneNumber && phoneNumber != undefined && phoneNumber != 'undefined'" class="row justify-content-center pb-2 text-style" style="text-align: center;">
+        <div class="col-3" style="padding-top: 10px;">
+          <img style="width: 30px;" src="../../../assets/images/items/phone.png" alt="">
+        </div>
+        <div class="col-9">
+          <div style="padding: 15px; padding-bottom: 0;">
+            <a [href]="'tel:+972'+phoneNumber">{{phoneNumber}}</a>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isContact && address && address != undefined && address != 'undefined'" class="row justify-content-center pb-2 text-style" style="text-align: center;">
+        <div class="col-3" style="padding-top: 10px;">
+          <img src="../../../assets/images/items/house-new.svg" alt="">
+        </div>
+        <div class="col-9" >
+          <div style="padding: 15px;">
+          {{address}}
+          </div>
+        </div>
+      </div>
+ 
+      <ng-container *ngIf="isBranchClose && workingHoursArr.length > 0">
+        <div class="row px-4" *ngFor="let i of workingHoursArr" >
+          <div class="col-2"></div>
+          <div class="col-3 ">
+            {{i.day}}
+          </div>
+          <div class="col text-center">
+            <div  *ngFor="let r of i.hours"  class="row" >
+              <div class="col text-center">
+                {{r}}
+              </div>
+            </div>
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </ng-container>
+
+
+      <!--div class="row justify-content-center 111" *ngIf="isBranchClose">
+        <div class="col-3">
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"SUNDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"MONDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"TUESDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"WEDNESDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"THIRSDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"FRIDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"SATURDAY" | translate}}
+            </div>
+          </div>
+
+        </div>
+        <div class="col-auto">
+          <ng-container *ngFor="let r of workingHoursStr">
+            <div *ngIf="r !=''" class="row" style="direction: ltr;">
+              <div class="col">
+                {{r}}
+              </div>
+            </div>
+
+            <div *ngIf="trimEmptySpace(r).length<2" class="row pt-2" style="direction: ltr;">
+
+            </div>
+          </ng-container>
+
+        </div>
+
+      </div-->
+
+      <div class="d-flex d-lg-none row pt-2">
+        
+        <div *ngIf="!isGoback" class="col-12">
+          <button type="button" class="btn btn-message-popup" (click)="close()">
+            <div class="text-message-popup">
+              {{'MESSAGE_OK' | translate}}
+            </div>
+          </button>
+        </div>
+        
+      </div>
+
+      <div *ngIf="!isBranchClose && !isGoback" [ngStyle]="{'position':fullMessage?.ImageGuid != null ? 'absolute': '', 'width': fullMessage?.ImageGuid != null ? '100%': '100%', 'margin': fullMessage?.ImageGuid != null ? '0': '0', 'bottom':fullMessage?.ImageGuid != null ? '2vh': '2vh'}" class="d-none d-lg-flex row justify-content-center pt-2">
+        
+        <div class="col-8">
+          <button type="button" style="padding: 5px 42px;" class="btn btn-message-popup" (click)="close()">
+            <div class="text-message-popup">
+              {{'MESSAGE_OK' | translate}}
+            </div>
+          </button>
+        </div>
+        
+      </div>
+
+      <div *ngIf="isBranchClose && !isGoback" class="d-none d-lg-flex row justify-content-center pt-2">
+        
+        <div class="col-8">
+          <button type="button" style="padding: 5px 42px;" class="btn btn-message-popup" (click)="close()">
+            <div class="text-message-popup">
+              {{'MESSAGE_OK' | translate}}
+            </div>
+          </button>
+        </div>
+        
+      </div>
+
+
+      <div *ngIf="isBranchClose && !isGoback" class="d-none d-lg-flex row justify-content-center pt-2">
+        <div class="col-8 align-middle">
+          <button type="button" style="padding: 5px 42px;" class="btn btn-message-popup" (click)="watchMenu()">
+            <div class="text-message-popup">
+              {{'WATCH_MENU' | translate}}
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="isGoback" class="d-none d-lg-flex row justify-content-center pt-2">
+        
+
+        <!--TODO return false-->
+        <div class="col-8">
+          <button type="button" style="padding: 5px 42px; " class="btn btn-message-popup" (click)="close()">  <!--false-->
+            <div class="text-message-popup">
+              {{'MESSAGE_OK' | translate}}
+            </div>
+          </button>
+        </div>
+
+        <div class="col-8">
+          <button type="button" style="padding: 5px 42px; " class="btn btn-message-popup" (click)="watchMenu()"> <!--true-->
+            <div class="text-message-popup">
+              {{'BACK' | translate}}
+            </div>
+          </button>
+        </div>
+        
+      </div>
+
+     
+    </div>
+
+
+    <!--div class="button-wrapper" [ngClass]="{'direction': lang != 'he'}">
+     <button class="popup-button-ok" (click)="close()" [ngStyle]="{'background-color': colors.buttonColor}">
+       <div class="message-half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+       {{'MESSAGE_OK' | translate}}</button>
+    </div-->
+  </div>
+</div>
+
+<div class="d-block d-lg-none popup-wrapper animated fadeIn" style="padding: 16px;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl', 'background-image': fullMessage?.ImageGuid != null ? 'url(' + icon + ')' : null, 'background-repeat': fullMessage?.ImageGuid != null ? 'no-repeat': '', 'background-size': fullMessage?.ImageGuid != null ? 'cover': '', 'min-height': fullMessage?.ImageGuid != null ? '300px': '300px','margin': fullMessage?.ImageGuid != null ? '0': 'auto'
+,'position': fullMessage?.ImageGuid != null ? 'relative': 'auto','padding': fullMessage?.ImageGuid != null ? '0': '16px'}">
+  <!--<div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></span>
+  </div>-->
+
+  <div *ngIf="!isBranchClose && fullMessage?.ImageGuid != null" class="d-flex d-lg-none">
+    <div class="header" style="width: 100%; padding: 16px !important; margin-bottom: 15px;">
+      {{messageText}}
+    </div>
+  </div>
+
+  <div class="message-container-wrapper pb-2" style="width: 100%;"   [ngStyle]="{'background': fullMessage?.ImageGuid == null ? '#fff': ''}">
+    <div >
+
+      <div *ngIf="!isBranchClose  && fullMessage?.ImageGuid == null" class="d-flex d-lg-none row pb-2" style="padding-left: 10px; padding-right: 10px;">
+        <div class="col-12 header">
+          {{header}}
+        </div>
+      </div>
+
+      <div *ngIf="isBranchClose" class="d-flex d-lg-none row pb-2"  style="padding-left: 10px; padding-right: 10px;">
+        <div class="col-12 header-branch-close">
+          {{header}}
+        </div>
+      </div>
+
+      <div *ngIf="!isBranchClose  && fullMessage?.ImageGuid == null" class="d-none d-lg-flex">
+        <div class="header" style="width: 100%; padding: 16px !important; margin-bottom: 15px;">
+          {{header}}
+        </div>
+      </div>
+
+
+
+      <div *ngIf="isBranchClose" class="d-none d-lg-flex">
+        <div class="header-branch-close" style="width: 100%; padding: 16px !important; margin-bottom: 15px;">
+          {{header}}
+        </div>
+      </div>
+
+
+      <!--<div *ngIf="isBranchClose" style="text-align: center;">
+        <img style="padding-bottom: 9px; width: 69px;" src="../../../assets/images/items/branch-close.svg" />
+      </div>-->
+
+      <div *ngIf="icon != null && icon && fullMessage?.ImageGuid == null" style="text-align: center;">
+        <img style="padding-bottom: 9px; width: 69px;" [src]=icon />
+      </div>
+
+
+
+      <div *ngIf="messageText && messageText != undefined && messageText != 'undefined'  && fullMessage?.ImageGuid == null" class="row pb-2 text-style" style="text-align: center;">
+        <div class="col" *ngIf="!isUsedPre">
+          <div style="padding: 15px;">
+          {{messageText}}
+          </div>
+        </div>
+        <div class="col pre-message" *ngIf="isUsedPre && txtArr?.length > 1">
+          <ng-container *ngFor="let r of txtArr">
+            <div *ngIf="r !=''" class="row" style="direction: ltr;">
+              <div class="col">
+                {{r}}
+              </div>
+            </div>
+            <div *ngIf="trimEmptySpace(r).length<2" class="row pt-2" style="direction: ltr;">
+
+            </div>
+          </ng-container>
+
+
+        </div>
+        <div class="col pre-message" *ngIf="isUsedPre && txtArr?.length<2">
+          <div style="white-space: pre;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'rtl': 'ltr'}">{{trimEmptySpace(messageText)}}</div>
+        </div>
+      </div>
+
+      <div *ngIf="isContact && phoneNumber && phoneNumber != undefined && phoneNumber != 'undefined'" class="row justify-content-center pb-2 text-style" style="text-align: center;">
+        <div class="col-auto" style="padding-top: 10px; padding-right: 60px; padding-left: 0;">
+          <img style="width: 30px;" src="../../../assets/images/items/phone.png" alt="">
+        </div>
+        <div class="col" style="text-align: right; padding-right: 0;">
+          <div style="padding: 15px; padding-bottom: 0;">
+            <a [href]="'tel:+972'+phoneNumber">{{phoneNumber}}</a>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isContact && address && address != undefined && address != 'undefined'" class="row justify-content-center pb-2 text-style" style="text-align: center;">
+        <div class="col-auto" style="padding-top: 10px; padding-right: 65px; padding-left: 0;">
+          <img src="../../../assets/images/items/house-new.svg" alt="">
+        </div>
+        <div class="col" style="text-align: right; padding-right: 0;">
+          <div style="padding: 15px;">
+          {{address}}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isAbout" class="row justify-content-center pb-2 text-style" style="text-align: center;">
+        <!--div class="col-3" style="padding-top: 10px;">
+          <img style="width: 30px;" src="../../../assets/images/items/phone.png" alt="">
+        </div-->
+        <div class="col-12">
+          <perfect-scrollbar  style="overflow-y: auto; max-height: 50vh; padding: 0.5vh 6vw 0.5vh 6vw; text-align: start;">
+            <span>{{desc}}</span>
+            </perfect-scrollbar>
+        </div>
+      </div>
+
+      <!--div class="row justify-content-center 111" *ngIf="isBranchClose">
+        <div class="col-3">
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"SUNDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"MONDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"TUESDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"WEDNESDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"THIRSDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"FRIDAY" | translate}}
+            </div>
+          </div>
+          <div class="row" style="direction: ltr;">
+            <div class="col">
+              {{"SATURDAY" | translate}}
+            </div>
+          </div>
+
+        </div>
+        <div class="col-auto">
+          <ng-container *ngFor="let r of workingHoursStr">
+            <div *ngIf="r !=''" class="row" style="direction: ltr;">
+              <div class="col">
+                {{r}}
+              </div>
+            </div>
+
+            <div *ngIf="trimEmptySpace(r).length<2" class="row pt-2" style="direction: ltr;">
+
+            </div>
+          </ng-container>
+
+        </div>
+
+      </div-->
+
+      <ng-container *ngIf="isBranchClose && workingHoursArr.length > 0">
+        <div class="row px-4" *ngFor="let i of workingHoursArr" >
+          <div class="col-2"></div>
+          <div class="col-3 px-0">
+            {{i.day}}
+          </div>
+          <div class="col text-center">
+            <div  *ngFor="let r of i.hours"  class="row" >
+              <div class="col text-center">
+                {{r}}
+              </div>
+            </div>
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </ng-container>
+
+      <div class="d-flex d-lg-none row pt-2" style="justify-content: center;"  [ngStyle]="{'position':fullMessage?.ImageGuid != null ? 'absolute': '', 'width': fullMessage?.ImageGuid != null ? '100%': '', 'margin': fullMessage?.ImageGuid != null ? '0': '', 'bottom':fullMessage?.ImageGuid != null ? '2vh': ''}">
+        
+        <div class="col-8">
+          <button type="button" class="btn btn-message-popup" (click)="close()">
+            <div class="text-message-popup">
+              {{'MESSAGE_OK' | translate}}
+            </div>
+          </button>
+        </div>
+        
+      </div>
+
+      <div class="d-none d-lg-flex row justify-content-center pt-2" >
+        
+        <div class="col-8">
+          <button type="button" style="padding: 5px 42px;" class="btn btn-message-popup" (click)="close()">
+            <div class="text-message-popup">
+              {{'MESSAGE_OK' | translate}}
+            </div>
+          </button>
+        </div>
+        
+      </div>
+
+      <div *ngIf="isBranchClose" class="d-flex d-lg-none row justify-content-center pt-2">
+        
+        <div class="col-8">
+          <button type="button" class="btn btn-message-popup" (click)="watchMenu()">
+            <div class="text-message-popup">
+              {{'WATCH_MENU' | translate}}
+            </div>
+          </button>
+        </div>
+        
+      </div>
+
+      <div *ngIf="isBranchClose" class="d-none d-lg-flex row justify-content-center pt-2">
+        
+        <div class="col-8 align-middle">
+          <button type="button" style="padding: 5px 42px;" class="btn btn-message-popup" (click)="watchMenu()">
+            <div class="text-message-popup">
+              {{'WATCH_MENU' | translate}}
+            </div>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+
+
+    <!--div class="button-wrapper" [ngClass]="{'direction': lang != 'he'}">
+     <button class="popup-button-ok" (click)="close()" [ngStyle]="{'background-color': colors.buttonColor}">
+       <div class="message-half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+       {{'MESSAGE_OK' | translate}}</button>
+    </div-->
+  </div>
+</div>

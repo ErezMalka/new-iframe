@@ -1,0 +1,106 @@
+<div class="d-flex d-lg-none popup-wrapper animated fadeIn">
+
+  <div class="scratch-container-wrapper-scm"  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style= "width: 100%; background: white; padding-top: 17px; border-radius: 15px; ">
+    <div class="textlabel-header">
+      <!--<span class="quarter left" [ngStyle]="{'background-color': colors.buttonColor}"></span>-->
+      {{'SCRATCH_USE_HEADER' | translate}}
+      <!--<span class="quarter right" [ngStyle]="{'background-color': colors.buttonColor}"></span>-->
+    </div>
+
+
+    <div class="scratch-container-wrapper-internal" style="margin-top: 15px; padding: 0 30px;">
+      <img src="{{scratchCoupon?.ImageUrl}}"  style="border-radius: 15px; margin-bottom: 4px;"/>
+      <div class="textlabel-header" >
+        {{scratchCoupon?.Item?.Name}}</div>
+
+      <div class=" header">
+        <b>
+        <span>{{'SCRATCH_TOORDER' | translate}}</span>
+        <span>{{scratchCoupon?.MinOrderSum}}{{'COMMON_CASH' | translate}}</span>
+      </b>
+      </div>
+      <div class="header">
+        <b>
+        <span>{{ 'SCRATCH_AVAILABLE' | translate }} </span>
+        <span>{{displayDate(scratchCoupon?.ExpirationDate)}}</span>
+      </b>
+
+      </div>
+
+    </div>
+
+    <div class="scratch-button-wrapper" [ngClass]="{'direction': lang != 'he'}">
+      <div class="scratch-button-line" [ngStyle]="{'direction':getLanguage() === 'en' ? 'rtl': 'ltr'}" style="background: white; padding-bottom: 16px; border-radius: 15px;">
+        <button class="scratch-button-use" (click)="use()" [ngStyle]="{'background-color': colors.buttonColor}">
+          <div class="half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+          {{'FORM_SIGN_IN' | translate}}
+        </button>
+        <!--button class="button-cancel" (click)="nextTime()">
+          <div class="half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+          {{'SCRATCH_COUPON_NEXT_TIME' | translate}}
+        </button-->
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<div class="d-none d-lg-flex popup-wrapper animated fadeIn">
+
+  <div class="scratch-container-wrapper-scm" style="background: white;  border-radius: 15px; padding: 14px 23px;">
+    <div class="textlabel-header" style="margin-bottom: 10px;">
+      <!--<span class="quarter left" [ngStyle]="{'background-color': colors.buttonColor}"></span>-->
+      {{'SCRATCH_USE_HEADER' | translate}}
+      <!--<span class="quarter right" [ngStyle]="{'background-color': colors.buttonColor}"></span>-->
+    </div>
+
+
+    <div class="scratch-container-wrapper-internal" style="margin: 0;" >
+      <img src="{{scratchCoupon?.ImageUrl}}"  style="border-radius: 15px; margin-bottom: 4px; max-height: 425px;"/>
+      <div class="textlabel-header" >
+        {{scratchCoupon?.Item?.Name}}</div>
+
+      <div class=" header">
+        <b>
+        <span>{{'SCRATCH_TOORDER' | translate}}</span>
+        <span>{{scratchCoupon?.MinOrderSum}}{{'COMMON_CASH' | translate}} </span>
+      </b>
+      </div>
+      <div class="header">
+        <b>
+        <span>{{ 'SCRATCH_AVAILABLE' | translate }} </span>
+        <span>{{displayDate(scratchCoupon?.ExpirationDate)}}</span>
+      </b>
+
+      </div>
+      
+      <div class="row" style="margin-top: 15px; justify-content: center;">
+        <div class="col">
+        <button class="scratch-button-use" (click)="use()" [ngStyle]="{'background-color': colors.buttonColor}" style="border: none; padding: 10px 24px; border-radius: 5px; font-style: normal;
+        font-weight: bold;
+        width: 100%;
+        font-size: 21px;
+        line-height: 21px;
+        color: #FFFFFF;
+        background-color: var(--orange)" >
+          <div class="half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+          {{'FORM_SIGN_IN' | translate}}
+        </button>
+        <!--button class="button-cancel" (click)="nextTime()" style="border: none; padding: 10px 24px; border-radius: 5px; font-style: normal;
+        font-weight: bold;
+        font-size: 21px;
+        line-height: 21px;
+        color: #FFFFFF;
+        margin-right: 13px;
+        background-color: #747474;">
+          <div class="half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+          {{'SCRATCH_COUPON_NEXT_TIME' | translate}}
+        </button-->
+      </div>
+
+      </div>
+    </div>
+  </div>
+</div>

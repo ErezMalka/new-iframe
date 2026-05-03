@@ -1,0 +1,9 @@
+diff a/src/app/app.routing.ts b/src/app/app.routing.ts	(rejected hunks)
+@@ -57,6 +57,7 @@
+     path: '',
+     component: DefaultLayoutComponent,
+     children: [
++      
+       {
+         path: ':franchiseId/menu',
+         loadChildren: () => import('./views/menu/menu.module').then(m => m.MenuModule)

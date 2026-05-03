@@ -1,0 +1,14 @@
+<div class="sign-out">
+  <button type="button"
+          class="btn btn-custom btn-block d-none d-lg-block" 
+          style="background-color: black;"
+          [animation]="'pulse'" (click)="signOutUser()"> <!--[ngStyle]="{'background-color': colors.buttonColor}"-->
+          {{ "LOGOUT" | translate }}
+  </button>
+  <div class="d-block d-lg-none" (click)="signOutUser()">
+        {{ "LOGOUT" | translate }}
+  <!--img src="../../../assets/images/items/sign-out.svg" class="sign-out-icon animated"
+       [animation]="'pulse'" (click)="signOutUser()"-->
+  </div>
+  
+</div>

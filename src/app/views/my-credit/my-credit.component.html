@@ -1,0 +1,473 @@
+<!--div class="container order-container-wrapper animated fadeIn" (window:resize)="onResize($event)"-->
+<div id="snackbar" class="snackbar">
+  <img src="../../../assets/images/items/success-check.svg" />
+  <span>{{"MESSAGE_SUCCESS_UPDATED_USER" | translate}}</span>
+</div>
+
+<div id="snackbar-cancel" class="snackbar">
+  <img src="../../../assets/images/items/success-check.svg" />
+  <span>{{"MESSAGE_SUCCESS_CANCELED_MEMBERSHIP" | translate}}</span>
+</div>
+
+
+
+<div class="row app-header-new d-none d-lg-flex"
+style="position: fixed; top: 0; height: 90px; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+
+  <div class="col-auto text-center" style="align-self: center;">
+    <button type="button" style="color: #605E5E; border: none; background: transparent;" (click)="openNav()">
+      <i class="fa fa-bars fa-2x"></i> 
+    </button>
+  </div>
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn" (click)="doSomething()">
+      <a style="color:#505050; font-weight: 700;" routerLink="/{{franchiseId}}/menu"
+         >
+        <span>{{'MENU' | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col text-center" style="align-self: center;">
+    <img style="height:70px; width: auto;" [src]="graphics.logo" />
+  </div>
+  <!--div class="col-auto" style="align-self: center;">
+    <select class="form-control" [(ngModel)]="selectedLang"  (change)="changeLanguage()">
+      <option *ngFor="let lang of languages" [value]="lang.Code">
+      {{lang.Descriprion}}
+      </option>
+    </select>
+  </div>
+
+
+
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn" (click)="doSomething()">
+      <a style="color:#505050;"  routerLink="/{{franchiseId}}/menu"
+        routerLinkActive="active"> 
+        <span>{{'MENU' | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-auto" *ngIf="isSignedUser" style="align-self: center;">
+    <div class="nav-btn" (click)="doSomething()">
+      <a class="link" style="color:#505050;" routerLink="/{{franchiseId}}/my-order" routerLinkActive="active">
+        <span>{{'MY_ORDERS' | translate}}</span>
+      </a>
+    </div>
+
+  </div>
+
+  <div *ngIf="isSignedUser" class="col-auto" style="align-self: center;">
+    <div class="nav-btn" (click)="doSomething()">
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/my-order-status/{{this.lastOrderId}}"
+        routerLinkActive="active">
+        <span>{{'TRACKER' | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+
+
+  <div class="col"></div>
+
+
+  <div class="col-auto" style="align-self: center;">
+    
+  </div>
+
+  <div *ngIf="currentBranch.BranchPhone!=null && currentBranch.BranchPhone!=undefined  && currentBranch.BranchPhone!= 'null' " class="col-auto" style="align-self: center;"
+  (click)="openDetails()">
+    <div style="cursor: pointer;" class="grey-btn">
+      {{"CONTACT" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="description && description != null" class="col-auto" style="align-self: center;"
+  (click)="openDesc()">
+    <div style="cursor: pointer;" class="grey-btn">
+      {{"ABOUT" | translate}}
+    </div>
+  </div>
+
+
+  <div *ngIf="discount && discount?.type=='Sum' && discount?.sum>0" class="col-auto" style="align-self: center;">
+    <div style="cursor: pointer;" class="grey-btn">
+      {{"DISCOUNT" | translate}}: {{discount?.sum}}{{"COMMON_CASH" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="discount && discount?.type=='Percent'  && discount?.sum>0" class="col-auto" style="align-self: center;">
+    <div style="cursor: pointer;" class="grey-btn">
+      {{"DISCOUNT" | translate}}: {{discount?.sum}}%
+    </div>
+  </div>
+
+  <div *ngIf="isSignedUser && appUser?.IsClubMember" class="col-auto" style="align-self: center;">
+    <div class="grey-btn" style="background: var(--orange);" (click)="closeNav()">
+      <a style="color: white;" routerLink="/{{franchiseId}}/my-membership" routerLinkActive="active">
+        <span>{{"MY_MEMBERSHIP" | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="!isSignedUser" class="col-auto" style="align-self: center;">
+    <div style="cursor: pointer;" class="grey-btn" (click)="loadSignInAndCoupons()">
+      {{"LOG_IN" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="isSignedUser" class="col-auto" style="align-self: center;">
+    <div style="cursor: pointer;" class="red-btn" (click)="signOut()">
+      {{"SIGN_OUT" | translate}}
+    </div>
+  </div-->
+</div>
+
+
+
+<div class=" container animated fadeIn">
+  <div class="row header" style="margin: 3vh 2vw; position: relative;">
+
+    <div *ngIf=" isMobileMode()"  class="col menu-category-name"  style="font-weight: 600; font-size: 3vh;">
+      {{appStorageService.franchise?.CreditName}}
+    </div>
+    <div *ngIf="!isMobileMode()"  class="col menu-category-name"  style="font-weight: 600; font-size: 4vh; color: #474747;">
+      {{appStorageService.franchise?.CreditName}}
+    </div>
+
+
+    <div   (click)="goBackToMenu()" style="position: absolute; right: 12vw; top: 0; z-index: 99;">
+      <svg style="position: absolute; top: 0.5vh; left: 2.5vw;" width="22" height="27" viewBox="0 0 22 27" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_1819_975)">
+          <path
+            d="M0.353426 1.37367C-0.411226 0.867554 0.25581 -0.327206 1.07334 0.0876408C7.76404 3.4645 14.3083 7.14419 20.7794 10.911C22.4022 11.832 22.4063 14.4123 20.7794 15.3333C20.2547 15.6444 18.7701 16.5031 18.2211 16.8267C14.7801 18.7889 10.9935 20.9503 7.5078 22.7881C5.38467 23.9289 3.25341 25.049 1.10587 26.1442C0.25581 26.5756 -0.447834 25.3394 0.345289 24.8042C4.60375 21.921 8.94355 19.1747 13.32 16.4699C14.5239 15.7315 16.5575 14.5036 18.1194 13.5702C18.457 13.3669 18.461 12.8732 18.1275 12.6699C15.6058 11.1184 7.15801 5.8955 0.357495 1.37782L0.353426 1.37367Z"
+            fill="var(--orange)" />
+        </g>
+        <defs>
+          <clipPath id="clip0_1819_975">
+            <rect width="22" height="26.2308" fill="white" transform="translate(22 26.231) rotate(-180)" />
+          </clipPath>
+        </defs>
+      </svg>
+    </div>
+
+ 
+
+  </div>
+
+  <ng-container *ngIf="isMobileMode()">
+  
+    <div class="row" style="margin-bottom: 2vh;">
+      <div class="col">
+        <div style="position: relative; height: 20vh; background: #FFFFFF; box-shadow: 0px 0px 12px rgba(60, 60, 60, 0.25);">
+        
+        
+          <div style="font-weight: 600;
+                  font-size: 22px;
+                  text-align: center;
+                  padding: 1vh;
+                  background: #FFFFFF;
+                  box-shadow: 0px 0px 12px rgb(60 60 60 / 25%);">
+           יתרתך בכרטיס:
+          </div>
+        
+        
+          <div class="row my-3">
+            <div class="col text-center" 
+                 style="color: var(--orange); font-size: 35px; margin-top: 2vh; font-weight: 800; margin-right: 1vw;"> 
+            
+              <span>  {{"COMMON_CASH" | translate}}{{appUser.BiteCredit}} </span>
+             
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <button (click)="openBiteCreditPopup()" style="box-shadow: 0px 0px 4px rgb(var(--orange) / 90%);
+                    background: var(--orange);
+                    border: none;
+                    color: white;
+                    padding: 0.9rem;
+                    font-size: 20px; width: 100%; position: absolute; bottom: 0;">
+                <span>טעינת כרטיס</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+     
+    <div class="row" style="margin-bottom: 2vh;">
+      <div class="col">
+        <div style="height: 60vh; background: #FFFFFF; box-shadow: 0px 0px 12px rgba(60, 60, 60, 0.25);">
+          <div style="font-weight: 600;
+          font-size: 2vh;
+          text-align: center;
+          padding: 1vh;
+          background: #FFFFFF;
+          box-shadow: 0px 0px 12px rgb(60 60 60 / 25%);">
+          הסטוריית קרדיטים
+          </div>
+        <div class="my-info-container" style="padding: 1vh; height: 50vh; overflow-y: auto;">
+    
+          <div class="card" style="background: var(--orange); box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px;
+                     padding: 0.5vh; color: white; margin-top: 2vh;">
+            <div class="card-header-primary row" style="margin: 0;">
+              <div class="col-3" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_DATE" | translate }}
+              </div>
+              <div class="col-2" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_REDEEM" | translate }}
+              </div>
+              <div class="col-2" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_RECEIVE" | translate }}
+              </div>
+              <div class="col-3" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_LEFT" | translate }}
+              </div>
+              <div class="col-2" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_DETAILS" | translate }}
+              </div>
+            </div>
+          </div>
+    
+          <ng-container *ngFor="let order of []">
+    
+            <div class="card" [ngClass]="{'selected': !order.isCollapsed}">
+    
+              <div class="card-header" (click)="getOrderSum(order)"
+                style="padding: 1.5vh 2vw 1.5vh 1vw !important;" [ngClass]="{'selected': !order.isCollapsed}"
+                [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+                <div class="row">
+                  <div class="primary col-3">{{order.DateStr | date:"M/d/yy"}}&nbsp;</div>
+    
+                  <div *ngIf="order.Points < 0" class="col-2">{{order.Points}}</div>
+                  <div *ngIf="order.Points >= 0" class="col-2">0</div>
+    
+                  <div *ngIf="order.Points <= 0" class="col-2">0</div>
+                  <div *ngIf="order.Points > 0" class="col-2">{{order.Points}}</div>
+    
+                  <div class="col-3">{{order.TotalPoints}}</div>
+    
+                  <div class="col-2">
+                    <div *ngIf="order.isCollapsed">
+                      <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M20.8486 0.295073C21.273 -0.343319 22.2751 0.213577 21.9272 0.896113C19.095 6.48204 16.0088 11.9457 12.8495 17.3483C12.0771 18.7032 9.91292 18.7066 9.1405 17.3483C8.87955 16.9102 8.15932 15.6708 7.88793 15.2124C6.2422 12.3396 4.42945 9.17823 2.88809 6.26811C1.93127 4.49556 0.991841 2.71621 0.0732896 0.923279C-0.288564 0.213577 0.748286 -0.37388 1.19712 0.288281C3.61528 3.84358 5.91862 7.46679 8.18716 11.1206C8.80649 12.1257 9.83638 13.8235 10.6192 15.1275C10.7897 15.4093 11.2038 15.4127 11.3743 15.1343C12.6755 13.029 17.056 5.97608 20.8451 0.29847L20.8486 0.295073Z"
+                          fill="var(--orange)" />
+                      </svg>
+                    </div>
+                    <div *ngIf="!order.isCollapsed">
+                      <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M1.15145 18.7047C0.726965 19.3431 -0.275092 18.7862 0.0728442 18.1036C2.90504 12.5177 5.99124 7.05403 9.1505 1.65147C9.92292 0.296585 12.0871 0.29319 12.8595 1.65147C13.1204 2.08952 13.8407 3.32895 14.1121 3.78737C15.7578 6.66013 17.5706 9.82153 19.1119 12.7316C20.0687 14.5042 21.0082 16.2835 21.9267 18.0765C22.2886 18.7862 21.2517 19.3736 20.8029 18.7115C18.3847 15.1562 16.0814 11.533 13.8128 7.87919C13.1935 6.87406 12.1636 5.17621 11.3808 3.87226C11.2103 3.59042 10.7962 3.58702 10.6257 3.86547C9.32447 5.9708 4.94395 13.0237 1.15493 18.7013L1.15145 18.7047Z"
+                          fill="var(--orange)" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="card-body" [collapse]="order?.isCollapsed"
+                style="background: #EBEBEB; border-radius: 0 0 15px 15px;">
+                <div class="row">
+                  <div class="col-6 my-text-info">
+                    <span><b>{{ "MY_ORDERS_ORDERID" | translate }}</b>&nbsp;</span>
+                    <span>{{order.OrderId}}</span>
+                  </div>
+                  <div class="col-6 my-text-info">
+                    <span><b>{{ "ORDERSUM" | translate }}</b>&nbsp;</span>
+                    <span>{{ orderSum }}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 my-text-info">
+                    <span><b>{{ "MY_ORDERS_OPERATION" | translate }}</b>&nbsp;</span>
+                    <span>{{getPointsOperation(order)}}</span>
+                  </div>
+                  <div *ngIf="order.Comment && order.Comment != null" class="col-6 my-text-info">
+                    <span><b>{{ "MY_ORDERS_COMMENT" | translate }}</b>&nbsp;</span>
+                    <span>{{order.Comment}}</span>
+                  </div>
+    
+                </div>
+    
+              </div>
+    
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      </div>
+    </div>
+  
+   
+  
+  </ng-container>
+
+  <ng-container *ngIf="!isMobileMode()">
+    <div class="row my-5">
+      <div class="col-1"></div>
+      <div class="col-3">
+        <div style="position: relative; height: 25vh; background: #FFFFFF; box-shadow: 0px 0px 12px rgba(60, 60, 60, 0.25);">
+        
+        
+          <div style="font-weight: 600;
+                  font-size: 2vh;
+                  text-align: center;
+                  padding: 1vh;
+                  background: #FFFFFF;
+                  box-shadow: 0px 0px 12px rgb(60 60 60 / 25%);">
+           יתרתך בכרטיס:
+          </div>
+        
+        
+          <div class="row mt-5">
+            <div class="col text-center" 
+                 style="color: var(--orange); font-size: 40px; margin-top: 2vh; font-weight: 800; margin-right: 1vw;"> 
+            
+              <span>  {{"COMMON_CASH" | translate}}{{appUser.BiteCredit}} </span>
+             
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <button (click)="openBiteCreditPopup()" style="box-shadow: 0px 0px 4px rgb(var(--orange) / 90%);
+                    background: var(--orange);
+                    border: none;
+                    color: white;
+                    padding: 0.9rem;
+                    font-size: 20px; width: 100%; position: absolute; bottom: 0;">
+                <span>טעינת כרטיס</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div style="height: 60vh; background: #FFFFFF; box-shadow: 0px 0px 12px rgba(60, 60, 60, 0.25);">
+          <div style="font-weight: 600;
+          font-size: 2vh;
+          text-align: center;
+          padding: 1vh;
+          background: #FFFFFF;
+          box-shadow: 0px 0px 12px rgb(60 60 60 / 25%);">
+          הסטוריית קרדיטים
+          </div>
+        <div class="my-info-container" style="padding: 1vh; height: 50vh; overflow-y: auto;">
+    
+          <div class="card" style="background: var(--orange); box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px;
+                     padding: 0.5vh; color: white; margin-top: 2vh;">
+            <div class="card-header-primary row" style="margin: 0;">
+              <div class="col-3" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_DATE" | translate }}
+              </div>
+              <div class="col-2" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_REDEEM" | translate }}
+              </div>
+              <div class="col-2" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_RECEIVE" | translate }}
+              </div>
+              <div class="col-3" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_LEFT" | translate }}
+              </div>
+              <div class="col-2" style="text-align: center; padding: 0 0.2vw;">
+                {{ "MY_ORDERS_DETAILS" | translate }}
+              </div>
+            </div>
+          </div>
+    
+          <ng-container *ngFor="let order of []">
+    
+            <div class="card" [ngClass]="{'selected': !order.isCollapsed}">
+    
+              <div class="card-header" (click)="getOrderSum(order)"
+                style="padding: 1.5vh 2vw 1.5vh 1vw !important;" [ngClass]="{'selected': !order.isCollapsed}"
+                [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+                <div class="row">
+                  <div class="primary col-3">{{order.DateStr | date:"M/d/yy"}}&nbsp;</div>
+    
+                  <div *ngIf="order.Points < 0" class="col-2">{{order.Points}}</div>
+                  <div *ngIf="order.Points >= 0" class="col-2">0</div>
+    
+                  <div *ngIf="order.Points <= 0" class="col-2">0</div>
+                  <div *ngIf="order.Points > 0" class="col-2">{{order.Points}}</div>
+    
+                  <div class="col-3">{{order.TotalPoints}}</div>
+    
+                  <div class="col-2">
+                    <div *ngIf="order.isCollapsed">
+                      <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M20.8486 0.295073C21.273 -0.343319 22.2751 0.213577 21.9272 0.896113C19.095 6.48204 16.0088 11.9457 12.8495 17.3483C12.0771 18.7032 9.91292 18.7066 9.1405 17.3483C8.87955 16.9102 8.15932 15.6708 7.88793 15.2124C6.2422 12.3396 4.42945 9.17823 2.88809 6.26811C1.93127 4.49556 0.991841 2.71621 0.0732896 0.923279C-0.288564 0.213577 0.748286 -0.37388 1.19712 0.288281C3.61528 3.84358 5.91862 7.46679 8.18716 11.1206C8.80649 12.1257 9.83638 13.8235 10.6192 15.1275C10.7897 15.4093 11.2038 15.4127 11.3743 15.1343C12.6755 13.029 17.056 5.97608 20.8451 0.29847L20.8486 0.295073Z"
+                          fill="var(--orange)" />
+                      </svg>
+                    </div>
+                    <div *ngIf="!order.isCollapsed">
+                      <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M1.15145 18.7047C0.726965 19.3431 -0.275092 18.7862 0.0728442 18.1036C2.90504 12.5177 5.99124 7.05403 9.1505 1.65147C9.92292 0.296585 12.0871 0.29319 12.8595 1.65147C13.1204 2.08952 13.8407 3.32895 14.1121 3.78737C15.7578 6.66013 17.5706 9.82153 19.1119 12.7316C20.0687 14.5042 21.0082 16.2835 21.9267 18.0765C22.2886 18.7862 21.2517 19.3736 20.8029 18.7115C18.3847 15.1562 16.0814 11.533 13.8128 7.87919C13.1935 6.87406 12.1636 5.17621 11.3808 3.87226C11.2103 3.59042 10.7962 3.58702 10.6257 3.86547C9.32447 5.9708 4.94395 13.0237 1.15493 18.7013L1.15145 18.7047Z"
+                          fill="var(--orange)" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="card-body" [collapse]="order?.isCollapsed"
+                style="background: #EBEBEB; border-radius: 0 0 15px 15px;">
+                <div class="row">
+                  <div class="col-6 my-text-info">
+                    <span><b>{{ "MY_ORDERS_ORDERID" | translate }}</b>&nbsp;</span>
+                    <span>{{order.OrderId}}</span>
+                  </div>
+                  <div class="col-6 my-text-info">
+                    <span><b>{{ "ORDERSUM" | translate }}</b>&nbsp;</span>
+                    <span>{{ orderSum }}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 my-text-info">
+                    <span><b>{{ "MY_ORDERS_OPERATION" | translate }}</b>&nbsp;</span>
+                    <span>{{getPointsOperation(order)}}</span>
+                  </div>
+                  <div *ngIf="order.Comment && order.Comment != null" class="col-6 my-text-info">
+                    <span><b>{{ "MY_ORDERS_COMMENT" | translate }}</b>&nbsp;</span>
+                    <span>{{order.Comment}}</span>
+                  </div>
+    
+                </div>
+    
+              </div>
+    
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      </div>
+      <div class="col-4"></div>
+    </div>
+
+   
+
+
+
+  
+  </ng-container>
+  
+  
+
+</div>
+
+
+<!--CUSTOMER INFO -->
+
+
+
+<!--loader [show]="!checkLoading()"></loader-->

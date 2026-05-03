@@ -1,0 +1,1338 @@
+.menu-container {
+  display: flex;
+}
+.columns-1{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+ 
+
+.carousel-control-next{
+  opacity: 0!important;
+}
+.carousel-control-prev{
+  opacity: 0!important;
+}
+
+.item-row{
+  height:9vh;
+}
+
+.category-card {
+
+  display: flex;
+  flex-direction: row;
+  margin-top:3vh;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+ // box-shadow: 0px 30px 40px -20px var(--grayishBlue);
+ // box-shadow: 0px 4px 30px #cecdcd;
+  //padding: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  //height: 125px;
+  //border-right: 7px solid var(--orange);
+  background: #F4F4F4;
+  min-height: 6vh;
+  height: 6vh;
+  
+  .cat-details {
+    color:black;
+    position: relative;
+    
+    //height:100%;
+    text-align: right;
+    overflow: hidden;
+    padding: 2vh;
+   // height: calc(100% - 30px);
+    //height: 100%;
+    height: auto;
+    
+    width: 100%;
+    
+    //float: left;
+    padding-bottom: 0;
+   .cat-name {
+        font-size: 1.8rem;
+    }
+    .cat-desc {
+    font-size: 1rem;
+   // padding-bottom: 1.7rem;
+    }
+    
+  }
+}
+
+.item-card {
+  display: flex;
+  flex-direction: row;
+  border-radius: 5px;
+ // box-shadow: 0px 30px 40px -20px var(--grayishBlue);
+  box-shadow: 0px 4px 30px #dbdbdb;
+  //padding: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  //height: 125px;
+  //border-right: 7px solid var(--orange);
+  background: white;
+ 
+  .product-image {
+    transition: all 0.3s ease-out;
+    //display: inline-block;
+    position: relative;
+    overflow: hidden;
+    object-fit: contain;
+    float: right;
+   // width: 150px;
+   // height: 125px;
+    width: 21.6.8vh;
+    height: 17vh;
+    .p-img {
+     // height: 125px;
+      object-fit: cover;
+     // width: 150px;
+     width: 21.6vh;
+     height: 17vh;
+    }
+    //display: inline-block;
+  }
+  .product-details {
+    color:black;
+    position: relative;
+    //height:100%;
+    text-align: right;
+    overflow: hidden;
+    padding: 10px;
+   // height: calc(100% - 30px);
+    //height: 100%;
+    height: auto;
+    min-height: 17vh;// 125px;
+   // width: calc(100% - 150px);
+    width: calc(100% - 21.6vh);
+    float: left;
+    padding-bottom: 0;
+   .product-name {
+        font-size: 1.5rem;
+        padding-bottom: 1rem;
+    }
+    .product-desc {
+    font-size: 1.3rem;
+    padding-bottom: 1.7rem;
+    }
+    
+    .product-price {
+      float: bottom;
+      text-align: center;
+      overflow: hidden;
+      //border-bottom-left-radius: 5px;
+      //border-bottom-right-radius: 0px;
+      //border-top-left-radius: 0px;
+      //border-top-right-radius: 5px;
+      background-color: var(--orange);
+      color:white;
+     // font-weight: 700;
+      height:30px;
+      width:62px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      position: absolute;
+      bottom: 0;
+      //left: 0;
+      padding-top: 4px;
+    }
+  
+  
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+.main-menu-container{
+.my-scroll::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+/* Track */
+.my-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.my-scroll::-webkit-scrollbar-thumb {
+  background: var(--orange);
+}
+
+/* Handle on hover */
+.my-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--orange);
+}
+}
+
+.order-wrapper{
+
+  
+
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+  .animate-flicker {
+    
+     animation: flickerAnimation 0.8s infinite;
+ }
+}
+
+.my-header{
+  background: #FFFFFF;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.09);
+  border-radius: 11px;
+  background: #FFFFFF;
+}
+
+.my-dish{
+  background: #FFFFFF;
+  box-shadow: 0px 4px 30px rgba(194, 194, 194, 0.25);
+  border-radius: 5px;
+  border-top: solid 5px var(--orange);
+  height: 100%;
+  position: relative;
+  padding-bottom: 22px !important;
+  //margin-right: 8px;
+  //margin-left: 8px;
+
+  .my-img{
+    height: 233.51px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .item-name{
+    font-family: 'Open Sans Hebrew';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 21px;
+    /* identical to box height, or 84% */
+    //text-align: right;
+    color: var(--orange);
+  }
+
+  .item-info{
+    font-family: Open Sans Hebrew;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 21px;
+    /* or 150% */
+    //text-align: right;
+    color: #4F4F4F;
+  }
+
+  .item-price{
+    border-radius: 0px 5px;
+    
+
+    .item-btn{
+      position: absolute;
+      //width: 100%;
+      bottom: 0;
+      left: 0;
+      border-radius: 0px 5px;
+      padding-right: 10px;
+      padding-left: 10px;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      border: none;
+
+      .text-btn{
+        font-family: 'Open Sans Hebrew';
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 21px;
+        /* identical to box height, or 150% */
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+
+
+.category-02 {
+  background-color: rgba(244, 244, 244, 1);
+  border-radius: 20px;
+  height: 115px;
+  min-width: 76px;
+  margin-left: 10px;
+  padding: 5px;
+  text-align: center;
+  .rectangle-img {
+    background-color: transparent;
+    border-radius: 15px;
+    height: 66px;
+    width: 64px;
+    margin: auto;
+    display: flex;
+    justify-content: center; /* align horizontal */
+align-items: center; /* align vertical */
+    .cat-img {
+      height: 44px;
+      object-fit: contain;
+      width: 44px;
+      
+    }
+  }
+  .rectangle-img.selected {
+    background-color: white;
+    border-radius: 15px;
+    height: 66px;
+    width: 64px;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+    .cat-img {
+      height: 55px;
+      object-fit: contain;
+      width: 55px;
+    }
+  }
+
+  .category-text {
+    color: black;
+    font-weight: normal;
+    font-family: 'Open Sans Hebrew';
+    font-size: 1rem;
+  }
+  .category-text.selected {
+    color: white;
+    font-weight: bold;
+  }
+  
+}
+
+.new-menu-container {
+  margin-top: 155px;
+  margin-bottom: 35px;
+  .category-header-new {
+    color: #4F4F4F;
+    font-weight: 700;
+    font-family: 'Open Sans Hebrew';
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    font-size: 24px;
+  }
+  
+ 
+
+  .item-card.combo {
+    border-bottom: 3px solid var(--orange);
+   .product-image.combo {
+    height: 122px;
+    }
+  }
+}
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.intro-app {
+  height: 926px;
+  overflow: hidden;
+  position: relative;
+  width: 428px;
+}
+
+.intro-app .overlap-group7 {
+  height: 1137px;
+  left: -73px;
+  position: absolute;
+  top: -80px;
+  width: 515px;
+}
+
+.intro-app .effect {
+  height: 1036px;
+  left: 74px;
+  position: absolute;
+  top: 0;
+  width: 428px;
+}
+
+.intro-app .rectangle-102 {
+  background-color: var(--white);
+  box-shadow: 0px 4px 30px #58555540;
+  height: 116px;
+  left: 74px;
+  position: absolute;
+  top: 89px;
+  width: 441px;
+}
+
+.intro-app .rectangle-16 {
+  background-color: var(--abbey-2);
+  height: 61px;
+  left: 0;
+  position: absolute;
+  top: 144px;
+  width: 502px;
+}
+
+.intro-app .overlap-group1 {
+  height: 131px;
+  left: 92px;
+  position: absolute;
+  top: 414px;
+  width: 388px;
+}
+
+.intro-app .rectangle {
+  background-color: var(--mist-gray);
+  border-radius: 5px;
+  filter: blur(50px);;
+  height: 96px;
+  left: 6px;
+  opacity: 0.4;
+  position: absolute;
+  top: 35px;
+  width: 375px;
+}
+
+.intro-app .rectangle-62 {
+  background-color: var(--white);
+  border-radius: 5px;
+  box-shadow: 0px 4px 30px #c2c2c240;
+  height: 125px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 388px;
+}
+
+.intro-app .rectangle-60 {
+  background-color: var(--bourbon);
+  border-radius: 5px;
+  height: 125px;
+  left: 263px;
+  opacity: 0.1;
+  position: absolute;
+  top: 0;
+  width: 125px;
+}
+
+.intro-app .rectangle-61 {
+  height: 96px;
+  left: 278px;
+  position: absolute;
+  top: 14px;
+  width: 96px;
+}
+
+.intro-app .price {
+  left: 20px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 90px;
+  width: 39px;
+}
+
+.intro-app .overlap-group2 {
+  height: 131px;
+  left: 92px;
+  position: absolute;
+  top: 552px;
+  width: 388px;
+}
+
+.intro-app .overlap-group3 {
+  height: 131px;
+  left: 91px;
+  position: absolute;
+  top: 689px;
+  width: 388px;
+}
+
+.intro-app .overlap-group4 {
+  height: 131px;
+  left: 91px;
+  position: absolute;
+  top: 826px;
+  width: 388px;
+}
+
+.intro-app .overlap-group5 {
+  height: 131px;
+  left: 91px;
+  position: absolute;
+  top: 963px;
+  width: 388px;
+}
+
+.intro-app .overlap-group6 {
+  height: 131px;
+  left: 95px;
+  position: absolute;
+  top: 1006px;
+  width: 388px;
+}
+
+.intro-app .x {
+  direction: rtl;
+  left: 336px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 367px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel {
+  direction: rtl;
+  left: 212px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 428px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-1 {
+  direction: rtl;
+  left: 212px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 566px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-2 {
+  direction: rtl;
+  left: 211px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 703px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-3 {
+  direction: rtl;
+  left: 211px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 840px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-4 {
+  direction: rtl;
+  left: 211px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 977px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-5 {
+  direction: rtl;
+  left: 215px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 1020px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-6 {
+  direction: rtl;
+  left: 110px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 449px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-7 {
+  direction: rtl;
+  left: 110px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 587px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-8 {
+  direction: rtl;
+  left: 109px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 724px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-9 {
+  direction: rtl;
+  left: 109px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 861px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-10 {
+  direction: rtl;
+  left: 109px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 998px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-11 {
+  direction: rtl;
+  left: 113px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 1041px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-12 {
+  direction: rtl;
+  left: 161px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 466px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-13 {
+  direction: rtl;
+  left: 161px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 604px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-14 {
+  direction: rtl;
+  left: 160px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 741px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-15 {
+  direction: rtl;
+  left: 160px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 878px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-16 {
+  direction: rtl;
+  left: 160px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 1015px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-17 {
+  direction: rtl;
+  left: 164px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 1058px;
+  white-space: nowrap;
+}
+
+.intro-app .rectangle-101 {
+  background-color: var(--white);
+  box-shadow: 0px 4px 30px #58555540;
+  height: 118px;
+  left: 73px;
+  position: absolute;
+  top: 46px;
+  width: 442px;
+}
+
+.intro-app .pizza-pizza-logo-1 {
+  height: 35px;
+  left: 241px;
+  object-fit: cover;
+  position: absolute;
+  top: 126px;
+  width: 96px;
+}
+
+.intro-app .vector {
+  height: 27px;
+  left: 95px;
+  position: absolute;
+  top: 124px;
+  width: 25px;
+}
+
+.intro-app .vector-1 {
+  height: 21px;
+  left: 452px;
+  position: absolute;
+  top: 127px;
+  width: 32px;
+}
+
+.intro-app .rectangle-100 {
+  height: 125px;
+  left: 475px;
+  position: absolute;
+  top: 414px;
+  width: 7px;
+}
+
+.intro-app .rectangle-104 {
+  height: 125px;
+  left: 475px;
+  position: absolute;
+  top: 552px;
+  width: 7px;
+}
+
+.intro-app .rectangle-106 {
+  height: 125px;
+  left: 474px;
+  position: absolute;
+  top: 689px;
+  width: 7px;
+}
+
+.intro-app .rectangle-108 {
+  height: 125px;
+  left: 474px;
+  position: absolute;
+  top: 826px;
+  width: 7px;
+}
+
+.intro-app .rectangle-268 {
+  height: 125px;
+  left: 474px;
+  position: absolute;
+  top: 963px;
+  width: 7px;
+}
+
+.intro-app .rectangle-110 {
+  height: 125px;
+  left: 478px;
+  position: absolute;
+  top: 1006px;
+  width: 7px;
+}
+
+.intro-app .textlabel-18 {
+  direction: rtl;
+  left: 296px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 173px;
+  width: 159px;
+}
+
+.intro-app .textlabel-19 {
+  direction: rtl;
+  left: 67px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 174px;
+  width: 159px;
+}
+
+.intro-app .group-66 {
+  height: 25px;
+  left: 456px;
+  position: absolute;
+  top: 171px;
+  width: 26px;
+}
+
+.intro-app .return {
+  height: 20px;
+  left: 95px;
+  position: absolute;
+  top: 175px;
+  width: 20px;
+}
+
+.intro-app .rectangle-103 {
+  height: 30px;
+  left: 92px;
+  position: absolute;
+  top: 509px;
+  width: 62px;
+}
+
+.intro-app .rectangle-105 {
+  height: 30px;
+  left: 92px;
+  position: absolute;
+  top: 647px;
+  width: 62px;
+}
+
+.intro-app .rectangle-107 {
+  height: 30px;
+  left: 91px;
+  position: absolute;
+  top: 784px;
+  width: 62px;
+}
+
+.intro-app .rectangle-109 {
+  height: 30px;
+  left: 91px;
+  position: absolute;
+  top: 921px;
+  width: 62px;
+}
+
+.intro-app .rectangle-269 {
+  height: 30px;
+  left: 91px;
+  position: absolute;
+  top: 1058px;
+  width: 62px;
+}
+
+.intro-app .rectangle-111 {
+  height: 30px;
+  left: 95px;
+  position: absolute;
+  top: 1101px;
+  width: 62px;
+}
+
+.intro-app .price-1 {
+  left: 103px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 514px;
+  white-space: nowrap;
+}
+
+.intro-app .price-2 {
+  left: 103px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 652px;
+  white-space: nowrap;
+}
+
+.intro-app .price-3 {
+  left: 102px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 789px;
+  white-space: nowrap;
+}
+
+.intro-app .price-4 {
+  left: 102px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 926px;
+  white-space: nowrap;
+}
+
+.intro-app .price-5 {
+  left: 102px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 1063px;
+  white-space: nowrap;
+}
+
+.intro-app .price-6 {
+  left: 106px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  top: 1106px;
+  white-space: nowrap;
+}
+
+.intro-app .rectangle-61-1 {
+  height: 114px;
+  left: 355px;
+  position: absolute;
+  top: 553px;
+  width: 114px;
+}
+
+.intro-app .rectangle-62-1 {
+  height: 117px;
+  left: 351px;
+  object-fit: cover;
+  position: absolute;
+  top: 691px;
+  width: 117px;
+}
+
+.intro-app .rectangle-61-2 {
+  height: 92px;
+  left: 364px;
+  position: absolute;
+  top: 834px;
+  width: 108px;
+}
+
+.intro-app .rectangle-270 {
+  height: 92px;
+  left: 364px;
+  position: absolute;
+  top: 971px;
+  width: 108px;
+}
+
+.intro-app .category {
+  height: 115px;
+  left: 86px;
+  position: absolute;
+  top: 227px;
+  width: 420px;
+}
+
+.intro-app .category-04 {
+  height: 115px;
+  left: 258px;
+  position: absolute;
+  top: 0;
+  width: 162px;
+}
+
+.intro-app .overlap-group {
+  background-color: rgba(244, 244, 244, 1);
+  border-radius: 20px;
+  height: 115px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 76px;
+}
+
+.intro-app .sushi {
+  height: 40px;
+  left: 21px;
+  position: absolute;
+  top: 18px;
+  width: 40px;
+}
+
+.intro-app .rectangle-12 {
+  background-color: rgba(244, 244, 244, 1);;
+  border-radius: 20px;
+  height: 115px;
+  left: 86px;
+  position: absolute;
+  top: 0;
+  width: 76px;
+}
+
+.intro-app .category-03 {
+  background-color: rgba(244, 244, 244, 1);;
+  border-radius: 20px;
+  height: 115px;
+  left: 172px;
+  position: absolute;
+  top: 0;
+  width: 76px;
+}
+
+.intro-app .category-02 {
+  background-color: rgba(244, 244, 244, 1);;
+  border-radius: 20px;
+  height: 115px;
+  left: 86px;
+  position: absolute;
+  top: 0;
+  width: 76px;
+}
+
+.intro-app .category-01 {
+  background-color: var(--orange);
+  border-radius: 20px;
+  box-shadow: 0px 10px 20px #f431274c;
+  height: 115px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 76px;
+}
+
+.intro-app .hot-dog-2 {
+  height: 32px;
+  left: 22px;
+  position: absolute;
+  top: 22px;
+  width: 32px;
+}
+
+.intro-app .textlabel-20 {
+  direction: rtl;
+  left: 451px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 307px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-21 {
+  direction: rtl;
+  left: 370px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 308px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-22 {
+  direction: rtl;
+  left: 269px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 308px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-23 {
+  direction: rtl;
+  left: 183px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 308px;
+  white-space: nowrap;
+}
+
+.intro-app .textlabel-24 {
+  direction: rtl;
+  left: 110px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 309px;
+  white-space: nowrap;
+}
+
+.intro-app .rectangle-67 {
+  height: 56px;
+  left: 441px;
+  position: absolute;
+  top: 232px;
+  width: 56px;
+}
+
+.intro-app .rectangle-67-1 {
+  height: 36px;
+  left: 280px;
+  position: absolute;
+  top: 246px;
+  width: 36px;
+}
+
+.intro-app .rectangle-202 {
+  background-color: var(--white);
+  border-radius: 15px;
+  height: 66px;
+  left: 92px;
+  position: absolute;
+  top: 233px;
+  width: 64px;
+}
+
+.intro-app .rectangle-67-2 {
+  height: 44px;
+  left: 105px;
+  object-fit: cover;
+  position: absolute;
+  top: 245px;
+  width: 44px;
+}
+
+.intro-app .en {
+  color: transparent;
+  direction: rtl;
+  //font-family: var(--font-family-open_sans_hebrew-regular);
+  font-size: var(--font-size-xl);
+  left: 321px;
+  letter-spacing: 0;
+  position: absolute;
+  text-align: center;
+  top: 124px;
+  width: 159px;
+}
+
+.intro-app .span0 {
+  color: #000000;
+}
+
+.intro-app .span1 {
+  color: var(--orange);
+}
+
+.intro-app .rectangle-267 {
+  background-color: var(--orange);
+  border-radius: 15px;
+  height: 139px;
+  left: 151px;
+  position: absolute;
+  top: 30px;
+  width: 67px;
+}
+
+.intro-app .x76 {
+  color: var(--white);
+  direction: rtl;
+  //font-family: var(--font-family-open_sans_hebrew-bold);
+  font-size: var(--font-size-l);
+  font-weight: 700;
+  left: 162px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: left;
+  top: 127px;
+  white-space: nowrap;
+}
+
+.intro-app .vector-2 {
+  height: 27px;
+  left: 197px;
+  position: absolute;
+  top: 250px;
+  width: 29px;
+}
+
+.intro-app .card-6 {
+  height: 131px;
+  left: 22px;
+  position: absolute;
+  top: 1092px;
+  width: 391px;
+}
+
+.intro-app .overlap-group-1 {
+  height: 131px;
+  position: relative;
+  width: 387px;
+}
+
+.intro-app .rectangle-59 {
+  background-color: var(--white);
+  border-radius: 5px;
+  height: 125px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 387px;
+}
+
+.intro-app .group-325 {
+  height: 32px;
+  left: 138px;
+  position: absolute;
+  top: 84px;
+  width: 51px;
+}
+
+.intro-app .vector-3 {
+  height: 15px;
+  left: 2px;
+  position: absolute;
+  top: 9px;
+  width: 15px;
+}
+
+.intro-app .text-1 {
+  left: 23px;
+  letter-spacing: 0;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  width: 26px;
+}
+
+.intro-app .rectangle-60-1 {
+  background-color: var(--tree-poppy);
+  border-radius: 5px;
+  height: 125px;
+  left: 0;
+  opacity: 0.1;
+  position: absolute;
+  top: 0;
+  width: 125px;
+}
+
+.intro-app .rectangle-61-3 {
+  height: 115px;
+  left: 4px;
+  position: absolute;
+  top: 4px;
+  width: 115px;
+}
+
+.intro-app .heart {
+  height: 16px;
+  left: 352px;
+  position: absolute;
+  top: 86px;
+  width: 18px;
+}
+
+.intro-app .vegetable-noodles {
+  left: 138px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 12px;
+  width: 152px;
+}
+
+.intro-app .price-7 {
+  left: 138px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 44px;
+  width: 38px;
+}
+
+/*@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+
+@import url("https://fonts.googleapis.com/css?family=Mukta:500");
+@font-face {
+  font-family: "Open Sans Hebrew-Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: url("https://fonts.animaapp.com/OpenSansHebrew-Bold") format("truetype");
+}
+@font-face {
+  font-family: "Open Sans Hebrew-Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.animaapp.com/OpenSansHebrew-Regular") format("truetype");
+}*/
+
+.screen a {
+  display: contents;
+  text-decoration: none;
+}
+
+.container-center-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  pointer-events: none;
+  width: 100%;
+}
+
+.container-center-horizontal > * {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+* {
+  box-sizing: border-box;
+}

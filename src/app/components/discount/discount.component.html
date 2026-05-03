@@ -1,0 +1,19 @@
+<div class="discount-container">
+  <div class="discount animated fadeIn" *ngIf="discount" [ngClass]="{'direction': lang != 'he'}">
+    <div class="image">
+      <img src="../../../assets/images/items/discount.svg">
+    </div>
+    <div class="description" [ngSwitch]="discount.type" [ngClass]="{'direction': lang != 'he'}">
+      <span class="discount-price fixed-position-value-type" *ngSwitchCase="'Percent'" [ngClass]="{'direction': lang != 'he'}">
+        <span class="sum" [ngStyle]="{'color': colors.menuColor}"> {{ discount.sum}} </span>
+        <span class="type" [ngStyle]="{'color': colors.menuColor}"> {{ '' | discountType: discount.type }} </span>
+      </span>
+      <span class="discount-price" *ngSwitchDefault>
+        <span class="sum" [ngStyle]="{'color': colors.menuColor}"> {{ discount.sum}}</span>
+        <span class="type" [ngStyle]="{'color': colors.menuColor}"> {{ '' | discountType: discount.type }} </span>
+      </span>
+      <span class="discount-price type"></span>
+      <span class="discount-description">{{'DISCOUNT_DESCRIPTION' | translate}}</span>
+    </div>
+  </div>
+</div>

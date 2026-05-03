@@ -1,0 +1,26 @@
+{
+  "serverUrl": "https://test-api.bite-tech.co.il/",
+  "testserverUrl": "https://localhost:44391/",
+  "imagePath": "https://admin.bite-tech.co.il/Images/IFrame/",
+  "franchiseId": "36",
+  "configSettings": {
+    "ignoreCupons": false,
+    "displayPopup": false,
+    "popupMsg": "מבצע משהו...",
+    "bonusCategory": "בונוס",
+    "bonusMsg": "הודעה על בונוס",
+    "minAmountForBonus": 0,
+    "displayPizzaToppingsInComments": false,
+    "facebookPixelId" : "1",
+    "googleGTM" : "GTM-XXXX",
+    "isDigitalMenu": false,
+    "displayLogoOnHomePage": false,
+    "appDisplayMode":true,
+    "couponCode": "",
+    "couponCodeDiscount": 15,
+    "dummyDeliveryGroups": false,
+    "orderStatus": true,
+    "popupItem": true
+  }
+  
+}

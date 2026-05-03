@@ -1,0 +1,794 @@
+<!--div class="container order-container-wrapper animated fadeIn" (window:resize)="onResize($event)"-->
+<div class="row app-header-new d-none d-lg-flex" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+  style="position: fixed; top: 0; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);">
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn">
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/menu" routerLinkActive="active">
+        <span>{{"MENU" | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn">
+      <a class="link" style="color:#505050;" routerLink="/{{franchiseId}}/my-order" routerLinkActive="active">
+        <span>{{"MY_ORDERS" | translate}}</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!--div class="col-auto" style="align-self: center;">
+    <div class="nav-btn" >
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/my-order-status/{{this.lastOrderId}}"
+        routerLinkActive="active">
+        <span>מעקב הזמנה</span>
+      </a>
+    </div>
+  </div-->
+
+
+
+  <div class="col"></div>
+
+
+  <!--div class="col-auto" style="align-self: center;">
+    <div class="lang" style="display: flex;">
+      <div class="wrapper" [ngClass]="{'selected': selectedLang == 'he'}" (click)="changeLanguage('he')">
+        עב
+      </div>
+      <div>
+        /
+      </div>
+      <div class="wrapper"  (click)="changeLanguage('en')">
+        EN
+      </div>
+    </div>
+  </div-->
+
+
+  <div *ngIf="currentBranch.BranchPhone!=null && currentBranch.BranchPhone!='null'" class="col-auto"
+    style="align-self: center;">
+    <div class="var-btn" style="display: flex;">
+      <div style="padding-bottom: 2px;">
+        <img src="../../../assets/images/items/tel-white-new.svg">
+      </div>
+      <div>
+        <div style="padding-right: 20px;">
+          {{currentBranch.BranchPhone}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="discount && discount.type=='Sum' && discount.sum!=0 && checkAvailabilityDiscount()" class="col-auto" style="align-self: center;">
+    <div class="grey-btn">
+      {{"DISCOUNT" | translate}}: {{discount.sum}}{{"COMMON_CASH" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="discount && discount.type=='Percent' && discount.sum!=0 && checkAvailabilityDiscount()" class="col-auto" style="align-self: center;">
+    <div class="grey-btn">
+      {{"DISCOUNT" | translate}}: {{discount.sum}}%
+    </div>
+  </div>
+
+
+
+  <div *ngIf="!isSignedUser" class="col-auto" style="align-self: center;">
+    <div class="grey-btn" (click)="loadSignInAndCoupons()">
+      {{"LOG_IN" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="isSignedUser" class="col-auto" style="align-self: center;">
+    <div class="red-btn" (click)="signOut()">
+      {{"SIGN_OUT" | translate}}
+    </div>
+  </div>
+</div>
+
+
+
+<div class="  animated fadeIn" *ngIf="myOrders">
+  <div class="row pb-4">
+    <div class="col menu-category-name">
+      {{"MY_ORDERS" | translate}}
+    </div>
+  </div>
+
+  <div class="card" *ngIf="!isMobileModeCheck()" style="margin: auto; width: 50%; background: var(--orange); box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px;
+  padding: 0.5vh; color: white; margin-bottom: 1vh !important;">
+    <div class="card-header-primary row" >
+      <div class="col" style="text-align: center;"> 
+        {{ "MY_ORDERS_DATE" | translate }}
+      </div>
+      <div class="col" style="text-align: center;"> 
+        {{ "FROM" | translate }}
+      </div>
+      <div class="col" style="text-align: center;">
+        {{ "MY_ORDERS_TOTAL" | translate }}
+      </div>
+      <div class="col" style="text-align: center;">
+        {{ "MY_ORDERS_ORDER" | translate }}
+      </div>
+      <div class="col" style="text-align: center;">
+        {{ "MY_ORDERS_DETAILS" | translate }}
+      </div>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="isMobileModeCheck()" style="margin: 1vh; background: var(--orange); box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px;
+  padding: 0.5vh; color: white; margin-bottom: 1vh !important;">
+    <div class="card-header-primary row" style="padding: 1vh;" >
+      <div class="col" style="text-align: center;"> 
+        {{ "MY_ORDERS_DATE" | translate }}
+      </div>
+      <div class="col" style="text-align: center;"> 
+        {{ "FROM" | translate }}
+      </div>
+      <div class="col" style="text-align: center;">
+        {{ "MY_ORDERS_TOTAL" | translate }}
+      </div>
+      <div class="col" style="text-align: center;">
+        {{ "MY_ORDERS_ORDER" | translate }}
+      </div>
+      <div class="col" style="text-align: center;">
+        {{ "MY_ORDERS_DETAILS" | translate }}
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!--CUSTOMER INFO -->
+  <div *ngIf="!isMobileModeCheck()" style="width: 50%; margin: auto;">
+    <ng-container *ngFor="let order of myOrders">
+      <div class="card" [ngClass]="{'selected': !order.isCollapsed}">
+        <div class="card-header" (click)="order.isCollapsed = !order.isCollapsed"
+          style="display: flex; padding: 1.5vh 1vw 1.5vh 1vw !important;"
+          [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" [ngClass]="{'selected': !order.isCollapsed}">
+          <div class="primary col" style="text-align: center; padding: 0 1.5vw;">
+            {{order.DateTime}}</div>
+            <div class="col" style="text-align: center; padding: 0 1.5vw;">
+              {{order.BranchName}}
+            </div>
+          <div class="col" style="text-align: center; padding: 0 1.5vw;">{{order.Sum}}</div>
+          <!--div class=""
+              [ngStyle]="{ 'margin-right':getLanguage() === 'he' ? 'auto': '',  'margin-left':getLanguage() === 'en' ? 'auto': ''}">
+      
+              <button type="button" class="btn btn-sm btn-primary" (click)="order.isCollapsed = !order.isCollapsed">
+                <span> {{"DETAILS_ORDER" | translate}} </span>
+      
+                <span *ngIf="isCollapsed"> + </span>
+                <span *ngIf="!isCollapsed"> - </span>
+              </button>
+              <a *ngIf="displayOrderStatus()" routerLink="/{{franchiseId}}/my-order-status/{{order.Id}}"
+                routerLinkActive="active" class="btn btn-sm btn-primary" type="button">
+                <span> {{"TRACKER" | translate}}</span>
+      
+              </a>
+            </div-->
+  
+          <div class="col" style="text-align: center; padding: 0 1.5vw;">
+            {{order.Id}}
+          </div>
+  
+          <div class="col " style="padding: 0 1.5vw; text-align: center;">
+            <div *ngIf="order.isCollapsed">
+              <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20.8486 0.295073C21.273 -0.343319 22.2751 0.213577 21.9272 0.896113C19.095 6.48204 16.0088 11.9457 12.8495 17.3483C12.0771 18.7032 9.91292 18.7066 9.1405 17.3483C8.87955 16.9102 8.15932 15.6708 7.88793 15.2124C6.2422 12.3396 4.42945 9.17823 2.88809 6.26811C1.93127 4.49556 0.991841 2.71621 0.0732896 0.923279C-0.288564 0.213577 0.748286 -0.37388 1.19712 0.288281C3.61528 3.84358 5.91862 7.46679 8.18716 11.1206C8.80649 12.1257 9.83638 13.8235 10.6192 15.1275C10.7897 15.4093 11.2038 15.4127 11.3743 15.1343C12.6755 13.029 17.056 5.97608 20.8451 0.29847L20.8486 0.295073Z"
+                  fill="var(--orange)" />
+              </svg>
+            </div>
+            <div *ngIf="!order.isCollapsed">
+  
+              <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1.15145 18.7047C0.726965 19.3431 -0.275092 18.7862 0.0728442 18.1036C2.90504 12.5177 5.99124 7.05403 9.1505 1.65147C9.92292 0.296585 12.0871 0.29319 12.8595 1.65147C13.1204 2.08952 13.8407 3.32895 14.1121 3.78737C15.7578 6.66013 17.5706 9.82153 19.1119 12.7316C20.0687 14.5042 21.0082 16.2835 21.9267 18.0765C22.2886 18.7862 21.2517 19.3736 20.8029 18.7115C18.3847 15.1562 16.0814 11.533 13.8128 7.87919C13.1935 6.87406 12.1636 5.17621 11.3808 3.87226C11.2103 3.59042 10.7962 3.58702 10.6257 3.86547C9.32447 5.9708 4.94395 13.0237 1.15493 18.7013L1.15145 18.7047Z"
+                  fill="var(--orange)" />
+              </svg>
+            </div>
+          </div>
+  
+        </div>
+        <div class="card-body" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+          [collapse]="order?.isCollapsed" [isAnimated]="true">
+          <div class="row">
+            <div class="col-5"><b>{{ 'PAYTYPE' | translate }}:</b></div>
+            <div class="col bold">
+              {{ getPaymentType(order) }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5"><b>{{ 'ORDERTYPE' | translate }}: </b></div>
+            <div class="col">
+              <span *ngIf="order.IsDelivery">{{ 'DELIVERY' | translate }}</span>
+              <span *ngIf="order.IsTakeAway">{{ 'PICKUP' | translate }}</span>
+              <span *ngIf="!order.IsDelivery && !order.IsTakeAway">
+                {{ 'SEAT' | translate }}
+              </span>
+              <span *ngIf="order.IsFutureOrder"> {{ 'FUTUREORDER' | translate }}</span>
+            </div>
+          </div>
+  
+  
+          <!--div class="row">
+              <div class="col-5"><b>{{ 'CLIENTNAME' | translate }} :</b></div>
+              <div class="col">
+                {{order.FirstName + ' ' + order.LastName}}
+              </div>
+            </div-->
+          <!--div class="row">
+              <div class="col-5"><b>{{ 'PHONE' | translate }} :</b></div>
+              <div class="col">{{order.Phone}}</div>
+            </div-->
+          <!--div class="row" *ngIf="order.IsDelivery">
+              <div class="col-5"><b>{{ 'ADDRESS' | translate }} :</b></div>
+              <div class="col">
+                {{order.Street}} {{order.StreetNum}}, {{order.UserCity}}
+                <br />
+                <span *ngIf="order.ApartmentNum">
+                  {{ 'APP' | translate }} {{order.ApartmentNum}},
+                </span>
+                <span *ngIf="order.Floor">{{ 'FLOOR' | translate }} {{order.Floor}}
+                </span>
+              </div>
+            </div-->
+  
+          <!--MOVE TO END-->
+          <!--div class="row">
+              <div class="col-5"><b>{{ 'ORDERTOTAL' | translate }}:</b></div>
+              <div class="col">
+                {{(order.Sum - order.UsaTaxSum).toFixed(2)}}{{ 'COMMON_CASH' | translate }}
+                <br *ngIf="order.IsDelivery && order.DeliveryFee > 0" />
+                <span *ngIf="order.IsDelivery && order.DeliveryFee > 0">
+                  + {{order.DeliveryFee}}{{ 'COMMON_CASH' | translate }}
+                  {{ 'DELIVERYFEE' | translate }}
+                </span>
+              </div>
+            </div>
+            <div class="row" *ngIf="order.DiscountSum > 0">
+              <div class="col-5"><b>{{ 'DISCOUNT' | translate }}</b></div>
+              <div class="col">
+                - {{order.DiscountSum}}{{ 'COMMON_CASH' | translate }}
+              </div>
+            </div-->
+  
+  
+          <!--div class="row" style="border-bottom: solid; border-color: black; border-width: medium;">
+            </div-->
+          <div class="row py-1" style="background: #4F4F4F; color: white; margin-top: 2vh; margin-bottom: 1vh;">
+            <div class="col"><b>{{ 'ITEMNAME' | translate }}</b></div>
+            <div class="col-3 px-0"><b>{{ 'AMOUNT' | translate }}</b></div>
+            <div class="col-3"><b>{{ 'PRICE' | translate }}</b></div>
+          </div>
+          <!--div class="row" style="border-bottom: solid; border-color: black;  border-width:thin;">
+            </div-->
+  
+          <ng-container *ngFor="let item of order.OrderItems">
+            <div *ngIf="item.ComboItemId != null" class="row py-1">
+              <div class="col">
+                <span>{{item.Name}}</span>
+                <span *ngIf="item.SpecialRequests && item.SpecialRequests != '\n'"> - {{item.SpecialRequests}}</span>
+                <span *ngIf="item.Comment"><br />{{item.Comment}}</span>
+              </div>
+              <div class="col-3 px-0">{{item.Amount}}</div>
+  
+              <div class="col-3" *ngIf="item.ComboItemId != null">0</div>
+              <div class="col-3" *ngIf="item.ComboItemId == null">{{item.Price*item.Amount}}</div>
+            </div>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+              <div class="row" *ngIf="!garnish.IsItem && item.ComboItemId != null">
+                <div class="col">+ {{garnish.Name}}</div>
+                <div class="col-3 px-0"></div>
+                <div class="col-3" *ngIf="garnish.Price > 0">{{garnish.Price}}</div>
+                <div class="col-3" *ngIf="garnish.Price == 0"></div>
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+              <div class="row" *ngIf="garnish.IsItem && item.ComboItemId != null">
+                <div class="col">{{garnish.Name}}</div>
+                <div class="col-3 px-0">1</div>
+                <div class="col-3">{{garnish.Price}}</div>
+              </div>
+            </ng-container>
+  
+          </ng-container>
+  
+  
+  
+          <!--ORDER ITEMS-->
+          <ng-container *ngFor="let item of order.OrderItems">
+            <div *ngIf="item.ComboItemId == null" class="row py-1">
+              <div class="col">
+                <span>{{item.Name}}</span>
+                <span *ngIf="item.SpecialRequests && item.SpecialRequests != '\n'"> - {{item.SpecialRequests}}</span>
+                <span *ngIf="item.Comment"><br />{{item.Comment}}</span>
+              </div>
+              <div class="col-3 px-0">{{item.Amount}}</div>
+  
+              <div class="col-3" *ngIf="item.ParentItemId != null">{{item.Sum}}</div>
+               <div class="col-3" *ngIf="item.ParentItemId == null">{{item.Price*item.Amount}}</div>
+              <!--div class="col-3" *ngIf="item.ComboItemId != null">0</div>
+              <div class="col-3" *ngIf="item.ComboItemId == null">{{item.Price*item.Amount}}</div-->
+            </div>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+              <div class="row" *ngIf="!garnish.IsItem && item.ComboItemId == null">
+                <div class="col">+ {{garnish.Name}}</div>
+                <div class="col-3 px-0"></div>
+                <div class="col-3" *ngIf="garnish.Price > 0">{{garnish.Price}}</div>
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+              <div class="row" *ngIf="garnish.IsItem && item.ComboItemId == null">
+                <div class="col">{{garnish.Name}}</div>
+                <div class="col-3 px-0">1</div>
+                <div class="col-3">{{garnish.Price}}</div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <div class="row" *ngFor="let item of order.OrderPizzas">
+            <div class="col">
+              <span>
+                {{item.Pizza.Name}} - {{item.PizzaSize.Name}} - {{item.SpecialRequests}}
+                <br />
+              </span>
+              <span *ngIf="item.Comment">{{item.Comment}}
+                <br />
+              </span>
+              <div *ngIf="item?.Full?.length > 0">
+                {{'ALLTHEPIZZA' | translate}}:
+                <span *ngFor="let full of item.Full; let $index=index;">
+                  {{full}}
+                  <span *ngIf="$index != item.Full.length-1">,</span>
+                </span>
+              </div>
+              <div *ngIf="item?.Halfs?.length > 0">
+                <div *ngFor="let half of item.Halfs; let $index=index;">
+                  {{'HALF' | translate}} {{$index + 1}}:
+                  <span *ngFor="let gar of half; let $indexx=index;">
+                    {{gar}}
+                    <span *ngIf="$indexx != half.length-1">,</span>
+                  </span>
+                </div>
+              </div>
+              <div *ngIf="item?.quarter1?.length > 0">
+                {{'QUARTER1' | translate}}:
+                <span *ngFor="let top of item.quarter1; let $index=index;">
+                  {{top}}
+                  <span *ngIf="$index != item.quarter1.length-1">,</span>
+                </span>
+              </div>
+              <div *ngIf="item?.quarter2?.length > 0">
+                {{'QUARTER2' | translate}}:
+                <span *ngFor="let top of item.quarter2; let $index=index;">
+                  {{top}}
+                  <span *ngIf="$index != item.quarter2.length-1">,</span>
+                </span>
+              </div>
+              <div *ngIf="item?.quarter3?.length > 0">
+                {{'QUARTER3' | translate}}:
+                <span *ngFor="let top of item.quarter3; let $index=index;">
+                  {{top}}
+                  <span *ngIf="$index != item.quarter3.length-1">,</span>
+                </span>
+              </div>
+              <div *ngIf="item?.quarter4?.length > 0">
+                {{'QUARTER4' | translate}}:
+                <span *ngFor="let top of item.quarter4; let $index=index;">
+                  {{top}}
+                  <span *ngIf="$index != item.quarter4.length-1">,</span>
+                </span>
+              </div>
+  
+            </div>
+            <div class="col-3 px-0">{{item.Amount}}</div>
+            <div class="col-3"></div>
+          </div>
+          <!--div class="row py-1" style="border-bottom: thin; border-color: black;">
+            </div-->
+          <div class="row" style="margin-top: 1vh; margin-bottom: 1vh; border-bottom: solid; border-color: black;  border-width:thin;">
+          </div>
+  
+          <div class="row">
+            <div class="col"><b>{{ 'ORDERSUM' | translate }}</b></div>
+            <div class="col-3">
+              {{ 'COMMON_CASH' | translate }}{{order.Sum}}
+            </div>
+          </div>
+          <div class="row" *ngIf="order.IsDelivery">
+            <div class="col"><b>{{ 'DELIVERYFEE' | translate }}:</b></div>
+            <div class="col-3">
+              {{ 'COMMON_CASH' | translate }}{{order.DeliveryFee}}
+            </div>
+          </div>
+          <div class="row" *ngIf="order.DiscountSum > 0">
+            <div class="col"><b>{{ 'DISCOUNT' | translate }}:</b></div>
+            <div class="col-3">
+              {{ 'COMMON_CASH' | translate }}{{order.DiscountSum}}
+            </div>
+          </div>
+          <div class="row" *ngIf="order.IsDelivery || order.DiscountSum > 0">
+  
+            <div class="col"><b>{{ 'TOTAL' | translate }}:</b></div>
+            <div class="col-3"><b>
+                {{ 'COMMON_CASH' | translate }}{{order.Sum + order.DeliveryFee - order.DiscountSum}}
+              </b></div>
+          </div>
+          <!--div class="row py-2" *ngIf="displayOrderStatus()">
+              <div class="col"></div>
+              <div class="col-auto">
+                <a routerLink="/{{franchiseId}}/my-order-status/{{order.Id}}" routerLinkActive="active" class="btn btn-link"
+                  type="button">
+                  {{"TRACKER" | translate}}
+                </a>
+              </div>
+              <div class="col"></div>
+            </div-->
+  
+        </div>
+  
+  
+  
+        <!--ORDER SPECIAL REQUESTS -->
+        <!--div class="card" *ngIf="myOrder.Comments && myOrder.Comments !=''">
+          <div class="card-header">
+            {{ 'SPECIALREQ' | translate }}
+          </div>
+          <div class="card-body">
+            {{myOrder.Comments}}
+          </div>
+          </div-->
+  
+  
+        <!--div class="row" *ngIf="displayOrderStatus()">
+          <div class="col"></div>
+          <div class="col">
+            <a routerLink="/my-order-status" routerLinkActive="active" class="btn btn-primary" type="button">
+              למעקב הזמנה
+            </a>
+          </div>
+          <div class="col"></div>
+          </div-->
+  
+      </div>
+    </ng-container>
+  </div>
+  <div *ngIf="isMobileModeCheck()">
+    <ng-container *ngFor="let order of myOrders">
+      <div class="card" style="margin: 1vh;" [ngClass]="{'selected': !order.isCollapsed}">
+        <div class="card-header" (click)="order.isCollapsed = !order.isCollapsed"
+          style="display: flex; padding: 1.5vh 1vw 1.5vh 1vw !important;"
+          [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" [ngClass]="{'selected': !order.isCollapsed}">
+          <div class="primary col" style="text-align: center; padding: 0 1.5vw;">
+            {{order.DateTime}} <!--order.DateTime.split(" ")[0]-->
+          </div>
+          <div class="col" style="text-align: center; padding: 0 1.5vw;">
+            {{order.BranchName}}
+          </div>
+          <div class="col" style="text-align: center; padding: 0 1.5vw;">{{order.Sum}}</div>
+          <!--div class=""
+            [ngStyle]="{ 'margin-right':getLanguage() === 'he' ? 'auto': '',  'margin-left':getLanguage() === 'en' ? 'auto': ''}">
+    
+            <button type="button" class="btn btn-sm btn-primary" (click)="order.isCollapsed = !order.isCollapsed">
+              <span> {{"DETAILS_ORDER" | translate}} </span>
+    
+              <span *ngIf="isCollapsed"> + </span>
+              <span *ngIf="!isCollapsed"> - </span>
+            </button>
+            <a *ngIf="displayOrderStatus()" routerLink="/{{franchiseId}}/my-order-status/{{order.Id}}"
+              routerLinkActive="active" class="btn btn-sm btn-primary" type="button">
+              <span> {{"TRACKER" | translate}}</span>
+    
+            </a>
+          </div-->
+  
+          <div class="col" style="text-align: center; padding: 0 1.5vw;">
+            {{order.Id}}
+          </div>
+  
+          <div class="col " style="padding: 0 1.5vw; text-align: center;">
+            <div *ngIf="order.isCollapsed">
+              <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20.8486 0.295073C21.273 -0.343319 22.2751 0.213577 21.9272 0.896113C19.095 6.48204 16.0088 11.9457 12.8495 17.3483C12.0771 18.7032 9.91292 18.7066 9.1405 17.3483C8.87955 16.9102 8.15932 15.6708 7.88793 15.2124C6.2422 12.3396 4.42945 9.17823 2.88809 6.26811C1.93127 4.49556 0.991841 2.71621 0.0732896 0.923279C-0.288564 0.213577 0.748286 -0.37388 1.19712 0.288281C3.61528 3.84358 5.91862 7.46679 8.18716 11.1206C8.80649 12.1257 9.83638 13.8235 10.6192 15.1275C10.7897 15.4093 11.2038 15.4127 11.3743 15.1343C12.6755 13.029 17.056 5.97608 20.8451 0.29847L20.8486 0.295073Z"
+                  fill="var(--orange)" />
+              </svg>
+            </div>
+            <div *ngIf="!order.isCollapsed">
+  
+              <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1.15145 18.7047C0.726965 19.3431 -0.275092 18.7862 0.0728442 18.1036C2.90504 12.5177 5.99124 7.05403 9.1505 1.65147C9.92292 0.296585 12.0871 0.29319 12.8595 1.65147C13.1204 2.08952 13.8407 3.32895 14.1121 3.78737C15.7578 6.66013 17.5706 9.82153 19.1119 12.7316C20.0687 14.5042 21.0082 16.2835 21.9267 18.0765C22.2886 18.7862 21.2517 19.3736 20.8029 18.7115C18.3847 15.1562 16.0814 11.533 13.8128 7.87919C13.1935 6.87406 12.1636 5.17621 11.3808 3.87226C11.2103 3.59042 10.7962 3.58702 10.6257 3.86547C9.32447 5.9708 4.94395 13.0237 1.15493 18.7013L1.15145 18.7047Z"
+                  fill="var(--orange)" />
+              </svg>
+            </div>
+          </div>
+  
+        </div>
+        <div class="card-body" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+          [collapse]="order?.isCollapsed" [isAnimated]="true">
+          <div class="row">
+            <div class="col-5"><b>{{ 'PAYTYPE' | translate }}:</b></div>
+            <div class="col bold">
+              {{ getPaymentType(order) }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5"><b>{{ 'ORDERTYPE' | translate }}: </b></div>
+            <div class="col">
+              <span *ngIf="order.IsDelivery">{{ 'DELIVERY' | translate }}</span>
+              <span *ngIf="order.IsTakeAway">{{ 'PICKUP' | translate }}</span>
+              <span *ngIf="!order.IsDelivery && !order.IsTakeAway">
+                {{ 'SEAT' | translate }}
+              </span>
+              <span *ngIf="order.IsFutureOrder"> {{ 'FUTUREORDER' | translate }}</span>
+            </div>
+          </div>
+  
+  
+          <!--div class="row">
+            <div class="col-5"><b>{{ 'CLIENTNAME' | translate }} :</b></div>
+            <div class="col">
+              {{order.FirstName + ' ' + order.LastName}}
+            </div>
+          </div-->
+          <!--div class="row">
+            <div class="col-5"><b>{{ 'PHONE' | translate }} :</b></div>
+            <div class="col">{{order.Phone}}</div>
+          </div-->
+          <!--div class="row" *ngIf="order.IsDelivery">
+            <div class="col-5"><b>{{ 'ADDRESS' | translate }} :</b></div>
+            <div class="col">
+              {{order.Street}} {{order.StreetNum}}, {{order.UserCity}}
+              <br />
+              <span *ngIf="order.ApartmentNum">
+                {{ 'APP' | translate }} {{order.ApartmentNum}},
+              </span>
+              <span *ngIf="order.Floor">{{ 'FLOOR' | translate }} {{order.Floor}}
+              </span>
+            </div>
+          </div-->
+  
+          <!--MOVE TO END-->
+          <!--div class="row">
+            <div class="col-5"><b>{{ 'ORDERTOTAL' | translate }}:</b></div>
+            <div class="col">
+              {{(order.Sum - order.UsaTaxSum).toFixed(2)}}{{ 'COMMON_CASH' | translate }}
+              <br *ngIf="order.IsDelivery && order.DeliveryFee > 0" />
+              <span *ngIf="order.IsDelivery && order.DeliveryFee > 0">
+                + {{order.DeliveryFee}}{{ 'COMMON_CASH' | translate }}
+                {{ 'DELIVERYFEE' | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="row" *ngIf="order.DiscountSum > 0">
+            <div class="col-5"><b>{{ 'DISCOUNT' | translate }}</b></div>
+            <div class="col">
+              - {{order.DiscountSum}}{{ 'COMMON_CASH' | translate }}
+            </div>
+          </div-->
+  
+  
+          <!--div class="row" style="border-bottom: solid; border-color: black; border-width: medium;">
+          </div-->
+          <div class="row py-1" style="background: #4F4F4F; color: white; margin-top: 2vh; margin-bottom: 1vh;">
+            <div class="col"><b>{{ 'ITEMNAME' | translate }}</b></div>
+            <div class="col-3 px-0"><b>{{ 'AMOUNT' | translate }}</b></div>
+            <div class="col-3"><b>{{ 'PRICE' | translate }}</b></div>
+          </div>
+          <!--div class="row" style="border-bottom: solid; border-color: black;  border-width:thin;">
+          </div-->
+  
+          <ng-container *ngFor="let item of order.OrderItems">
+            <div *ngIf="item.ComboItemId != null" class="row py-1">
+              <div class="col">
+                <span>{{item.Name}}</span>
+                <span *ngIf="item.SpecialRequests && item.SpecialRequests != '\n'"> - {{item.SpecialRequests}}</span>
+                <span *ngIf="item.Comment"><br />{{item.Comment}}</span>
+              </div>
+              <div class="col-3 px-0">{{item.Amount}}</div>
+  
+              <div class="col-3" *ngIf="item.ComboItemId != null">0</div>
+              <div class="col-3" *ngIf="item.ComboItemId == null">{{item.Price*item.Amount}}</div>
+            </div>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+              <div class="row" *ngIf="!garnish.IsItem && item.ComboItemId != null">
+                <div class="col">+ {{garnish.Name}}</div>
+                <div class="col-3 px-0"></div>
+                <div class="col-3" *ngIf="garnish.Price > 0">{{garnish.Price}}</div>
+                <div class="col-3" *ngIf="garnish.Price == 0"></div>
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+              <div class="row" *ngIf="garnish.IsItem && item.ComboItemId != null">
+                <div class="col">{{garnish.Name}}</div>
+                <div class="col-3 px-0">1</div>
+                <div class="col-3">{{garnish.Price}}</div>
+              </div>
+            </ng-container>
+  
+          </ng-container>
+  
+  
+  
+          <!--ORDER ITEMS-->
+          <ng-container *ngFor="let item of order.OrderItems">
+            <div *ngIf="item.ComboItemId == null" class="row py-1">
+              <div class="col">
+                <span>{{item.Name}}</span>
+                <span *ngIf="item.SpecialRequests && item.SpecialRequests != '\n'"> - {{item.SpecialRequests}}</span>
+                <span *ngIf="item.Comment"><br />{{item.Comment}}</span>
+              </div>
+              <div class="col-3 px-0">{{item.Amount}}</div>
+              <div class="col-3" *ngIf="item.ParentItemId != null">{{item.Sum}}</div>
+               <div class="col-3" *ngIf="item.ParentItemId == null">{{item.Price*item.Amount}}</div>
+              <!--div class="col-3" *ngIf="item.ComboItemId != null">0</div>
+              <div class="col-3" *ngIf="item.ComboItemId == null">{{item.Price*item.Amount}}</div-->
+            </div>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+              <div class="row" *ngIf="!garnish.IsItem && item.ComboItemId == null">
+                <div class="col">+ {{garnish.Name}}</div>
+                <div class="col-3 px-0"></div>
+                <div class="col-3" *ngIf="garnish.Price > 0">{{garnish.Price}}</div>
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+              <div class="row" *ngIf="garnish.IsItem && item.ComboItemId == null">
+                <div class="col">{{garnish.Name}}</div>
+                <div class="col-3 px-0">1</div>
+                <div class="col-3">{{garnish.Price}}</div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngFor="let item of order.OrderPizzas">
+            <div class="row" >
+              <div class="col">
+                <span>
+                  {{item.Pizza.Name}} - {{item.PizzaSize.Name}} - {{item.SpecialRequests}}
+                  <br />
+                </span>
+                <span *ngIf="item.Comment">{{item.Comment}}
+                  <br />
+                </span>
+                <div *ngIf="item?.Full?.length > 0">
+                  {{'ALLTHEPIZZA' | translate}}:
+                  <span *ngFor="let full of item.Full; let $index=index;">
+                    {{full}}
+                    <span *ngIf="$index != item.Full.length-1">,</span>
+                  </span>
+                </div>
+                <div *ngIf="item?.Halfs?.length > 0">
+                  <div *ngFor="let half of item.Halfs; let $index=index;">
+                    {{'HALF' | translate}} {{$index + 1}}:
+                    <span *ngFor="let gar of half; let $indexx=index;">
+                      {{gar}}
+                      <span *ngIf="$indexx != half.length-1">,</span>
+                    </span>
+                  </div>
+                </div>
+                <div *ngIf="item?.quarter1?.length > 0">
+                  {{'QUARTER1' | translate}}:
+                  <span *ngFor="let top of item.quarter1; let $index=index;">
+                    {{top}}
+                    <span *ngIf="$index != item.quarter1.length-1">,</span>
+                  </span>
+                </div>
+                <div *ngIf="item?.quarter2?.length > 0">
+                  {{'QUARTER2' | translate}}:
+                  <span *ngFor="let top of item.quarter2; let $index=index;">
+                    {{top}}
+                    <span *ngIf="$index != item.quarter2.length-1">,</span>
+                  </span>
+                </div>
+                <div *ngIf="item?.quarter3?.length > 0">
+                  {{'QUARTER3' | translate}}:
+                  <span *ngFor="let top of item.quarter3; let $index=index;">
+                    {{top}}
+                    <span *ngIf="$index != item.quarter3.length-1">,</span>
+                  </span>
+                </div>
+                <div *ngIf="item?.quarter4?.length > 0">
+                  {{'QUARTER4' | translate}}:
+                  <span *ngFor="let top of item.quarter4; let $index=index;">
+                    {{top}}
+                    <span *ngIf="$index != item.quarter4.length-1">,</span>
+                  </span>
+                </div>
+    
+              </div>
+              <div class="col-3 px-0">{{item.Amount}}</div>
+              <div class="col-3"></div>
+            </div>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+                <div class="row" *ngIf="!garnish.IsItem  ">
+                  <div class="col">+ {{garnish.Name}}</div>
+                  <div class="col-3 px-0"></div>
+                  <div class="col-3" *ngIf="garnish.Price > 0">{{garnish.Price}}</div>
+                </div>
+            </ng-container>
+            <ng-container *ngFor="let garnish of item.Garnishes">
+                <div class="row" *ngIf="garnish.IsItem ">
+                  <div class="col">{{garnish.Name}}</div>
+                  <div class="col-3 px-0">1</div>
+                  <div class="col-3">{{garnish.Price}}</div>
+                </div>
+            </ng-container>
+          </ng-container>
+          <!--div class="row py-1" style="border-bottom: thin; border-color: black;">
+          </div-->
+          <div class="row" style="margin-top: 1vh; margin-bottom: 1vh; border-bottom: solid; border-color: black;  border-width:thin;">
+          </div>
+  
+          <div class="row">
+            <div class="col"><b>{{ 'ORDERSUM' | translate }}</b></div>
+            <div class="col-3">
+              {{ 'COMMON_CASH' | translate }}{{order.Sum}}
+            </div>
+          </div>
+          <div class="row" *ngIf="order.IsDelivery">
+            <div class="col"><b>{{ 'DELIVERYFEE' | translate }}:</b></div>
+            <div class="col-3">
+              {{ 'COMMON_CASH' | translate }}{{order.DeliveryFee}}
+            </div>
+          </div>
+          <div class="row" *ngIf="order.DiscountSum > 0">
+            <div class="col"><b>{{ 'DISCOUNT' | translate }}:</b></div>
+            <div class="col-3">
+              {{ 'COMMON_CASH' | translate }}{{order.DiscountSum}}
+            </div>
+          </div>
+          <div class="row" *ngIf="order.IsDelivery || order.DiscountSum > 0">
+  
+            <div class="col"><b>{{ 'TOTAL' | translate }}:</b></div>
+            <div class="col-3"><b>
+                {{ 'COMMON_CASH' | translate }}{{order.Sum + order.DeliveryFee - order.DiscountSum}}
+              </b></div>
+          </div>
+          <!--div class="row py-2" *ngIf="displayOrderStatus()">
+            <div class="col"></div>
+            <div class="col-auto">
+              <a routerLink="/{{franchiseId}}/my-order-status/{{order.Id}}" routerLinkActive="active" class="btn btn-link"
+                type="button">
+                {{"TRACKER" | translate}}
+              </a>
+            </div>
+            <div class="col"></div>
+          </div-->
+  
+        </div>
+  
+  
+  
+        <!--ORDER SPECIAL REQUESTS -->
+        <!--div class="card" *ngIf="myOrder.Comments && myOrder.Comments !=''">
+        <div class="card-header">
+          {{ 'SPECIALREQ' | translate }}
+        </div>
+        <div class="card-body">
+          {{myOrder.Comments}}
+        </div>
+        </div-->
+  
+  
+        <!--div class="row" *ngIf="displayOrderStatus()">
+        <div class="col"></div>
+        <div class="col">
+          <a routerLink="/my-order-status" routerLinkActive="active" class="btn btn-primary" type="button">
+            למעקב הזמנה
+          </a>
+        </div>
+        <div class="col"></div>
+        </div-->
+  
+      </div>
+    </ng-container>
+  </div>
+
+
+  <!--loader [show]="!checkLoading()"></loader-->

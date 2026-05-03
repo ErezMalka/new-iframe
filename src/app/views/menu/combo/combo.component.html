@@ -1,0 +1,149 @@
+<div class="combo-popup-wrapper popup-wrapper animated fadeIn" (window:resize)="onResize($event)">
+  <div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="cancel()"></span>
+    <div class="error-container">
+      <messsage *ngIf="showErrorComboMessage" [type]="'error'" [message]="displayErrorComboMessage()"></messsage>
+    </div>
+  </div>
+  <div class="garnishes-container">
+    <div class="header" mat-dialog-title [ngClass]="{'direction': lang != 'he'}">
+      <div class="description" [ngClass]="{'direction': lang != 'he'}">{{combo.Name}}</div>
+    </div>
+    <!--    <mat-dialog-content>-->
+    <!--*ngIf="isMobileMode()"-->
+      <div  class="item-combos" [ngClass]="{'direction': lang === 'he'}"
+          style="height: 50vh; overflow-y: auto;">
+        <div *ngFor="let pizzaCombo of combo.PizzaCombos; let $parent = index" class="combo-item">
+          <div *ngFor="let selectedItem of selectedPizzas[pizzaCombo.Id]; let $index = index">
+            <div class="menu-item" (click)="addPizzaToppings(selectedItem, pizzaCombo.Id, pizzaCombo.SizeId, selectedPizzas[pizzaCombo.Id], $index)">
+              <!-- Name -->
+              <div class="name">
+                {{pizzaCombo.Pizza.Name}}
+              </div>
+              <!-- Garnishes -->
+              <div class="topping-btn">
+                <span *ngIf="pizzaCombo.MaxToppings > 0"> {{pizzaCombo.MaxToppings}} {{ 'COMBO_FREETOP' | translate }}</span>
+                <span *ngIf="pizzaCombo.MaxToppings == 0 || !pizzaCombo.MaxToppings">{{ 'COMBO_TOPPINGS' | translate }}</span>
+              </div>
+              <!-- Image -->
+              <div class="round-image">
+                <img src="{{pizzaCombo.Pizza.ImageUrl}}" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col" *ngFor="let comboItem of combo.ItemCombos; let $parent = index" >
+          <div class="card" *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $index = index">
+            <div class="card-header" (click)="comboItem.IsCollapsed = !comboItem.IsCollapsed">
+              <span><b>{{comboItem.Name}}</b></span>
+              <span *ngIf="comboItem.IsCollapsed && selectedItem.Name">
+                {{selectedItem?.Name}}
+              </span>
+            </div>
+            <div class="card-body" [collapse]="comboItem.IsCollapsed">
+                  <div class="row" *ngFor="let item of comboItem.Items"
+                      (click)="addItem(item, comboItem.Id, selectedItems[comboItem.Id], $index, comboItem)">
+                    <div class="col-4">
+                      <img class="img-fluid" [src]="item?.ImageUrl" />
+                    </div>
+                    <div class="col">
+                      {{item.Name}}
+                    </div>
+                  </div>
+            </div>
+            <!--div class="card-body" *ngIf="comboItem.IsCollapsed && selectedItem.Name">
+              <div class="row">              
+                <div class="col-4">
+                  <img class="img-fluid" [src]="selectedItem?.ImageUrl" />
+                </div>    
+                <div class="col"><b>{{selectedItem?.Name}}</b></div>
+              </div>
+                     
+            </div-->
+          </div>
+          <!--div class="combo-header">
+            {{comboItem.Name}}
+          </div>
+          <div *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $index = index">
+            <div class="menu-item">
+              <div class="select-item">
+                <mat-select class="input-field placeholder-appear "
+                    [(ngModel)]="selectedItem"
+                    (ngModelChange)="addItem(selectedItem, comboItem.Id, selectedItems[comboItem.Id], $index, comboItem)" required>
+                  <mat-option [value]="item" *ngFor="let item of comboItem.Items">
+                    <span>{{item.Name}}</span>
+                   
+                  </mat-option>
+                </mat-select>
+              </div>
+              <div class="image-container">
+                <img src="{{selectedItem?.ImageUrl}}" />
+              </div>
+            </div>
+          </div-->
+        </div>
+      </div>
+
+      <!--div *ngIf="!isMobileMode()" class="item-combos" [ngClass]="{'direction': lang === 'he'}"
+      >
+    <div *ngFor="let pizzaCombo of combo.PizzaCombos; let $parent = index" class="combo-item">
+      <div *ngFor="let selectedItem of selectedPizzas[pizzaCombo.Id]; let $index = index">
+        <div class="menu-item" (click)="addPizzaToppings(selectedItem, pizzaCombo.Id, pizzaCombo.SizeId, selectedPizzas[pizzaCombo.Id], $index)">
+         
+          <div class="name">
+            {{pizzaCombo.Pizza.Name}}
+          </div>
+          
+          <div class="topping-btn">
+            <span *ngIf="pizzaCombo.MaxToppings > 0"> {{pizzaCombo.MaxToppings}} {{ 'COMBO_FREETOP' | translate }}</span>
+            <span *ngIf="pizzaCombo.MaxToppings == 0 || !pizzaCombo.MaxToppings">{{ 'COMBO_TOPPINGS' | translate }}</span>
+          </div>
+          
+          <div class="round-image">
+            <img src="{{pizzaCombo.Pizza.ImageUrl}}" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col" *ngFor="let comboItem of combo.ItemCombos; let $parent = index" >
+     
+      <div class="combo-header">
+        {{comboItem.Name}}
+      </div>
+      <div *ngFor="let selectedItem of selectedItems[comboItem.Id]; let $index = index">
+        <div class="menu-item">
+          <div class="select-item">
+            <mat-select class="input-field placeholder-appear "
+                [(ngModel)]="selectedItem"
+                (ngModelChange)="addItem(selectedItem, comboItem.Id, selectedItems[comboItem.Id], $index, comboItem)" required>
+              <mat-option [value]="item" *ngFor="let item of comboItem.Items">
+                <span>{{item.Name}}</span>
+               
+              </mat-option>
+            </mat-select>
+          </div>
+          <div class="image-container">
+            <img src="{{selectedItem?.ImageUrl}}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div-->
+
+   
+    <!--</mat-dialog-content>-->
+    <mat-dialog-actions>
+      <div class="comments-save-actions">
+        <span class="btn-group">
+          <button class="save-order scale-item" (click)="save()" [ngStyle]="{'background-color': colors.menuColor}" [ngClass]="{'mobile-btn': isMobileMode()}">
+            <span>{{ "COMBO_OK" | translate }}</span>
+            <img src="../../../../assets/images/items/ok.svg" *ngIf="!isMobileMode()"/>
+          </button>
+          <button (click)="cancel()" class="cancel-order scale-item" [ngClass]="{'mobile-btn': isMobileMode()}">
+            <span>{{ "COMBO_CANCEL" | translate }}</span>
+          </button>
+        </span>
+      </div>
+    </mat-dialog-actions>
+  </div>
+</div>

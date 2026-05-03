@@ -1,0 +1,38 @@
+@import "../../../../constants";
+
+.arrow-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.arrow {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  margin: $font-medium-size  * 0.5 / 2;
+  border: 3px solid $main-color;
+  border-radius: 0.05 * $font-medium-size;
+  border-top: none;
+  cursor: pointer;
+  width: $padding-normal-size * 0.75;
+  height: $padding-normal-size * 0.75;
+}
+
+
+.arrow.right {
+  border-right: none;
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+.arrow.left {
+  border-left: none;
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}

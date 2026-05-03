@@ -1,0 +1,130 @@
+<div class="popup-wrapper-discount-coupon animated fadeIn">
+  <!--<div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></span>
+  </div>-->
+  <div class="card my-card" [ngStyle]="{'border-color': colors.menuColor}">
+    <div class="d-block d-lg-none card-body" style="text-align: center; padding-bottom: 0;">
+      <div class="row pb-2" style="padding-left: 1rem; padding-right: 1rem;" *ngIf="discount.name">
+        <div class="col header">
+          {{discount.name}}
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <img style="padding-bottom: 9px; width: 69px; margin-top: 7px;" src="../../../assets/images/items/discount-icon-new.svg" />
+      </div>
+
+      <div style="margin-top: 8px;">
+        <div class="row pb-2" style="font-weight: bold;">
+          <div class="col" [ngSwitch]="discount.type" style="color: var(--orange);">
+            <span *ngSwitchCase="'Percent'" [ngClass]="{'direction': lang != 'he'}">
+              {{ discount.sum}}{{ '' | discountType: discount.type }}
+            </span>
+            <span *ngSwitchDefault>
+              {{ discount.sum}}{{ '' | discountType: discount.type }}
+            </span>
+            <span class="discount-price type"></span>
+            <span>{{'DISCOUNT_DESCRIPTION' | translate}}</span>
+          </div>
+        </div>
+        <div class="row pb-2" *ngIf="!discount.alwaysActive">
+          <div class="col">
+            {{ 'DISCOUNT_ORDERUNTIL' | translate }} {{discount.endTime}}
+          </div>
+        </div>
+        <div class="row pb-2" *ngIf="discount.minSum > 0">
+          <div class="col">
+            {{ 'DISCOUNT_MINORDER' | translate }} {{ 'COMMON_CASH' | translate }}{{discount.minSum}}
+          </div>
+        </div>
+      </div>
+      <div class="row pt-2">
+        <div class="col-12">
+          <button type="button" class="btn btn-message-popup" (click)="ok()">
+            {{'COMMON_OK' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-none d-lg-block card-body" style="text-align: center; padding: 0 !important;">
+      <div class="row pb-2" style="padding-left: 1rem; padding-right: 1rem;" *ngIf="discount.name">
+        <div class="col-12 header"  style="width: 100%; padding: 16px !important; margin-bottom: 15px;">
+          {{discount.name}}
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <img style="padding-bottom: 9px; width: 69px; margin-top: 7px;" src="../../../assets/images/items/discount-icon-new.svg" />
+      </div>
+
+      <div style="margin-top: 8px;">
+        <div class="row pb-2" style="font-weight: bold;">
+          <div class="col" [ngSwitch]="discount.type" style="color: var(--orange);">
+            <span *ngSwitchCase="'Percent'" [ngClass]="{'direction': lang != 'he'}">
+              {{ discount.sum}}{{ '' | discountType: discount.type }}
+            </span>
+            <span *ngSwitchDefault>
+              {{ discount.sum}}{{ '' | discountType: discount.type }}
+            </span>
+            <span class="discount-price type"></span>
+            <span>{{'DISCOUNT_DESCRIPTION' | translate}}</span>
+          </div>
+        </div>
+        <div class="row pb-2" *ngIf="!discount.alwaysActive">
+          <div class="col">
+            {{ 'DISCOUNT_ORDERUNTIL' | translate }} {{discount.endTime}}
+          </div>
+        </div>
+        <div class="row pb-2" *ngIf="discount.minSum > 0">
+          <div class="col">
+            {{ 'DISCOUNT_MINORDER' | translate }} {{ 'COMMON_CASH' | translate }}{{discount.minSum}}
+          </div>
+        </div>
+      </div>
+      <div class="row pt-2 justify-content-center">
+        <div class="col-auto">
+          <button type="button" class="btn btn-message-popup" style="padding: 5px 42px;" (click)="ok()">
+            {{'COMMON_OK' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!--div class="discount-container-wrapper">
+    <div class="header">
+ {{discount.name}} </div>
+    <div class="description" [ngSwitch]="discount.type" [ngClass]="{'direction': lang != 'he'}">
+      <span class="discount-price fixed-position-value-type" *ngSwitchCase="'Percent'" [ngClass]="{'direction': lang != 'he'}">
+        <span class="sum" [ngStyle]="{'color': colors.menuColor}"> {{ discount.sum}} </span>
+        <span class="type" [ngStyle]="{'color': colors.menuColor}"> {{ '' | discountType: discount.type }} </span>
+      </span>
+      <span class="discount-price" *ngSwitchDefault>
+        <span class="sum" [ngStyle]="{'color': colors.menuColor}"> {{ discount.sum}}</span>
+        <span class="type" [ngStyle]="{'color': colors.menuColor}"> {{ '' | discountType: discount.type }} </span>
+      </span>
+      <span class="discount-price type"></span>
+      <span class="discount-description">{{'DISCOUNT_DESCRIPTION' | translate}}</span>
+      <span *ngIf="!discount.alwaysActive">
+        {{ 'DISCOUNT_ORDERUNTIL' | translate }}
+        <span class="attention">{{discount.endTime}}</span>
+      </span>
+    </div>
+    <div class="description" [ngClass]="{'direction': lang != 'he'}">
+        <span *ngIf="discount.minSum > 0">
+          <span>{{ 'COMMON_CASH' | translate }} {{ 'DISCOUNT_MINORDER' | translate }} </span>
+          <span [ngStyle]="{'color': colors.buttonColor}"> {{discount.minSum}} </span>
+        </span>
+    </div>
+    <div class="discount-button-line">
+      <button class="discount-button-use" (click)="ok()" [ngStyle]="{'background-color': colors.buttonColor}">
+        <div class="half-ellipse" [ngClass]="{'direction': lang != 'he'}"></div>
+        {{'COMMON_OK' | translate}}
+      </button>
+    </div>
+  </div-->
+</div>
+

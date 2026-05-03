@@ -1,0 +1,64 @@
+/* Variables */
+
+:root {
+    --eerie-black: rgba(26, 28, 32, 1);
+    --abbey: rgba(78, 78, 78, 1);
+    --abbey-2: rgba(78, 79, 79, 1);
+    --fuscous-gray: rgba(80, 80, 80, 1);
+    --storm-dust: rgba(98, 98, 98, 1);
+    --eggplant: rgba(101, 64, 98, 0.2);
+    --bourbon: rgba(181, 108, 37, 1);
+    --mist-gray-2: rgba(196, 196, 196, 0.2);
+    --mist-gray: rgba(196, 196, 196, 1);
+    --wild-sand: rgba(244, 244, 244, 1);
+    --tree-poppy: rgba(249, 158, 21, 1);
+    --ff6600: rgba(255, 102, 0, 1);
+    --white: rgba(255, 255, 255, 1);
+    --orange: #ff6600; /*rgba(255, 102, 0, 1);*/
+    --grayishBlue: hsl(229, 6%, 66%);
+    --secondary: rgba(98, 98, 98, 1);
+
+    --font-size-m: 14px;
+    --font-size-l: 16px;
+    --font-size-xl: 18px;
+    --font-size-xxxxxl: 45px;
+    --font-size-xl2: 20px;
+    --font-size-xxl2: 22px;
+    --font-size-xxxl2: 24px;
+    --font-size-xxxxl2: 26px;
+  
+    --font-family-mukta: "Mukta";
+    --font-family-open_sans_hebrew-bold: "Open Sans Hebrew-Bold";
+    --font-family-open_sans_hebrew-regular: "Open Sans Hebrew-Regular";
+  }
+  
+  
+
+
+
+$font-normal-size: 1.2rem;
+$font-medium-size: 3rem;
+$font-default-size: 1rem;
+
+$padding-normal-size: 1rem;
+$padding-medium-size: 3rem;
+$padding-medium-size-percent: 10%;
+
+$margin-normal-size: 1rem;
+
+$dir: rtl;
+
+$main-color: #ff6600;
+$main-color-dark: #ca5900;
+$main-color-disable: #dddddd;
+$white: #ffffff;
+$text-color: #666666;
+$yellow: #fdb733;
+$light-yellow: #f8c831;
+$green: #1fc736;
+$error-text: #d51818;
+$red: #f41414;
+
+$max-site-width: 1200px;
+$min-site-width: 769px;
+$min-site-width-middle: 652px;

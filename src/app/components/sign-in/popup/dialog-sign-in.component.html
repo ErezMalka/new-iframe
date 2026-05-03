@@ -1,0 +1,359 @@
+
+<div class="popup-wrapper-ds animated fadeIn">
+
+  <!--MOBILE-->
+  <div class="d-lg-none d-block   sign-in-dialog-new">
+
+    <div class="mobile animated fadeIn" *ngIf="!showCodeForm&&!isFirst">
+      <div class=" row "  style=" width: 110%;"  [ngStyle]="{'direction':lang === 'en' ? 'ltr': 'rtl'}"> 
+        <div class="col-1"> </div>
+        <div class="col header-container">
+          
+          <div class="header-new" [ngClass]="{'direction': lang != 'he'}">
+            {{'ORDER_SIGN_IN_HEADER' | translate}}
+          </div>
+        </div>
+        <div class="col-1"  (click)="close()" style="color: var(--orange); align-self: center;">
+          <i class="fa fa-times fa-lg" style="padding-bottom: 20px; text-align: end;"></i>
+        </div>
+       
+      </div> 
+      <div class="description-sign-in" [ngClass]="{'direction': lang != 'he'}">
+        {{'ORDER_SIGN_IN_DESCRIPTION' | translate}}
+      </div>
+    </div>
+
+    <div class="mobile animated fadeIn" *ngIf="!showCodeForm&&isFirst">
+      <!--div class="modal-header" style="background-color: #FFFFFF;"-->
+
+        <div class=" row "  style=" width: 110%;"  [ngStyle]="{'direction':lang === 'en' ? 'ltr': 'rtl'}"> 
+          <div class="col-1">
+            
+          </div>
+          <div class="col header-new" *ngIf="useMemberClub"  [ngClass]="{'direction': lang != 'he'}" >
+            {{'CHECK_IF_MEMBER' | translate}}
+          </div>
+          <div class="col header-new" *ngIf="!useMemberClub"  [ngClass]="{'direction': lang != 'he'}">
+            {{'ORDER_SIGN_IN_HEADER_FIRST' | translate}}
+          </div>
+          <div class="col-1"  (click)="close()" style="color: var(--orange); align-self: center;">
+            <i class="fa fa-times fa-lg" style="padding-bottom: 20px; text-align: end;"></i>
+          </div>
+        <!--/div-->   
+      </div>
+      <!--div class="pb-2" style="margin-bottom: 15px; text-align: end; width: auto; left:0; top:0; color: var(--orange);"
+         (click)="close()" >
+        <i class="fa fa-times fa-lg" style="text-align: end;"></i>
+      </div>
+      <div class="header-container">
+        <div class="header-new" *ngIf="useMemberClub" [ngClass]="{'direction': lang != 'he'}">
+          {{'CHECK_IF_MEMBER' | translate}}
+        </div>
+        <div class="header-new" *ngIf="!useMemberClub"  [ngClass]="{'direction': lang != 'he'}">
+          {{'ORDER_SIGN_IN_HEADER_FIRST' | translate}}
+        </div>
+      </div-->
+      <div class="description-sign-in" *ngIf="useMemberClub" [ngClass]="{'direction': lang != 'he'}">
+        {{'PHONE_VERIFICATION' | translate}}
+      </div>
+      <div class="description-sign-in" *ngIf="!useMemberClub" [ngClass]="{'direction': lang != 'he'}">
+        {{'ORDER_SIGN_IN_DESCRIPTION_FIRST' | translate}}
+      </div>
+    </div>
+
+
+    <div class="code animated fadeIn" *ngIf="showCodeForm">
+      <div class="header-container">
+        <div class="header-new">
+          {{'ORDER_SIGN_IN_CODE_SENT_HEADER' | translate}}
+        </div>
+      </div>
+      <div class="description-sign-in">
+        {{'ORDER_SIGN_IN_CODE_SENT_DESCRIPTION' | translate}}
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <div class="mobile-phone-number animated fadeIn" style="margin-right: 3rem;" *ngIf="showCodeForm">
+            {{(lang === 'en' ? '+1' : '') + phone}}
+          </div>
+        </div>
+    
+        <div class="col-3" style="margin-right: -2rem;"><img (click)="goBack()" style="width: 44%; margin-bottom: 5px;" src="../../../assets/images/items/pencil-icon-new.svg"></div>
+      </div>
+    </div>
+
+    <div class="sign-in-form animated fadeIn">
+      <!--<div class="input-group">-->
+      <div class="phone-error animated fadeInUp" *ngIf="errorMessage" [ngClass]="{'direction': lang != 'he'}">
+        {{errorMessage}}
+      </div>
+
+      <div class="input-wrapper animated" *ngIf="!showCodeForm">
+        <div class="us-one" *ngIf="country === 'us'">+1</div>
+        <input type="tel" class="input-phone-number-new placeholder-appear" maxlength="{{countOfDigitsInNumber}}"
+          (keypress)="restrictKeysExceptDigits($event)" [(ngModel)]="phone" (focus)="hidePhoneNumberError()"
+          placeholder="{{'SIGN_IN_PHONE' | translate}}" />
+      </div>
+
+      <div *ngIf="showCodeForm" class="input-wrapper-code animated fadeIn">
+        <input type="tel" class="input-field input-phone-code-new placeholder-appear"
+          maxlength="{{countOfDigitsForCode}}" (keypress)="restrictKeysExceptDigits($event)"
+          (focus)="hidePhoneNumberError()" placeholder="{{'SIGN_IN_CODE' | translate}}" [(ngModel)]="code" />
+      </div>
+      <!--</div>-->
+
+      <div class="row">
+      
+        <div class="col-6" *ngIf="!isFirst&&showCodeForm" style="align-self: center;
+                text-align: center;">
+          <button (click)="goBack()" style="    background: transparent;
+          border: none;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 20px;
+          line-height: 27px;
+           
+          color: #3F3F3F;
+          margin-top: 1rem;">החלף מספר </button>
+
+        </div>
+      
+        <div class="col-6" *ngIf="!showCodeForm && !isFirst"></div>
+      
+        <div class="col-6" *ngIf="!showCodeForm && isFirst" style="align-self: center;
+                        text-align: center;">
+          <button (click)="close()" style="    background: transparent;
+                        border: none;
+                        font-style: normal;
+                        font-weight: normal;
+                font-size: 20px;
+                line-height: 27px;
+                letter-spacing: 0.2em;
+                color: #3F3F3F;
+                margin-top: 1rem;">{{"SIGN_IN_SKIP" | translate}}</button>
+        </div>
+
+      <div class="col-6" *ngIf="showCodeForm && isFirst" ></div>
+
+      <div class="col-6">
+        <!--div class="animated fadeIn" [ngClass]="{'direction': lang != 'he'}" style="background-color: var(--orange);
+        border-radius: 5px;
+        height: 2.5rem;
+        margin-top: 1rem; padding-top: 0.2rem;
+        text-align: center;"-->
+          <button type="button" *ngIf="!showCodeForm"
+                  class="btn btn-block btn-custom text-white"
+                  style="font-size: 21px;
+                          line-height: 33px;
+                          letter-spacing: 0.2em;
+                          padding:0;
+                          border-radius: 5px;
+                          height: 2.5rem;
+                          margin-top: 1rem; padding-top: 0.2rem;"
+                  [disabled]="wasClicked"
+                  (click)="sendLoginCode()">
+                  {{ "FORM_SIGN_IN" | translate }}
+          </button>
+ 
+          <button type="button" *ngIf="showCodeForm"
+                  class="btn btn-block btn-custom text-white"
+                  style="font-size: 21px;
+                          line-height: 33px;
+                          letter-spacing: 0.2em;
+                          padding:0;
+                          border-radius: 5px;
+                          height: 2.5rem;
+                          margin-top: 1rem; padding-top: 0.2rem;"
+                    [disabled]="wasCodeClicked"
+                (click)="handlerCode()">
+                {{ "FORM_SIGN_IN" | translate }}
+          </button>
+ 
+ 
+
+          <!--div class="noselect" [animation]="'pulse'" (click)="handlerCode()">
+            <div class="content" style="font-style: normal;
+            font-weight: normal;
+            font-size: 21px;
+            line-height: 33px;
+            letter-spacing: 0.2em;
+            color: #FFFFFF;">
+              {{ "FORM_SIGN_IN" | translate }}
+            </div>
+          </div>
+        </div-->
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <!--DESKTOP-->
+
+  <div class="d-none d-lg-block   sign-in-dialog-new" style="margin: auto; margin-right: auto !important; ">
+     
+    <div class="mobile animated fadeIn" *ngIf="!showCodeForm&&!isFirst">
+      <div class="header-container">
+        <div class="header-new" [ngClass]="{'direction': lang != 'he'}">
+          {{'ORDER_SIGN_IN_HEADER' | translate}}
+        </div>
+        
+      </div>
+      <div class="description-sign-in" [ngClass]="{'direction': lang != 'he'}">
+        {{'ORDER_SIGN_IN_DESCRIPTION' | translate}}
+      </div>
+    </div>
+
+    <div class="mobile animated fadeIn" *ngIf="!showCodeForm&&isFirst">
+      <div class=" row "  style=" width: 110%;"  [ngStyle]="{'direction':lang === 'en' ? 'ltr': 'rtl'}"> 
+        <div class="col-1"></div>
+        <div class="col header-new" *ngIf="useMemberClub"  [ngClass]="{'direction': lang != 'he'}" >
+          {{'CHECK_IF_MEMBER' | translate}}
+        </div>
+        <div class="col header-new" *ngIf="!useMemberClub"  [ngClass]="{'direction': lang != 'he'}">
+          {{'ORDER_SIGN_IN_HEADER_FIRST' | translate}}
+        </div>
+        <div class="col-1"  (click)="close()" style="color: var(--orange); align-self: center;">
+          <i class="fa fa-times fa-lg" style="padding-bottom: 20px; text-align: end;"></i>
+        </div>        
+      </div>
+       
+      <!--div class="header-container">
+        <div class="header-new" *ngIf="useMemberClub" [ngClass]="{'direction': lang != 'he'}">
+          {{'CHECK_IF_MEMBER' | translate}}
+        </div>
+        <div class="header-new" *ngIf="!useMemberClub"  [ngClass]="{'direction': lang != 'he'}">
+          {{'ORDER_SIGN_IN_HEADER_FIRST' | translate}}
+        </div>
+       
+      </div-->
+      <div class="description-sign-in" *ngIf="useMemberClub" [ngClass]="{'direction': lang != 'he'}">
+        {{'PHONE_VERIFICATION' | translate}}
+      </div>
+      <div class="description-sign-in" *ngIf="!useMemberClub" [ngClass]="{'direction': lang != 'he'}">
+        {{'ORDER_SIGN_IN_DESCRIPTION_FIRST' | translate}}
+      </div>
+    </div>
+
+
+    <div class="code animated fadeIn" *ngIf="showCodeForm">
+      <div class="header-container">
+        <div class="header-new">
+          {{'ORDER_SIGN_IN_CODE_SENT_HEADER' | translate}}
+        </div>
+      </div>
+      <div class="description-sign-in">
+        {{'ORDER_SIGN_IN_CODE_SENT_DESCRIPTION' | translate}}
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <div class="mobile-phone-number animated fadeIn" style="margin-right: 3rem;" *ngIf="showCodeForm">
+            {{(lang === 'en' ? '+1' : '') + phone}}
+          </div>
+        </div>
+    
+        <div class="col-3" style="margin-right: -2rem;"><img (click)="goBack()" style="width: 44%; margin-bottom: 5px;" src="../../../assets/images/items/pencil-icon-new.svg"></div>
+      </div>
+    </div>
+
+    <div class="sign-in-form animated fadeIn">
+      <!--<div class="input-group">-->
+      <div class="phone-error animated fadeInUp" *ngIf="errorMessage" [ngClass]="{'direction': lang != 'he'}">
+        {{errorMessage}}
+      </div>
+
+      <div class="input-wrapper animated" *ngIf="!showCodeForm">
+        <div class="us-one" *ngIf="country === 'us'">+1</div>
+        <input type="tel" class="input-phone-number-new placeholder-appear" maxlength="{{countOfDigitsInNumber}}"
+          (keypress)="restrictKeysExceptDigits($event)" [(ngModel)]="phone" (focus)="hidePhoneNumberError()"
+          placeholder="{{'SIGN_IN_PHONE' | translate}}" />
+      </div>
+
+      <div *ngIf="showCodeForm" class="input-wrapper-code animated fadeIn">
+        <input type="tel" class="input-field input-phone-code-new placeholder-appear"
+          maxlength="{{countOfDigitsForCode}}" (keypress)="restrictKeysExceptDigits($event)"
+          (focus)="hidePhoneNumberError()" placeholder="{{'SIGN_IN_CODE' | translate}}" [(ngModel)]="code" />
+      </div>
+      <!--</div>-->
+
+      <div class="row">
+
+        <div class="col-6" *ngIf="showCodeForm" style="align-self: center;
+        text-align: center;">
+          <button (click)="goBack()" style="    background: transparent;
+          border: none;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 20px;
+          line-height: 27px;
+        
+          color: #3F3F3F;
+          margin-top: 1rem;">  {{ "CHANGE_NUMBER" | translate }} </button>
+
+        </div>
+
+        <div class="col-6" *ngIf="!showCodeForm && !isFirst" ></div>
+
+        <div class="col-6" *ngIf="!showCodeForm && isFirst" style="align-self: center;
+        text-align: center;">
+          <button (click)="close()" style="    background: transparent;
+          border: none;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 20px;
+          line-height: 27px;
+          letter-spacing: 0.2em;
+          color: #3F3F3F;
+          margin-top: 1rem;">  {{ "SIGN_IN_SKIP" | translate }} </button>
+        </div>
+
+        <div class="col-6">
+          <!--div class="animated fadeIn" [ngClass]="{'direction': lang != 'he'}" style="background-color: var(--orange);
+          border-radius: 5px;
+          height: 2.5rem;
+          margin-top: 1rem; padding-top: 0.2rem;
+          text-align: center;"-->
+            <button type="button" *ngIf="!showCodeForm"
+                    class="btn btn-block btn-custom text-white"
+                    style="font-size: 21px;
+                          line-height: 33px;
+                          letter-spacing: 0.2em;
+                          padding:0;
+                          border-radius: 5px;
+                          height: 2.5rem;
+                          margin-top: 1rem; padding-top: 0.2rem;"
+                    [disabled]="wasClicked"
+                    (click)="sendLoginCode()">
+                    {{ "FORM_SIGN_IN" | translate }}
+            </button>
+            <button type="button" *ngIf="showCodeForm"
+                    class="btn btn-block btn-custom text-white"
+                    style="font-size: 21px;
+                          line-height: 33px;
+                          letter-spacing: 0.2em;
+                          padding:0;
+                          border-radius: 5px;
+                          height: 2.5rem;
+                          margin-top: 1rem; padding-top: 0.2rem;"
+                    [disabled]="wasCodeClicked"
+                  (click)="handlerCode()">
+            {{ "FORM_SIGN_IN" | translate }}
+            </button>
+            <!--div class="noselect" [animation]="'pulse'" (click)="handlerCode()">
+              <div class="content" style="font-style: normal;
+              font-weight: normal;
+              font-size: 21px;
+              line-height: 33px;
+              letter-spacing: 0.2em;
+              color: #FFFFFF;">
+                {{ "FORM_SIGN_IN" | translate }}
+              </div>
+            </div>
+          </div-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

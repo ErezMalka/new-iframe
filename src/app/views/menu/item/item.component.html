@@ -1,0 +1,179 @@
+
+<!--div class="close-options d-flex d-lg-none" [ngClass]="{'direction': lang != 'he'}">
+  <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="cancel()"></span>   
+</div-->
+<div class="modal-body py-0"  
+     style="border-top-left-radius: 20px; border-top-right-radius: 20px;     padding-top: 0.5rem!important;" >
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-auto">
+      <button type="button" class="close" aria-label="Close" 
+              (click)="cancel()">
+        <span style="font-size: 2rem;" aria-hidden="true">&times;</span>
+      </button>
+     
+    </div>
+  </div>
+  
+  <div class="item-card"  >
+    <div class="product-image">
+      <img class="img-fluid" style="height: 250px; width: 100%; object-fit: cover;" [src]="item?.ImageUrl" (error)="logo($event)" alt=""/>
+    </div>
+    <div style="background: var(--orange); height: 4px; width:inherit; margin: auto;
+    border-radius: 4px;"></div>
+    <div class="product-details" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+      <div class="row">
+        <div class="col product-name">
+          <b>{{item?.Name}}</b>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col product-desc" [ngStyle]="{'padding-left':getLanguage() === 'he' ? '66px': '15px', 'padding-right':getLanguage() != 'he' ? '66px': '15px'}">
+          {{item?.Information}}
+        </div>
+      </div>
+      <div class="row" *ngIf="isDigitalMenu" [ngStyle]="{'padding-left':getLanguage() === 'he' ? '66px': '15px', 'padding-right':getLanguage() != 'he' ? '66px': '15px'}">
+        <div class="col product-desc">
+          {{item?.Description}}
+        </div>
+      </div>
+      <div class="row" *ngIf="item && item.Price && !item.IsClubMemberItem">
+        <div class="product-price" [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+          <span style="font-size: 15px;">{{item?.Price}}</span>
+          <span>{{"COMMON_CASH" | translate}}</span>
+        </div>
+      </div>
+      <div class="row" *ngIf="item && item.Price && item.IsClubMemberItem">
+        <div class="product-price" [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+          <span style="font-size: 15px;">{{item?.Price}}</span>
+          <span>{{"POINTS_3" | translate}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mt-3 item noselect" *ngIf="!isCmItem && !isDigitalMenu && !item.IsClubMemberItem" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+    <div class="description">
+      <div class="col-auto"   >  {{ "AMOUNT" | translate }}  </div>
+      <div style="display:inline-flex; justify-content: space-between; padding-left: 15px; direction: rtl !important;">
+        <button class="btn btn-plus text-white" type="button" (click)="addAmount(item)">
+          <img src="../../../../assets/images/items/plus.svg"  style="width: 18px; height: 18px;">
+        </button>
+        <span class="col price"  style="margin: auto;"> 
+          {{item.Amount}}
+        </span>
+        <button class="btn btn-minus text-white" type="button" [disabled]="item.Amount < 1"                         
+          (click)="subAmount(item)">
+          <img src="../../../../assets/images/items/minus.svg"  style="width: 18px; height: 18px;">                    
+        </button>
+      </div>
+    </div>             
+  </div>
+   
+ 
+  
+ 
+  <div class="col px-0" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"  style="height:30vh; overflow-y: auto; overflow-x: hidden;"
+       *ngIf="(item.Garnishes?.length > 0 || item.GarnishGroups?.length > 0 || item.GeneralGarnishGroups?.length > 0) && !isDigitalMenu">
+    <!--div class="row py-2">
+      <div class="col text-center">
+        <b>{{"EDIT_GARNISHES" | translate}}</b> &nbsp; 
+        <i class="fa fa-pencil fa-lg" (click)="includeGarnishes(item)"></i>
+      </div>       
+    </div-->
+    
+    <div class="row item selected" *ngFor="let garnish of item?.SelectedGarnishes; let i=index;"
+    (click) = "findGarnishGroupToOpenForEdit(garnish,cancellation, adding)" 
+         [animation]="'pulse'" style="padding: 0.2rem;">
+      <div class="select-image"  >
+        <img src="../../../../assets/images/items/green-select.svg" style="width: 26px" >    
+      </div>
+      <div class="col-3 garnish-image">
+        <img class="img-fluid" *ngIf="!garnish.IsFailedLoadImg" [src]="garnish.ImageUrl" 
+         style="mix-blend-mode: multiply; "          
+        (error)="errorLoadingImage(garnish)"/>
+      </div>
+      <div class="col description">
+        <div  class="col" style="padding-right: 0px;"> 
+           {{garnish.Name}}  
+        </div>
+        <div class="col-2 price">
+          {{garnish.SelectedAmount}}
+        </div>
+        <div class="col-3" *ngIf="garnish.Price > 0">
+          <div class="price-mobile" >
+            {{"COMMON_CASH" | translate}}{{garnish.Price * garnish.SelectedAmount}} 
+          </div>         
+        </div>
+  
+      </div>
+    </div>
+    
+    
+  </div>
+  
+
+  <div class="row d-flex d-lg-none"  *ngIf="(item.Garnishes?.length == 0 || item.GeneralGarnishGroups?.length == 0) && !isDigitalMenu" >         
+    <div   class="col" 
+           style="margin-left: auto;">
+      <button  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right','color': colors.menuColor }"   (click)="displayComments()" class="btn btn-link btn-block"
+            style="font-weight: bold;">
+        <i class="icon-note" style="font-weight: bold; font-size: 1rem;"></i>
+        {{"SPECIALREQ" | translate}}
+      </button>
+    </div>
+  </div>
+
+  <div class="form-group  d-none d-lg-flex" *ngIf="!isDigitalMenu">
+    <div class="input-group">
+      <div class="input-group-prepend"  [ngStyle]="{'border-left':getLanguage() === 'he' ? 'none': '1px solid rgb(211, 211, 211)', 'border-right':getLanguage() === 'en' ? 'none': '1px solid rgb(211, 211, 211)'}"
+        style="align-items: baseline; background: #F4F4F4;border: 1px solid rgb(211, 211, 211);box-sizing: border-box;">
+        <span class="input-group-text" style="border: none; opacity: 0.7;"><img
+            src="../../../assets/images/items/pencil-icon-new.svg"></span>
+      </div>
+      <textarea rows="4" class="form-control" [(ngModel)]="itemComments" [ngStyle]="{'border-left':getLanguage() === 'he' ? '1px solid rgb(211, 211, 211)': 'none', 'border-right':getLanguage() === 'en' ? '1px solid rgb(211, 211, 211)': 'none'}"
+        style="background: #F4F4F4;border: 1px solid #D3D3D3; box-sizing: border-box; height: 100px;"
+        placeholder="{{'ITEM_COMMENTS' | translate}}">
+      </textarea>
+    </div>
+  </div>
+    
+</div>
+<div *ngIf="!isDigitalMenu" class="modal-footer d-block d-lg-none" style="padding: 0px; position: fixed; bottom: 0; top: auto;
+            padding-bottom: env(safe-area-inset-bottom, 0px), 16px; width: 100%;">
+
+  <div [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" class="btn-group" style="width: 100%;">
+    <button data-dismiss="modal" (click)="cancel()" class="btn btn-cancel">
+      {{"HOME_CANCEL" | translate}}
+    </button>
+
+    <button (click)="save()" type="button" class="btn btn-custom btn-block" style="display: inline-flex;">
+      <span *ngIf="isEdit" style="margin: auto; ">עדכן</span>
+      <span *ngIf="!isEdit" style="margin: auto;"> {{ "ORDER_ADD_TO_ORDER" | translate }}</span>
+      <span style="margin: auto;" > <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+    </button>
+
+
+  </div>
+</div>
+
+<div *ngIf="!isDigitalMenu" class="modal-footer d-none d-lg-block" style="padding: 0px; bottom: 0; top: auto;
+            width: 100%;">
+            
+  <div [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"  class="btn-group" style="width: 100%;">
+    <button data-dismiss="modal" (click)="cancel()" class="btn btn-cancel">
+          {{"HOME_CANCEL" | translate}}
+    </button>
+     
+      <button (click)="save()"  type="button" class="btn btn-custom btn-block" style="display: inline-flex;">
+        <span *ngIf="isEdit"  style="margin: auto;">עדכן</span>
+        <span *ngIf="!isEdit"  style="margin: auto; "> {{ "ORDER_ADD_TO_ORDER" | translate }}</span>
+        <span   style="margin: auto;"> <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  " ></i></span>
+      </button>
+      
+    
+  </div>
+ </div>
+
+ 

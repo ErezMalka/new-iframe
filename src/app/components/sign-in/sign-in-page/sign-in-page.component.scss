@@ -1,0 +1,247 @@
+@import "../../../../constants";
+
+.sign-in-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+  background-position: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: calc(100dvh);
+  display: flex;
+  align-items: center;
+  padding-top: 3rem;
+  justify-content: center;
+}
+
+@media only screen and (max-width: $max-site-width) {
+  .sign-in-wrapper {
+    align-items: flex-end;
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+}
+
+
+.popup-wrapper {
+
+}
+
+.sign-in-dialog {
+  border-radius: 15px;
+  box-sizing: border-box;
+  padding: $padding-normal-size * 1.5;
+
+
+  .code {
+    .mobile-phone-number {
+      font-family: 'Alef-Regular', sans-serif;
+      font-size: 1.1 * $font-default-size;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1;
+      letter-spacing: normal;
+      text-align: center;
+      color: var(--orange);//#ff6600;#ff6600;
+      direction: ltr;
+    }
+    .header {
+    //  font-family:  'FtJimborySquared 1.0 Bold', sans-serif;
+      font-size: 1.5 * $font-default-size;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1;
+      letter-spacing: normal;
+      text-align: center;
+      color: #ffffff;
+      padding: 0 0 $padding-normal-size * 0.5;
+      box-sizing: border-box;
+    }
+    .description {
+      font-size: 1.2 * $font-default-size;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1;
+      letter-spacing: normal;
+      text-align: center;
+      color: #ffffff;
+      padding: 0.5 * $padding-normal-size 0;
+      box-sizing: border-box;
+    }
+  }
+
+  .mobile {
+    .header {
+    //  font-family:  'FtJimborySquared 1.0 Bold', sans-serif;
+      font-size: 1.5 * $font-default-size;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 0.74;
+      letter-spacing: normal;
+      color: #ffffff;
+      padding: 0.5 * $padding-normal-size 0;
+      box-sizing: border-box;
+      text-align: right;
+    }
+    .header.direction {
+      text-align: left;
+    }
+    .description {
+      font-size: 1.2 * $font-default-size;
+      font-family:  'Alef-Regular', sans-serif;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1;
+      letter-spacing: normal;
+      color: #ffffff;
+      padding: 0.5 * $padding-normal-size 0;
+      box-sizing: border-box;
+      text-align: right;
+    }
+    .description.direction {
+      text-align: left;
+    }
+  }
+
+  .sign-in-form {
+
+    .input-group {
+
+      .input-wrapper{
+
+        position: relative;
+
+        .us-one {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          font-family: 'Alef-Regular', sans-serif;
+          padding: 0 4px;
+        }
+
+        .il-code {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          font-family: 'Alef-Regular', sans-serif;
+          padding: 0 4px;
+        }
+
+        .input-phone-number, .input-phone-code {
+          width: 100%;
+          border: 1px solid #a2a2a2;
+          padding: 0.5 * $padding-normal-size 2 * $padding-normal-size;
+          box-sizing: border-box;
+          font-family: 'Alef-Regular', sans-serif;
+          font-size: $font-default-size;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          text-align: center;
+          color: $text-color;
+          margin: 0.5rem 0;
+          border-radius: 3 * $margin-normal-size;
+          border-bottom-left-radius: $margin-normal-size;
+          border-top-left-radius: $margin-normal-size;
+          outline: none;
+
+        }
+        .input-phone-number {
+          background-image: url("../../../../assets/images/items/phone.png");
+          background-repeat: no-repeat;
+          background-position: right;
+          background-size: contain;
+        }
+        .input-phone-code {
+          background-image: url("../../../../assets/images/items/key.png");
+          background-repeat: no-repeat;
+          background-position: right;
+          background-size: contain;
+        }
+        .input-phone-number.direction, .input-phone-code.direction {
+          border-radius: 3 * $margin-normal-size;
+          border-bottom-right-radius: $margin-normal-size;
+          border-top-right-radius: $margin-normal-size;
+        }
+        .input-field::-webkit-input-placeholder {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}
+        .input-field::-moz-placeholder          {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}/* Firefox 19+ */
+        .input-field:-moz-placeholder           {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}/* Firefox 18- */
+        .input-field:-ms-input-placeholder      {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}
+
+      }
+
+    }
+
+    .button-confirm-container {
+      text-align: left;
+      .button-confirm {
+        display: inline-block;
+        object-fit: contain;
+        border-radius: 10px;
+        background-color: var(--orange);//#ff6600;
+        box-sizing: border-box;
+        padding: $padding-normal-size * 0.5 $padding-normal-size;
+        color: #ffffff;
+        font-family: 'Alef-Regular', sans-serif;
+        font-size: 1.2 * $font-default-size;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        width: 148px;
+      }
+    }
+    .button-confirm-container.direction {
+      text-align: right;
+    }
+  }
+
+}
+
+.sign-in-dialog.sign-in-dialog-container {
+  background-color: #00000080;
+}
+
+.form-sign-in-btns {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.phone-error {
+  color: $error-text;
+  font-family: 'Alef-Regular', sans-serif;
+  font-size: $font-default-size;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+}
+
+.phone-error.direction {
+  text-align: left;
+}
+
+.skip-link {
+  color: var(--orange);//#ff6600;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0 1rem;
+  cursor: pointer;
+}

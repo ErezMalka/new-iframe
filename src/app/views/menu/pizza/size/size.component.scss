@@ -1,0 +1,64 @@
+@import "../../../../../constants";
+
+.size-container {
+
+  position: relative;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: inline-block;
+
+  .select-item {
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    img {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
+  .circle {
+    width: 5rem;
+    height: 5rem;
+    background: #828282;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    font-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    .text {
+      position: absolute;
+      font-family: 'Alef-Regular', sans-serif;
+      font-size: 0.75 * $font-default-size;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+
+  }
+
+  .circle.selected {
+    background: $main-color;
+  }
+
+}
+
+::ng-deep .mat-dialog-container {
+  box-shadow: inherit;
+}

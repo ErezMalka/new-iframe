@@ -1,0 +1,177 @@
+@import "../../../../constants";
+
+.sign-in {
+
+  object-fit: contain;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0px 8px 18px 0 rgba(163, 163, 163, 0.1);
+ // background-color: #ffffff;
+ // padding: 1.5 * $padding-normal-size 0.5 * $padding-normal-size 0.5 * $padding-normal-size;
+  width: 50%;
+  margin: auto;
+  
+  width: 250px;
+  max-width: 250px;
+  min-width: 200px;
+
+  .sign-in-header {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .sign-in-header, .button-display-sign-in-form {
+      font-family: 'Alef-Regular', sans-serif;
+      font-size: 0.85 * $font-default-size;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #4b4b4b;
+    }
+
+    .sign-in-header {
+      flex: 0 0 60%;
+      width: 60%;
+    }
+
+    .button-display-sign-in-form {
+      color: #ffffff;
+      border-radius: 10px;
+      background-color: $text-color;
+      text-align: center;
+    }
+
+    .button-display-sign-in-form {
+      flex: 0 0 40%;
+      width: 40%;
+      padding: 0.5 * $padding-normal-size;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+  }
+
+  .sign-in-form {
+
+    .input-group {
+
+      .input-wrapper{
+
+        position: relative;
+
+        .us-one {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          font-family: 'Alef-Regular', sans-serif;
+          padding: 0 4px;
+        }
+
+        .il-code {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          font-family: 'Alef-Regular', sans-serif;
+          padding: 0 4px;
+        }
+
+        .input-phone-number, .input-phone-code {
+          width: 100%;
+          border: 1px solid #a2a2a2;
+          padding: 0.5 * $padding-normal-size 2 * $padding-normal-size;
+          box-sizing: border-box;
+          font-family: 'Alef-Regular', sans-serif;
+          font-size: $font-default-size * 0.8;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          text-align: center;
+          color: $text-color;
+          margin: 0.5rem 0;
+          border-radius: 3 * $margin-normal-size;
+          border-bottom-left-radius: $margin-normal-size;
+          border-top-left-radius: $margin-normal-size;
+          outline: none;
+          background-repeat: no-repeat;
+          background-size: 1.8rem;
+          background-position: 99.5%;
+        }
+
+        /*.input-phone-number.direction, .input-phone-code.direction {
+          border-radius: 3 * $margin-normal-size;
+          border-bottom-right-radius: $margin-normal-size;
+          border-top-right-radius: $margin-normal-size;
+        }*/
+        .input-field::-webkit-input-placeholder {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}
+        .input-field::-moz-placeholder          {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}/* Firefox 19+ */
+        .input-field:-moz-placeholder           {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}/* Firefox 18- */
+        .input-field:-ms-input-placeholder      {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}
+      }
+
+    }
+
+    .button-confirm-container {
+      .button-confirm {
+        object-fit: contain;
+        border-radius: 10px;
+        background-color: var(--orange);//#ff6600;
+        box-sizing: border-box;
+        padding: $padding-normal-size * 0.75;
+        color: #ffffff;
+        font-family: 'Alef-Regular', sans-serif;
+        font-size: $font-default-size;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        margin-bottom: $margin-normal-size * 0.25;
+      }
+    }
+  }
+
+  .phone-error {
+    color: $error-text;
+    font-family: 'Alef-Regular', sans-serif;
+    font-size: $font-default-size;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-top: $margin-normal-size * 0.5;
+  }
+
+}
+
+
+
+@media only screen and (min-width: 992px) {
+  .sign-in {
+    width: 250px;
+   // max-width: 300px;
+   // min-width: 300px;
+   // margin-left: 10px;
+  }
+}
+
+@media only screen and (min-width: $max-site-width) {
+  .sign-in {
+    width: 250px;
+   // max-width: 300px;
+   // min-width: 300px;
+  }
+}

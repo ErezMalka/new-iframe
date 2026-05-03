@@ -1,0 +1,73 @@
+<div class="popup-wrapper animated fadeIn" (window:resize)="onResize($event)">
+  <div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="closeAndNotSaveGarnishes()"></span>
+    <div class="error-container">
+     </div>
+  </div>
+  <div class="pizza-size-container">
+    <div class="header" mat-dialog-title [ngClass]="{'direction': lang != 'he'}">
+      <span>{{ "PIZZA_SIZE_HEADER" | translate }}</span>
+      <div *ngIf="!isMobileMode()" class="description" [ngClass]="{'direction': lang != 'he'}">{{'PIZZA_SIZE_DESCRIPTION' | translate}}</div>
+    </div>
+    <ng-container  *ngIf="!isMobileMode()">
+      <div class="options-multiple-pizza">
+        <div class="arrow-item left"
+             *ngIf="pizza.PizzaPrices && pizza.PizzaPrices.length > slideConfig.slidesToShow"
+             (click)="slickModal.slickPrev(); stopAutoPlayCarousel()">
+          <div class="arrow left"></div>
+        </div>
+        <div class="arrow-item right"
+             *ngIf="pizza.PizzaPrices && pizza.PizzaPrices.length > slideConfig.slidesToShow"
+             (click)="slickModal.slickNext(); stopAutoPlayCarousel();">
+          <div class="arrow right"></div>
+        </div>
+      </div>
+      <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+        <div ngxSlickItem *ngFor="let pizzaSize of  pizza.PizzaPrices let ind = index" class="slide">
+          <div (click)="selectSize(pizzaSize)" [animation]="'pulse'" class="slide-item" width="100%">
+            <div class="image-top-shape" [ngStyle]="{'width': ((defaultPizzaSize / 2.25)) + 'px',
+                          'height': ((defaultPizzaSize / 2)) + 'px' }">
+              <img src="../../../../../assets/images/items/select-item.png"
+                   *ngIf="this.selectedPrice === pizzaSize"/>
+              <div class="pizza-size-name">{{pizzaSize.PizzaSizeName}}</div>
+              <div class="pizza-size-price" [ngStyle]="{'color': colors.buttonColor}"> {{'COMMON_CASH' | translate}} {{pizzaSize.Price}} </div>
+            </div>
+            <div class="image-circle" [ngStyle]="{'width': (defaultPizzaSize) + 'px' ,
+                          'height': (defaultPizzaSize) + 'px' }">
+              <img [src]="pizza.ImageUrl" alt="" class="image"
+                   [ngStyle]="{'width': (defaultPizzaSize) + 'px',
+                          'height': (defaultPizzaSize) + 'px' }">
+            </div>
+
+            <div class="line-item-wrapper" *ngIf="this.selectedPrice === pizzaSize">
+              <div class="image-bottom-shape" [ngStyle]="{ 'width': (defaultPizzaSize - defaultPizzaSize / 8) + 'px',
+                      'height': (defaultPizzaSize) + 'px' }"
+                   *ngIf="this.selectedPrice === pizzaSize"></div>
+
+            </div>
+          </div>
+        </div>
+      </ngx-slick>
+    </ng-container>
+
+    <ng-container *ngIf="isMobileMode()">
+      <div class="pizza-size-container pizza-size-container-mobile">
+        <div (click)="selectSize(pizzaSize)" [animation]="'pulse'" class="pizza-size-item"  *ngFor="let pizzaSize of  pizza.PizzaPrices let ind = index"
+        [ngClass]="{'pizza-size-item-mobile': pizzaSize === selectedPrice}">
+            <div class="select-image" *ngIf=" pizzaSize === selectedPrice">
+              <img src="../../../../assets/images/items/select-item.png" class="image-item"/>
+            </div>
+            <div class="pizza-size-name">{{pizzaSize.PizzaSizeName}}</div>
+            <div class="pizza-size-price" [ngStyle]="{'color': colors.buttonColor}"> {{'COMMON_CASH' | translate}} {{pizzaSize.Price}} </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="button-wrapper">
+      <button class="save-order scale-item" (click)="saveSizePizza()" [ngStyle]="{'background-color': colors.menuColor}" >
+        <span>{{ "PIZZA_OK" | translate }}</span>
+        <img src="../../../../assets/images/items/ok.svg"/>
+      </button>
+    </div>
+  </div>
+</div>

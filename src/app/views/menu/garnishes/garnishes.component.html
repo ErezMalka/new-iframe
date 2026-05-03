@@ -1,0 +1,483 @@
+
+<div *ngIf="showErrorGarnishMessage" id="message-notice" class="message-notice d-block d-lg-none">
+  
+  <!---->
+  <div class="row mb-3 ">
+    <div class="col text-center" style="background-color: #ECECEC; color:var(--orange);
+                  font-size: 24px; line-height: 21px; border-radius: 10px; 
+                  font-weight: 700; margin-right:20px; margin-left:20px; 
+                  vertical-align: middle; padding: 10px;">
+      {{"PAY_ATTENTION" | translate}}
+    </div>
+  </div>
+  <div class="row my-4 ">
+    <div class="col">
+      <img class="img-fluid" style="margin: auto;" src="../../../../assets/images/items/hand-alert.svg" />
+    </div>
+  </div>
+  <div class="row my-3 " style="font-weight: bolder;">
+    <div class="col">
+      {{displayErrorGarnishMessage()}}
+    </div>
+  </div>
+
+</div>
+
+<div >
+<span *ngIf="!item" class="close-upgrade d-flex d-lg-none" [ngClass]="{'direction': lang != 'he'}" (click)="closeAndNotSaveGarnishes()"></span>
+</div>
+
+<div class="garnishes-container d-flex d-lg-none" style="margin-bottom: 25px !important; height: 100dvh;">
+
+
+
+  <!--div class="error-container">
+        <messsage *ngIf="showErrorGarnishMessage" [type]="'error'" [message]="displayErrorGarnishMessage()"></messsage>
+      </div-->
+
+
+  <mat-dialog-content class="mat-dialog-content-custom" style="overflow-y: hidden !important; height: 93%; width: 100%; max-height: none !important;">
+    <div class="item-card" *ngIf="item" style="max-height: 35vh; position: relative;">
+
+      <div *ngIf="itemPriceWithNotFreeGarnishes > 0" class="product-price" [ngStyle]="{'right':getLanguage() != 'he' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" >
+        <span style="font-size: 1rem;">{{itemPriceWithNotFreeGarnishes}}</span>
+        <span>{{"COMMON_CASH" | translate}}</span>
+      </div>
+
+      <div *ngIf="!hideImage" class="product-image" 
+            style="position: relative; max-height: 23vh; text-align: center;"> <!--height: 23vh; -->
+        <span class="close" [ngClass]="{'direction': lang != 'he'}" 
+              (click)="closeAndNotSaveGarnishes()"></span>
+        <img  *ngIf="!(item?.PizzaPrices || isPizza)" 
+              class="img-fluid" [src]="item?.ImageUrl" 
+              style="width: 100%; height: 24vh; object-fit: cover;" 
+              (error) = "logo($event)" alt="" />
+        <img  *ngIf="item?.PizzaPrices || isPizza" 
+              class="img-fluid" [src]="item?.ImageUrl" 
+              style="max-height: 150px;" 
+              (error) = "logo($event)" alt="" />
+
+      </div>
+      <div style="background: var(--orange); height: 4px; width:inherit;
+      border-radius: 4px;"></div>
+      
+      <div class="product-details" id="product-details" style=" overflow: hidden;">
+
+
+
+        <div class="row" >
+          <div class="col product-name"  [ngStyle]="{'text-align':getLanguage() != 'he' ? 'left': 'right'}">
+            <b>{{item?.Name}}</b>
+          </div>
+        </div>
+        <div class="row" *ngIf="!hideImage && !(item.SelectedToppings && item.SelectedToppings?.length > 0)">
+          <div class="col product-desc" [ngStyle]="{'text-align':getLanguage() != 'he' ? 'left': 'right'}">
+            {{item?.Information}}
+          </div>
+        </div>
+        <ng-container *ngIf="hideImage && item.SelectedToppings && item.SelectedToppings?.length > 0">
+          <div class="row" *ngFor="let top of item?.SelectedToppings">
+            <div class="col product-desc" [ngStyle]="{'text-align':getLanguage() != 'he' ? 'left': 'right'}">
+              {{top?.Name}} -  {{top?.Description}}
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="item.SelectedGarnishes && item.SelectedGarnishes?.length > 0">
+          <div class="row" *ngFor="let g of item?.SelectedGarnishes">
+            <div class="col product-desc" [ngStyle]="{'text-align':getLanguage() != 'he' ? 'left': 'right'}">
+              {{g?.Name}} 
+            </div>
+          </div>
+        </ng-container>
+        <div class="row" [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" *ngIf="item && item.Price">
+          <div class="col-8" >
+            <button [ngStyle]="{'text-align':getLanguage() != 'he' ? 'left': 'right'}" (click)="displayComments()" class="btn btn-link btn-block" [ngStyle]="{'color': colors.menuColor}"
+              style=" font-weight: bold;">
+              <i class="icon-note" style="font-weight: bold; font-size: 2vw;"></i>
+              {{"SPECIALREQ" | translate}}
+            </button>
+          </div>
+          <div class="col-4">
+
+          </div>
+        </div>
+ 
+      </div>
+    </div>
+
+
+
+    <div class="header"  [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}"  mat-dialog-title [ngClass]="{'direction': lang != 'he'}"
+      style="text-align: center; color:#636363; font-size: 1rem;">
+      <span *ngIf="!garnishGroup">{{"GARNISHES_HEADER" | translate}}</span>
+      <span *ngIf="garnishGroup">{{garnishGroup.Name}}</span>
+      <div *ngIf="garnishGroup && garnishGroup.Description && garnishGroup.Description != null && garnishGroup.Description != undefined && garnishGroup.Description.length > 0"
+           style="font-size: 2vh; font-weight: normal;">
+        {{garnishGroup.Description}}
+      </div>
+      <div style="font-size: 2vh;
+      font-weight: normal;"> {{displayRequires(garnishGroup)}}</div>
+    </div>
+
+
+
+    <div class="content"  [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" style="overflow-y: auto; max-height: 45vh;" *ngIf="garnishGroup">
+      <div class="row item noselect" *ngFor="let garnish of garnishGroup?.Garnishes" [animation]="'pulse'"
+        [ngClass]="{'selected': garnish.IsSelected}" style="padding:0px;"
+        (click)="(!garnish.MaxAmount || garnish.MaxAmount <= 1) ? selectGarnish(garnish) : null"><!-- style="padding-left:15px; padding-right:0px;"-->
+
+        <div class="col-12">
+
+          <div class="row" *ngIf="garnish.MaxAmount && garnish.MaxAmount > 1" style="padding-right: 10px;">
+            <div class="col-12">
+              <span style="vertical-align: middle;">{{garnish.Name}}</span>
+              <span *ngIf="garnish.Description && garnish.Description != null && garnish.Description.length > 0">
+                <button  type="button" class="btn" style="color: #747474; padding-top: 0; padding-bottom: 0;" 
+                       
+                        triggers="focus"
+                        [popover]="garnish.Description" 
+                        placement="bottom"  >
+                  <i class="fa fa-info-circle fa-md" aria-hidden="true"></i>
+                </button>
+                 
+                
+              </span>
+             
+            </div>
+          </div>
+          <div class="select-image" *ngIf="garnish.IsSelected" style="z-index: 100;">
+            <!--span class="select-item-count" [hidden]="!garnish.IsSelected || !garnish.MaxAmount || garnish.MaxAmount <= 1">
+                <span class="count"> X </span>
+                  <span class="value"> {{garnish.SelectedAmount}}</span>
+              </span-->
+            <img src="../../../../assets/images/items/green-select.svg" style="width: 5vw">
+            <!--img src="../../../../assets/images/items/ellipse-5.svg"  >
+              <img src="../../../../assets/images/items/vector-5.svg"  >
+              <img src="../../../../assets/images/items/vector-3.svg"  -->
+            <!--span class="select-item-remove" [hidden]="!garnish.IsSelected || !garnish.MaxAmount || garnish.MaxAmount <= 1 "
+                    (click)="deselectMultipleGarnish(garnish, $event)">
+                <span class="count"> x </span>
+              </span-->
+          </div>
+          <div class="row" style="padding-right: 0.5rem;">
+            <div class="col-4 garnish-image">
+              <img class="img-fluid" [src]="garnish.ImageUrl"
+                style="mix-blend-mode: multiply; object-fit: cover; width: 90%; " (error)="logo($event)" />
+            </div>
+            <div class="col-8 description" style="display: flex;">
+               
+              <div *ngIf="!garnish.MaxAmount || garnish.MaxAmount  <= 1" class="col" 
+                   [ngStyle]="{'text-align':getLanguage() != 'he' ? 'left': 'right'}"
+                   style="display: inline-flex; vertical-align: middle;" >
+                 {{garnish.Name}}
+                
+                  <button *ngIf="garnish.Description && garnish.Description != null && garnish.Description.length > 0 " 
+                          type="button" class="btn" style="color: #747474; padding-top: 0; padding-bottom: 0;" 
+                          
+                          triggers="focus"
+                          [popover]="garnish.Description"
+                          placement="bottom"   >
+                    <i class="fa fa-info-circle fa-md" aria-hidden="true"></i>
+                  </button>
+                   
+                  
+               
+              </div>
+              <div class="col-7" [ngStyle]="{'text-align':getLanguage() != 'he' ? 'left': 'right'}"
+                style="direction: rtl !important; display:inline-flex; justify-content: space-between; padding: 0; margin-right: 1rem;"
+                *ngIf="garnish.MaxAmount && garnish.MaxAmount > 1">
+                <button class="btn btn-plus text-white" type="button"
+                  [disabled]="garnish.SelectedAmount == garnish.MaxAmount || garnishGroup.Max==totalGarnishsSum" (click)="selectGarnish(garnish)">
+                  <img src="../../../../assets/images/items/plus.svg" style="width: 18px; height: 18px;">
+                </button>
+                <span class="col price" *ngIf="garnish.SelectedAmount" style="margin: auto;">
+                  {{garnish.SelectedAmount}}
+                </span>
+                <span class="col price" *ngIf="!garnish.SelectedAmount" style="margin: auto;">
+                  0
+                </span>
+                <button class="btn btn-minus text-white" type="button"
+                  [disabled]="!garnish.SelectedAmount || garnish.SelectedAmount < 1"
+                  (click)="deselectGarnishAmount(garnish)">
+                  <img src="../../../../assets/images/items/minus.svg" style="width: 18px; height: 18px;">
+                </button>
+              </div>
+              <div *ngIf="garnish.Price != 0 && checkFreeCountLimit() " class="col-5" style="text-align: -webkit-center; ;">
+                <!--div class="price-mobile"
+                    *ngIf="garnish.SelectedAmount && garnish.Price != 0 && checkFreeCountLimit()">
+                    {{"COMMON_CASH" | translate}}{{garnish.Price * garnish.SelectedAmount}}+
+                  </div-->
+                <div class="price-mobile" *ngIf="garnish.Price != 0 && checkFreeCountLimit() "
+                  [hidden]="!checkFreeCountLimit() || garnish.Price == 0">{{"COMMON_CASH" |
+                  translate}}{{garnish.Price}}
+                </div>
+                <!--div class="price-mobile" 
+                 [hidden]="!checkFreeCountLimit() || garnish.Price == 0" >{{"COMMON_CASH" | translate}}{{garnish.Price}}+ 
+                  </div-->
+              </div>
+
+            </div>
+ 
+          </div>
+        </div>
+      </div>
+      <div style="height: 8vh; width: 100%;"></div>
+
+      
+    </div>
+   
+  </mat-dialog-content>
+
+  
+  <mat-dialog-actions style="position: absolute;
+    bottom: 23px;
+    width: 100%;">
+
+    <!--div class="row" style="width:110%; position: relative; background-color: white;">
+        <div class="col" style="margin-left: auto;">
+          <button (click)="displayComments()" class="btn btn-link btn-block" [ngStyle]="{'color': colors.menuColor}"
+            style="text-align: right; font-weight: bold;">
+            <i class="icon-note" style="font-weight: bold; font-size: 1rem;"></i>
+            {{"SPECIALREQ" | translate}}
+          </button>
+        </div>
+      </div-->
+
+    <div class="btn-group" [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" style="width: 100%;">
+      <button (click)="saveGarnishes(true)" class="btn btn-cancel" *ngIf="!isFirstPage">
+        {{"GARNISHES_CANCEL" | translate}}
+      </button>
+
+      <button *ngIf="isFirstPage" (click)="saveGarnishes()" [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" type="button" class="btn btn-custom btn-block"
+        style="display: inline-flex;">
+        <span style="margin-top: auto;margin-bottom: auto;"
+              [ngStyle]="{'margin-right':getLanguage() === 'he' ? 'auto' : '10px', 'margin-left':getLanguage() === 'he' ? '10px' : 'auto'}">
+          {{"GARNISHES_CONTINUE" | translate}}</span>
+        <span style="margin-top: auto;margin-bottom: auto;"
+              [ngStyle]="{'margin-left':getLanguage() === 'he' ? 'auto' : '10px', 'margin-right':getLanguage() === 'he' ? '10px' : 'auto'}"> 
+          <i [ngStyle]="{'transform':getLanguage() != 'he' ? 'rotate(180deg)': ''}" 
+             class="fa fa-long-arrow-left fa-lg  ">
+          </i>
+        </span>
+      </button>
+      <button *ngIf="!isFirstPage" (click)="saveGarnishes()" [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" type="button" class="btn btn-custom btn-block"
+        style="display: inline-flex;">
+        <span style="margin-top: auto;margin-bottom: auto;"
+              [ngStyle]="{'margin-right':getLanguage() === 'he' ? 'auto' : '10px', 'margin-left':getLanguage() === 'he' ? '10px' : 'auto'}">
+          {{"GARNISHES_CONTINUE" | translate}}</span>
+        <span style="margin-top: auto;margin-bottom: auto;"
+              [ngStyle]="{'margin-left':getLanguage() === 'he' ? 'auto' : '10px', 'margin-right':getLanguage() === 'he' ? '10px' : 'auto'}"> 
+          <i [ngStyle]="{'transform':getLanguage() != 'he' ? 'rotate(180deg)': ''}" 
+             class="fa fa-long-arrow-left fa-lg  ">
+          </i>
+        </span>
+      </button>
+
+    </div>
+
+  </mat-dialog-actions>
+</div>
+
+
+
+
+<div *ngIf="!isMobileMode()" class="popup-wrapper animated fadeIn" (click)="action()"
+  (window:resize)="onResize($event)" style="position: absolute;
+  top: 10rem;   max-width: 1018px;">
+  <!--div class="close" style="top:-60px"
+       (click)="closeAndNotSaveGarnishes()"></div-->
+
+  <div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="closeAndNotSaveGarnishes()"></span>
+    <!--div class="error-container">
+      <messsage *ngIf="showErrorGarnishMessage" [type]="'error'" [message]="displayErrorGarnishMessage()"></messsage>
+    </div-->
+
+    <div *ngIf="showErrorGarnishMessage" id="message-notice" class="message-notice">
+      <!---->
+      <div class="row mb-3 ">
+        <div class="col text-center" style="background-color: #ECECEC; color:var(--orange);
+                    font-size: 24px; line-height: 21px; border-radius: 10px; 
+                    font-weight: 700; margin-right:20px; margin-left:20px; 
+                    vertical-align: middle; padding: 10px;">
+                    {{"PAY_ATTENTION" | translate}}       </div>
+      </div>
+      <div class="row my-4 ">
+        <div class="col">
+          <img class="img-fluid" style="margin: auto;" src="../../../../assets/images/items/hand-alert.svg" />
+        </div>
+      </div>
+      <div class="row my-3 " style="font-weight: bolder;">
+        <div class="col">
+          {{displayErrorGarnishMessage()}}
+      </div>
+
+    </div>
+
+    <!--div id="message-notice" class="message-notice">
+
+      
+      <span>{{displayErrorGarnishMessage()}}</span>
+    </div-->
+
+
+  </div>
+  <div class="garnishes-container">
+    <div class="header" mat-dialog-title  [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" [ngClass]="{'direction': lang != 'he'}"
+      style="text-align: center; color:#636363; font-size: 20px; ">
+      <span *ngIf="!garnishGroup">{{"GARNISHES_HEADER" | translate}}</span>
+      <span *ngIf="garnishGroup">{{garnishGroup.Name}}</span>
+    </div>
+    <mat-dialog-content class="mat-dialog-content-custom" [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}">
+      <!--ng-scrollbar #scrollable
+                    [shown]="shown"
+                    [disableOnBreakpoints]="false"
+                    [viewClass]="'custom-view'"
+                    [disabled]="disabled"-->
+      <div class="content" *ngIf="garnishGroup" [ngClass]="{'content-right' : !isMobileMode()}">
+        <div class="item noselect" *ngFor="let garnish of garnishGroup?.Garnishes" [animation]="'pulse'"
+          [ngClass]="{'selected': garnish.IsSelected}" (click)="selectGarnish(garnish)">
+          <div class="select-image" *ngIf="garnish.IsSelected" style="z-index: 100;">
+            <span class="select-item-count"
+              [hidden]="!garnish.IsSelected || !garnish.MaxAmount || garnish.MaxAmount <= 1">
+              <span class="count"> X </span>
+              <span class="value"> {{garnish.SelectedAmount}}</span>
+            </span>
+            <img src="../../../../assets/images/items/select-item.png">
+            <!--img src="../../../../assets/images/items/ellipse-5.svg"  >
+              <img src="../../../../assets/images/items/vector-5.svg"  >
+              <img src="../../../../assets/images/items/vector-3.svg"  -->
+            <span class="select-item-remove"
+              [hidden]="!garnish.IsSelected || !garnish.MaxAmount || garnish.MaxAmount <= 1 "
+              (click)="deselectMultipleGarnish(garnish, $event)">
+              <span class="count"> x </span>
+            </span>
+          </div>
+          <div class="garnish-image">
+            <img *ngIf="!garnish.IsFailedLoadImg" [src]="garnish.ImageUrl" (error)="errorLoadingImage(garnish)" />
+          </div>
+          <div class="description">
+            <div class="name" [ngClass]="{'description-name': !isMobileMode()}"> {{garnish.Name}} </div>
+            <div class="price" [ngStyle]="{'color': colors.buttonColor}"
+              [hidden]="!checkFreeCountLimit() || garnish.Price == 0"> + {{"COMMON_CASH" | translate}}{{garnish.Price}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content" [ngClass]="{'content-right' : !isMobileMode()}" *ngIf="garnishes">
+        <div class="item noselect" *ngFor="let garnish of garnishes" [animation]="'pulse'"
+          [ngClass]="{'selected': garnish.IsSelected}" (click)="selectGarnish(garnish)">
+          <div class="select-image" *ngIf="garnish.IsSelected" style="z-index: 2;">
+            <span class="select-item-count"
+              [hidden]="!garnish.IsSelected || !garnish.MaxAmount || garnish.MaxAmount <= 1">
+              <span class="count">X </span>
+              <span class="value"> {{garnish.SelectedAmount}}</span>
+            </span>
+            <img src="../../../../assets/images/items/select-item.png"
+              (click)="deselectMultipleGarnish(garnish, $event)">
+            <span class="select-item-remove"
+              [hidden]="!garnish.IsSelected || !garnish.MaxAmount || garnish.MaxAmount <= 1"
+              (click)="deselectMultipleGarnish(garnish, $event)">
+              <span class="count"> x </span>
+            </span>
+          </div>
+          <div class="garnish-image">
+            <img *ngIf="!garnish.IsFailedLoadImg" [src]="garnish.ImageUrl" (error)="errorLoadingImage(garnish)" />
+          </div>
+          <div class="description">
+            <div class="name" [ngClass]="{'description-name': !isMobileMode()}"> {{garnish.Name}} </div>
+            <div class="price" [ngStyle]="{'color': colors.buttonColor}"> {{"COMMON_CASH" | translate}}
+              {{garnish.Price}} </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <!--/ng-scrollbar-->
+    </mat-dialog-content>
+    <div style="height: 8vh;"></div>
+    <mat-dialog-actions style="position: relative;">
+
+      <div class="row" style="width:95%; position: absolute; margin-right: 0.5rem;
+      /* margin-bottom: 4rem; */
+      bottom: 4rem;
+      background-color: white" >
+        <div class="col" style="margin-left: auto;">
+          <button *ngIf="!data.isCombo" (click)="displayComments()" class="btn btn-link btn-block"
+            [ngStyle]="{'color': colors.menuColor}" style="text-align: right; font-weight: bold;">
+            <i class="icon-note" style="font-weight: bold; font-size: 2vw; ;"></i>
+            {{"SPECIALREQ" | translate}}
+          </button>
+        </div>
+      </div>
+      <div class="btn-group" [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" style="width: 100%;">
+       
+        <button (click)="saveGarnishes(true)" class="btn btn-cancel" *ngIf="!isFirstPage">
+          {{"GARNISHES_CANCEL" | translate}}
+        </button>
+
+        <button *ngIf="isFirstPage" (click)="saveGarnishes()" [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" type="button" class="btn btn-custom btn-block"
+          style="display: inline-flex;">
+          <span style="margin: auto;">{{"GARNISHES_CONTINUE" | translate}}</span>
+          <span style="margin: auto; "> <i [ngStyle]="{'transform':getLanguage() != 'he' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+        <button *ngIf="!isFirstPage" (click)="saveGarnishes()" [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" type="button" class="btn btn-custom btn-block"
+          style="display: inline-flex;">
+          <span style="margin: auto; ">{{"GARNISHES_CONTINUE" | translate}}</span>
+          <span style="margin: auto;"> <i [ngStyle]="{'transform':getLanguage() != 'he' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+
+      </div>
+      <!--div class="comments-save-actions"-->
+      <!--div class="row">
+          <div class="col">
+            <input *ngIf="!data.isCombo" type="text" class="form-control" 
+            [(ngModel)]="comments" placeholder="בקשות מיוחדות כתוב כאן" />
+          </div>
+        </div-->
+      <!--div class="row" style="width:100%">
+         
+          <div   class="col" 
+                 style="margin-left: auto;">
+            <button *ngIf="!data.isCombo" (click)="displayComments()" class="btn btn-link btn-block"
+                    [ngStyle]="{'color': colors.menuColor}" 
+                    style="text-align: right; font-weight: bold;">
+              <i class="icon-note" style="font-weight: bold; font-size: 1rem;"></i>
+              {{"SPECIALREQ" | translate}}
+            </button>
+          </div>
+          
+          <div class="col-auto" *ngIf="!isFirstPage">
+            <button (click)="saveGarnishes(true)" class="btn btn-secondary btn-block" 
+                    *ngIf="!isFirstPage">
+              {{"GARNISHES_CANCEL" | translate}}
+            </button>
+          </div>
+          <div class="col-auto px-0">
+            <button (click)="saveGarnishes()"  type="button" class="btn btn-custom btn-block"
+                    [ngStyle]="{'background-color': colors.menuColor}" >
+              {{"GARNISHES_CONTINUE" | translate}}
+            </button>
+          </div>
+         
+        </div-->
+      <!--span class="btn-group">
+          <button (click)="saveGarnishes()"  type="button" class="btn btn-custom btn-block"
+                  [ngStyle]="{'background-color': colors.menuColor}" >
+            <span>{{"GARNISHES_OK" | translate}}</span>
+           
+          </button>
+          <button (click)="saveGarnishes(true)" class="btn btn-custom btn-block" 
+                  *ngIf="!isFirstPage">
+            <span>{{"GARNISHES_CANCEL" | translate}}</span>
+          </button>
+        </span>
+
+        <span (click)="displayComments()" class="comments-btn placeholder-appear comments-group" *ngIf="!data.isCombo">
+
+          <img src="../../../../assets/images/items/comments.png" class="comments-image">
+        </span>
+      </div-->
+    </mat-dialog-actions>
+  </div>
+</div>

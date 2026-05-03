@@ -1,0 +1,270 @@
+@import "./constants.scss";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@font-face {
+  font-family: 'FtJimborySquared 1.0 Bold';
+  font-weight: 600;
+  font-style: normal;
+  src: url('https://api.bite-tech.co.il/Images/Kiosk/fonts/FtJimborySquared_1.0_Bold.otf');
+}
+
+@font-face {
+  font-family: 'Nachlieli CLM';
+  font-weight: 200;
+  font-style: normal;
+  src: url('https://api.bite-tech.co.il/Images/Kiosk/fonts/NachlieliCLM/200.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Nachlieli CLM';
+  font-weight: 200;
+  font-style: italic;
+  src: url('https://api.bite-tech.co.il/Images/Kiosk/fonts/NachlieliCLM/200i.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Nachlieli CLM';
+  font-weight: 700;
+  font-style: normal;
+  src: url('https://api.bite-tech.co.il/Images/Kiosk/fonts/NachlieliCLM/700.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Nachlieli CLM';
+  font-weight: 700;
+  font-style: italic;
+  src: url('https://api.bite-tech.co.il/Images/Kiosk/Images/fonts/NachlieliCLM/700i.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Alef-Regular';
+  font-style: normal;
+  src: url('./assets/font/Alef/Alef-Regular.ttf') format('ttf');
+}
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+// ... or
+//@import "~@ng-select/ng-select/themes/material.theme.css";
+::ng-deep .pac-container {
+  z-index: 100000!important;
+}
+.pac-container {
+  z-index: 100000!important;
+}
+
+.fixed-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 16px);
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: $main-color;
+}
+ 
+html, body {
+    touch-action: manipulation;
+
+  height: 100%;
+  margin: 0;
+  
+}
+
+
+/*Mat dialog container*/
+
+.mat-dialog-container {
+  background-color: var(--white) !important;
+  border-radius: 14px !important;
+  height: 309px !important;
+  width: 357px !important;
+  color: aqua;
+}
+
+
+
+.custom-mat-dialog-mobile .mat-dialog-container {
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
+  padding-top: 60px;
+}
+
+.custom-mat-dialog-pizza .mat-dialog-container {
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
+  padding-top: 60px;
+}
+
+
+
+.custom-mat-dialog .mat-dialog-container {
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
+}
+
+.fixed-direction-left-position {
+  direction: ltr;
+}
+
+.fixed-direction-right-position {
+  direction: rtl;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.scale-item {
+  -moz-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  -webkit-transition: all 1s ease-out;
+  transition: all 1s ease-out;
+}
+
+.scale-item:hover:not(.selected) {
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -o-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.placeholder-appear::-webkit-input-placeholder       {opacity: 1; transition: opacity 0.3s ease;}
+.placeholder-appear::-moz-placeholder                {opacity: 1; transition: opacity 0.3s ease;}
+.placeholder-appear:-moz-placeholder                 {opacity: 1; transition: opacity 0.3s ease;}
+.placeholder-appear:-ms-input-placeholder            {opacity: 1; transition: opacity 0.3s ease;}
+.placeholder-appear:focus::-webkit-input-placeholder {opacity: 0; transition: opacity 0.3s ease;}
+.placeholder-appear:focus::-moz-placeholder          {opacity: 0; transition: opacity 0.3s ease;}
+.placeholder-appear:focus:-moz-placeholder           {opacity: 0; transition: opacity 0.3s ease;}
+.placeholder-appear:focus:-ms-input-placeholder      {opacity: 0; transition: opacity 0.3s ease;}
+
+.placeholder-appear[placeholder]          { text-overflow:ellipsis; }
+.placeholder-appear::-moz-placeholder     { text-overflow:ellipsis; }
+.placeholder-appear:-moz-placeholder      { text-overflow:ellipsis; }
+.placeholder-appear:-ms-input-placeholder { text-overflow:ellipsis; }
+
+@media (max-width: $min-site-width) {
+
+  .cdk-overlay-container {
+    z-index: 1000000000!important;
+    max-width: none!important;
+    width: 100vw!important;
+    height: 100dvh!important;
+  }
+
+  .comments::-webkit-input-placeholder {
+    font-size: 0.9 * $font-default-size!important;
+  }
+  .comments::-moz-placeholder {
+    font-size: 0.9* $font-default-size!important;
+  }
+  /* Firefox 19+ */
+  .comments:-moz-placeholder {
+    font-size: 0.9 * $font-default-size!important;
+  }
+  /* Firefox 18- */
+  .comments:-ms-input-placeholder {
+    font-size: 0.9 * $font-default-size!important;
+  }
+
+  .cdk-overlay-dark-backdrop {
+    background: rgba(0,0,0,.72);
+  }
+
+
+}
+
+.mat-dialog-container {
+  box-shadow: none;
+ // padding: 2px;
+ // padding-bottom: 60px!important;
+ //padding-top: 2px!important;
+}
+
+.padding-small-container {
+  padding: 0.5 * $padding-normal-size;
+}
+
+input, textarea {
+  direction: ltr!important;
+  outline: none;
+}
+
+button {
+  outline: none;
+}
+
+@-moz-document url-prefix() {
+
+  * {
+    min-height: 0;
+    min-width: 0;
+  }
+
+}
+
+
+// avoid problem with browser scroll
+.custom-view {
+  width: calc(100% + 72px)!important;
+}
+
+// avoid problem with browser scroll
+.custom-view-items {
+  width: calc(100% + 72px)!important;
+}
+
+@media (max-width: $min-site-width) {
+  .custom-view {
+    width: calc(100%)!important;
+    overflow-y: auto!important;
+  }
+
+  .custom-view-items {
+    width: calc(100% + 54px)!important;
+  }
+
+  .items-list {
+    max-height: initial!important;
+  }
+
+  .custom-mat-dialog-mobile {
+    width: 95%!important;
+  }
+
+  .custom-mat-dialog-pizza {
+    width: 95%!important;
+  }
+
+}
+
+@media (min-width: $min-site-width-middle) and (max-width: $min-site-width) {
+  .custom-view-items {
+    width: calc(100% + 32px)!important;
+  }
+}
+
+@media (max-width: $min-site-width-middle) {
+  .custom-view-items {
+    width: calc(100% + 0px)!important;
+    overflow-y: hidden!important;
+  }
+}
+
+.slick-slide {
+
+}
+
+.custom-view-definition {
+  width: calc(100% + 72px)!important;
+}
+
+.custom-view.custom-view-mobile {
+  width: calc(100% + 16px);
+}

@@ -1,0 +1,596 @@
+<!--div class="order animated fadeIn" (window:resize)="onResize($event)"-->
+<!--*ngIf="order.Sum > 0 || countOfItems() > 0"-->
+<!--div class="col-auto"-->
+
+
+
+<div  class="card pt-0 side-cart" style="position: relative;">
+  <perfect-scrollbar class="my-scroll" id="my-scroll">
+  <div #otherIdentifier class="card-body" style="position: relative; padding: 0 !important; background:#f8f8f8;">
+    <!--div class="row  pt-0 pb-2 "-->
+    <!--div class="col cart-header">
+            {{ "ORDER_ORDER_DETAILS" | translate }}
+          </div-->
+    <!--/div-->
+
+    <div style="padding: 0 0.5vw;">
+      <div class="row py-3" *ngIf="isDiscount">
+        <div class="col text-center"  
+        style="color: var(--orange);  font-size: 1.2rem; border-radius: 15px; border-color: var(--orange);"
+        
+             *ngIf="discount && discount.type=='Sum'">
+          {{"DISCOUNT" | translate}}: {{discount.sum}}{{"COMMON_CASH" | translate}}
+        </div>
+        <div class="col  text-center" 
+        style="color: var(--orange);  font-size: 1.2rem; border-radius: 15px; border-color: var(--orange);"
+        
+             *ngIf="discount && discount.type=='Percent'">
+          {{"DISCOUNT" | translate}}: {{discount.sum}}%
+        </div>
+      </div>
+    <div class="row my-header">
+      <div *ngIf="order.IsDelivery" style="align-self: center; padding-left: 0;" class="col-auto">
+          <img src="../../../assets/images/items/delivery-icon-new.svg" />
+      </div>
+      <div *ngIf="order.IsTakeAway" style="align-self: center; padding-left: 0;" class="col-auto">
+        <img src="../../../assets/images/items/TA-icon-new.svg" />
+      </div>
+      <div *ngIf="order.IsSit" style="align-self: center;  padding-left: 0;" class="col-auto">
+        <img src="../../../assets/images/items/dine-icon-new.svg" />
+      </div>
+      <div *ngIf="order.IsDelivery && order.IsFutureOrder && !isFutureDatesOrderAvailable" 
+            [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  class="col orderType">
+        {{"ORDERTYPE_FDELIVERY" | translate}}  <br>
+        <div style="display: flex;"> {{"IN" | translate}} {{futureTATime}}</div>
+        <div *ngIf="displayBranchPhone()"style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
+        <div  *ngIf="displayBranchPhone()" style="display: flex;">
+          <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
+        </div>
+      </div>
+      <div *ngIf="order.IsTakeAway && order.IsFutureOrder && !isFutureDatesOrderAvailable" 
+           [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="col orderType">
+        {{"ORDERTYPE_FTA" | translate}} <br>
+        <div style="display: flex;"> {{"IN" | translate}} {{futureTATime}}</div>
+        <div style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} 
+          <span *ngIf="displayPickupPoints && order.UserCity != undefined && order.UserCity != null">
+          - {{order.UserCity}}
+         </span>
+        </div>
+        <div  *ngIf="displayBranchPhone()" style="display: flex;">
+          <a [href]="'tel:'+ currentBranch.BranchPhone" tyle="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
+        </div>
+      </div>
+      <div *ngIf="order.IsDelivery && order.IsFutureOrder && isFutureDatesOrderAvailable" 
+            [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  class="col orderType">
+        {{"ORDER_FUTURE_DELIVERY_DATE" | translate}}  <br>
+        <div style="display: flex;">{{futureDate}} {{"IN" | translate}} {{futureTATime}}</div>
+        <div *ngIf="displayBranchPhone()"style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
+        <div  *ngIf="displayBranchPhone()" style="display: flex; ">
+          <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
+        </div>
+      </div>
+      <div *ngIf="order.IsTakeAway && order.IsFutureOrder && isFutureDatesOrderAvailable" 
+           [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="col orderType">
+        {{"ORDER_FUTURE_TA_DATE" | translate}} <br>
+        <div style="display: flex;">{{futureDate}} {{"IN" | translate}} {{futureTATime}}</div>
+        <div style="display: flex;">{{"FROM" | translate}} {{currentBranch.Name}} 
+          <span *ngIf="displayPickupPoints && order.UserCity != undefined && order.UserCity != null">
+          - {{order.UserCity}}
+         </span>
+        </div>
+        <div  *ngIf="displayBranchPhone()" style="display: flex;">
+          <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
+        </div>
+      </div>
+      <div *ngIf="order.IsTakeAway && !order.IsFutureOrder" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="col orderType">
+        {{"ORDERTYPE_TA" | translate}}
+        <div style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} 
+          <span *ngIf="displayPickupPoints && order.UserCity != undefined && order.UserCity != null">
+          - {{order.UserCity}}
+         </span>
+        </div>
+        <div  *ngIf="displayBranchPhone()" style="display: flex;">
+          <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
+        </div>
+      </div>
+      <div *ngIf="order.IsDelivery&& !order.IsFutureOrder" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="col orderType">
+        {{"ORDERTYPE_DELIVERY" | translate}}
+        <div *ngIf="displayBranchPhone()"style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
+        <div  *ngIf="displayBranchPhone()" style="display: flex;">
+          <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
+        </div>
+      </div>
+      <div *ngIf="order.IsSit" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="col orderType">
+        {{"ORDERTYPE_SIT" | translate}}
+        <div *ngIf="displayBranchPhone()"style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
+        <div  *ngIf="displayBranchPhone()" style="display: flex;">
+          <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
+        </div>
+      </div>
+
+      <div type="button" class="btn col-auto" (click)="returnToPrevPage()"
+          style="color:#505050; text-align: end; align-self: center;" >
+          <span class="mx-2">{{"CHANGE_OPTION" | translate}}</span>
+          <span class="mx-2">
+            <img src="../../../assets/images/items/change-icon.svg">
+          </span>
+      </div>
+    
+       <!--a class="col-auto orderType" style="color:#505050; text-align: end; align-self: center;"  routerLink="/{{franchiseId}}/home" routerLinkActive="active">
+          <span>{{"CHANGE_OPTION" | translate}}</span>
+        </a-->
+      
+      
+      <!--div style="align-self: center;" class="col-auto">
+        <img src="../../../assets/images/items/change-icon.svg">
+      </div-->
+    
+    </div>   
+    </div>
+
+
+    <table  class="table table-hover"
+      style="position: relative; margin-top: 8px; border-collapse: separate; border-spacing: 0px 20px; margin-bottom: 0;">
+      <tbody>
+        <ng-container *ngFor="let itemOrderCombo of order.OrderCombos">
+          <tr>
+            <!--<td>
+              {{itemOrderCombo.Amount}}
+            </td>-->
+            <td  [ngStyle]="{'border-right':getLanguage() === 'en' ? '': '1px dashed #B6B6B6', 'border-left':getLanguage() === 'en' ? '1px dashed #B6B6B6': '',  'border-bottom-right-radius':getLanguage() === 'en' ? '': ' 5px', 'border-bottom-right-radius':getLanguage() === 'en' ? '5px': ''}" style=" width: 156px;">
+              <b>{{itemOrderCombo?.Name}}</b>
+              <br>
+              <input id="addItemName" type="text" class="add-name" [(ngModel)]="itemOrderCombo.ItemName"
+                placeholder="{{'ADD_YOUR_NAME' | translate}}">
+              <!--(onkeyup)="addName()"-->
+              <br />
+              {{itemOrderCombo?.SpecialRequests}}
+            </td>
+            <td style="position: relative; width: 100%;">
+              <!--div class="edit-item"></div-->
+              <div class="garnishes" (click)="itemOrderCombo.displayGarnishes = true; myFunction(itemOrderCombo);"
+                *ngIf="!itemOrderCombo.displayGarnishes">
+                <img src="../../../assets/images/items/arrow-down-info-icon.svg">
+              </div>
+            </td>
+
+            <td style=" border-bottom-left-radius: 5px;"  [ngStyle]="{'border-left':getLanguage() === 'en' ? '': '1px dashed #B6B6B6', 'border-right':getLanguage() === 'en' ? '1px dashed #B6B6B6': '' }" >
+              <div class="itemPrice">
+                {{itemComboPrice(itemOrderCombo)}}{{"COMMON_CASH" | translate}}
+              </div>
+              <div class="  plus-minus" style="display:inline-flex;margin-top: 5px; width: 100px;  ">
+                <div class="col-4 plus">
+                  <i class="fa fa-plus-square" (click)="addAmount(itemOrderCombo, false, true)"></i>
+                </div>
+                <div class="col-4 amount">{{itemOrderCombo.Amount}}</div>
+                <div class="col-4 minus">
+                  <i class="fa fa-minus-square" (click)="subAmount(itemOrderCombo)"></i>
+                </div>
+              </div>
+              <div class="col-1" style="padding-left: 2px; padding-right: 2px; margin-right: 77px;margin-top: 25px;">
+                <i class="fa fa-trash fa-lg" style="color:maroon;" (click)="removeCombo(itemOrderCombo)"></i>
+              </div>
+            </td>
+          </tr>
+          <!--tr *ngIf="!itemOrderCombo.displayGarnishes" colspan="3" style="position: relative;">
+            <div class="garnishes" (click)="itemOrderCombo.displayGarnishes = true">
+               <img src="../../../assets/images/items/arrow-down-info-icon.svg">
+             </div>
+         </tr-->
+
+          <tr *ngIf="itemOrderCombo.displayGarnishes" colspan="3" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" style="position: relative; top:-1.5rem;">
+            <td [attr.colspan]="3"
+              style="position: relative; border-top: none;border-right: 1px dashed #B6B6B6;border-left: 1px dashed #B6B6B6;">
+              <ng-container *ngFor="let pizza of itemOrderCombo.Pizzas">
+
+                <div class="row pt-2">
+                  <div class="col">
+                    <b>{{pizza?.FullPizza?.Name}}</b>
+                  </div>
+                  <div class="col-2" *ngIf="pizza?.FullPizza?.PriceInCombo > 0">
+                    <b>{{"COMMON_CASH" | translate}}{{pizza?.FullPizza?.PriceInCombo}}</b>
+                  </div>
+                </div>
+
+                <!--*ngFor="let top of pizza.FullPizza.SelectedToppings"-->
+                <div class="col" >
+                  <ng-container *ngIf="checkSelectedToppings(pizza)">
+                    <div class="row pt-2" style="border-bottom: 1px dashed #B6B6B6;"></div>
+                    <div class="row py-2" *ngFor="let top of pizza.Toppings"
+                          style="border-bottom: 1px dashed #B6B6B6;"> 
+                      <span class="col-auto" style="color:var(--orange)">+</span> <!--pizza.FullPizza.SelectedToppings-->
+                      <div class="col">{{top?.FullTopping?.Name}} - {{top?.FullTopping?.Description}}  
+                     
+                      </div>
+                    
+                      <div class="col-2" *ngIf="top.Price > 0 ">
+                        {{(top.Price * pizza.FullPizza.Amount)}}{{"COMMON_CASH" | translate}}
+                      </div>
+                  </div>
+                  </ng-container>
+                  
+                  <ng-container *ngIf="pizza.Garnishes"> <!--let gar of pizza.FullPizza.SelectedGarnishes"-->
+                    <div class="row py-2" *ngFor="let gar of pizza.Garnishes"
+                      style="border-bottom: 1px dashed #B6B6B6;">
+                      <span class="col-auto" style="color:var(--orange)">+</span>
+                      <span class="col">{{gar.Name}}</span>
+                      <span *ngIf="gar.Price > 0" class="col-2">{{gar.Price}}{{"COMMON_CASH" | translate}}</span>
+                    </div>
+                  </ng-container>
+                </div>
+
+                <div *ngIf="itemOrderCombo.displayGarnishes && itemOrderCombo.Items.length==0" class="garnishes" (click)="itemOrderCombo.displayGarnishes = false; myFunccClose(itemOrderCombo);" style="height: 32px;">
+                  <img src="../../../assets/images/items/arrow-down-info-icon.svg" 
+                       style="transform: rotate(180deg); z-index: 2000;">
+                </div>
+
+                
+              </ng-container>
+
+            </td>
+          </tr>
+
+
+          <tr *ngIf="itemOrderCombo.displayGarnishes"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" colspan="3" style="position: relative; top:-3.5rem;">
+            <td [attr.colspan]="3"
+              style="position: relative; border-top: none;border-right: 1px dashed #B6B6B6;border-left: 1px dashed #B6B6B6;">
+              <ng-container *ngFor="let item of itemOrderCombo.Items">
+                <div class="row  ">
+                  <div class="col-12">
+                    <div class="row  py-2">
+                      <div class="col">
+                        <b>
+                          {{item?.Name}}
+                        </b>
+                        <br>
+                        {{item.SpecialRequests}}
+                        <br>
+                      </div>
+                      <div *ngIf="item.IsItemNewCombo" class="col-4">
+                        <b>
+                          {{"COMMON_CASH" | translate}}{{item?.Price}}
+                        </b>
+                      </div>
+                    </div>
+                    <div class="row py-2" *ngFor="let gar of item.Garnishes" style="border-bottom: 1px dashed #B6B6B6;">
+                      <span class="col-auto" style="color:var(--orange)">+</span>
+                      <span class="col">{{gar.Name}}</span>
+                      <span *ngIf="gar.Price > 0" class="col-2">{{gar.Price}}{{"COMMON_CASH" | translate}}</span>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div *ngIf="itemOrderCombo.displayGarnishes " class="garnishes" (click)="itemOrderCombo.displayGarnishes = false; myFunccClose(itemOrderCombo);" style="height: 32px;">
+                  <img src="../../../assets/images/items/arrow-down-info-icon.svg" 
+                       style="transform: rotate(180deg); z-index: 2000;">
+                </div>
+
+
+              </ng-container>
+              <!--div class="row pt-2" >
+                <div class="col" >
+
+                </div>
+                <div class="col-1" style="padding-left: 2px; padding-right: 2px;">
+                  <i class="fa fa-trash fa-lg"  style="color:maroon;"
+                     (click)="removeCombo(itemOrderCombo)"></i>
+                </div>
+              </div-->
+
+              <!--div class="garnishes" (click)="itemOrderCombo.displayGarnishes = false"
+                *ngIf="itemOrderCombo.displayGarnishes">
+                <img src="../../../assets/images/items/arrow-down-info-icon.svg" style="transform: rotate(180deg);">
+              </div-->
+
+            </td>
+            
+          </tr>
+          <!--div class="garnishes" *ngIf="itemOrderCombo.displayGarnishes" (click)="itemOrderCombo.displayGarnishes = false">
+            <img src="../../../assets/images/items/arrow-down-info-icon.svg" style="transform: rotate(180deg);">
+          </div-->
+
+        </ng-container>
+
+
+
+        <!--END-->
+
+
+
+
+        <ng-container *ngFor="let item of order.OrderPizzas"> 
+          <tr>
+            <!--<td>
+              {{item?.FullPizza?.Amount}}
+            </td>-->
+            <td [ngStyle]="{'border-right':getLanguage() === 'en' ? '': '1px dashed #B6B6B6', 'border-left':getLanguage() === 'en' ? '1px dashed #B6B6B6': '',  'border-bottom-right-radius':getLanguage() === 'en' ? '': ' 5px', 'border-bottom-right-radius':getLanguage() === 'en' ? '5px': '', 'text-align':getLanguage() === 'en' ? 'left': 'right' , 'text-align':getLanguage() === 'en' ? 'left': 'right'}" style=" width: 156px;">
+              <b (click)="printInfo()">{{item?.FullPizza?.Name}}</b>
+              <br />
+              <span *ngIf="item.SpecialRequests!=''"> {{item.SpecialRequests}} </span>
+              <br>
+              <input id="addItemName" type="text" class="add-name" [(ngModel)]="item.ItemName"
+                placeholder="{{'ADD_YOUR_NAME' | translate}}">
+              <!--(onkeyup)="addName()"-->
+
+            </td>
+            <td style="position: relative;">
+              <div  class="edit-item"
+                (click)="editItem(item)">
+              </div>
+              <div class="garnishes" (click)="item.displayGarnishes = true; myFunction(item);"
+              *ngIf="(item.FullPizza.SelectedToppings && item.FullPizza.SelectedToppings?.length > 0 && !item.displayGarnishes)
+              || (item.FullPizza.SelectedGarnishes && item.FullPizza.SelectedGarnishes?.length > 0 && !item.displayGarnishes)">
+                <img src="../../../assets/images/items/arrow-down-info-icon.svg">
+              </div>
+            </td>
+
+            <td style=" border-bottom-left-radius: 5px;" [ngStyle]="{'border-left':getLanguage() === 'en' ? '': '1px dashed #B6B6B6', 'border-right':getLanguage() === 'en' ? '1px dashed #B6B6B6': '' }">
+              <div class="itemPrice">
+                {{itemPrice(item, true)}}{{"COMMON_CASH" | translate}}
+              </div>
+              <div class="  plus-minus" style="display:inline-flex;margin-top: 5px; width: 100px;  ">
+                <div class="col-4 plus">
+                  <i class="fa fa-plus-square" (click)="addAmount(item, true, false)"></i>
+                </div>
+                <div class="col-4 amount">{{item?.FullPizza?.Amount}}</div>
+                <div class="col-4 minus">
+                  <i class="fa fa-minus-square" (click)="subAmount(item, true)"></i>
+                </div>
+              </div>
+              <div class="col-1" style="padding-left: 2px; padding-right: 2px; margin-right: 77px;margin-top: 25px;">
+                <i class="fa fa-trash fa-lg" style="color:maroon;" (click)="remove(item, true)"></i>
+              </div>
+            </td>
+
+
+          </tr>
+          <!--tr *ngIf="item.FullPizza.SelectedToppings &&&& item.FullPizza.SelectedToppings?.length > 0 &&&& !item.displayGarnishes" colspan="3" style="position: relative;">
+            <div class="garnishes" (click)="item.displayGarnishes = true">
+               <img src="../../../assets/images/items/arrow-down-info-icon.svg">
+             </div>
+         </tr-->
+          <tr  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"
+          *ngIf="(item.FullPizza.SelectedToppings && item.FullPizza.SelectedToppings?.length > 0 && item.displayGarnishes) || (item.FullPizza.SelectedGarnishes && item.FullPizza.SelectedGarnishes?.length > 0 && item.displayGarnishes)"
+            colspan="3" style="position: relative; top:-1.5rem;">
+            <td [attr.colspan]="3"
+              style="position: relative; border-top: none;border-right: 1px dashed #B6B6B6;border-left: 1px dashed #B6B6B6;">
+              <div class="col">
+                <div class="row pt-2" style="border-bottom: 1px dashed #B6B6B6;"></div>
+                <div class="row py-2" *ngFor="let top of item.FullPizza.SelectedToppings"
+                  style="border-bottom: 1px dashed #B6B6B6;">
+                  <span class="col-auto" style="color:var(--orange)">+</span>
+                  <div class="col">{{top?.Name}} - {{top?.Description}}
+                    <!--span *ngIf="top.QuarterNums.length > 0"> - </span>
+                    <span *ngIf="top.QuarterNums.length == 1">
+                      {{ 'ORDER_QUARTER' | translate }}
+                    </span>
+                    <span *ngIf="top.QuarterNums.length == 2">
+                      {{ 'ORDER_HALF' | translate }}
+                    </span>
+                    <span *ngIf="top.QuarterNums.length == 3">
+                      {{ 'ORDER_THREEQUARTER' | translate }}
+                    </span>
+                    <span *ngIf="top.QuarterNums.length == 4">
+                      {{ 'ORDER_ALLPIZZA' | translate }}
+                    </span-->
+                  </div>
+                  <div class="col-2" *ngIf="top.TotalPrice > 0">
+                    {{(top.TotalPrice * item.FullPizza.Amount)}}{{"COMMON_CASH" | translate}}
+                  </div>
+
+
+                  <!--span class="col-auto" style="color:var(--orange)">+</span>
+                   <span class="col">{{gar.Name}}</span>
+                   <span *ngIf="gar.Price > 0" class="col-2">{{"COMMON_CASH" | translate}}{{gar.Price}}</span-->
+                </div>
+                <ng-container *ngIf="item.Garnishes"><!--item.FullPizza.SelectedGarnishes-->
+                  <div class="row py-2" *ngFor="let gar of item.Garnishes"
+                    style="border-bottom: 1px dashed #B6B6B6;">
+                    <span class="col-auto" style="color:var(--orange)">+</span>
+                    <span class="col">{{gar.Name}}</span>
+                    <span *ngIf="gar.Price > 0" class="col-2">{{gar.Price}}{{"COMMON_CASH" | translate}}</span>
+                  </div>
+                </ng-container>
+                <div class="row pt-2">
+                  <div class="col">
+
+                  </div>
+                  <div class="col-1" style="padding-left: 2px; padding-right: 2px;">
+                    <i class="fa fa-trash fa-lg" style="color:maroon;" (click)="remove(item, true)"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="garnishes" (click)="item.displayGarnishes = false; myFunccClose(item);"
+                *ngIf="item.FullPizza.SelectedToppings && item.FullPizza.SelectedToppings?.length > 0 && item.displayGarnishes">
+                <img src="../../../assets/images/items/arrow-down-info-icon.svg" style="transform: rotate(180deg); z-index: 2000;">
+              </div>
+
+            </td>
+          </tr>
+          <!--tr *ngIf="item.FullPizza.SelectedToppings &&&& item.FullPizza.SelectedToppings?.length > 0 &&&& item.displayGarnishes"  colspan="3" style="position: relative;">
+           <div class="garnishes" (click)="item.displayGarnishes = false" style="top: -2.5rem">
+              <img src="../../../assets/images/items/arrow-down-info-icon.svg" 
+                   style="transform: rotate(180deg);">
+            </div>
+         </tr-->
+        </ng-container>
+
+
+
+
+        <ng-container *ngFor="let item of order.OrderItems">
+          <tr>
+            <!--<td>
+              {{item.Amount}}
+            </td>-->
+            <td *ngIf="!item.IsBonus" class="col-5" [ngStyle]="{'border-right':getLanguage() === 'en' ? '': '1px dashed #B6B6B6', 'border-left':getLanguage() === 'en' ? '1px dashed #B6B6B6': '',  'border-bottom-right-radius':getLanguage() === 'en' ? '': ' 5px', 'border-bottom-right-radius':getLanguage() === 'en' ? '5px': ''}"
+              >
+              <span *ngIf="!item.IsCombo"><b>{{item?.Name}}</b></span>
+              <span *ngIf="item.IsCombo"><b>{{item?.Name}}</b></span>
+              {{item.SpecialRequests}}
+              <input id="addItemName" type="text" class="add-name" [(ngModel)]="item.ItemName"
+                placeholder="{{'ADD_YOUR_NAME' | translate}}">
+              <!--(onkeyup)="addName()"-->
+              <br />
+
+              <br>
+              <!--<div class="row" *ngFor="let garnish of item.Garnishes">
+                <div class="col-6">+ {{garnish?.Name}}</div>
+                <div class="col-auto" *ngIf="garnish.Price > 0">
+                  {{"COMMON_CASH" | translate}}{{ garnish.Price }}
+                </div>
+  
+              </div>-->
+            </td>
+            <td *ngIf="item.IsBonus" class="col-5" [ngStyle]="{'border-right':getLanguage() === 'en' ? '': '1px dashed #B6B6B6', 'border-left':getLanguage() === 'en' ? '1px dashed #B6B6B6': '',  'border-bottom-right-radius':getLanguage() === 'en' ? '': ' 5px', 'border-bottom-right-radius':getLanguage() === 'en' ? '5px': ''}"
+              >
+              <b>{{item?.Name }}</b><br>
+              <b>({{"BONUS" | translate}})</b>
+              <br>
+              <input id="addItemName" type="text" class="add-name" [(ngModel)]="item.ItemName"
+                placeholder="{{'ADD_YOUR_NAME' | translate}}">
+              <!--(onkeyup)="addName()"-->
+              <br />
+              <!--{{item.SpecialRequests}}-->
+              <!--<div class="row" *ngFor="let garnish of item.Garnishes">
+                <div class="col-6">+ {{garnish?.Name}}</div>
+                <div class="col-auto" *ngIf="garnish.Price > 0">
+                  {{"COMMON_CASH" | translate}}{{ garnish.Price }}
+                </div>
+  
+              </div>-->
+            </td>
+            <td class="col-2" style="position: relative;">
+              <div *ngIf="(item.Garnishes && item.Garnishes.length > 0) || item.IsBonus" class="edit-item"
+                (click)="editItem(item)">
+              </div>
+              <div class="garnishes" (click)="item.displayGarnishes = true; myFunction(item);"
+                *ngIf="((item.Garnishes && item.Garnishes.length > 0 ) || (item.Items && item.Items.length > 0)) && !item.displayGarnishes">
+                <img src="../../../assets/images/items/arrow-down-info-icon.svg">
+              </div>
+            </td>
+            <!--td>
+                    <i *ngIf="!item.IsBonus" class="fa fa-minus-circle fa-lg"  style="color:gray;"
+                       (click)="subAmount(item)"></i>
+                    <span><b>{{item.Amount}}</b></span>
+                    <i *ngIf="!item.IsBonus" class="fa fa-plus-circle fa-lg" style="color: green;"
+                       (click)="addAmount(item)"></i>
+                  </td-->
+            <td class="col-5" style=" border-bottom-left-radius: 5px;" [ngStyle]="{'border-left':getLanguage() === 'en' ? '': '1px dashed #B6B6B6', 'border-right':getLanguage() === 'en' ? '1px dashed #B6B6B6': '' }">
+              <div class="itemPrice" *ngIf="displayPrice(item) && !item.IsClubMemberItem">
+                {{itemPrice(item)}}{{"COMMON_CASH" | translate}}
+              </div>
+              <div class="itemPrice" *ngIf="displayPrice(item) && item.IsClubMemberItem">
+                {{itemPrice(item)}}{{"POINTS_3" | translate}}
+              </div>
+              <div *ngIf="!item.IsBonus && !item.IsUpgrade && !item.IsClubMemberItem" class="plus-minus" style="display:inline-flex;margin-top: 5px; width: 100px;  ">
+                <div class="col-4 plus">
+                  <i class="fa fa-plus-square" (click)="addAmount(item, false, false)"></i>
+                </div>
+                <div class="col-4 amount">{{item.Amount}}</div>
+                <div class="col-4 minus">
+                  <i class="fa fa-minus-square" (click)="subAmount(item)"></i>
+                </div>
+              </div>
+              <div class="col-1" style="padding-left: 2px; padding-right: 2px; margin-right: 77px;margin-top: 25px;">
+                <i class="fa fa-trash fa-lg" style="color:maroon;" (click)="remove(item, false)"></i>
+              </div>
+            </td>
+            <!--td>
+                    <i class="fa fa-remove fa-lg"  style="color:maroon;"
+                    (click)="remove(item)"></i>
+                  </td-->
+
+
+          </tr>
+          <!--tr *ngIf="item.Garnishes &&&& item.Garnishes.length > 0 &&&& !item.displayGarnishes" colspan="3" style="position: relative;">
+             <div class="garnishes" (click)="item.displayGarnishes = true">
+                <img src="../../../assets/images/items/arrow-down-info-icon.svg">
+              </div>
+          </tr-->
+          <tr *ngIf="((item.Garnishes && item.Garnishes.length > 0) || (item.Items && item.Items.length > 0) ) && item.displayGarnishes" 
+              [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" colspan="3"
+            style="position: relative; top:-1.5rem;">
+            <td [attr.colspan]="3" style="position: relative;"
+
+              style="border-top: none;border-right: 1px dashed #B6B6B6;border-left: 1px dashed #B6B6B6;">
+              <div class="col" style="position: relative;">
+                <div class="row pt-2" style="border-bottom: 1px dashed #B6B6B6;"></div>
+
+
+                <div class="row py-2" *ngFor="let gar of item.Garnishes" style="border-bottom: 1px dashed #B6B6B6;">
+                  <span class="col-auto" style="color:var(--orange)">+</span>
+                  <span class="col">{{gar.Name}}</span>
+                  <span *ngIf="gar.Price > 0" style="display: flex;" class="col-2">{{gar.Price}}{{"COMMON_CASH" | translate}}</span>
+                </div>
+                <ng-container *ngFor="let i of item.Items">
+                  <div class="row py-2"  style="border-bottom: 1px dashed #B6B6B6;">
+                    <div class="col-auto" style="color:var(--orange)">+</div>
+                    <div class="col-auto">
+                      <span><b>{{i.Name}}</b></span>
+                      <div style="font-size:0.7rem;" *ngIf="i.SpecialRequests">
+                        {{i.SpecialRequests}}
+                      </div>
+                    </div>
+                    <div class="col-2">{{i.Amount}}</div>
+                    <div *ngIf="i.Price > 0" style="display: flex;" class="col-2">
+                      {{i.Price}}{{"COMMON_CASH" | translate}}
+                    </div>
+                  </div>
+                  <div class="row py-2" *ngFor="let g of i.Garnishes" style="border-bottom: 1px dashed #B6B6B6;">
+                    <span class="col-auto" style="color:var(--orange)">+</span>
+                    <span class="col">{{g.Name}}</span>
+                  
+                    <span *ngIf="g.Price > 0" style="display: flex;" class="col-2">{{g.Price}}{{"COMMON_CASH" | translate}}</span>
+                  </div>
+                </ng-container>
+                
+                <div class="row pt-2">
+                  <div class="col">
+
+                  </div>
+                  <div class="col-1" (click)="remove(item)" style="z-index: 200; padding-left: 2px; padding-right: 2px;">
+                    <i class="fa fa-trash fa-lg" style="color:maroon;"></i>
+                  </div>
+                </div>
+                <div class="garnishes">
+                  <img src="../../../assets/images/items/arrow-down-info-icon.svg" (click)="item.displayGarnishes = false; myFunccClose(item);" style="transform: rotate(180deg);">
+                </div>
+              </div>
+
+
+            </td>
+          </tr>
+         
+        </ng-container>
+
+
+      </tbody>
+
+      
+    </table>
+
+
+    <div style="width: 100%; height: 60px;"></div>
+
+    
+  </div>
+
+  <div id="result-btn" class="row result-btn d-none d-lg-block" [ngStyle]="{'right':getLanguage() === 'en' ? '1.5%': '', 'left':getLanguage() === 'he' ? '4%': ''}">
+    <div  style="padding: 0 !important;">
+      <button class="btn btn-continue-payment" (click)="toMakeOrder()">
+        
+        <div class="col-8">{{"ORDER_CONTINUE_TO_PAY" | translate}}</div>
+      
+        
+        <div class="col-4">{{ "COMMON_CASH" | translate }}{{roundSum(order.Sum, 2)}}</div>
+      
+      </button>
+    </div>
+  </div>
+</perfect-scrollbar>
+
+</div>
+<!--/div-->

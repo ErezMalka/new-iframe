@@ -1,0 +1,10 @@
+<div class="discount animated fadeIn" *ngIf="discount">
+  <div class="image">
+    <img src="../../../../assets/images/items/discount.svg">
+  </div>
+  <div class="description">
+    <span class="discount-price">{{discount.sum}}</span>
+    <span class="discount-price type"></span>
+    <span>{{'DISCOUNT_DESCRIPTION' | translate}}</span>
+  </div>
+</div>

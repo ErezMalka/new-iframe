@@ -1,0 +1,427 @@
+<div class=" animated fadeIn">
+  <ng-container *ngFor="let category of categories" >
+    <ng-container *ngFor="let item of category.Items" >
+      <ng-container *ngFor="let gg of item.GarnishGroups" >
+        <ng-container *ngFor="let g of gg.Garnishes" >
+          <img [src]="g?.ImageUrl" style="display:none;" />
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngFor="let top of pizzaToppings" >
+     <img [src]="top?.ImageUrl" style="display:none;" />  
+     <img [src]="top?.QuarterPizzaImageUrl" style="display:none;" />      
+  </ng-container>
+  <img src="../../../assets/images/items/quarter-pizza-1.png" 
+       style="display:none;"/>
+  <img src="../../../assets/images/items/quarter-pizza-2.png" 
+       style="display:none;"/>
+  <img src="../../../assets/images/items/quarter-pizza-3.png" 
+       style="display:none;"/>
+  <img src="../../../assets/images/items/quarter-pizza-4.png" 
+       style="display:none;"/>
+  <div *ngIf="!isDigitalMenu()" 
+      class="row pb-1 mobile-branch-info d-flex d-lg-none"
+      style="font-size: 0.9rem;"
+       [ngStyle]="{'color': getColor(), 'background-color': colors.menuColor}">
+    <div class="col-auto" >
+      {{displaySelectionOption()}} {{currentBranch?.Name}} | 
+      <span (click)="returnToPrevPage()">
+         שינוי
+      </span>
+    </div>
+    <!--div class="col-auto px-0" (click)="returnToPrevPage()">
+      שינוי
+    </div-->
+    <div *ngIf="isAppDisplayMode() && !isCollapsed" class="col"  
+         (click)="isCollapsed = true" style="text-align: left;">
+       תפריט
+    </div>
+    <div class="col"  *ngIf="isSignedUser" 
+    style="font-size: 0.9rem; text-align: left!important;">    
+      <sign-out (signOut)="checkSigning($event)"  *ngIf="isSignedUser">
+      </sign-out>
+      <!--sign-in (isSignLoaded)="showLoaderForSignInHandler($event)" 
+          *ngIf="!isSignedUser && !isMobileMode()"
+          (signInCompleted)="completeSignIn($event)">
+      </sign-in-->
+    </div>
+  </div>
+  <!--perfect-scrollbar-->
+    <div *ngIf="!isAppDisplayMode() || !isCollapsed"
+         class="row mobile-menu-container pt-0 d-block d-lg-none"
+         [ngClass]="{'digital-menu': isDigitalMenu()}">
+      <!-- *ngIf="isMobileMode()" -->
+      <ul class="list-group list-group-horizontal" [ngClass]="{'app-display-mode': isAppDisplayMode()}"> <!--cat-list-group-->
+        <li class="list-group-item category" *ngIf="isShowedComboInMenu" 
+            (click)="scrollTo('COMBO')" 
+            [ngClass]="{'current-category-item': currentSection == 'COMBO', 'app-display-mode': isAppDisplayMode()}"
+            [ngStyle]="{'border-color': currentSection == 'COMBO' ? colors.buttonColor: black}">
+          <img *ngIf="!isAppDisplayMode()" [src]="comboCategory"   alt="" class="img-cat-mobile">
+          <span class="menu-category-name" 
+                style="font-size: 1rem; font-weight: bold; margin-top: -0.2rem; line-height: 0.9rem;"
+                [ngClass]="{'current-category-item': currentSection == 'COMBO', 'app-display-mode': isAppDisplayMode()}"
+                [ngStyle]="{'color': currentSection == 'COMBO' ? colors.buttonColor: black}">
+            {{"MENU_COMBOS" | translate}}
+          </span>
+        </li>
+        <li class="list-group-item category" *ngIf="isShowedPizzaInMenu" 
+            (click)="scrollTo('PIZZA')"
+            [ngClass]="{'current-category-item': currentSection == 'PIZZA', 'app-display-mode': isAppDisplayMode()}"
+            [ngStyle]="{'border-color': currentSection == 'PIZZA' ? colors.buttonColor: black}">
+          <img *ngIf="!isAppDisplayMode()" [src]="pizzaCategory"   alt="" class="img-cat-mobile">
+          <span class="menu-category-name" 
+                style="font-size: 1rem; font-weight: bold; margin-top: -0.2rem; line-height: 0.9rem;"
+                [ngClass]="{'current-category-item': currentSection == 'PIZZA', 'app-display-mode': isAppDisplayMode()}"
+                [ngStyle]="{'color': currentSection == 'PIZZA' ? colors.buttonColor: black}">
+            {{"MENU_PIZZAS" | translate}}
+          </span>
+        </li>
+        <li class="list-group-item category" *ngFor="let category of categories || []" 
+          (click)="scrollTo(category.Id)"
+          [ngClass]="{'current-category-item': currentSection == category.Id, 'app-display-mode': isAppDisplayMode()}"
+          [ngStyle]="{'border-color': currentSection == category.Id ? colors.buttonColor: black}">
+          <img *ngIf="!isAppDisplayMode()" [src]="category.ImageIFrameUrl"  alt="" class=" img-cat-mobile">
+          <span class="menu-category-name" 
+                style="font-size: 1rem; font-weight: bold; margin-top: -0.2rem; line-height: 0.9rem;"
+                [ngClass]="{'current-category-item': currentSection == category.Id, 'app-display-mode': isAppDisplayMode()}"
+                [ngStyle]="{'color': currentSection == category.Id ? colors.buttonColor: black}">
+            {{category.Name}}
+          </span>
+        </li>
+        
+      </ul>
+    </div>
+  </perfect-scrollbar-->
+
+  <div class="row main-menu-container"  
+      [ngClass]="{'digital-menu': isDigitalMenu(),
+                  'app-display-mode': isMobileMode() && isAppDisplayMode() && !isCollapsed,
+                  'app-display-mode-collapsed': isMobileMode() && isAppDisplayMode() && isCollapsed}">
+    
+    <div class="col-2 d-none d-lg-block ">
+      <perfect-scrollbar style="height: 80vh; max-height: 99vh;">
+      <ul class="list-group position-fixed  mr-auto"
+        style="height: 80vh; padding:0px; padding-left: 1rem; border: none; border-left: solid; 
+                overflow-y:auto;">
+        <li class="list-group-item category" *ngIf="isShowedComboInMenu" (click)="scrollTo('COMBO')"
+          [ngClass]="{'current-category-item': currentSection == 'COMBO'}"
+          [ngStyle]="{'border-color': currentSection == 'COMBO' ? colors.buttonColor: black}">
+          <!--[ngStyle]="{'border-color': colors.menuColor}"-->
+          <img [src]="comboCategory"   alt="" class="image pt-1" width="50px" height="50px"
+            style="margin-left: auto; margin-right: auto;">
+          <!--style="border-left: 5px solid red"-->
+          <span class="menu-category-name" style="font-size: 1.3rem; font-weight: bold;"
+            [ngClass]="{'current-category-item': currentSection == 'COMBO'}"
+            [ngStyle]="{'color': currentSection == 'COMBO' ? colors.buttonColor: black}">
+            {{"MENU_COMBOS" | translate}}
+          </span>
+        </li>
+        <li class="list-group-item category" *ngIf="isShowedPizzaInMenu" (click)="scrollTo('PIZZA')"
+          [ngClass]="{'current-category-item': currentSection == 'PIZZA'}"
+          [ngStyle]="{'border-color': currentSection == 'PIZZA' ? colors.buttonColor: black}">
+          <!--[ngStyle]="{'border-color': colors.menuColor}"-->
+          <img [src]="pizzaCategory"   alt="" class="image pt-1" width="50px" height="50px"
+            style="margin-left: auto; margin-right: auto;"> 
+          <!--style="border-left: 5px solid red"-->
+          <span class="menu-category-name" style="font-size: 1.3rem; font-weight: bold;"
+            [ngClass]="{'current-category-item': currentSection == 'PIZZA'}"
+            [ngStyle]="{'color': currentSection == 'PIZZA' ? colors.buttonColor: black}">
+            {{"MENU_PIZZAS" | translate}}
+          </span>
+        </li>
+        <li class="list-group-item category" *ngFor="let category of categories || []" (click)="scrollTo(category.Id)"
+          [ngClass]="{'current-category-item': currentSection == category.Id}"
+          [ngStyle]="{'border-color': currentSection == category.Id ? colors.buttonColor: black}">
+          <!--[ngStyle]="{'border-color': colors.menuColor}"-->
+          <img [src]="category.ImageIFrameUrl"   alt="" class="image pt-1" width="50px" height="50px"
+            style="margin-left: auto; margin-right: auto;">
+          <!--style="border-left: 5px solid red"-->
+          <span class="menu-category-name" style="font-size: 1.3rem; font-weight: bold;"
+            [ngClass]="{'current-category-item': currentSection == category.Id}"
+            [ngStyle]="{'color': currentSection == category.Id ? colors.buttonColor: black}">
+            {{category.Name}}
+          </span>
+
+        </li>
+      </ul>
+    </perfect-scrollbar>
+    </div>
+    <div class="col px-0 ">
+      <!--perfect-scrollbar-->
+        <div scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)" >
+          <!--div data-spy="scroll" data-target="#list-menu" data-offset="0" class="scrollspy-example"-->
+          <div [id]="'COMBO'" class="card card-menu" *ngIf="isShowedComboInMenu">
+            <div class="card-header menu-category-header" [id]="'catCOMBO'"
+                 style="padding:0px; color: white;" [ngStyle]="{'background-color': colors.menuColor}" 
+                 (click)="isCollapsed ? openMenu('COMBO') : null">
+              {{"MENU_COMBOS" | translate}}
+              <img *ngIf="isMobileMode() && isAppDisplayMode() && isCollapsed" [src]="comboAppCategory"   alt="" 
+                    style="height: auto; width:100%;">
+            </div>
+            <div class="card-body" [collapse]="isMobileMode() && isAppDisplayMode() && isCollapsed">
+              <ng-container *ngFor="let item of combos; let $index=index;">
+                <div class="row pt-2 pb-2" (click)="!isDigitalMenu() ? addToCart(item, false, true, $event) : null">
+                  <div class="col">
+                    <b>{{item?.Name}}</b>
+                  </div>
+                  <div class="col-auto" *ngIf="item && item.Price">
+                    <b>{{item?.Price}} {{"COMMON_CASH" | translate}}</b>
+                  </div>
+                </div>
+                <div class="row pt-2 pb-2" (click)="!isDigitalMenu() ? addToCart(item, false, true, $event) : null">
+                  <div class="col px-0">
+                    <img class="img-fluid" [src]="item?.ImageUrl"   alt="" />
+                  </div>
+                 
+                </div>
+                <div class="row pt-2 pb-2" (click)="isMobileMode() && !isDigitalMenu() ? addToCart(item, false, true, $event) : null">
+                  <div class="col">
+                    {{item?.Description}}
+                  </div>                  
+                </div>
+
+                  <!--div class="col-3 pl-0 my-auto">
+                    <div class="item-img-container">
+                      <img class="img-fluid" [src]="item?.ImageUrl" alt="" />
+                      <div *ngIf="!isMobileMode() && !isDigitalMenu()" class="middle">
+                        <button type="button" class="btn btn-custom btn-block"
+                          [ngStyle]="{'background-color': colors.menuColor}"
+                          (click)="!isDigitalMenu() ? addToCart(item, true, false, $event): null">
+                          {{ "ORDER_ADD_TO_ORDER" | translate }}
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col">
+                    <span *ngIf="!isMobileMode()">
+                      <b>{{item?.Name}}</b>
+                      <br />
+                      {{item?.Information}}
+                    </span>
+                    <div class="row" *ngIf="isMobileMode()">
+                      <div class="col">
+                        <b>{{item?.Name}}</b>
+                      </div>
+                      <div class="col-auto" *ngIf="item && item.Price">
+                        <b>{{item?.Price}} {{"COMMON_CASH" | translate}}</b>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="isMobileMode()">
+                      <div class="col">
+                        {{item?.Information}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto" *ngIf="!isMobileMode()" style="display: flex;
+                          flex-direction: column;
+                          justify-content: space-between;">
+                    <div *ngIf="item && item.Price">
+                      <b>{{item?.Price}} {{"COMMON_CASH" | translate}}</b>
+                    </div>
+                    <button *ngIf="!isMobileMode() && !isDigitalMenu()" style="margin-top: auto;" type="button"
+                      class="btn btn-custom btn-block d-none d-lg-block" [ngStyle]="{'background-color': colors.menuColor}"
+                      (click)="addToCart(item, true, false, $event)">
+                      {{ "ORDER_ADD_TO_ORDER" | translate }}
+                    </button>
+                  </div>
+                </div-->
+                <div class="row"  *ngIf="$index != combos.length-1" 
+                     style="border-bottom: dotted; border-width:thin;">
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div [id]="'PIZZA'" class="card card-menu" *ngIf="isShowedPizzaInMenu">
+            <div class="card-header menu-category-header" [id]="'catPIZZA'"
+                 style="padding:0px; color: white;" [ngStyle]="{'background-color': colors.menuColor}" 
+                 (click)="isCollapsed ? openMenu('PIZZA') : null">
+              {{"MENU_PIZZAS" | translate}}
+              <img *ngIf="isMobileMode() && isAppDisplayMode() && isCollapsed" [src]="pizzaAppCategory"   alt="" 
+                    style="height: auto; width:100%;">
+            </div>
+            <div class="card-body" [collapse]="isMobileMode() && isAppDisplayMode() && isCollapsed">
+              <ng-container *ngFor="let item of pizzas; let $index=index;">
+                <div class="row pt-2 pb-2" (click)="isMobileMode() && !isDigitalMenu() ? addToCart(item, false, false, $event) : null">
+                  <div class="col-3 pl-0 my-auto">
+                    <div class="item-img-container">
+                      <img class="img-fluid" [src]="item?.ImageUrl"   alt="" />
+                      <div *ngIf="!isMobileMode() && !isDigitalMenu()" class="middle">
+                        <button type="button" class="btn btn-custom btn-block"
+                          [ngStyle]="{'background-color': colors.menuColor}"
+                          (click)="addToCart(item, false, false, $event)">
+                          {{ "ORDER_ADD_TO_ORDER" | translate }}
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col">
+                    <span *ngIf="!isMobileMode()">
+                      <b>{{item?.Name}}</b>
+
+                      <br />
+                      <span *ngIf="item.Information && item.Information != 'undefined'">
+                        {{item?.Information}}
+                      </span>
+                     
+                    </span>
+                    <div class="row" *ngIf="isMobileMode()">
+                      <div class="col">
+                        <b>{{item?.Name}}</b>
+                      </div>
+                      <div class="col-auto" *ngIf="item && item.Price">
+                        <b>{{item?.Price}} {{"COMMON_CASH" | translate}}</b>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="isMobileMode()">
+                      <div class="col">
+                        {{item?.Information}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto" *ngIf="!isMobileMode()" style="display: flex;
+                          flex-direction: column;
+                          justify-content: space-between;">
+                    <div *ngIf="item && item.Price">
+                      <b>{{item?.Price}} {{"COMMON_CASH" | translate}}</b>
+                    </div>
+                    <button *ngIf="!isMobileMode() && !isDigitalMenu()" style="margin-top: auto;" type="button"
+                      class="btn btn-custom btn-block d-none d-lg-block" [ngStyle]="{'background-color': colors.menuColor}"
+                      (click)="addToCart(item, false, false, $event)">
+                      {{ "ORDER_ADD_TO_ORDER" | translate }}
+                    </button>
+                  </div>
+                </div>
+                <div class="row" *ngIf="$index != pizzas.length-1" style="border-bottom: dotted; border-width:thin;">
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div [id]="category.Id" class="card card-menu" *ngFor="let category of categories || []">
+            <div class="card-header menu-category-header" [id]="'cat' + category.Id"
+            style="padding:0px; color: white;" [ngStyle]="{'background-color': colors.menuColor}" 
+              (click)="isCollapsed ? openMenu(category.Id) : null">
+              {{category.Name}}
+              <img *ngIf="isMobileMode() && isAppDisplayMode() && isCollapsed" [src]="category.ImageUrl"   alt="" style="height: auto; width:100%;">
+            </div>
+            <div class="card-body" [collapse]="isMobileMode() && isAppDisplayMode() && isCollapsed">
+              <ng-container *ngFor="let item of category.Items; let $index=index;">
+                <div class="row pt-2 pb-2" (click)="isMobileMode() && !isDigitalMenu() ? addToCart(item, true, false, $event) : null">
+                  <div class="col-3 pl-0 my-auto">
+                    <div class="item-img-container">
+                      <img class="img-fluid" [src]="item?.ImageUrl"   alt="" />
+                      <div *ngIf="!isMobileMode() && !isDigitalMenu()" class="middle">
+                        <button type="button" class="btn btn-custom btn-block"
+                          [ngStyle]="{'background-color': colors.menuColor}"
+                          (click)="addToCart(item, true, false, $event)">
+                          {{ "ORDER_ADD_TO_ORDER" | translate }}
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col">
+                    <span *ngIf="!isMobileMode()">
+                      <b>{{item?.Name}}</b>
+
+                      <br />
+                      {{item?.Information}}
+                    </span>
+                    <div class="row" *ngIf="isMobileMode()">
+                      <div class="col">
+                        <b>{{item?.Name}}</b>
+                      </div>
+                      <div class="col-auto" *ngIf="item && item.Price">
+                        <b>{{item?.Price}} {{"COMMON_CASH" | translate}}</b>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="isMobileMode()">
+                      <div class="col">
+                        {{item?.Information}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto" *ngIf="!isMobileMode()" style="display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;">
+                    <div *ngIf="item && item.Price">
+                      <b>{{item?.Price}} {{"COMMON_CASH" | translate}}</b>
+                    </div>
+                    <button *ngIf="!isMobileMode() && !isDigitalMenu()" style="margin-top: auto;" type="button"
+                      class="btn btn-custom btn-block d-none d-lg-block" [ngStyle]="{'background-color': colors.menuColor}"
+                      (click)="addToCart(item, true, false, $event)">
+                      {{ "ORDER_ADD_TO_ORDER" | translate }}
+                    </button>
+                  </div>
+                </div>
+                <div class="row" *ngIf="$index != category.Items.length-1" style="border-bottom: dotted; border-width:thin;">
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      <!--/perfect-scrollbar-->
+    </div>
+    <!--Desktop Cart-->
+    <div  *ngIf="!isDigitalMenu()" class="col-3 px-0 d-none d-lg-block">
+      <div class="card position-fixed" 
+          style="border:solid; margin-right: 1rem; height: auto; max-height: 100%; overflow-y:auto"
+           [ngStyle]="{'border-color': colors.buttonColor}">        
+        <div class="card-body pb-0" style="max-height: 80vh;">
+          <sign-out (signOut)="checkSigning($event)"  *ngIf="isSignedUser">
+          </sign-out>
+          <sign-in (isSignLoaded)="showLoaderForSignInHandler($event)" 
+          *ngIf="!isSignedUser && !isMobileMode()"
+          (signInCompleted)="completeSignIn($event)">
+          </sign-in>
+          <div class="col-auto" style="text-align: center; font-weight: bold;">
+            {{displaySelectionOption()}} {{currentBranch?.Name}}
+          </div>
+          <order-result [order]="order" #orderResult (makeOrder)="makeOrder()" (openItemPopup)="openItemPopup($event)" (removeAll)="removeAll()">
+          </order-result>
+        </div>
+      </div>
+     
+      
+      <!--div *ngIf="!isMobileMode()" class="side-cart-header-lg"></div-->
+      
+    </div>
+    <div *ngIf="isDigitalMenu()" class="col-2 d-none d-lg-block"></div>
+  </div>
+  <div *ngIf="!isDigitalMenu()" class="order-wrapper row d-block d-lg-none">
+    <order-result-mobile [order]="order" #orderResult 
+                  (makeOrder)="makeOrder()" (removeAll)="removeAll()">
+    </order-result-mobile>
+  </div>
+</div>
+
+<!--div bsModal #comboModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ 'MENU_COMBOS' | translate }}</h4>
+        <button type="button" class="close" (click)="comboModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="comboModal.hide()">
+          {{ 'COMBO_CANCEL' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary"
+          (click)="setOrderStatus(currentOrder, 3, true);comboModal.hide();">
+          {{ 'COMBO_OK' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div-->
+
+<loader [show]="!menuLoaded"></loader>

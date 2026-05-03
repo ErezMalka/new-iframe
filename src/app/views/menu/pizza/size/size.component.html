@@ -1,0 +1,18 @@
+<div class="size-container" *ngIf="displayCondition()">
+  <div class="select-item" >
+    <img src="../../../../../assets/images/items/select-item.png" *ngIf="selected"/>
+  </div>
+  <div class="circle noselect"
+    [ngStyle]="{'width': (defaultSize + size) + 'vw' ,
+    'height': (defaultSize + size) + 'vw' }"
+    [ngClass]="{ 'selected': selected }"
+       [animation]="'pulse'"
+    (click)="selectSize()">
+    <div class="text">
+      <div>
+        {{pizzaSize.PizzaSizeName}}
+      </div>
+      <div>({{pizzaSize.Price}})</div>
+    </div>
+  </div>
+</div>

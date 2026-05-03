@@ -1,0 +1,906 @@
+<div id="snackbar" class="snackbar">
+  <img src="../../../assets/images/items/success-check.svg" />
+  <span>{{"MESSAGE_SUCCESS_ADD_TO_CART" | translate}}</span>
+</div>
+
+<div id="snackbar-club-member" class="snackbar">
+  <img src="../../../assets/images/items/success-check.svg" />
+  <span>{{"MESSAGE_SUCCESS_MEMBER_CLUB_REGISTRATION" | translate}}</span>
+</div>
+
+
+<div id="snackbar-cancel" class="snackbar">
+  <img src="../../../assets/images/items/success-check.svg" />
+  <span>{{"MESSAGE_SUCCESS_CANCELED_MEMBERSHIP" | translate}}</span>
+</div>
+
+<loader [show]="!menuLoaded"></loader>
+
+
+<div class="row app-header-new d-none d-lg-flex"
+  style="position: fixed; top: 0; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);"
+  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+  <div class="col-auto" style="align-self: center;">
+    <div type="button" class="nav-btn" (click)="goHome()">
+      <!--a class="link" style="color:#505050;" routerLink="/{{franchiseId}}/home" routerLinkActive="active"-->
+      <span>
+        <i class="fa fa-chevron-right fa-md"
+          [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}"></i>
+      </span>
+      <span>חזרה לראשי</span>
+      <!--/a-->
+    </div>
+
+  </div>
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn" (click)="doSomething()">
+      <a style="color:#505050;" [ngClass]="{'selected-nav': selectedLang == 'he'}" routerLink="/{{franchiseId}}/menu"
+        routerLinkActive="active">
+        <span>{{'MENU' | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-auto" *ngIf="isSignedUser" style="align-self: center;">
+    <div class="nav-btn" (click)="doSomething()">
+      <a class="link" style="color:#505050;" routerLink="/{{franchiseId}}/my-order" routerLinkActive="active">
+        <span>{{'MY_ORDERS' | translate}}</span>
+      </a>
+    </div>
+
+  </div>
+
+  <div *ngIf="isSignedUser" class="col-auto" style="align-self: center;">
+    <div class="nav-btn" (click)="doSomething()">
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/my-order-status/{{this.lastOrderId}}"
+        routerLinkActive="active">
+        <span>{{'TRACKER' | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+
+
+  <div class="col"></div>
+
+
+  <div class="col-auto" style="align-self: center;">
+
+  </div>
+
+  <div
+    *ngIf="currentBranch.BranchPhone!=null && currentBranch.BranchPhone!=undefined  && currentBranch.BranchPhone!= 'null' "
+    class="col-auto" style="align-self: center;" (click)="openDetails()">
+    <div style="cursor: pointer;" class="grey-btn">
+      {{"CONTACT" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="this.appStorageService.franchise.Description && this.appStorageService.franchise.Description != null"
+    class="col-auto" style="align-self: center;" (click)="openDesc()">
+    <div style="cursor: pointer;" class="grey-btn">
+      {{"ABOUT" | translate}}
+    </div>
+  </div>
+
+
+  <div *ngIf="discount && discount.type=='Sum' && checkAvailabilityDiscount()" class="col-auto"
+    style="align-self: center;">
+    <div style="cursor: pointer;" class="grey-btn">
+      {{"DISCOUNT" | translate}}: {{discount.sum}}{{"COMMON_CASH" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="discount && discount.type=='Percent' && checkAvailabilityDiscount()" class="col-auto"
+    style="align-self: center;">
+    <div style="cursor: pointer;" class="grey-btn">
+      {{"DISCOUNT" | translate}}: {{discount.sum}}%
+    </div>
+  </div>
+
+  <div *ngIf="isSignedUser && appStorageService.appUser?.IsClubMember && !cancelVerification" class="col-auto"
+    style="align-self: center;">
+    <div class="grey-btn" style="background: var(--orange);" (click)="closeNav()">
+      <a style="color: white;" routerLink="/{{franchiseId}}/my-membership" routerLinkActive="active">
+        <span>{{"MY_MEMBERSHIP" | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="this.appStorageService.franchise.UseMembersClub 
+    && isSignedUser && !appStorageService.appUser?.IsClubMember && !cancelVerification" class="col-auto"
+    style="align-self: center;">
+    <div class="grey-btn" style="background: var(--orange);" (click)="closeNav()">
+      <div (click)="openCustomerClub();" style="color: white;">
+        <span>{{"JOIN_MEMBER_CLUB" | translate}}</span>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="!isSignedUser" class="col-auto" style="align-self: center;">
+    <div style="cursor: pointer;" class="grey-btn" (click)="loadSignInForm()">
+      {{"LOG_IN" | translate}}
+    </div>
+  </div>
+
+  <div *ngIf="isSignedUser" class="col-auto" style="align-self: center;">
+    <div style="cursor: pointer;" class="red-btn" (click)="signOut()">
+      {{"SIGN_OUT" | translate}}
+    </div>
+  </div>
+
+  <div class="col-auto" style="align-self: center;">
+    <select class="form-control" [(ngModel)]="selectedLang" (change)="changeLanguage()">
+      <option *ngFor="let lang of languages" [value]="lang.Code">
+        {{lang.Descriprion}}
+      </option>
+    </select>
+  </div>
+
+</div>
+
+
+<div class="animated fadeIn" style="background: white;">
+  <ng-container *ngFor="let category of categories">
+    <ng-container *ngFor="let item of category.Items">
+      <ng-container *ngFor="let gg of item.GarnishGroups">
+        <ng-container *ngFor="let g of gg.Garnishes">
+          <img [src]="g?.ImageUrl" style="display:none;" />
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngFor="let top of pizzaToppings">
+    <img [src]="top?.ImageUrl" style="display:none;" />
+    <img [src]="top?.QuarterPizzaImageUrl" style="display:none;" />
+  </ng-container>
+  <img src="../../../assets/images/items/quarter-pizza-1.png" style="display:none;" />
+  <img src="../../../assets/images/items/quarter-pizza-2.png" style="display:none;" />
+  <img src="../../../assets/images/items/quarter-pizza-3.png" style="display:none;" />
+  <img src="../../../assets/images/items/quarter-pizza-4.png" style="display:none;" />
+
+  <ng-container *ngIf="isMobileMode()">
+    <div style="display: inline-flex;display: inline-flex;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1022;">
+
+      <img *ngIf="selectedLang == 'he'" src="https://cdn.countryflags.com/thumbs/israel/flag-400.png"
+        style="margin: auto;" width="20px" height="auto" alt="IL Flag">
+      <img *ngIf="selectedLang == 'en'" src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png"
+        style="margin: auto;" width="20px" height="auto" alt="US Flag">
+      <select *ngIf="selectedLang == 'en' || selectedLang == 'he'" class="form-control"
+        style="background:transparent;width:20px; border: none;" [(ngModel)]="selectedLang" (change)="changeLanguage()">
+        <option *ngFor="let lang of languages" [value]="lang.Code">
+
+          {{lang.Descriprion}}
+        </option>
+      </select>
+      <select *ngIf="selectedLang != 'en' && selectedLang != 'he'" class="form-control"
+        style="background:transparent;  border: none;" [(ngModel)]="selectedLang" (change)="changeLanguage()">
+        <option *ngFor="let lang of languages" [value]="lang.Code">
+
+          {{lang.Descriprion}}
+        </option>
+      </select>
+    </div>
+
+
+    <div *ngIf="!isDigitalMenu()" class="row pb-1 mobile-branch-info d-flex d-lg-none"
+      [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="font-size: 0.9rem;">
+      <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="col">
+        {{displaySelectionOption()}} {{currentBranch?.Name}}
+
+        <div class="col-auto" (click)="returnToPrevPage()">
+          {{"CHANGE_OPTION" | translate}}
+        </div>
+
+
+      </div>
+      <!-- CATEGORIES -->
+      <!--perfect-scrollbar-->
+      <div class="row mobile-menu-container pt-1 d-block d-lg-none" style="width: 100vw;"
+        [ngStyle]="{'top': isDigitalMenu()== true ? '55px' : '86px' , 'direction':getLanguage() === 'en' ? 'ltr': 'rtl', 'left':getLanguage() === 'he' ? '1.5vw': ''}">
+        <!-- [ngClass]="{'digital-menu': isDigitalMenu()}"-->
+
+        <ul class="list-group list-group-horizontal" style="height:125px; list-style-type: none;">
+          <!--cat-list-group-->
+          <li class="category-02" *ngIf="isShowedComboInMenu" (click)="scrollTo('COMBO')"
+            [ngClass]="{'current-category-item': currentSection == 'COMBO'}"
+            [ngStyle]="{'background-color': currentSection == 'COMBO' ? colors.buttonColor: black}">
+            <div class="rectangle-img" [ngClass]="{'selected': currentSection == 'COMBO'}">
+              <img [src]="comboCategory" alt="" class=" cat-img" style="mix-blend-mode: multiply; "
+                onerror="this.style.display='none';">
+            </div>
+            <div class="category-text" [ngClass]="{'selected': currentSection == 'COMBO'}">
+              {{"MENU_COMBOS" | translate}}
+            </div>
+
+          </li>
+          <li class="category-02 " *ngIf="isShowedPizzaInMenu" (click)="scrollTo('PIZZA')"
+            [ngClass]="{'current-category-item': currentSection == 'PIZZA'}"
+            [ngStyle]="{'background-color': currentSection == 'PIZZA' ? colors.buttonColor: black}">
+            <div class="rectangle-img" [ngClass]="{'selected': currentSection == 'PIZZA'}">
+              <img [src]="pizzaCategory" alt="" class=" cat-img" style="mix-blend-mode: multiply; "
+                onerror="this.style.display='none';">
+            </div>
+            <div class="category-text" [ngClass]="{'selected': currentSection == 'PIZZA'}">
+              {{"MENU_PIZZAS" | translate}}
+            </div>
+          </li>
+          <li class="category-02" *ngFor="let category of categories || []" (click)="scrollTo(category.Id)"
+            [ngClass]="{'current-category-item': currentSection == category.Id}"
+            [ngStyle]="{'background-color': currentSection == category.Id ? colors.buttonColor: black}">
+            <!--{{currentSection}}
+            <br>
+            {{category.Id}}-->
+            <div class="rectangle-img" [ngClass]="{'selected': currentSection == category.Id}">
+              <img [src]="category.ImageIFrameUrl" alt="" class=" cat-img" style="mix-blend-mode: multiply; "
+                onerror="this.style.display='none';">
+            </div>
+            <div class="category-text" [ngClass]="{'selected': currentSection == category.Id}">
+              {{category.Name}}
+            </div>
+
+          </li>
+
+        </ul>
+      </div>
+      <!--/perfect-scrollbar-->
+
+      <div class="new-menu-container" *ngIf="isMobileMode()" scrollSpy [spiedTags]="['DIV']"
+        [ngStyle]="{'margin-top': isDigitalMenu()== true ? '125px' : '150  px', 'direction':getLanguage() === 'en' ? 'ltr': 'rtl' }"
+        (sectionChange)="onSectionChange($event)">
+
+        <div [id]="'COMBO'">
+
+          <div [id]="'cat11COMBO'">
+            <div [id]="'catCOMBO'" class="row category-header-new" *ngIf="isShowedComboInMenu"
+              [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+              <div class="col">
+                {{"MENU_COMBOS" | translate}}
+              </div>
+
+            </div>
+            <ng-container *ngFor="let item of combos; let $index=index;">
+              <div class="item-card combo my-items"
+                [ngStyle]="{'border-left':getLanguage() === 'en' ? '7px solid var(--orange)': '', 'border-right':getLanguage() === 'he' ? '7px solid var(--orange)': ''}"
+                (click)="!isDigitalMenu() ? addToCart(item, false, true, $event) : null">
+                <div class="product-image combo">
+                  <img class="p-img" [src]="item?.ImageUrl" alt="" (error)="logo($event)" />
+                </div>
+                <!--div class="ribbon">
+                          מבצע
+                        </div-->
+                <div class="product-details" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"
+                  style="bottom: -2px;">
+                  <div class="row">
+                    <div class="col product-name">
+                      <b>{{item?.Name}}</b>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div
+                      *ngIf="item?.ShortInfo != 'undefined' && item?.ShortInfo != undefined && item?.ShortInfo != null && item?.ShortInfo != 'null'"
+                      class="col product-desc">
+                      {{item?.ShortInfo}}
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="item && item.Price">
+                    <div class="product-price"
+                      [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+                      <span style="font-size: 15px;">{{item?.Price}}</span>
+                      <span>{{"COMMON_CASH" | translate}}</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div [id]="'PIZZA'">
+
+          <div [id]="'cat11PIZZA'">
+            <div [id]="'catPIZZA'" class="row category-header-new" *ngIf="isShowedPizzaInMenu"
+              [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+              <div class="col">
+                {{"MENU_PIZZAS" | translate}}
+              </div>
+            </div>
+            <ng-container *ngFor="let item of pizzas; let $index=index;">
+              <div class="item-card my-items" (click)="!isDigitalMenu() ? addToCart(item, false, false, $event) : null">
+                <div class="product-image">
+                  <img class="p-img" [src]="item?.ImageUrl" alt="" (error)="logo($event)" />
+                </div>
+                <div class="product-details" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                  <div class="row">
+                    <div class="col product-name">
+                      <b>{{item?.Name}}</b>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="item.Information != undefined && item.Information != 'undefined' && item.Information != 'null' && item.Information != null"
+                    class="row">
+                    <div *ngIf="item.Information != undefined && item.Information != 'undefined'"
+                      class="col product-desc">
+                      {{item?.Information}}
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="item && item.PizzaPrices && item.PizzaPrices.length == 1">
+                    <div class="product-price"
+                      [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+                      <span style="font-size: 15px;">{{item.PizzaPrices[0].Price}}</span>
+                      <span>{{"COMMON_CASH" | translate}}</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- ITEMS -->
+
+
+        <div [id]="category.Id" *ngFor="let category of categories || []">
+
+          <div [id]="'cat11' + category.Id">
+
+            <div [id]="'cat' + category.Id" class="row category-header-new"
+              [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+              <div class="col">
+                {{category.Name}}
+              </div>
+
+            </div>
+
+            <ng-container *ngFor="let item of category.Items; let $index=index;">
+              <div class="item-card my-items" (click)="!isDigitalMenu() ? addToCart(item, true, false, $event) : null">
+                <div class="product-image">
+                  <img class="p-img" [src]="item?.ImageUrl" (error)="logo($event)" alt="" />
+                </div>
+                <div class="product-details" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                  <div class="row">
+                    <div class="col product-name" *ngIf="!item.IsCombo">
+                      <b>{{item?.Name}}</b>
+                    </div>
+                    <div class="col product-name" *ngIf="item.IsCombo">
+                      <b> {{item?.Name}} <br> </b> <!-- {{"COMBO_SALE"| translate}}-->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div
+                      *ngIf="item?.ShortInfo != 'undefined' && item?.ShortInfo != undefined && item?.ShortInfo != null && item?.ShortInfo != 'null'"
+                      class="col product-desc">
+                      {{item?.ShortInfo}}
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="item && item.Price">
+                    <div class="product-price"
+                      [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }">
+                      <span style="font-size: 15px;">{{item?.Price}}</span>
+                      <span>{{"COMMON_CASH" | translate}}</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="isMobileMode() && !isDigitalMenu() && (order.Sum > 0 || countOfItems() > 0)"
+        class="row order-wrapper   text-white" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+        style="background-color: #4E4F4F; height:12vh; font-size: 20px; font-weight: 700;" (click)="makeOrder()">
+        <span *ngIf="getLanguage() === 'he'" class="col-3 text-center align-middle"
+          style="background-color: var(--orange); margin:auto; height:12vh; align-self: center;">
+          <svg xmlns="http://www.w3.org/2000/svg"
+            style="position:fixed; height:35px; bottom:3vh; right:5vw; -webkit-transform: scaleX(-1); transform: scaleX(-1);"
+            width="35" height="35" viewBox="0 0 25 27" class="" fill="none" id="flicker"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M19.21 13.7124L7.44696 15.4269C7.10226 15.4698 6.84373 15.8127 6.90836 16.1556C6.95145 16.4771 7.23152 16.7128 7.55468 16.7128C7.57623 16.7128 7.61931 16.7128 7.64086 16.7128L19.4039 14.9983C21.4291 14.6982 23.0233 13.2409 23.4973 11.2692L24.9838 5.09684C25.0269 4.90395 24.9838 4.71107 24.8546 4.53962C24.7253 4.38959 24.553 4.30387 24.3375 4.30387H3.33204C2.75035 1.64634 1.13455 0.21042 1.06991 0.146125C0.789841 -0.0681916 0.380504 -0.04676 0.165063 0.21042C-0.0719216 0.489032 -0.0503776 0.896233 0.208151 1.11055C0.229695 1.13198 1.75932 2.50361 2.14712 5.01111L4.02145 17.3343C4.23689 18.7059 5.40027 19.7132 6.80064 19.7132H19.5978C19.9641 19.7132 20.2441 19.4346 20.2441 19.0703C20.2441 18.7059 19.9641 18.4273 19.5978 18.4273H6.80064C6.0466 18.4273 5.42182 17.8915 5.3141 17.1414L3.54748 5.56834H23.5188L22.2262 10.9477C21.8815 12.405 20.6966 13.4981 19.21 13.7124ZM5.37873 24.2139C5.37873 25.757 6.62829 27 8.17946 27C9.73063 27 10.9802 25.757 10.9802 24.2139C10.9802 22.6708 9.73063 21.4278 8.17946 21.4278C6.62829 21.4278 5.37873 22.6708 5.37873 24.2139ZM9.68755 24.2139C9.68755 25.0497 9.01968 25.7141 8.17946 25.7141C7.33924 25.7141 6.67137 25.0497 6.67137 24.2139C6.67137 23.378 7.33924 22.7137 8.17946 22.7137C9.01968 22.7137 9.68755 23.378 9.68755 24.2139ZM17.4434 21.4278C15.8922 21.4278 14.6427 22.6708 14.6427 24.2139C14.6427 25.757 15.8922 27 17.4434 27C18.9946 27 20.2441 25.757 20.2441 24.2139C20.2441 22.6708 18.9946 21.4278 17.4434 21.4278ZM17.4434 25.7141C16.6032 25.7141 15.9353 25.0497 15.9353 24.2139C15.9353 23.378 16.6032 22.7137 17.4434 22.7137C18.2836 22.7137 18.9515 23.378 18.9515 24.2139C18.9515 25.0497 18.2836 25.7141 17.4434 25.7141Z"
+              fill="white" />
+          </svg>
+          <span *ngIf="order?.OrderItems.length > 0 || order?.OrderCombos.length > 0 || order?.OrderPizzas.length > 0"
+            style=" height: 25px; width: 25px; background-color: var(--orange); 
+        border-radius: 50%; display: inline-block;
+        box-shadow: 0px 0px 7px 0px #FFFFFF;
+        position: fixed; right: 19vw; bottom: 4vh;
+        font-size: 15px;font-weight: 500;">
+            {{order?.OrderItems.length + order?.OrderCombos.length + order?.OrderPizzas.length}}
+          </span>
+        </span>
+        <span *ngIf="getLanguage() != 'he'" class="col-3 text-center align-middle"
+          style="background-color: var(--orange); margin:auto; height:12vh; align-self: center;">
+          <svg xmlns="http://www.w3.org/2000/svg" style="position:fixed; height:35px; bottom:3vh; left:5vw;" width="35"
+            height="35" viewBox="0 0 25 27" class="" fill="none" id="flicker" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M19.21 13.7124L7.44696 15.4269C7.10226 15.4698 6.84373 15.8127 6.90836 16.1556C6.95145 16.4771 7.23152 16.7128 7.55468 16.7128C7.57623 16.7128 7.61931 16.7128 7.64086 16.7128L19.4039 14.9983C21.4291 14.6982 23.0233 13.2409 23.4973 11.2692L24.9838 5.09684C25.0269 4.90395 24.9838 4.71107 24.8546 4.53962C24.7253 4.38959 24.553 4.30387 24.3375 4.30387H3.33204C2.75035 1.64634 1.13455 0.21042 1.06991 0.146125C0.789841 -0.0681916 0.380504 -0.04676 0.165063 0.21042C-0.0719216 0.489032 -0.0503776 0.896233 0.208151 1.11055C0.229695 1.13198 1.75932 2.50361 2.14712 5.01111L4.02145 17.3343C4.23689 18.7059 5.40027 19.7132 6.80064 19.7132H19.5978C19.9641 19.7132 20.2441 19.4346 20.2441 19.0703C20.2441 18.7059 19.9641 18.4273 19.5978 18.4273H6.80064C6.0466 18.4273 5.42182 17.8915 5.3141 17.1414L3.54748 5.56834H23.5188L22.2262 10.9477C21.8815 12.405 20.6966 13.4981 19.21 13.7124ZM5.37873 24.2139C5.37873 25.757 6.62829 27 8.17946 27C9.73063 27 10.9802 25.757 10.9802 24.2139C10.9802 22.6708 9.73063 21.4278 8.17946 21.4278C6.62829 21.4278 5.37873 22.6708 5.37873 24.2139ZM9.68755 24.2139C9.68755 25.0497 9.01968 25.7141 8.17946 25.7141C7.33924 25.7141 6.67137 25.0497 6.67137 24.2139C6.67137 23.378 7.33924 22.7137 8.17946 22.7137C9.01968 22.7137 9.68755 23.378 9.68755 24.2139ZM17.4434 21.4278C15.8922 21.4278 14.6427 22.6708 14.6427 24.2139C14.6427 25.757 15.8922 27 17.4434 27C18.9946 27 20.2441 25.757 20.2441 24.2139C20.2441 22.6708 18.9946 21.4278 17.4434 21.4278ZM17.4434 25.7141C16.6032 25.7141 15.9353 25.0497 15.9353 24.2139C15.9353 23.378 16.6032 22.7137 17.4434 22.7137C18.2836 22.7137 18.9515 23.378 18.9515 24.2139C18.9515 25.0497 18.2836 25.7141 17.4434 25.7141Z"
+              fill="white" />
+          </svg>
+          <span *ngIf="order?.OrderItems.length > 0 || order?.OrderCombos.length > 0 || order?.OrderPizzas.length > 0"
+            style=" height: 25px; width: 25px; background-color: var(--orange); 
+        border-radius: 50%; display: inline-block;
+        box-shadow: 0px 0px 7px 0px #FFFFFF;
+        position: fixed; left: 19vw; bottom: 4vh;
+        font-size: 15px;font-weight: 500;">
+            {{order?.OrderItems.length + order?.OrderCombos.length + order?.OrderPizzas.length}}
+          </span>
+        </span>
+        <span class="col text-center" id="flicker" style="margin: auto;">הזמן עכשיו</span>
+        <span class="col-3" style="margin: auto;"> <i
+            [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': '', 'margin-right':getLanguage() === 'en' ? '2vw': '' }"
+            class="fa fa-long-arrow-left fa-lg  "></i></span>
+
+      </div>
+
+
+
+  </ng-container>
+
+
+
+  <!--DESKTOP-->
+
+  <div *ngIf="!isMobileMode()" class="row main-menu-container"
+    [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" [ngClass]="{'digital-menu': isDigitalMenu()}">
+    <!--SIDE MENU SCROLL-->
+
+    <div class="col-2 d-none d-lg-block"
+      [ngStyle]="{'padding-left':getLanguage() === 'en' ? '30px': '0', 'padding-right':getLanguage() === 'en' ? '0': '15px' }">
+      <perfect-scrollbar style="height: 80vh; max-height: 99vh;">
+        <ul class=" my-scroll list-group position-fixed  mr-auto" style="max-width: 15vw; height: 80vh; padding:0px; padding-left: 1rem; padding-right: 2rem; border: none; 
+               overflow-y:auto; overflow-x: hidden;">
+
+
+          <li class="my-item row" style="cursor: pointer;" *ngIf="isShowedComboInMenu" (click)="scrollTo('COMBO')"
+            [ngClass]="{'current-category-item': currentSection == 'COMBO'}"
+            [ngStyle]="{'border-color': currentSection == 'COMBO' ? colors.buttonColor: black}">
+
+            <img [src]="comboCategory" onerror="this.style.display='none';" alt="" class="cat-img col-5  image"
+              [ngStyle]="{'padding-left':getLanguage() === 'en' ? '': '0', 'padding-right':getLanguage() === 'en' ? '0': ''}"
+              style="mix-blend-mode: multiply; " width="50px" height="50px">
+
+            <span class="col align-middle menu-category-name"
+              [ngClass]="{'current-category-item': currentSection == 'COMBO'}"
+              [ngStyle]="{'color': currentSection == 'COMBO' ? colors.buttonColor: black}">
+              {{"MENU_COMBOS" | translate}}
+            </span>
+          </li>
+          <li class="my-item row" style="cursor: pointer;" *ngIf="isShowedPizzaInMenu" (click)="scrollTo('PIZZA')"
+            [ngClass]="{'current-category-item': currentSection == 'PIZZA'}"
+            [ngStyle]="{'border-color': currentSection == 'PIZZA' ? colors.buttonColor: black}">
+            <!--[ngStyle]="{'border-color': colors.menuColor}"-->
+            <img [src]="pizzaCategory" onerror="this.style.display='none';" alt="" class="cat-img col-5 image"
+              [ngStyle]="{'padding-left':getLanguage() === 'en' ? '': '0', 'padding-right':getLanguage() === 'en' ? '0': ''}"
+              style="mix-blend-mode: multiply; " width="50px" height="50px">
+            <!--style="border-left: 5px solid red"-->
+            <span class="col menu-category-name" [ngClass]="{'current-category-item': currentSection == 'PIZZA'}"
+              [ngStyle]="{'color': currentSection == 'PIZZA' ? colors.buttonColor: black}">
+              {{"MENU_PIZZAS" | translate}}
+            </span>
+          </li>
+          <li class="my-item row" style="cursor: pointer;" *ngFor="let category of categories || []"
+            (click)="scrollTo(category.Id)" [ngClass]="{'current-category-item': currentSection == category.Id}"
+            [ngStyle]="{'border-color': currentSection == category.Id ? colors.buttonColor: black}">
+            <!--[ngStyle]="{'border-color': colors.menuColor}"-->
+            <img [src]="category.ImageIFrameUrl" onerror="this.style.display='none';" alt=""
+              class="col-5 col-auto image"
+              [ngStyle]="{'padding-left':getLanguage() === 'en' ? '': '0', 'padding-right':getLanguage() === 'en' ? '0': ''}"
+              style="mix-blend-mode: multiply; " width="50px" height="50px">
+            <!--style="border-left: 5px solid red"-->
+            <span class="col menu-category-name" [ngClass]="{'current-category-item': currentSection == category.Id}"
+              [ngStyle]="{'color': currentSection == category.Id ? colors.buttonColor: black}">
+              {{category.Name}}
+            </span>
+
+          </li>
+        </ul>
+      </perfect-scrollbar>
+    </div>
+
+    <!--SIDE MENU SCROLL - END-->
+
+
+    <!--MENUU!!!!-->
+
+    <div class="col" *ngIf="!isDigitalMenu()">
+      <!--perfect-scrollbar-->
+      <div scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)">
+        <!--div data-spy="scroll" data-target="#list-menu" data-offset="0" class="scrollspy-example"-->
+        <div [id]="'COMBO'" class="card card-menu" *ngIf="isShowedComboInMenu">
+          <div class="card-header menu-category-header"
+            [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'border-left':getLanguage() === 'en' ? 'solid 8px var(--orange)': '', 'border-right':getLanguage() === 'he' ? 'solid 8px var(--orange)': '' }"
+            [id]="'catCOMBO'" style="border-radius: 6px; padding-right: 10px;">
+            {{"MENU_COMBOS" | translate}}
+          </div>
+
+          <div class="card-body" style="padding-right: 0;">
+
+            <div class="row" [id]="'cat11COMBO'">
+
+              <div class="col-3 pb-2 my-items" *ngFor="let item of combos; let $index=index;">
+
+                <div class="my-dish  p-0 animate__animated animate__zoomIn">
+                  <div class="item-img-container">
+                    <img class="my-img img-fluid" [src]="item?.ImageUrl" (error)="logo($event)" alt="" />
+                    <div *ngIf="!isMobileMode() && !isDigitalMenu()" class="middle">
+
+                      <button type="button"
+                        style="cursor: pointer; border-radius: 5px; background-color: var(--orange);"
+                        class=" btn btn-custom btn-block" (click)="addToCart(item, false, true, $event)">
+                        {{ "ORDER_ADD_TO_ORDER" | translate }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="item-desc" style="padding: 10px;">
+
+                    <div class="item-name pb-1" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"
+                      *ngIf="!isMobileMode()">
+                      {{item?.Name}}
+                    </div>
+                    <div *ngIf="item?.Information != null && item?.Information != 'null'"
+                      [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="item-info">
+                      {{item?.ShortInfo}} </div>
+                    <div style="height: 10px;"
+                      *ngIf="item.Information=='' || item.information=='undefined' || item.Information==undefined || item.Information == null">
+                    </div>
+                  </div>
+                  <div class="row item-price">
+
+                    <button *ngIf="!isMobileMode()   && (item.Price!=0 && item.Price!=null)"
+                      style="margin-top: auto; background-color: var(--orange);" type="button" class="item-btn">
+                      <div class="text-btn" *ngIf="item && item.Price">
+                        {{item?.Price}} {{"COMMON_CASH" | translate}}
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+        <!--PIZZA-->
+
+
+        <div [id]="'PIZZA'" class="card card-menu" *ngIf="isShowedPizzaInMenu">
+          <div class="card-header menu-category-header"
+            [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'border-left':getLanguage() === 'en' ? 'solid 8px var(--orange)': '', 'border-right':getLanguage() === 'he' ? 'solid 8px var(--orange)': '' }"
+            [id]="'catPIZZA'" style="border-radius: 6px; padding-right: 10px;">
+            {{"MENU_PIZZAS" | translate}}
+          </div>
+
+          <div style="padding-right: 0;" class="card-body"
+            [collapse]="isMobileMode() && isAppDisplayMode() && isCollapsed">
+
+            <div class="row" [id]="'cat11PIZZA'">
+
+              <div class="col-3 pb-2 my-items" *ngFor="let item of pizzas; let $index=index;"
+                (click)="isMobileMode() && !isDigitalMenu() ? addToCart(item, false, false, $event) : null">
+
+                <div class="my-dish p-0 animate__animated animate__zoomIn">
+                  <div class="item-img-container">
+                    <img class="my-img img-fluid" (error)="logo($event)" [src]="item?.ImageUrl" alt="" />
+                    <div *ngIf="!isMobileMode() && !isDigitalMenu()" class="middle">
+
+                      <button type="button" style="border-radius: 5px; background-color: var(--orange);"
+                        class=" btn btn-custom btn-block" (click)="addToCart(item, false, false, $event)">
+                        {{ "ORDER_ADD_TO_ORDER" | translate }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="item-desc" style="padding: 10px;">
+
+                    <div class="item-name pb-1" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"
+                      *ngIf="!isMobileMode()">
+                      {{item?.Name}}
+                    </div>
+                    <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"
+                      *ngIf="item.Information != undefined && item.Information != 'undefined' && item.Information != 'null'"
+                      class="item-info"> {{item?.Information}} </div>
+                    <div style="height: 10px;"
+                      *ngIf="item.Information=='' || item.information=='undefined' || item.Information==undefined || item.Information == null">
+                    </div>
+                  </div>
+
+
+
+                  <div class="row item-price">
+
+                    <button *ngIf="item && item.PizzaPrices && item.PizzaPrices.length == 1"
+                      style="margin-top: auto; background-color: var(--orange);" type="button" class="item-btn">
+                      <div class="text-btn">
+                        {{item.PizzaPrices[0].Price}} {{"COMMON_CASH" | translate}}
+                      </div>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+        <!--ITEMSSS-->
+        <div [id]="category.Id" class="card card-menu" *ngFor="let category of categories || []">
+          <div class="card-header menu-category-header"
+            [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'border-left':getLanguage() === 'en' ? 'solid 8px var(--orange);': '', 'border-right':getLanguage() === 'he' ? 'solid 8px var(--orange);': '' }"
+            [id]="'cat' + category.Id" style="border-radius: 6px; padding-right: 10px;">
+            {{category.Name}}
+          </div>
+
+
+          <div class="card-body" style="padding-right: 0;"
+            [collapse]="isMobileMode() && isAppDisplayMode() && isCollapsed">
+
+            <div class="row" [id]="'cat11' + category.Id">
+
+              <div class="col-3 pb-2 my-items" *ngFor="let item of category.Items; let $index=index;"
+                (click)="isMobileMode() && !isDigitalMenu() ? addToCart(item, true, false, $event) : null">
+
+                <div class="my-dish p-0 animate__animated animate__zoomIn">
+                  <div class="item-img-container">
+                    <img class="my-img img-fluid" [src]="item?.ImageUrl" alt="" (error)="logo($event)" />
+                    <div *ngIf="!isMobileMode() && !isDigitalMenu()" class="middle">
+
+                      <button type="button" style="border-radius: 5px; background-color: var(--orange);"
+                        class=" btn btn-custom btn-block" (click)="addToCart(item, true, false, $event)">
+                        {{ "ORDER_ADD_TO_ORDER" | translate }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="item-desc" style="padding: 10px;">
+
+                    <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="item-name pb-1"
+                      *ngIf="!isMobileMode() && !item.IsCombo">
+                      {{item?.Name}}
+                    </div>
+                    <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="item-name pb-1"
+                      *ngIf="!isMobileMode() && item.IsCombo">
+                      {{item?.Name}} <br> <!-- {{"COMBO_SALE"| translate}}-->
+                    </div>
+                    <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"
+                      *ngIf="item?.Information != null && item?.Information != 'null'" class="item-info">
+                      {{item?.ShortInfo}} </div>
+                    <div style="height: 10px;"
+                      *ngIf="item.Information=='' || item.information=='undefined' || item.Information==undefined || item.Information == null">
+                    </div>
+                  </div>
+                  <div class="row item-price">
+
+                    <button *ngIf="!isMobileMode()   && (item.Price!=0 && item.Price!=null)"
+                      style="margin-top: auto; background-color: var(--orange);" type="button" class="item-btn">
+                      <div class="text-btn" *ngIf="item && item.Price">
+                        {{item?.Price}} {{"COMMON_CASH" | translate}}
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="$index != category.Items.length-1"
+                style="border-bottom: dotted; border-width:thin;">
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <!--ITEMSSS ENDDD-->
+
+      </div>
+      <!--/perfect-scrollbar-->
+    </div>
+
+    <div class="col" *ngIf="isDigitalMenu()">
+      <!--perfect-scrollbar-->
+      <div scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)">
+
+        <div [id]="'COMBO'" class="card card-menu" *ngIf="isShowedComboInMenu">
+          <div class="card-header menu-category-header"
+            [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'border-left':getLanguage() === 'en' ? 'solid 8px var(--orange)': '', 'border-right':getLanguage() === 'he' ? 'solid 8px var(--orange)': '' }"
+            [id]="'catCOMBO'" style="border-radius: 6px; padding-right: 10px;">
+            {{"MENU_COMBOS" | translate}}
+          </div>
+
+          <div class="card-body" style="padding-right: 0;">
+            <div class="row" [id]="'cat11COMBO'">
+              <div class="col-2 pb-2 my-items" *ngFor="let item of combos; let $index=index;">
+
+                <div class="my-dish  p-0 animate__animated animate__zoomIn">
+                  <div class="item-img-container">
+                    <img class="my-img img-fluid" [src]="item?.ImageUrl" (error)="logo($event)" alt="" />
+
+                  </div>
+
+                  <div class="item-desc" style="padding: 10px;">
+
+                    <div class="item-name pb-1" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                      {{item?.Name}}
+                    </div>
+                    <div *ngIf="item?.Information != null && item?.Information != 'null'"
+                      [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="item-info">
+                      {{item?.ShortInfo}} </div>
+                    <div style="height: 10px;"
+                      *ngIf="item.Information=='' || item.information=='undefined' || item.Information==undefined || item.Information == null">
+                    </div>
+                  </div>
+                  <div class="row item-price">
+
+                    <button *ngIf="!isMobileMode()   && (item.Price!=0 && item.Price!=null)"
+                      style="margin-top: auto; background-color: var(--orange);" type="button" class="item-btn">
+                      <div class="text-btn" *ngIf="item && item.Price">
+                        {{item?.Price}} {{"COMMON_CASH" | translate}}
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+        <!--PIZZA-->
+
+
+        <div [id]="'PIZZA'" class="card card-menu" *ngIf="isShowedPizzaInMenu">
+          <div class="card-header menu-category-header"
+            [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'border-left':getLanguage() === 'en' ? 'solid 8px var(--orange)': '', 'border-right':getLanguage() === 'he' ? 'solid 8px var(--orange)': '' }"
+            [id]="'catPIZZA'" style="border-radius: 6px; padding-right: 10px;">
+            {{"MENU_PIZZAS" | translate}}
+          </div>
+
+          <div style="padding-right: 0;" class="card-body">
+
+            <div class="row" [id]="'cat11PIZZA'">
+
+              <div class="col-2 pb-2 my-items" *ngFor="let item of pizzas; let $index=index;">
+                <div class="my-dish p-0 animate__animated animate__zoomIn">
+                  <div class="item-img-container">
+                    <img class="my-img img-fluid" (error)="logo($event)" [src]="item?.ImageUrl" alt="" />
+                  </div>
+
+                  <div class="item-desc" style="padding: 10px;">
+                    <div class="item-name pb-1" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+                      {{item?.Name}}
+                    </div>
+                    <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"
+                      *ngIf="item.Information != undefined && item.Information != 'undefined' && item.Information != 'null'"
+                      class="item-info"> {{item?.Information}} </div>
+                    <div style="height: 10px;"
+                      *ngIf="item.Information=='' || item.information=='undefined' || item.Information==undefined || item.Information == null">
+                    </div>
+                  </div>
+                  <div class="row item-price">
+
+                    <button *ngIf="item && item.PizzaPrices && item.PizzaPrices.length == 1"
+                      style="margin-top: auto; background-color: var(--orange);" type="button" class="item-btn">
+                      <div class="text-btn">
+                        {{item.PizzaPrices[0].Price}} {{"COMMON_CASH" | translate}}
+                      </div>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+        <!--ITEMSSS-->
+        <div [id]="category.Id" class="card card-menu" *ngFor="let category of categories || []">
+          <div class="card-header menu-category-header"
+            [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'border-left':getLanguage() === 'en' ? 'solid 8px var(--orange);': '', 'border-right':getLanguage() === 'he' ? 'solid 8px var(--orange);': '' }"
+            [id]="'cat' + category.Id" style="border-radius: 6px; padding-right: 10px;">
+            {{category.Name}}
+          </div>
+
+
+          <div class="card-body" style="padding-right: 0;">
+
+            <div class="row" [id]="'cat11' + category.Id">
+
+              <div class="col-2 pb-2 my-items" *ngFor="let item of category.Items; let $index=index;">
+
+                <div class="my-dish p-0 animate__animated animate__zoomIn">
+                  <div class="item-img-container">
+                    <img class="my-img img-fluid" [src]="item?.ImageUrl" alt="" (error)="logo($event)" />
+                  </div>
+
+                  <div class="item-desc" style="padding: 10px;">
+
+                    <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="item-name pb-1"
+                      *ngIf="!isMobileMode() && !item.IsCombo">
+                      {{item?.Name}}
+                    </div>
+                    <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="item-name pb-1"
+                      *ngIf="!isMobileMode() && item.IsCombo">
+                      {{item?.Name}} <br> <!-- {{"COMBO_SALE"| translate}}-->
+                    </div>
+                    <div [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"
+                      *ngIf="item?.Information != null && item?.Information != 'null'" class="item-info">
+                      {{item?.ShortInfo}} </div>
+                    <div style="height: 10px;"
+                      *ngIf="item.Information=='' || item.information=='undefined' || item.Information==undefined || item.Information == null">
+                    </div>
+                  </div>
+                  <div class="row item-price">
+
+                    <button *ngIf="!isMobileMode()   && (item.Price!=0 && item.Price!=null)"
+                      style="margin-top: auto; background-color: var(--orange);" type="button" class="item-btn">
+                      <div class="text-btn" *ngIf="item && item.Price">
+                        {{item?.Price}} {{"COMMON_CASH" | translate}}
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!--div class="row" *ngIf="$index != category.Items.length-1"
+                style="border-bottom: dotted; border-width:thin;">
+              </div-->
+            </div>
+
+
+          </div>
+        </div>
+
+        <!--ITEMSSS ENDDD-->
+
+      </div>
+      <!--/perfect-scrollbar-->
+    </div>
+
+
+
+    <!--Desktop Cart-->
+
+
+    <div *ngIf="!isDigitalMenu()" class="col-3 px-0 d-none d-lg-block">
+      <div class="card position-fixed" [ngStyle]="{'right':getLanguage() === 'en' ? '0': ''}"
+        style="max-width: 23vw; min-width: 20vw; border: none; margin-right: 1rem; left: 1rem; height: auto; max-height: 100%; overflow-y:auto; background:#f8f8f8;">
+
+        <div id="myOrderResult" #myIdentifier class="card-body pb-0 pt-0"
+          style="max-height: 86vh; background:#f8f8f8; padding: 0 !important;">
+
+          <order-result [order]="order" [currentBranch]="currentBranch" #orderResult (makeOrder)="makeOrder()"
+            (checkCombo)="checkCombo()" (openItemPopup)="openItemPopup($event)" (removeAll)="removeAll()">
+          </order-result>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,122 @@
+<!--div class="container order-container-wrapper animated fadeIn" (window:resize)="onResize($event)"-->
+<div class="row app-header-new d-none d-lg-flex" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+  style="position: fixed; top: 0; box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.15);">
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn">
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/menu" routerLinkActive="active">
+        <span>{{"MENU" | translate}}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-auto" style="align-self: center;">
+    <div class="nav-btn">
+      <a class="link" style="color:#505050;" routerLink="/{{franchiseId}}/my-order" routerLinkActive="active">
+        <span>{{"MY_ADRESSES" | translate}}</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!--div class="col-auto" style="align-self: center;">
+    <div class="nav-btn" >
+      <a style="color:#505050;" routerLink="/{{franchiseId}}/my-order-status/{{this.lastOrderId}}"
+        routerLinkActive="active">
+        <span>מעקב הזמנה</span>
+      </a>
+    </div>
+  </div-->
+
+
+
+  <div class="col"></div>
+
+</div>
+
+
+
+<div class="  animated fadeIn">
+  <div class="row">
+    <div class="col menu-category-name" style="font-weight: 600; font-size: 5vw; margin: 3vw 0;">
+      {{"MY_ADRESSES" | translate}}
+    </div>
+  </div>
+
+  <!--div class="row" *ngFor="let a of addresses; let $i=index">
+    <div class="col">
+    <button class="btn btn-block  address-btn" *ngIf="$i==0" >
+      <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+      <span class="textlabelh2" *ngIf=" a.ApartmentNum != null && a.ApartmentNum != undefined">
+        דירה {{a.ApartmentNum}}
+      </span>
+      <span class="textlabelh2" *ngIf=" a.Floor != null && a.Floor != undefined">
+        קומה {{a.Floor}}
+      </span>
+    </button>
+  
+
+  
+    <button class="btn btn-block address-btn " *ngIf="$i>0" >
+
+      <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+      <span class="textlabelh2" *ngIf="a.ApartmentNum != null && a.ApartmentNum != undefined">
+        דירה {{a.ApartmentNum}}
+      </span>
+      <span class="textlabelh2" *ngIf="a.Floor != null && a.Floor != undefined">
+        קומה {{a.Floor}}
+      </span>
+    </button>
+  </div-->
+
+  <div *ngIf="addresses && addresses.length > 0" class="card" style="border: none;">
+    <perfect-scrollbar style="overflow-y: auto; height: 75vh;">
+      <div class="card-body">
+  
+  
+  
+  
+        <div class="btn-group-vertical " *ngIf="addresses && addresses.length > 0" style="width:100%;">
+          <button *ngFor="let a of addresses; let $i=index" id="my-btn" type="button"
+            style="margin-bottom: 5vw; background: #FFFFFF; box-shadow: 0px 0px 4px rgb(0 0 0 / 25%); border-radius: 10px; border: 1px solid #c8ced3;"
+            class="btn btn-block btn-outline-dark my-btn">
+            <div class="row">
+              <div class="col-2">
+                <img style="width: 22px; height: 22px; margin-bottom: -5vw;"
+                  src="../../../assets/images/items/house-new.svg" />
+              </div>
+  
+              <div class="col-8" style="padding: 0; text-align: start;">
+                <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+                <!--{{"CARD_ENDING_WITH" | translate}}-->
+              </div>
+  
+              <div class="col-2">
+                <img style="width: 22px; height: 22px; margin-bottom: -5vw;"
+                  src="../../../assets/images/items/trash-new.svg" />
+                <!--span (click)="removeCard(cc)">{{"REMOVE_CARD" | translate}}</span-->
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-2"></div>
+              <div class="col-10" style="padding: 0; text-align: start;">
+                <span class="textlabelh2" *ngIf=" a.ApartmentNum != null && a.ApartmentNum != undefined">
+                  דירה {{a.ApartmentNum}}
+                </span>
+                <span class="textlabelh2" *ngIf=" a.Floor != null && a.Floor != undefined">
+                  קומה {{a.Floor}}
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
+
+  <!--CUSTOMER INFO -->
+
+
+
+  <!--loader [show]="!checkLoading()"></loader-->

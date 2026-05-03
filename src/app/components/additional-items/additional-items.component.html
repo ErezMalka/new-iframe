@@ -1,0 +1,951 @@
+<!--BOMUS POP UP -->
+<div class="popup-wrapper animated fadeIn" *ngIf="isBonusMode" (click)="action()" (window:resize)="onResize($event)">
+
+
+  <div *ngIf="isBonusMode" class="close-options d-block d-lg-none" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="closeAdditionalItems()"></span>
+    <!--div class="error-container">
+      <messsage *ngIf="showErrorGarnishMessage" [type]="'error'" [message]="displayErrorGarnishMessage()"></messsage>
+    </div-->
+
+  </div>
+
+  <div *ngIf="isBonusMode" class="close-options d-none d-lg-block" [ngClass]="{'direction': lang != 'he'}" style="left: 0 !important;">
+    <span class="close" style="top: 66px; left: 7px;" [ngClass]="{'direction': lang != 'he'}" (click)="closeAdditionalItems()"></span>
+    <!--div class="error-container">
+      <messsage *ngIf="showErrorGarnishMessage" [type]="'error'" [message]="displayErrorGarnishMessage()"></messsage>
+    </div-->
+
+  </div>
+
+  <div class="garnishes-container" style="position: relative;">
+    <div style="padding: 10px;">
+      <div class="header-container d-block d-lg-none" style="text-align: center;" mat-dialog-title
+        [ngClass]="{'direction': lang != 'he'}">
+        <div class="header">
+          {{firstMessage}}<b>{{minForBonus}}</b>{{"COMMON_CASH" | translate}}
+        </div>
+      </div>
+      <div class="header-container d-none d-lg-block" style="text-align: center; width: 45%;
+      margin: auto;" mat-dialog-title
+      [ngClass]="{'direction': lang != 'he'}">
+      <div class="header">
+        {{firstMessage}}<b>{{minForBonus}}</b>{{"COMMON_CASH" | translate}}
+      </div>
+    </div>
+    </div>
+
+
+    <div class="row"  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+      <div class="col" style="text-align: center; padding: 5px;">
+        <img src="../../../../assets/images/items/cart-icon-big.svg" alt="">
+      </div>
+    </div>
+    <div class="row" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+      <div class="col" style="text-align: center; padding: 5px; padding-left: 20px;
+      padding-right: 20px;">
+        <div class="bonus-msg"
+          style="font-family: 'Open Sans Hebrew'; font-style: normal; font-weight: normal; font-size: 24px; line-height: 21px; color: var(--orange);">
+          {{bonusMSG}}
+        </div>
+      </div>
+    </div>
+
+
+    <mat-dialog-content class="mat-dialog-content-custom 11">
+      <perfect-scrollbar class="my-scroll" style="height: 60vh;">
+      <!--ng-scrollbar #scrollable [shown]="shown" 
+                                    [disableOnBreakpoints]="false" 
+                                    [viewClass]="'custom-view'"
+                                    [disabled]="disabled"-->
+
+      <div class="content row" *ngIf="!isMobileMode()"  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="margin-bottom: 3rem;">
+
+        <div *ngFor="let item of items" class="item noselect 1 col-3"
+          [ngClass]="{'content-right' : !isMobileMode(),'selected': item.IsSelected}" 
+          [animation]="'pulse'"  style=" border-radius: 5px; position: relative; padding: 0;"
+          (click)="selectItem(item)">
+        
+          <div class="garnish-image" style="padding-top: 0;">
+            <img style="max-width: none; margin-top: 0;" src="{{item.ImageUrl}}" />
+          </div>
+          <div class="description" *ngIf="!isMobileMode()">
+            <div class="item-information-container">
+              <div class="name" style="color: var(--orange) !important;" [ngClass]="{'description-name': !isMobileMode()}">
+                {{item?.Name}}
+              </div>
+              <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+              <div class="price"
+                [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }"
+                style="text-align: center;
+                            overflow: hidden; background-color: var(--orange);
+                  color: white; font-size: 14px;
+                  font-weight: 700;
+                  position: absolute;
+                  padding: 0.5vh 0.5vw;
+                  bottom: 0;" [hidden]="item.Price == 0">
+                {{item.Price}}{{"COMMON_CASH" | translate}}
+              </div>
+            </div>
+          </div>
+          <div class=" description " *ngIf="isMobileMode()">
+            <div class="item-information-container">
+              <div class="name-price"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  >
+                <span class="name">{{item?.Name}}</span>
+                <!--span class="price" [hidden]="item.Price == 0">
+                      {{"COMMON_CASH" | translate}}{{item.Price}}
+                    </span-->
+              </div>
+              <div class="info"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  style=" margin-top: 8px;"
+                [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isMobileMode()" style="position: absolute; bottom: 0; width: 100%; text-align: end;">
+
+            <span class="price" [hidden]="item.Price == 0" [ngStyle]="{'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" style="background-color: var(--orange); font-family: 'Open Sans Hebrew';
+                font-style: normal;
+                font-weight: bold;
+                font-size: 14px;
+                color: white;
+                line-height: 21px;
+                padding-left: 8px;
+                padding-right: 8px;
+                padding-top: 3px;
+                padding-bottom: 3px;">
+              {{item.Price}}{{"COMMON_CASH" | translate}}
+            </span>
+
+          </div>
+
+        </div>
+        
+      </div>
+
+      <div class="content-mobile 11" *ngIf="isMobileMode()" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="margin-bottom: 3rem;">
+
+        <div *ngFor="let item of items" class="row item noselect 1"  [ngStyle]="{'border-right':getLanguage() === 'he' ? '6px solid var(--orange)': '', 'border-left':getLanguage() === 'en' ? '6px solid var(--orange)': ''}"
+          [ngClass]="{'content-right' : !isMobileMode(),'selected': item.IsSelected}" 
+          [animation]="'pulse'"  style=" border-radius: 5px; position: relative; border-radius: 5px;
+          position: relative;"
+          (click)="selectItem(item)">
+
+          <div class="garnish-image col-4" style="padding: 0 !important;">
+            <img style="height: 11vh;" src="{{item.ImageUrl}}" />
+          </div>
+          <div class="description" *ngIf="!isMobileMode()">
+            <div class="item-information-container">
+              <div class="name" style="color: var(--orange) !important;" [ngClass]="{'description-name': !isMobileMode()}">
+                {{item?.Name}}
+              </div>
+              <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+              <div class="price"
+                [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }"
+                style="text-align: center;
+                            overflow: hidden; background-color: var(--orange);
+                  color: white; font-size: 14px;
+                  font-weight: 700;
+                  position: absolute;
+                  padding: 0.5vh 0.5vw;
+                  bottom: 0;" [hidden]="item.Price == 0">
+                {{item.Price}}{{"COMMON_CASH" | translate}}
+              </div>
+            </div>
+          </div>
+          <div class=" description col" style="padding-top: 2vh;" *ngIf="isMobileMode()">
+            <div class="item-information-container">
+              <div class="name-price"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" >
+                <span class="name">{{item?.Name}}</span>
+                <!--span class="price" [hidden]="item.Price == 0">
+                      {{"COMMON_CASH" | translate}}{{item.Price}}
+                    </span-->
+              </div>
+              <div class="info"   [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  style=" margin-top: 8px;"
+                [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isMobileMode()" [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }"
+           style="position: absolute; bottom: 0; width: 100%; text-align: end;">
+
+            <span class="price" [hidden]="item.Price == 0" [ngStyle]="{'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" style="background-color: var(--orange); font-family: 'Open Sans Hebrew';
+                font-style: normal;
+                font-weight: bold;
+                font-size: 4vw;
+                color: white;
+                padding: 0.5vh 2.5vw;">
+              {{item.Price}}{{"COMMON_CASH" | translate}}
+            </span>
+
+          </div>
+
+        </div>
+        
+      </div>
+      <!--div style="height: 9rem; width: 100%;"></div-->
+
+
+      <!--/ng-scrollbar-->
+
+    </perfect-scrollbar>
+    </mat-dialog-content>
+
+    <!--mat-dialog-content class="mat-dialog-content-custom" *ngIf="!isBonusMode"-->
+    <!--ng-scrollbar #scrollable [shown]="shown" 
+                                [disableOnBreakpoints]="false" 
+                                [viewClass]="'custom-view'"
+                                [disabled]="disabled"-->
+
+    <!--div class="content" [ngClass]="{'content-right' : !isMobileMode()}">
+        <div *ngFor="let item of items" class="item noselect" [ngStyle]="getItemStyle()" [animation]="'pulse'"
+          (click)="addToCart(item)">
+          <div class="garnish-image">
+            <img src="{{item.ImageUrl}}" />
+          </div>
+          <div class="description" *ngIf="!isMobileMode()">
+            <div class="item-information-container">
+              <div class="name" [ngClass]="{'description-name': !isMobileMode()}">
+                {{item?.Name}}
+              </div>
+              <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+              <div class="price" [hidden]="item.Price == 0">
+                {{"COMMON_CASH" | translate}}{{item.Price}}
+              </div>
+            </div>
+          </div>
+          <div class="description" *ngIf="isMobileMode()">
+            <div class="item-information-container">
+              <div class="name-price">
+                <span class="name">{{item?.Name}}</span>
+                <span class="price" [hidden]="item.Price == 0">
+                  {{"COMMON_CASH" | translate}}{{item.Price}}
+                </span>
+              </div>
+              <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div-->
+
+    <!--/ng-scrollbar-->
+    <!--/mat-dialog-content-->
+
+    <mat-dialog-actions class="ac1 d-block d-lg-none" style="position: fixed; bottom: 0; margin-bottom: 0 !important; width: 100%; left: 0;">
+      <div class="btn-group" style="width: 100%;">
+        <button (click)="addToCart()" type="button" class="btn btn-custom btn-block" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="display: inline-flex;">
+
+          <span style="margin: auto; " class="bonus-continue">
+            {{"ADDITIONAL_ITEMS_NO" | translate}}
+          </span>
+          <span style="margin: auto; margin-left:10px; margin-right: 10px; align-self: center;"> <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+      </div>
+    </mat-dialog-actions>
+
+
+
+    <mat-dialog-actions class="ac2 d-none d-lg-block" style="position: absolute; bottom: 44px; margin-bottom: 0 !important; width: 100%;">
+      <div class="btn-group " style="width: 100%;">
+        <!--button *ngIf="!isBonusMode" (click)="cancelAction()" type="button" class="btn btn-custom btn-block" style="display: inline-flex;">
+          <span  style="margin: auto; margin-left: -20px;">
+            {{"ADDITIONAL_ITEMS_CONTINUE" | translate}}
+          </span>
+          <span style="margin: auto; margin-left:10px;"> <i class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button-->
+
+        <button (click)="addToCart()" type="button" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" class="btn btn-custom btn-block" style="display: inline-flex;">
+
+          <span style="margin: auto; " class="bonus-continue">
+            {{"ADDITIONAL_ITEMS_NO" | translate}}
+          </span>
+          <span style="margin: auto; margin-left:10px; margin-right: 10px; align-self: center;"> <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+
+
+
+      </div>
+      <!--div class="comments-save-actions">
+        <span class="btn-group">
+          <button (click)="cancelAction()" class="save-order scale-item"
+            [ngStyle]="{'background-color': colors.buttonColor}">
+            <span *ngIf="!isBonusMode">{{"ADDITIONAL_ITEMS_CONTINUE" | translate}}</span>
+            <span *ngIf="isBonusMode">{{"ADDITIONAL_ITEMS_NO" | translate}}</span>
+          
+            
+          </button>
+          
+        </span>
+      </div-->
+    </mat-dialog-actions>
+
+  </div>
+</div>
+
+<!--UPGRADE POP UP -->
+<!--MOBILE-->
+
+<div class="d-flex d-lg-none popup-wrapper animated fadeIn" *ngIf="!isBonusMode" (click)="action()" (window:resize)="onResize($event)">
+
+  <div class="garnishes-container-upgrade" style="width: 100%; border-bottom-left-radius: 0;border-bottom-right-radius: 0;">
+    <div class="header-upgrade" mat-dialog-title [ngClass]="{'direction': lang != 'he'}"
+      [ngStyle]="{'color': colors.menuColor}">
+      {{firstMessage}}{{minForBonus}}{{header}}
+    </div>
+
+    <mat-dialog-content *ngIf="isUpgrade" style="overflow-y: auto; padding: 0.25rem;">
+      <div class="content-upgrade" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" [ngClass]="{'content-right' : !isMobileMode()}">
+
+        <div *ngFor="let item of items" class="row item noselect 3"
+          [ngClass]="{'content-right' : !isMobileMode(),'selected': item.IsSelected}" 
+          [animation]="'pulse'" [ngStyle]="{'border-right':getLanguage() === 'he' ? '6px solid var(--orange)': '', 'border-left':getLanguage() === 'en' ? '6px solid var(--orange)': ''}"
+          style="border-radius: 5px; position: relative; width: 90%; padding: 0 !important;"
+          (click)="selectItem(item)">
+          <div class="col garnish-image" style="display: block; align-self: center;">
+            <img src="{{item.ImageUrl}}" />
+          </div>
+          <div class="description" *ngIf="!isMobileMode()">
+            <div class="item-information-container">
+              <div class="name" [ngClass]="{'description-name': !isMobileMode()}">
+                {{item?.Name}}
+              </div>
+              <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+              <div class="price" [hidden]="item.Price == 0">
+                {{item.Price}}{{"COMMON_CASH" | translate}}
+              </div>
+            </div>
+          </div>
+          <div class="col description" *ngIf="isMobileMode()" style=" align-self: center;">
+            <div class="item-information-container">
+              <div class="name-price" style="text-align: right;">
+                <span *ngIf="!isBonusMode" class="name">{{item?.Name}}</span>
+              </div>
+              <div class="info" style="text-align: right; margin-top: 8px;"
+                [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isMobileMode()"  [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" style="position: absolute; bottom: 0; text-align: end; 
+            padding-left: 8px;
+            padding-right: 8px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            background-color: var(--orange);">
+
+            <span class="price" [hidden]="item.Price == 0" style=" font-family: 'Open Sans Hebrew';
+              font-style: normal;
+              font-weight: bold;
+              font-size: 14px;
+              color: white;
+              line-height: 21px;
+              ">
+              {{item.Price}}{{"COMMON_CASH" | translate}}
+            </span>
+          </div>
+        </div>
+        <!--div style="height: 4vh; width: 12vw;"></div-->
+        <div class="row" >
+          <div class="col text-center" style="padding-top: 30px;">
+            <button (click)="addToCartUpgradeMobile()"  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" type="button" class="btn btn-custom btn-block"
+              style="display: inline-flex; border-radius: 5px; height: 53px; padding: 0px 30px;">
+              <span style="margin: auto; margin-left: 10px; 
+                      margin-right: 10px;"><img src="../../../assets/images/items/plus-white-new.svg" alt=""></span>
+              <span *ngIf="!isBonusMode" style="margin: auto; margin-right: 10px;margin-left: 10px;">
+                {{"ADD" | translate}}
+              </span>
+            </button>
+          </div>
+        </div>
+        
+      </div>
+
+      <!--/ng-scrollbar-->
+    </mat-dialog-content>
+     
+
+    <mat-dialog-content *ngIf="!isUpgrade  && !isShowInKioskEndOrder" class="mat-dialog-content-custom-upgrade">
+    <div class="content-upgrade" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" [ngClass]="{'content-right' : !isMobileMode()}">
+
+      <div *ngFor="let item of items" class="row item noselect 3"
+        [ngClass]="{'content-right' : !isMobileMode(),'selected': item.IsSelected}" 
+        [animation]="'pulse'" [ngStyle]="{'border-right':getLanguage() === 'he' ? '6px solid var(--orange)': '', 'border-left':getLanguage() === 'en' ? '6px solid var(--orange)': ''}"
+        style="border-radius: 5px; position: relative; width: 90%; padding: 0.5rem !important;"
+        (click)="selectItem(item)">
+        <div class="col garnish-image" style="display: block; align-self: center;">
+          <img src="{{item.ImageUrl}}" />
+        </div>
+        <div class="description" *ngIf="!isMobileMode()">
+          <div class="item-information-container">
+            <div class="name" [ngClass]="{'description-name': !isMobileMode()}">
+              {{item?.Name}}
+            </div>
+            <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+              {{item?.Information}}
+            </div>
+            <div class="price" [hidden]="item.Price == 0">
+              {{item.Price}}{{"COMMON_CASH" | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col description" *ngIf="isMobileMode()" style=" align-self: center;">
+          <div class="item-information-container">
+            <div class="name-price" style="text-align: right;">
+              <span *ngIf="!isBonusMode" class="name">{{item?.Name}}</span>
+            </div>
+            <div class="info" style="text-align: right; margin-top: 8px;"
+              [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+              {{item?.Information}}
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isMobileMode()"  [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" style="position: absolute; bottom: 0; text-align: end; 
+          padding-left: 8px;
+          padding-right: 8px;
+          padding-top: 3px;
+          padding-bottom: 3px;
+          background-color: var(--orange);">
+
+          <span class="price" [hidden]="item.Price == 0" style=" font-family: 'Open Sans Hebrew';
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            line-height: 21px;
+            ">
+            {{item.Price}}{{"COMMON_CASH" | translate}}
+          </span>
+        </div>
+      </div>
+      <div style="height: 4vh; width: 12vw;"></div>
+
+    </div>
+
+    <!--/ng-scrollbar-->
+  </mat-dialog-content>
+
+  <mat-dialog-content *ngIf="!isUpgrade && isShowInKioskEndOrder" class="mat-dialog-content-custom-upgrade-end">
+    <div class="content-upgrade 55" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" [ngClass]="{'content-right' : !isMobileMode()}">
+
+      <div *ngFor="let item of items" class="row item noselect 3"
+        [ngClass]="{'content-right' : !isMobileMode(),'selected': item.IsSelected}" 
+        [animation]="'pulse'" [ngStyle]="{'border-right':getLanguage() === 'he' ? '6px solid var(--orange)': '', 'border-left':getLanguage() === 'en' ? '6px solid var(--orange)': ''}"
+        style="border-radius: 5px; position: relative; width: 90%; padding: 0 !important;"
+        (click)="selectItem(item)">
+        <div class="col-4 garnish-image" style="display: block; padding: 0;">
+          <img style="height: 11vh;
+          object-fit: cover;" src="{{item.ImageUrl}}" />
+        </div>
+        <div class="description" *ngIf="!isMobileMode()">
+          <div class="item-information-container">
+            <div class="name" [ngClass]="{'description-name': !isMobileMode()}">
+              {{item?.Name}}
+            </div>
+            <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+              {{item?.Information}}
+            </div>
+            <div class="price" [hidden]="item.Price == 0">
+              {{item.Price}}{{"COMMON_CASH" | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col description  pb-2" *ngIf="isMobileMode()" style=" align-self: center;">
+          <div class="item-information-container">
+            <div class="name-price"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}">
+              <span *ngIf="!isBonusMode" class="name">{{item?.Name}}</span>
+            </div>
+            <div class="info"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" style=" margin-top: 8px;"
+              [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+              {{item?.Information}}
+            </div>
+            
+
+
+          </div>
+        </div>
+        <div *ngIf="!isBonusMode && isMobileMode() && (!item.Garnishes || !item.Garnishes.length) && (!item.GarnishGroups || !item.GarnishGroups.length)"
+                  style="display:inline-flex; 
+                         justify-content: space-between; 
+                         direction: rtl !important;
+                         position: absolute; bottom: 5px; right:14vh;">
+              <button class="btn btn-plus text-white" type="button" style="width: 20px; height: 20px;"
+                      (click)="addAmount(item)">
+                <img src="../../../../assets/images/items/plus.svg"  style="width: 15px; height: 15px;">
+              </button>
+              <span class="col price"  style="margin: auto;"> 
+                {{item.Amount}}
+              </span>
+              <button class="btn btn-minus text-white" type="button" style="width: 20px; height: 20px;"
+                      [disabled]="item.Amount < 1" (click)="subAmount(item)">
+                <img src="../../../../assets/images/items/minus.svg"  style="width: 15px; height: 15px;">                    
+              </button>
+        </div>
+        <div *ngIf="isMobileMode() && item.Amount == 0" [hidden]="item.Price == 0"  [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" 
+             style="position: absolute; bottom: 0; text-align: end; 
+          padding-left: 8px;
+          padding-right: 8px;
+          padding-top: 3px;
+          padding-bottom: 3px;
+          background-color: var(--orange);">
+
+          <span class="price" [hidden]="item.Price == 0" style=" font-family: 'Open Sans Hebrew';
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            line-height: 21px;
+            ">
+            {{item.Price}}{{"COMMON_CASH" | translate}}
+          </span>
+        </div>
+        <div *ngIf="isMobileMode() && item.Amount > 0 && item.Price > 0" [hidden]="item.Price == 0"  [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" 
+             style="position: absolute; bottom: 0; text-align: end; 
+          padding-left: 8px;
+          padding-right: 8px;
+          padding-top: 3px;
+          padding-bottom: 3px;
+          background-color: var(--orange);">
+
+          <span class="price" [hidden]="item.Price == 0" style=" font-family: 'Open Sans Hebrew';
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            line-height: 21px;
+            ">
+            {{item.Price  * item.Amount}}{{"COMMON_CASH" | translate}}
+          </span>
+        </div>
+      </div>
+      <div style="height: 4vh; width: 12vw;"></div>
+
+    </div>
+
+    <div style="height: 3rem; width: 100%;"></div>
+
+    <!--/ng-scrollbar-->
+  </mat-dialog-content>
+
+    <mat-dialog-actions class="ac3" *ngIf="!isUpgrade" style="position: absolute; bottom: 3vh; top: auto; width: 100%; left: 0; z-index: 100999;">
+      <div class="btn-group" style="width: 100%;" style="display: inline-block;">
+        <button (click)="addToCart()" type="button" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" class="btn btn-custom btn-block" style="width:100vw;display: inline-block; z-index: 999999;">
+          <span *ngIf="!isBonusMode" style="margin: auto;">
+            {{"ADDITIONAL_ITEMS_CONTINUE" | translate}}
+          </span>
+
+          <span *ngIf="isBonusMode" style="margin: auto;">
+            {{"ADDITIONAL_ITEMS_NO" | translate}}
+          </span>
+          <span style="margin: auto; margin-left:10px; margin-right: 10px; align-self: center;"> <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+
+      </div>
+    </mat-dialog-actions>
+
+    <mat-dialog-actions *ngIf="isUpgrade" class="ac44" style="top: auto; width: 100%;">
+      <div class="btn-group" style="width: 100%;">
+        <button (click)="addToCart()" type="button" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" class="btn btn-custom btn-block" style="display: inline-flex;">
+          <span *ngIf="!isBonusMode" style="margin: auto;">
+            {{"ADDITIONAL_ITEMS_CONTINUE" | translate}}
+          </span>
+
+          <span *ngIf="isBonusMode" style="margin: auto;">
+            {{"ADDITIONAL_ITEMS_NO" | translate}}
+          </span>
+          <span style="margin: auto; margin-left:10px; margin-right: 10px; align-self: center;"> <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+
+      </div>
+    </mat-dialog-actions>
+  </div>
+</div>
+
+<!--UPGRADE POPUP DESKTOP-->
+
+<div class="d-none d-lg-flex popup-wrapper animated fadeIn" *ngIf="!isBonusMode && !isShowInKioskEndOrder" (click)="action()" (window:resize)="onResize($event)" style="justify-content: space-evenly;">
+
+  <div class="close-options" [ngClass]="{'direction': lang != 'he'}" style="top: -10px !important;">
+    <span class="close" style="right: 790px;" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></span>
+  </div>
+
+  <div class="garnishes-container-upgrade" style="margin-bottom: 0;">
+    <div class="header-upgrade" mat-dialog-title [ngClass]="{'direction': lang != 'he'}"
+      [ngStyle]="{'color': colors.menuColor}" style="font-style: normal;
+      font-weight: bold;
+      font-size: 33px;
+      line-height: 21px;
+      text-align: center;
+      color: #636363;
+      padding: 2rem;
+      margin-bottom: 1rem">
+      {{firstMessage}}{{minForBonus}}{{header}}
+    </div>
+
+    <mat-dialog-content class="mat-dialog-content-custom-upgrade">
+      <div class="content-upgrade" style=" display: block;">
+
+        <div *ngFor="let item of items" class="row item noselect 4 justify-content-center"
+          [ngClass]="{'selected': item.IsSelected}" [ngStyle]="getItemStyle()"
+          [animation]="'pulse'" style=" margin: auto; border: none; position: relative; width: 90%; padding: 0.5rem !important;"
+          >
+          <div class="col garnish-image" style=" display: block; align-self: center;">
+            <img src="{{item.ImageUrl}}" style="max-width: 250px;" />
+          </div>
+        
+        
+          <div class="description" *ngIf="!isMobileMode()">
+            <div class="item-information-container">
+              <div class="name" [ngClass]="{'description-name': !isMobileMode()}" style="font-style: normal;
+                              font-weight: normal;
+                              font-size: 21px;
+                              line-height: 25px;
+                              text-align: center;
+                              
+                              color: #424242;">
+                {{item?.Name}} {{"COMMON_CASH" | translate}}{{item.Price}}
+              </div>
+            </div>
+          </div>
+        
+        
+          <div class="col-auto" style="padding-top: 30px;">
+            <button (click)="cancelAction()"  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" type="button" class="btn btn-custom btn-block"
+              style="display: inline-flex; border-radius: 5px; height: 53px; padding: 0px 30px;">
+              <span style="margin: auto; margin-left: 10px; 
+                      margin-right: 10px;"><img src="../../../assets/images/items/plus-white-new.svg" alt=""></span>
+              <span *ngIf="!isBonusMode" style="margin: auto; margin-right: 10px;margin-left: 10px;">
+                {{"ADD" | translate}}
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div style="border-bottom: 1px dashed #747474; margin: 30px;"></div>
+
+        
+
+        
+        
+
+      </div>
+    </mat-dialog-content>
+
+    <!--<img src="../../../assets/images/items/plus-white-new.svg" alt="">-->
+
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <button (click)="close()" type="button" class="btn btn-custom btn-block"
+          style="display: inline-flex; border-radius: 5px; height: 53px; padding: 0px 30px;  background-color: #747474;">
+          <span *ngIf="!isBonusMode" style="margin: auto; margin-right: 10px;margin-left: 10px;">
+            {{"BACK" | translate}}
+          </span>
+        </button>
+      </div>
+      <div class="col-auto" style="padding: 1.25rem 0.25rem; padding-top: 0;">
+        <button [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" (click)="close()" type="button" class="btn btn-custom btn-block"
+          style="display: inline-flex; border-radius: 5px; height: 53px; padding: 0px 30px;">
+          <span *ngIf="!isBonusMode" style="margin: auto; margin-right: 10px;margin-left: 10px;">
+            {{"ADDITIONAL_ITEMS_CONTINUE" | translate}}
+          </span>
+    
+          <span *ngIf="isBonusMode" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="margin: auto; ">
+            {{"ADDITIONAL_ITEMS_NO" | translate}}
+          </span>
+          <span style="margin-left: 10px; 
+            margin-right: 10px; align-self: center;"> <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!--mat-dialog-actions>
+      <div class="btn-group" style="width: 100%;">
+        <button (click)="addToCart()" type="button" class="btn btn-custom btn-block" style="display: inline-flex;">
+          <span *ngIf="!isBonusMode" style="margin: auto; margin-left: -20px;">
+            {{"ADDITIONAL_ITEMS_CONTINUE" | translate}}
+          </span>
+
+          <span *ngIf="isBonusMode" style="margin: auto; margin-left: -20px;">
+            {{"ADDITIONAL_ITEMS_NO" | translate}}
+          </span>
+          <span style="margin: auto; margin-left:10px;"> <i class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+
+      </div>
+    </mat-dialog-actions-->
+  </div>
+</div>
+
+
+<!--END-OF-KIOSK-DESKTOP-->
+
+<div class="d-none d-lg-flex popup-wrapper animated fadeIn" *ngIf="isShowInKioskEndOrder" (click)="action()" (window:resize)="onResize($event)">
+
+  <div class="garnishes-container-upgrade" style="width: 100%;">
+    <div class="header-upgrade" mat-dialog-title [ngClass]="{'direction': lang != 'he'}"
+      [ngStyle]="{'color': colors.menuColor}">
+      {{firstMessage}}{{minForBonus}}{{header}}
+    </div>
+
+   
+    <mat-dialog-content class="mat-dialog-content-custom 99">
+      <perfect-scrollbar class="my-scroll" style="height: 60vh;">
+      <!--ng-scrollbar #scrollable [shown]="shown" 
+                                    [disableOnBreakpoints]="false" 
+                                    [viewClass]="'custom-view'"
+                                    [disabled]="disabled"-->
+
+      <div class="content row" *ngIf="!isMobileMode() "  [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="margin-bottom: 3rem;">
+
+        <div *ngFor="let item of items" class="item noselect 1 col-3"
+          [ngClass]="{'content-right' : !isMobileMode(),'selected': item.IsSelected}" 
+          [animation]="'pulse'"  style=" border-radius: 5px; position: relative; padding-top: 0;"
+          (click)="selectItem(item)">
+        
+          <div class="garnish-image" style="padding-top: 0;">
+            <img style="max-width: none; margin-top: 0;" src="{{item.ImageUrl}}" />
+          </div>
+          <div class="description" *ngIf="!isMobileMode()">
+            <div class="item-information-container">
+              <div class="name" style="color: var(--orange) !important;" [ngClass]="{'description-name': !isMobileMode()}">
+                {{item?.Name}}
+              </div>
+              <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+              <div *ngIf="(!item.Garnishes || !item.Garnishes.length) && (!item.GarnishGroups || !item.GarnishGroups.length)"
+                   style="display:inline-flex; justify-content: space-between; padding-top: 15px; direction: rtl !important;">
+                <button class="btn btn-plus text-white" type="button" (click)="addAmount(item)">
+                  <img src="../../../../assets/images/items/plus.svg"  style="width: 18px; height: 18px;">
+                </button>
+                <span class="col price"  style="margin: auto;"> 
+                  {{item.Amount}}
+                </span>
+                <button class="btn btn-minus text-white" type="button" [disabled]="item.Amount < 1"                         
+                  (click)="subAmount(item)">
+                  <img src="../../../../assets/images/items/minus.svg"  style="width: 18px; height: 18px;">                    
+                </button>
+              </div>
+              <div class="price" *ngIf="item.Amount > 0"
+                [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }"
+                style="text-align: center;
+                            overflow: hidden; background-color: var(--orange);
+                  color: white; font-size: 14px;
+                  font-weight: 700;
+                  position: absolute;
+                  padding: 0.5vh 0.5vw;
+                  bottom: 0;" [hidden]="item.Price == 0">
+                {{item.Price * item.Amount}}{{"COMMON_CASH" | translate}}
+              </div>
+              <div class="price" *ngIf="item.Amount == 0"
+                [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }"
+                style="text-align: center;
+                            overflow: hidden; background-color: var(--orange);
+                  color: white; font-size: 14px;
+                  font-weight: 700;
+                  position: absolute;
+                  padding: 0.5vh 0.5vw;
+                  bottom: 0;" [hidden]="item.Price == 0">
+                {{item.Price}}{{"COMMON_CASH" | translate}}
+              </div>
+            </div>
+          </div>
+          <div class=" description " *ngIf="isMobileMode()">
+            <div class="item-information-container">
+              <div class="name-price"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  >
+                <span class="name">{{item?.Name}}</span>
+                <!--span class="price" [hidden]="item.Price == 0">
+                      {{"COMMON_CASH" | translate}}{{item.Price}}
+                    </span-->
+              </div>
+              <div class="info"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  style=" margin-top: 8px;"
+                [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isMobileMode()" style="position: absolute; bottom: 0; width: 100%; text-align: end;">
+
+            <span class="price" [hidden]="item.Price == 0" [ngStyle]="{'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" style="background-color: var(--orange); font-family: 'Open Sans Hebrew';
+                font-style: normal;
+                font-weight: bold;
+                font-size: 14px;
+                color: white;
+                line-height: 21px;
+                padding-left: 8px;
+                padding-right: 8px;
+                padding-top: 3px;
+                padding-bottom: 3px;">
+              {{item.Price}}{{"COMMON_CASH" | translate}}
+            </span>
+
+          </div>
+
+        </div>
+        
+      </div>
+
+      <div class="content-mobile" *ngIf="isMobileMode()" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="margin-bottom: 3rem;">
+
+        <div *ngFor="let item of items" class="row item noselect 1"  [ngStyle]="{'border-right':getLanguage() === 'he' ? '6px solid var(--orange)': '', 'border-left':getLanguage() === 'en' ? '6px solid var(--orange)': ''}"
+          [ngClass]="{'content-right' : !isMobileMode(),'selected': item.IsSelected}" 
+          [animation]="'pulse'"  style=" border-radius: 5px; position: relative; border-radius: 5px;
+          position: relative;
+          padding: 0.5rem !important;"
+          (click)="selectItem(item)">
+
+          <div class="garnish-image col-4">
+            <img src="{{item.ImageUrl}}" />
+          </div>
+          <div class="description" *ngIf="!isMobileMode()">
+            <div class="item-information-container">
+              <div class="name" style="color: var(--orange) !important;" [ngClass]="{'description-name': !isMobileMode()}">
+                {{item?.Name}}
+              </div>
+              <div class="info" [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+              <div class="price"
+                [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }"
+                style="text-align: center;
+                            overflow: hidden; background-color: var(--orange);
+                  color: white; font-size: 14px;
+                  font-weight: 700;
+                  position: absolute;
+                  padding: 0.5vh 0.5vw;
+                  bottom: 0;" [hidden]="item.Price == 0">
+                {{item.Price}}{{"COMMON_CASH" | translate}}
+              </div>
+            </div>
+          </div>
+          <div class=" description col" style="align-self: center;" *ngIf="isMobileMode()">
+            <div class="item-information-container">
+              <div class="name-price"  [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" >
+                <span class="name">{{item?.Name}}</span>
+                <!--span class="price" [hidden]="item.Price == 0">
+                      {{"COMMON_CASH" | translate}}{{item.Price}}
+                    </span-->
+              </div>
+              <div class="info"   [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  style=" margin-top: 8px;"
+                [ngClass]="{'description-name': !isMobileMode()}" *ngIf="item.Information">
+                {{item?.Information}}
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="isMobileMode()" [ngStyle]="{'right':getLanguage() === 'en' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }"
+           style="position: absolute; bottom: 0; width: 100%; text-align: end;">
+
+            <span class="price" [hidden]="item.Price == 0" [ngStyle]="{'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" style="background-color: var(--orange); font-family: 'Open Sans Hebrew';
+                font-style: normal;
+                font-weight: bold;
+                font-size: 3vw;
+                color: white;
+                padding: 0.5vh 2.5vw;">
+              {{item.Price}}{{"COMMON_CASH" | translate}}
+            </span>
+
+          </div>
+
+        </div>
+        
+      </div>
+      <!--div style="height: 9rem; width: 100%;"></div-->
+
+
+      <!--/ng-scrollbar-->
+
+    </perfect-scrollbar>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="ac4">
+      <div class="btn-group" style="width: 100%;">
+        <button [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" (click)="addToCart()" type="button" class="btn btn-custom btn-block" style="display: inline-flex;">
+          <span *ngIf="!isBonusMode" style="margin: auto; ">
+            {{"ADDITIONAL_ITEMS_CONTINUE" | translate}}
+          </span>
+
+
+
+          <span *ngIf="isBonusMode" style="margin: auto; ">
+            {{"ADDITIONAL_ITEMS_NO" | translate}}
+          </span>
+          <span style=" margin-left:10px; margin-right: 10px; align-self: center;"> <i [ngStyle]="{'transform':getLanguage() === 'en' ? 'rotate(180deg)': ''}" class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+
+      </div>
+      <!--div class="comments-save-actions">
+        <span class="btn-group">
+          <button (click)="cancelAction()" class="save-order scale-item"
+            [ngStyle]="{'background-color': colors.buttonColor}">
+            <span *ngIf="!isBonusMode">{{"ADDITIONAL_ITEMS_CONTINUE" | translate}}</span>
+            <span *ngIf="isBonusMode">{{"ADDITIONAL_ITEMS_NO" | translate}}</span>
+          
+            
+          </button>
+          
+        </span>
+      </div-->
+    </mat-dialog-actions>
+
+    <!--mat-dialog-actions style="position: fixed; bottom: 0; margin-bottom: 0 !important; width: 100%;">
+      <div class="btn-group" style="width: 100%;">
+        <!--button *ngIf="!isBonusMode" (click)="cancelAction()" type="button" class="btn btn-custom btn-block" style="display: inline-flex;">
+          <span  style="margin: auto; margin-left: -20px;">
+            {{"ADDITIONAL_ITEMS_CONTINUE" | translate}}
+          </span>
+          <span style="margin: auto; margin-left:10px;"> <i class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button-->
+
+    <!--button (click)="addToCart()" type="button" class="btn btn-custom btn-block" 
+        style="display: inline-flex;">
+          
+          <span  style="margin: auto; margin-left: -20px;" class="bonus-continue">
+            {{"ADDITIONAL_ITEMS_NO" | translate}}
+          </span>
+          <span style="margin: auto; margin-left:10px;"> <i class="fa fa-long-arrow-left fa-lg  "></i></span>
+        </button>
+
+       
+
+      </div>
+      <!--div class="comments-save-actions">
+        <span class="btn-group">
+          <button (click)="cancelAction()" class="save-order scale-item"
+            [ngStyle]="{'background-color': colors.buttonColor}">
+            <span *ngIf="!isBonusMode">{{"ADDITIONAL_ITEMS_CONTINUE" | translate}}</span>
+            <span *ngIf="isBonusMode">{{"ADDITIONAL_ITEMS_NO" | translate}}</span>
+          
+            
+          </button>
+          
+        </span>
+      </div-->
+    <!--/mat-dialog-actions-->
+
+  </div>
+</div>
+
+
+
+<div id="snackbar-a" class="snackbar">
+  <img src="../../../assets/images/items/success-check.svg" />
+  <span>{{"MESSAGE_SUCCESS_ADD_TO_CART" | translate}}</span>
+</div>

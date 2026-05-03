@@ -1,0 +1,592 @@
+<!--div class="popup-wrapper animated fadeIn">
+  <div class="close-options" [ngClass]="{'direction': lang != 'he'}">
+    <span class="close" [ngClass]="{'direction': lang != 'he'}" (click)="close()"></span>
+  </div-->
+
+  <!--DESKTOP-->
+
+  <div class="d-none d-lg-flex modal-dialog modal-dark modal-lg modal-dialog-scrollable "  style="margin: 5px;" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #FFFFFF;">
+  
+        <div class=" row " [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style=" width: 116%;"> 
+          <div class="col-3">
+            <div class="rectangle-12">
+              <img class="group-93" src="../../../assets/images/items/delivery-icon-new.svg" />
+            </div>
+          </div>
+          <span class="textlabel col-6" style="align-self: flex-end !important;" >{{ 'DELIVERY' | translate }}</span>
+          <div class="col-3" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'right': 'left'}" [ngClass]="{'direction': lang != 'he'}" (click)="close()" style="color: var(--orange); align-self: center;">
+            <i class="fa fa-times fa-lg" style="text-align: end;"></i>
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-body" style="padding-top: 0px;">
+    
+        <!--Adress Selection New-->
+        <div *ngIf="!dummyDeliveryGroups && googleMaps">
+  
+          <!--<ng-container *ngIf="addresses.length > 0 && !newAddress && !displayAddress">-->
+  
+          <ng-container>
+  
+            
+  
+            <ng-container >
+              <div class="row py-3">
+                <div class="col ">
+                  
+                    <!--<div class="input-group-prepend">-->
+                      <!--<span class="input-group-text"><i class="fa fa-map-marker"></i></span>-->
+                    <!--</div>-->
+                    <input type="text" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'background-position':getLanguage() === 'en' ? '15px 12px': '496px 12px', 'padding-left':getLanguage() === 'en' ? '47px': '' }" id="address" class="address-insert" [(ngModel)]="order.GooglePlaceAddress"
+                      placeholder="{{'INPUT_DELIVERY_ADDRESS' | translate}}" [options]='options'
+                      ngx-google-places-autocomplete #addressInput
+                      #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)">
+                    <!--
+                                    (focus)="removeErrorWhileFocus('StreetNum')"
+                                 [ngClass]="{'is-invalid': orderErrors.StreetNum}"
+                                 -->
+                  
+                </div>
+              </div>
+              <div style="text-align: center;" *ngIf="!isSignedUser" >
+                   <button   class="btn btn-address-change" (click)="loadSignInForm()">
+                    {{"SIGN_IN_TO_USE_SAVED_ADDRESS" | translate}}
+                  </button>
+              </div>
+             
+              <div class="row py-3" *ngIf="!displayAddress && orderErrors.StreetNum" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+                <div class="col-12 ">
+                  <div class="form-check form-check-inline ml-0">
+                    <input class="form-check-input" type="checkbox" id="noHousenr" [(ngModel)]="noHouseNr"
+                      (change)="noHouseNrChanged()">
+                    <label class="form-check-label ml-1" for="noHousenr">
+                      {{'ADDRESS_WITHOUT_HOUSE_NUMBER' | translate}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row py-3 alert-msg" *ngIf="!displayAddress && orderErrors.StreetNum">
+                <div class="col-12">
+                  <div class="danger">
+                    <b>{{'HOUSE_NUMBER_MISSING' | translate}}</b>
+                  </div>
+               </div>              
+             </div>
+             <div class="row py-3 alert-msg" *ngIf="!displayAddress && orderErrors.Street">
+              <div class="col-12">
+                <div class="danger">
+                  <b>{{'INPUT_DELIVERY_ADDRESS' | translate}}</b>
+                </div>
+              </div>
+            </div>
+            </ng-container>
+  
+  
+           
+            <div *ngIf="displayAddress"  > <!--*ngIf="displayAddress"-->
+            
+              <div class="row pb-3 textlabelh2">
+                <div class="col-12" style="text-align: center;">{{address}}</div>
+              </div>
+            
+              <div class="row pb-3 ">
+                <div class="col">
+                  <button [disabled]="!displayAddress" class="btn btn-address-change" (click)="displayAddress = false; order.GooglePlaceAddress='';">
+                    {{'CHANGE_ADDRESS' | translate}}
+                  </button>
+                </div>
+              </div>
+            
+            
+              <div class="row  pb-3">
+                <div class="col">
+                  
+                    <!--<div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-home"></i></span>
+                              </div>-->
+                              <label>
+                                {{'ORDER_INFO_APARTMENT' | translate}}
+                              </label>
+                    <input  [disabled]="!displayAddress" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'background-position':getLanguage() === 'en' ? '15px 12px': '496px 12px', 'padding-left':getLanguage() === 'en' ? '47px': '' }" type="tel" id="apartmentNum" class="apart-num-insert" [(ngModel)]="order.ApartmentNum"
+                      name="apartmentNum" placeholder="{{'ORDER_INFO_APARTMENT' | translate}}"
+                      (keypress)="restrictKeysExceptDigitsAndPlus($event)">
+                  
+                </div>
+              </div>
+              <div class="row  pb-3">
+                <div class="col">
+                  <!--<div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-home"></i></span>
+                              </div>-->
+                              <label>
+                                {{'ORDER_INFO_FLOOR' | translate}}
+                              </label>
+                  <input  [disabled]="!displayAddress" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'background-position':getLanguage() === 'en' ? '15px 12px': '496px 12px', 'padding-left':getLanguage() === 'en' ? '47px': '' }" type="tel" id="floor" class="apart-num-insert" [(ngModel)]="order.Floor" name="floor"
+                    placeholder="{{'ORDER_INFO_FLOOR' | translate}}" (keypress)="restrictKeysExceptDigitsAndPlus($event)">
+                </div>
+              </div>
+              <div class="row pb-3">
+                <div class="col">
+                  <button  [disabled]="!displayAddress" class="btn btn-address-change" (click)="completeSelectionAddress()"
+                    [ngStyle]="{'background-color': colors.buttonColor}">
+                    {{"HOME_OK" | translate}}
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+  
+            <ng-container *ngIf="!displayAddress && !orderErrors.StreetNum && !orderErrors.Street"> <!--*ngIf="!displayAddress && !orderErrors.StreetNum"-->
+   
+              <div *ngIf="addresses?.length > 0">
+   
+                <div class="row dotted" style="align-items: end; margin-bottom: 18px;">
+                  <div class="col-5">
+                    <div class="dotted-line"></div>
+                  </div>
+                  <div class="col-2" style="margin-bottom: -9px;">
+                    <div class="textlabelh4" style="font-size: 14px;">{{ "OR" | translate }}</div>
+                  </div>
+                  <div class="col-5">
+                    <div class="dotted-line"></div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-12" style="text-align: center; margin-bottom: 8px;">
+                    <div class="textlabelh4" style="font-size:14px; ;"> {{"CHOOSE_A_SAVED_ADDRESS" | translate}} </div>
+                  </div>
+                </div>
+              </div>
+  
+  
+              <div class="row" *ngFor="let a of addresses; let $i=index">
+                <div class="col">
+                  <div class="row  address-btn" style="margin-left: 0; margin-right: 0; padding: 0.375rem 0.75rem; vertical-align:middle;">
+                    <div  class="col" type="button" (click)="changeSelectedAddress(a,true)">
+                      <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+                      <span class="textlabelh2" *ngIf=" a.ApartmentNum != null && a.ApartmentNum != undefined">
+                    דירה {{a.ApartmentNum}}
+                      </span>
+                      <span class="textlabelh2" *ngIf=" a.Floor != null && a.Floor != undefined">
+                    קומה {{a.Floor}}
+                      </span>
+                    </div>
+                    <div class="col-1  h-100 align-middle" style="margin-top: auto; margin-bottom: auto;">
+                      <i class="fa fa-trash fa-lg" type="button" style="color:maroon;" (click)="deleteUserAddress(a.Id, $i)"></i>
+                    </div>
+                  </div> <!-- *ngIf="$i==0" -->
+              
+  
+              
+                  <!--button class="btn btn-block address-btn " *ngIf="$i>0" (click)="changeSelectedAddress(a,true)">
+  
+                    <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+                    <span class="textlabelh2" *ngIf="a.ApartmentNum != null && a.ApartmentNum != undefined">
+                    דירה {{a.ApartmentNum}}
+                    </span>
+                    <span class="textlabelh2" *ngIf="a.Floor != null && a.Floor != undefined">
+                    קומה {{a.Floor}}
+                    </span>
+                  </button-->
+                </div>
+                 
+              </div>
+  
+            </ng-container>
+  
+          </ng-container>
+  
+  
+  
+  
+  
+        </div>
+        <!--END Adress Selection New-->
+  
+        <div *ngIf="dummyDeliveryGroups">
+          <div class="sub-information" [ngClass]="{'direction': lang != directionLanguage()}" *ngIf="order.IsDelivery">
+            <div class="order-line order-line order-line-mobile city-input">
+              <div class="relative-item  ">
+                <label style="display: contents;" *ngIf="orderErrors.UserCity" [ngClass]="{'error-field-label': orderErrors.UserCity}"></label>
+                <mat-select class="multiline-select input-field address-insert-dummy"
+                  (selectionChange)="citySettings()" [(ngModel)]="order.UserCity"
+                  [ngClass]="{'error-field': orderErrors.UserCity}" (focus)="removeErrorWhileFocus('UserCity')"
+                  placeholder="{{'ORDER_INFO_CITY' | translate}}" (closed)="checkIfSelectedCity($event)">
+  
+                  <mat-option *ngFor="let city of dummyCities" [value]="city.Name">
+                    {{city.Name?.trim()}}
+                  </mat-option>
+                </mat-select>
+  
+              </div>
+            </div>
+            <div class="order-line">
+              <div class="relative-item no-padding">
+                <label  style="display: contents;" *ngIf="orderErrors.Street" [ngClass]="{'error-field-label': orderErrors.Street}"></label>
+                <input class="input-field address-insert-dummy" [(ngModel)]="order.Street"
+                  [ngClass]="{'error-field': orderErrors.Street}" (focus)="removeErrorWhileFocus('Street')"
+                  placeholder="{{'ORDER_INFO_STREET' | translate}}"/>
+                <!--type="tel"/>-->
+                <!--  [formControl]="cityStreetControl" [matAutocomplete]="autoStreet"-->
+  
+              </div>
+              <div class="relative-item no-padding">
+                <label style="display: contents;" *ngIf="orderErrors.StreetNum" [ngClass]="{'error-field-label': orderErrors.StreetNum}"></label>
+                <input (keypress)="restrictKeysExceptDigitsAndPlus($event)"
+                  [ngClass]="{'error-field': orderErrors.StreetNum}" (focus)="removeErrorWhileFocus('StreetNum')"
+                  class="input-field address-insert-dummy"
+                  [(ngModel)]="order.StreetNum" placeholder="{{'ORDER_INFO_NUMBER' | translate}}" type="tel" />
+              </div>
+            </div>
+            <div class="order-line">
+              <!--<div class="input-group" [ngClass]="{'direction': lang != directionLanguage()}">-->
+  
+  
+              <div class="relative-item no-padding">
+              
+                <input (keypress)="restrictKeysExceptDigitsAndPlus($event)"
+                  class="input-field address-insert-dummy" [(ngModel)]="order.ApartmentNum"
+                  placeholder="{{'ORDER_INFO_APARTMENT' | translate}}"/>
+              </div>
+  
+              <!--</div>-->
+              <!--<div class="input-group" [ngClass]="{'direction': lang != directionLanguage()}">-->
+              <div class="relative-item no-padding">
+                <input (keypress)="restrictKeysExceptDigitsAndPlus($event)"
+                  class="input-field address-insert-dummy"
+                  [(ngModel)]="order.Floor" placeholder="{{'ORDER_INFO_FLOOR' | translate}}" type="tel"/>
+              </div>
+              <!--</div>-->
+            </div>
+  
+          </div>
+  
+          <div class="row py-2">
+            <div class="col">
+              <button class="btn btn-address-change-dummies" (click)="completeSelectionAddress()"
+                [ngStyle]="{'background-color': colors.buttonColor}">
+                {{"HOME_OK" | translate}}
+              </button>
+            </div>
+          </div>
+          <!--div>
+        <button class="button-submit-order" [ngClass]="{'direction': lang != directionLanguage()}"
+          (click)="completeSelectionAddress()" [ngStyle]="{'background-color': colors.buttonColor}">
+          {{"HOME_OK" | translate}}
+        </button>
+      </div-->
+        </div>
+  
+      </div><!-- /.modal-body -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+
+
+
+<!--MOBILE-->
+
+<div class="d-flex d-lg-none modal-dialog modal-dark modal-lg modal-dialog-scrollable " role="document">
+  <div class="modal-content">
+    <div class="modal-header" style="background-color: #FFFFFF;">
+
+      <div class=" row " style=" width: 116%;" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"> 
+        <div class="col-3">
+          <div class="rectangle-12">
+            <img class="group-93" src="../../../assets/images/items/delivery-icon-new.svg" />
+          </div>
+        </div>
+        <span class="textlabel col-6">{{ 'DELIVERY' | translate }}</span>
+        <div class="col-3" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'right': 'left'}" [ngClass]="{'direction': lang != 'he'}" (click)="close()" style="color: var(--orange); align-self: center;">
+          <i class="fa fa-times fa-lg" style="text-align: end;"></i>
+        </div>
+      </div>
+      <!--<h4 class="modal-title" style="font-family: Open Sans Hebrew; font-size: 18px; line-height: 27px; text-align: center; color: #505050;">-->
+      <!--{{'DELIVERY_ADDRESS' | translate}}
+        {{ 'DELIVERY' | translate}}
+      </h4>-->
+      <!--<button type="button" class="close" style="color: #505050;" (click)="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>-->
+    </div>
+    <div class="modal-body" style="padding-top: 0px;">
+  
+      <!--Adress Selection New-->
+      <div *ngIf="!dummyDeliveryGroups && googleMaps">
+
+        <!--<ng-container *ngIf="addresses.length > 0 && !newAddress && !displayAddress">-->
+
+        <ng-container>
+
+          <!--<div class="row py-3">
+            <button class="btn btn-block btn-dark address-insert" (click)="newAddress = true">
+              <div class="textlabelh3">
+                {{"ENTER_A_NEW_ADDRESS" | translate}}
+              </div>
+            </button>
+          </div>-->
+
+          <ng-container *ngIf="!displayAddress">
+             
+            <div class="row py-3">
+              <div class="col ">
+                
+                  <!--<div class="input-group-prepend">-->
+                    <!--<span class="input-group-text"><i class="fa fa-map-marker"></i></span>-->
+                  <!--</div>-->
+                  <input type="text" id="address" class="address-insert" [(ngModel)]="order.GooglePlaceAddress"
+                    placeholder="{{'INPUT_DELIVERY_ADDRESS' | translate}}" [options]='options'
+                    ngx-google-places-autocomplete #addressInput
+                    #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)">
+                  <!--
+                                  (focus)="removeErrorWhileFocus('StreetNum')"
+                               [ngClass]="{'is-invalid': orderErrors.StreetNum}"
+                               -->
+                
+              </div>
+            </div>
+            <!--div style="text-align: center;" *ngIf="!isSignedUser" (click)="loadSignInForm()">
+              {{"SIGN_IN_TO_USE_SAVED_ADDRESS" | translate}}
+            </div-->
+            <div style="text-align: center;" *ngIf="!isSignedUser" >
+              <button   class="btn btn-address-change" (click)="loadSignInForm()">
+               {{"SIGN_IN_TO_USE_SAVED_ADDRESS" | translate}}
+             </button>
+            </div>
+            <div class="row py-3" *ngIf="!displayAddress && orderErrors.StreetNum" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right', 'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+              <div class="col-12 ">
+                <div class="form-check form-check-inline ml-0">
+                  <input class="form-check-input" type="checkbox" id="noHousenr" [(ngModel)]="noHouseNr"
+                    (change)="noHouseNrChanged()">
+                  <label class="form-check-label ml-1" for="noHousenr">
+                    {{'ADDRESS_WITHOUT_HOUSE_NUMBER' | translate}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row py-3 alert-msg" *ngIf="!displayAddress && orderErrors.StreetNum">
+              <div class="col-12">
+                <div class="danger">
+                  <b>{{'HOUSE_NUMBER_MISSING' | translate}}</b>
+                </div>
+              </div>            
+            </div>
+             
+            <div class="row py-3 alert-msg" *ngIf="!displayAddress && orderErrors.Street">
+              <div class="col-12">
+                <div class="danger">
+                  <b>{{'INPUT_DELIVERY_ADDRESS' | translate}}</b>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+
+
+          <ng-container *ngIf="displayAddress">
+          
+            <div class="row pb-3 textlabelh2">
+              <div class="col-12" style="text-align: center;">{{address}}</div>
+            </div>
+          
+            <div class="row pb-3 ">
+              <div class="col">
+                <button class="btn btn-address-change" (click)="displayAddress = false; order.GooglePlaceAddress='';">
+                  {{'CHANGE_ADDRESS' | translate}} 
+                </button>
+              </div>
+            </div>
+          
+          
+            <div class="row  pb-3">
+              <div class="col">
+                
+                  <!--<div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fa fa-home"></i></span>
+                            </div>-->
+                            <label>
+                              {{'ORDER_INFO_APARTMENT' | translate}}
+                            </label>
+                  <input type="tel" id="apartmentNum" class="apart-num-insert" [(ngModel)]="order.ApartmentNum"
+                    name="apartmentNum" placeholder="{{'ORDER_INFO_APARTMENT' | translate}}"
+                    (keypress)="restrictKeysExceptDigitsAndPlus($event)">
+                
+              </div>
+            </div>
+            <div class="row  pb-3">
+              <div class="col">
+                <!--<div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fa fa-home"></i></span>
+                            </div>-->
+                            <label>
+                              {{'ORDER_INFO_FLOOR' | translate}}
+                            </label>
+                <input type="tel" id="floor" class="apart-num-insert" [(ngModel)]="order.Floor" name="floor"
+                  placeholder="{{'ORDER_INFO_FLOOR' | translate}}" (keypress)="restrictKeysExceptDigitsAndPlus($event)">
+              </div>
+            </div>
+            <div class="row pb-3">
+              <div class="col">
+                <button class="btn btn-address-change" (click)="completeSelectionAddress()"
+                  [ngStyle]="{'background-color': colors.buttonColor}">
+                  {{"HOME_OK" | translate}}
+                </button>
+              </div>
+            </div>
+          </ng-container>
+
+           
+          <ng-container *ngIf="!displayAddress && !orderErrors.StreetNum && !orderErrors.Street ">
+ 
+            <div *ngIf="addresses?.length > 0">
+ 
+              <div class="row dotted" style="align-items: end; margin-bottom: 18px;">
+                <div class="col-5">
+                  <div class="dotted-line"></div>
+                </div>
+                <div class="col-2" style="margin-bottom: -9px;">
+                  <div class="textlabelh4" style="font-size: 14px;">{{ "OR" | translate }}</div>
+                </div>
+                <div class="col-5">
+                  <div class="dotted-line"></div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12" style="text-align: center; margin-bottom: 8px;">
+                  <div class="textlabelh4" style="font-size:14px; ;"> {{"CHOOSE_A_SAVED_ADDRESS" | translate}} </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row" *ngFor="let a of addresses; let $i=index">
+              <div class="col">
+                <div class="row  address-btn" style="margin-left: 0; margin-right: 0; padding: 0.375rem 0.75rem; vertical-align:middle;">
+                  <div  class="col" (click)="changeSelectedAddress(a,true)">
+                    <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+                    <span class="textlabelh2" *ngIf=" a.ApartmentNum != null && a.ApartmentNum != undefined">
+                    דירה {{a.ApartmentNum}}
+                    </span>
+                    <span class="textlabelh2" *ngIf=" a.Floor != null && a.Floor != undefined">
+                    קומה {{a.Floor}}
+                    </span>
+                  </div>
+                  <div class="col-1  h-100 align-middle" style="margin-top: auto; margin-bottom: auto;">
+                    <i class="fa fa-trash fa-lg" style="color:maroon;" (click)="deleteUserAddress(a.Id, $i)"></i>
+                    <!--button class="btn btn-link  address-danger" (click)="deleteUserAddress(a.Id, $i)">
+                      <i class="fa fa-trash fa-lg" style="color:maroon;"></i>
+                    </button-->
+                  </div>
+                </div> <!--*ngIf="$i==0" -->
+            
+
+            
+                <!--button class="btn btn-block address-btn " *ngIf="$i>0" (click)="changeSelectedAddress(a,true)">
+
+                  <span class="textlabelh2">{{a.Street}} {{a.StreetNum}}, {{a.City}}.</span>
+                  <span class="textlabelh2" *ngIf="a.ApartmentNum != null && a.ApartmentNum != undefined">
+                  דירה {{a.ApartmentNum}}
+                  </span>
+                  <span class="textlabelh2" *ngIf="a.Floor != null && a.Floor != undefined">
+                  קומה {{a.Floor}}
+                  </span>
+                </button-->
+              </div>
+               
+            </div>
+
+          </ng-container>
+
+        </ng-container>
+
+
+
+
+
+      </div>
+      <!--END Adress Selection New-->
+
+      <div *ngIf="dummyDeliveryGroups">
+        <div class="sub-information" [ngClass]="{'direction': lang != directionLanguage()}" *ngIf="order.IsDelivery">
+          <div class="order-line order-line order-line-mobile city-input">
+            <div class="relative-item  ">
+              <label style="display: contents;" *ngIf="orderErrors.UserCity" [ngClass]="{'error-field-label': orderErrors.UserCity}"></label>
+              <mat-select class="multiline-select input-field address-insert-dummy"
+                (selectionChange)="citySettings()" [(ngModel)]="order.UserCity"
+                [ngClass]="{'error-field': orderErrors.UserCity}" (focus)="removeErrorWhileFocus('UserCity')"
+                placeholder="{{'ORDER_INFO_CITY' | translate}}" (closed)="checkIfSelectedCity($event)">
+
+                <mat-option *ngFor="let city of dummyCities" [value]="city.Name">
+                  {{city.Name?.trim()}}
+                </mat-option>
+              </mat-select>
+
+            </div>
+          </div>
+          <div class="order-line">
+            <div class="relative-item no-padding">
+              <label  style="display: contents;" *ngIf="orderErrors.Street" [ngClass]="{'error-field-label': orderErrors.Street}"></label>
+              <input class="input-field address-insert-dummy" [(ngModel)]="order.Street"
+                [ngClass]="{'error-field': orderErrors.Street}" (focus)="removeErrorWhileFocus('Street')"
+                placeholder="{{'ORDER_INFO_STREET' | translate}}"/>
+              <!--type="tel"/>-->
+              <!--  [formControl]="cityStreetControl" [matAutocomplete]="autoStreet"-->
+
+            </div>
+            <div class="relative-item no-padding">
+              <label style="display: contents;" *ngIf="orderErrors.StreetNum" [ngClass]="{'error-field-label': orderErrors.StreetNum}"></label>
+              <input (keypress)="restrictKeysExceptDigitsAndPlus($event)"
+                [ngClass]="{'error-field': orderErrors.StreetNum}" (focus)="removeErrorWhileFocus('StreetNum')"
+                class="input-field address-insert-dummy"
+                [(ngModel)]="order.StreetNum" placeholder="{{'ORDER_INFO_NUMBER' | translate}}" type="tel" />
+            </div>
+          </div>
+          <div class="order-line">
+            <!--<div class="input-group" [ngClass]="{'direction': lang != directionLanguage()}">-->
+
+
+            <div class="relative-item no-padding">
+              <input (keypress)="restrictKeysExceptDigitsAndPlus($event)"
+                class="input-field address-insert-dummy" [(ngModel)]="order.ApartmentNum"
+                placeholder="{{'ORDER_INFO_APARTMENT' | translate}}"/>
+            </div>
+
+            <!--</div>-->
+            <!--<div class="input-group" [ngClass]="{'direction': lang != directionLanguage()}">-->
+            <div class="relative-item no-padding">
+              <input (keypress)="restrictKeysExceptDigitsAndPlus($event)"
+                class="input-field address-insert-dummy"
+                [(ngModel)]="order.Floor" placeholder="{{'ORDER_INFO_FLOOR' | translate}}" type="tel"/>
+            </div>
+            <!--</div>-->
+          </div>
+
+        </div>
+
+        <div class="row py-2">
+          <div class="col">
+            <button class="btn btn-address-change-dummies" (click)="completeSelectionAddress()"
+              [ngStyle]="{'background-color': colors.buttonColor}">
+              {{"HOME_OK" | translate}}
+            </button>
+          </div>
+        </div>
+        <!--div>
+      <button class="button-submit-order" [ngClass]="{'direction': lang != directionLanguage()}"
+        (click)="completeSelectionAddress()" [ngStyle]="{'background-color': colors.buttonColor}">
+        {{"HOME_OK" | translate}}
+      </button>
+    </div-->
+      </div>
+
+    </div><!-- /.modal-body -->
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+<loader [show]="!checkLoading()"></loader>

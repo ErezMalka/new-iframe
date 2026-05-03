@@ -1,0 +1,206 @@
+@import "../../../constants";
+
+.payment-container {
+  padding-bottom: 20px;
+
+  .payment-header-logo {
+    text-align: center;
+    img {
+      width: 50%;
+      margin: 1.5rem auto;
+      min-width: 250px;
+      max-width: 450px;
+    }
+  }
+
+  .payment-content {
+
+    .btn-waze{
+      background: #F4F4F4; 
+      border: 1px solid #B0B0B0; 
+      box-sizing: border-box; 
+      border-radius: 13px; 
+      width: 95%;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      margin-top: 2rem;
+
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 30px;
+      text-align: center;
+      display: flex;
+      padding-right: 10px;
+      margin-left: 5px;
+      margin-right: 5px;
+      
+      color: #636363;    
+      
+      .waze-icon{
+        align-self: center;
+
+      }
+    }
+
+    .text-labels{
+      font-family: "Open Sans Hebrew";
+      font-style: normal;
+      font-weight: normal;
+      font-size: 26px;
+      line-height: 21px;
+      /* identical to box height, or 81% */
+      color: #636363;     
+    }
+    .image {
+      text-align: center;
+      box-sizing: border-box;
+      min-height: 165px;
+      img {
+        width: 50%;
+        max-width: 250px;
+        //background-image: url("../../../assets/images/items/green.svg");
+        //background-repeat: no-repeat;
+        //background-position: 235px 7px;       
+      }
+      img.error {
+        transform: rotate(180deg);
+      }
+    }
+    .description-order {
+      .text {
+       // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+        font-size: 2 * $font-default-size;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #6d6562;
+        span {
+          // border:
+          border-bottom: 2px solid #a1a1a1;
+          padding-bottom: $padding-normal-size * 2;
+        }
+        padding-bottom: $padding-normal-size * 2;
+      }
+    }
+
+    .order-info {
+      margin-top: $padding-normal-size * 2;
+      text-align: center;
+      .order-text, .order-value {
+        //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+        font-size: 2 * $font-default-size;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #6d6562;
+      }
+      .order-value {
+        color: #fc5009;
+      }
+    }
+
+  }
+
+}
+
+
+
+.button-submit-container {
+  width: 100%;
+  text-align: center;
+  padding: 2rem 0;
+
+  button {
+    position: relative;
+    outline: none;
+    border-width: 0;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0 rgba(0, 8, 5, 0.22);
+    background-color: $main-color;
+    padding: 0;
+    //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    -moz-transition: all 1s ease-out;
+    -o-transition: all 1s ease-out;
+    -webkit-transition: all 1s ease-out;
+    line-height: 0.77;
+    letter-spacing: 2px;
+
+    .button-container {
+      display: flex;
+      padding: $padding-normal-size 0 $padding-normal-size  $padding-normal-size * 0.5 ;
+      box-sizing: border-box;
+      justify-content: space-between;
+      align-items: center;
+      .arrow {
+        height: $padding-normal-size * 1;
+        width: $padding-normal-size * 1;
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+      .content {
+       // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+        font-size: $font-default-size * 1;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 0.67;
+        letter-spacing: 2.3px;
+        text-align: left;
+        color: #ffffff;
+        margin: 0 $margin-normal-size;
+      }
+      .half-ellipse-payment {
+        border-radius: 100% 0 0 100% / 50% 0 0 50%;
+        background: #fff;
+        height: 2.45 * $font-default-size;
+        width: 0.8 * $font-default-size ;
+        position: absolute;
+        right: 0;
+        top: 0.4rem;
+      }
+
+      .half-ellipse-payment.direction, .arrow.direction {
+        -webkit-transform: rotate(-180deg);
+        -moz-transform: rotate(-180deg);
+        -o-transform: rotate(-180deg);
+        -ms-transform: rotate(-180deg);
+        transform: rotate(-180deg);
+      }
+      .half-ellipse-payment.direction {
+        right: auto;
+        left: 0;
+      }
+    }
+
+    .button-container.direction {
+      padding: 1rem 1rem 1rem 0rem;
+      flex-direction: row-reverse;
+      .content {
+        font-size: 1 * $font-default-size;
+      }
+    }
+
+  }
+
+  button:disabled {
+    background-color: $main-color-disable;
+  }
+
+  button:hover:not(:disabled) {
+    background-color: $main-color-dark;
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -o-transform: scale(1.05);
+  }
+
+}
