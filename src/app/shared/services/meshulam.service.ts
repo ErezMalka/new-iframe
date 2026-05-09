@@ -8,16 +8,6 @@ import { AppConfig } from '../../app.config';
 @Injectable()
 export class MeshulamService {
 
-  private createPaymentProcessUrl = "https://sandbox.meshulam.co.il/api/light/server/1.0/createPaymentProcess";
-  private pageCode_cc = "8281c4fdd36d";
-  private pageCode_bit = "e40b044abfb0";
-  private pageCode_apple = "61c7c33e4bc9";
-  private pageCode_google = "296a44f06b5a";
-  private apiKey = "4310ec470057";
-  private userId = "0d7c3b9f18fbd0a5";
-  private successUrl = "";// "https://order.bitetech.co.il/#/253/payment";
-  private cancelUrl =  "";//"https://order.bitetech.co.il/#/253/order";
-
   constructor(private http: HttpClient,
               private configService: ConfigService) {}
 
