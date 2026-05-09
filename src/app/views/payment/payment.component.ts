@@ -169,14 +169,12 @@ export class PaymentComponent implements OnInit {
 
   private makePayment() {
     this.franchiseId = this.configService.franchiseId;
-    console.log("this.franchiseId",this.franchiseId);
      
     this.paymentResult = this.appStorageService.paymentResult;
     if (this.paymentResult && this.paymentResult.Data && this.paymentResult.Data?.success) {
 
       this.pointsPerOrder = this.appStorageService.pointsPerOrder;
 
-      console.log("paymentResult",this.paymentResult);
       console.log("hidePickUpTime",this.hidePickUpTime());
       this.loadScratchCoupon();
       this.branchAddress = this.appStorageService.branch.Address;
@@ -187,7 +185,6 @@ export class PaymentComponent implements OnInit {
       //console.log(this.lng);
       this.ll = "https://waze.com/ul?ll="+this.lat+","+this.lng+"&navigate=yes";
       //console.log(this.ll);
-      console.log("this.orderService.getOrder()", this.orderService.getOrder());
       this.isTa = this.orderService.getOrder().IsTakeAway;
       this.isDeivery = this.orderService.getOrder().IsDelivery;
       this.futureDateTime = this.orderService.getOrder().FutureDateTime;
@@ -232,9 +229,7 @@ export class PaymentComponent implements OnInit {
     this.meshulamService
             .CheckTransactionStatus(this.meshulamProcessId, this.meshulamProcessToken)
               .subscribe((response) => {
-                console.log("response", response);
                 if (response && response.Data && response.Data.success) {
-                  console.log("response.Data", response.Data);
                   if (this.timerId) {
                     console.log("this.timerId", this.timerId);
                     clearInterval(this.timerId);
@@ -301,8 +296,6 @@ export class PaymentComponent implements OnInit {
 
   public goToMenu() {
     this.franchiseId = this.configService.franchiseId;
-    console.log("this.franchiseId",this.franchiseId);
-    console.log("goToMenu",`/${this.franchiseId}/menu`)
    
     this.routeActivate.canActivateHome = true;
   //  this.router.navigate([`/${this.franchiseId}/menu`]);
