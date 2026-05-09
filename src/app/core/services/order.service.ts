@@ -48,7 +48,6 @@ export class OrderService {
 
 
   public getOrder() {
-    console.log("getOrder",this.order);
     return this.order;
   }
 
@@ -59,7 +58,6 @@ export class OrderService {
 
   public recalculateSum() {
 
-    console.log("RECALCULATE ORDER SUM: this.order", this.order);
     let sum = 0;
     if (this.order) {
 
@@ -102,7 +100,6 @@ export class OrderService {
         }
         // Pizzas:
         if (this.order.OrderPizzas) {
-          console.log("+++++ sum :" + sum);
           
           this.order.OrderPizzas.forEach((pizza: OrderPizzaAppAdvancedModel) => {
             let garnishesSum = 0;
@@ -114,25 +111,21 @@ export class OrderService {
                   garnishesSum += garnish.Price;
                 }
               });
-              console.log("+++++garnishesSum :" + pizza.FullPizza.Name, garnishesSum);
             }
             let pizzaSum = 0;
             if (pizza.FullPizza && pizza.FullPizza.SelectedPizzaPriceSize &&
               !isNaN(pizza.FullPizza.SelectedPizzaPriceSize.Price)) {
               pizzaSum += pizza.FullPizza.SelectedPizzaPriceSize.Price;
             }
-            console.log("+++++pizza.FullPizza.SelectedPizzaPriceSize.Price :" + pizza.FullPizza.Name, pizza.FullPizza.SelectedPizzaPriceSize.Price);
             pizza.FullPizza.SelectedToppings.forEach((topping) => {
               if (topping && topping.TotalPrice && !isNaN(topping.TotalPrice)) {
                 pizzaSum += topping.TotalPrice;
               }
             });
-            console.log("++++pizzaSum :" + pizza.FullPizza.Name, pizzaSum);
             sum += (pizzaSum + garnishesSum) * (pizza.FullPizza.Amount || 1) ;
             //sum += pizzaSum * (pizza.FullPizza.Amount || 1) + (garnishesSum || 0)
           });
         }
-        console.log("RECALCULATE ORDER SUM: this.order.OrderCombos", this.order.OrderCombos);
         if (this.order.OrderCombos) {
           this.order.OrderCombos.forEach((combo: OrderComboAppModel) => {
             sum += combo.Price * (combo.Amount || 1);
@@ -174,7 +167,6 @@ export class OrderService {
       this.order.Sum = sum;
     
     //  if (this.order.Sum > 0) {
-        console.log("TANYAAAAAAAAAAAAAAAAA",this.order.Sum);
         localStorage.setItem(window.location.hash, JSON.stringify(this.order));
         
      // } else {
