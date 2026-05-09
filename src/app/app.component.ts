@@ -76,11 +76,8 @@ export class AppComponent implements OnInit {
         };
         this.gtmService.pushTag(gtmTag);
        }
-      console.log('evt.url', evt.url);
       
-      console.log('evt.urlAfterRedirects', evt.urlAfterRedirects);
       const url = evt.urlAfterRedirects;
-        console.log('url is', url);
       window.scrollTo(0, 0);
     });
 
@@ -141,13 +138,11 @@ export class AppComponent implements OnInit {
          // console.log("app component: this.franchiseId", this.franchiseId);
           if (response && response.user && response.user != null) {
             if (response.user.FranchiseId != this.franchiseId) {
-              console.log("response.user.FranchiseId != this.franchiseId", this.franchiseId);
               this.signInOutService.signOut();
               //this.router.navigate([`${this.franchiseId}/sign-in`]); 
               this.router.navigate([`${this.franchiseId}/home`]);                                           
             } else {
               this.appStorageService.appUser = response.user;
-              console.log("this.appStorageService.appUser", this.appStorageService.appUser);
               if(AppConfig.configSettings.cancelPhoneVerification){
                 this.appStorageService.appUser.Address = null;
                 this.appStorageService.appUser.IsClubMember = null;
@@ -190,13 +185,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("ngOnInit: currUrl", this.currUrl);
     console.log("ngOnInit: franchiseId", this.configService.franchiseId);
     this.appStorageService.getItemFromLocalStorage(this.configService.franchiseId);
     this.franchiseId = this.configService.franchiseId;
     this.name = AppConfig.settings.name;
-    console.log (" AppConfig.settings", AppConfig.settings);
-    console.log("name",this.name);
     const title = document.getElementsByTagName('head')[0]
     .getElementsByTagName('title')[0];
     title.innerHTML =this.name;
@@ -263,13 +255,11 @@ export class AppComponent implements OnInit {
     //gtmNode.src = "https://www.googletagmanager.com/gtm.js?id="+  AppConfig.configSettings.googleTagManager;
     //gtmNode.type = 'text/javascript';
     //gtmNode.async = true;
-    console.log("node",gtmNode);
     //document.getElementsByTagName('head')[0].appendChild(gtmNode);   */
     ///
     // fb pixel
     let fbNode = document.createElement('script');
     fbNode.innerText = facebookScript;
-    console.log("node",fbNode);
     document.getElementsByTagName('head')[0].appendChild(fbNode);   
     ///
 
