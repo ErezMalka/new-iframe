@@ -1824,12 +1824,8 @@ public loadSuccessRegistrationMessage() {
             orderItem.Item.Quantity = item.Quantity;
           if (orderItem.Items) {
             orderItem.Items.forEach((gi) => {
-               console.log("gi",gi)
-               console.log(gi.Item.CatalogNumber,item.CatalogNumber)
               if (gi.Item.CatalogNumber == item.CatalogNumber)    {
 gi.Item.Quantity = item.Quantity;
-                   console.log("  gi.Item.Quantity",  gi.Item.Quantity)
-                     console.log(" item.Quantity",   item.Quantity)
               }        
                     
             });         
@@ -1851,8 +1847,6 @@ gi.Item.Quantity = item.Quantity;
 
     console.log("prepareItemsToDisplayInMenu()");
     if (this.order) {
-      console.log("if (this.order)");
-      console.log("combos", this.combos);
       // ITEM SHORT INFO//
       this.categories.forEach(category => {
 
@@ -1862,7 +1856,6 @@ gi.Item.Quantity = item.Quantity;
         category.Items.forEach(item => {
           if(category.Name=="שידרוגים"){
             item.IsUpgrade = true;
-            console.log("itemmealUpgrade",item);
           }
           if(item.IsCombo && this.appStorageService.addNameOnce){
             item.Name += '\n' +this.translationService.translate('COMBO_SALE');
@@ -1928,15 +1921,12 @@ gi.Item.Quantity = item.Quantity;
        // console.log("item.Description", item.Information);
        // console.log("item.Description.len", item.Information.length);
         if (item.Information && item.Information.length > 0) {
-          console.log("item.Description", item.Information, item.Information.length);
           var txtArr = item.Information.split(' ');
-          console.log("txtArr", txtArr, txtArr.length);
 
           if (txtArr.length > 6) {
             for (let index = 0; index < 7; index++) {
               if (txtArr[index])
                 item.ShortInfo = item.ShortInfo + txtArr[index] + " ";
-              console.log("item.ShortInfo", item.ShortInfo);
             }
             item.ShortInfo += "..."
           }
@@ -1944,7 +1934,6 @@ gi.Item.Quantity = item.Quantity;
             item.ShortInfo = item.Information;
             if(item.ShortInfo == 'undefined' || item.ShortInfo == undefined){
               item.ShortInfo = '';
-              console.log("if udefined - item.ShortInfo", item.ShortInfo);
             }
           }
         }
@@ -1989,21 +1978,17 @@ gi.Item.Quantity = item.Quantity;
       if (up) {
         const nextCategory = this.categories[this.categories.indexOf(this.currentCategory) + 1];
         if (nextCategory) {
-          console.log("nextCategory1",nextCategory);
           this.selectCategory(nextCategory, true, false);
         }
       } else {
         const nextCategory = this.categories[this.categories.indexOf(this.currentCategory) - 1];
         if (nextCategory) {
           this.selectCategory(nextCategory, true, false);
-          console.log("nextCategory2",nextCategory);
         } else {
           if (this.isShowedComboInMenu) {
             this.selectCategory(undefined, false, true);
-            console.log("nextCategory3",nextCategory);
           } else if (this.isShowedPizzaInMenu) {
             this.selectCategory(undefined, false, false);
-            console.log("nextCategory4",nextCategory);
           }
         }
       }
@@ -2104,9 +2089,6 @@ public cmShopCategory:any;
     this.pizzaToppings = this.appStorageService.pizzaToppings || [];
     this.pizzas = this.appStorageService.pizzas || [];
 
-    console.log("this.clubMemberCategories", this.clubMemberCategories);
-    console.log("this.categories", this.categories);
-    console.log("this.pizzas", this.pizzas);
 
     this.combos = this.appStorageService.combos || [];
 
@@ -2142,7 +2124,6 @@ public cmShopCategory:any;
           (it => it.Name === "CM_SHOP");
           if (this.cmShopCategory?.Items?.length > 0)
             this.displayCmShopCategory = true;
-          console.log("this.cmShopCategory ", this.cmShopCategory ,this.displayCmShopCategory )
         }
       }*/
 
@@ -2184,7 +2165,6 @@ public cmShopCategory:any;
         this.upgradeItems.forEach(item => {
             item.Amount = 1;
         });
-        console.log("upgradesCategory: ", upgradesCategory);
        // this.categories = this.categories.filter
         //  (it => it.Items && it.Items.length > 0 && it.Name != this.translationService.translate('UPGRADE_CATEGORY'));
           this.categories = this.categories.filter(it => it.Name != this.translationService.translate('UPGRADE_CATEGORY'));
@@ -2192,7 +2172,6 @@ public cmShopCategory:any;
         }
     //});
     if (AppConfig.configSettings.bonusCategory && AppConfig.configSettings.bonusCategory != '') {
-      console.log("if (AppConfig.configSettings.bonusCategory && AppConfig.configSettings.bonusCategory != '')");
       const bonusItemsCategory = this.categories.find
         (it => it.Name === AppConfig.configSettings.bonusCategory);
       if (bonusItemsCategory && bonusItemsCategory.Items
@@ -2228,9 +2207,7 @@ public cmShopCategory:any;
     this.categories = this.categories.filter
     (it => it.Name != this.translationService.translate('CM_ANNIVERSARY'));
 */
-console.log("this.categories ",this.categories )
     this.categories = this.categories.filter(it => (it.Items && it.Items.length > 0) || (it.Pizzas.length > 0));
-console.log("this.categories ",this.categories )
 
 
     // if (this.lang === this.directionLanguage() && this.isMobileMode()) {
@@ -2261,7 +2238,6 @@ console.log("this.categories ",this.categories )
   }
 
   private prepareItemForOrder(item : ItemAppAdvancedModel) {
-    console.log("prepareItemForOrder - item", item)
 
     const orderItem = new OrderItemAppModel();
     orderItem.IsUpgrade = item.IsUpgrade;
@@ -2337,7 +2313,6 @@ console.log("this.categories ",this.categories )
         "price":this.itemPrice(orderItem,false)/orderItem.Amount,
         "quantity" :orderItem.Amount
       }
-      console.log("dataLayerItem",dataLayerItem);
      
       this.dataLayerItems.push(dataLayerItem);
     }
@@ -2357,7 +2332,6 @@ console.log("this.categories ",this.categories )
   }
 
   private prepareSubItemForOrder(item : ItemAppAdvancedModel) {
-    console.log("prepareSubItemForOrder - item", item)
 
     const orderItem = new OrderItemAppModel();
     orderItem.IsUpgrade = item.IsUpgrade;
@@ -2398,7 +2372,6 @@ console.log("this.categories ",this.categories )
     });
     // Check free count of garnishGroup:
     Object.keys(garnishesGroup).forEach((key) => {
-      console.log("KEY??????????????????????", Object.keys(garnishesGroup));
       if (item.GarnishGroups) {
         for (let i = 0; i < item.GarnishGroups.length; i++) {
           if (item.GarnishGroups[i].Garnishes && item.GarnishGroups[i].Garnishes[0]
@@ -2447,7 +2420,6 @@ console.log("this.categories ",this.categories )
         "item_name":orderItem.Name,
         "price":this.itemPrice(orderItem,false)/orderItem.Amount
       }
-      console.log("dataLayerItem",dataLayerItem);
      
       this.dataLayerItems.push(dataLayerItem);
     }
@@ -2464,7 +2436,6 @@ console.log("this.categories ",this.categories )
   }
 
   private prepareItemWithItemGroupsForOrder(item : ItemAppAdvancedModel, items: any[]) {
-    console.log("prepareItemForOrder - item", item, items)
     items =  items.filter(item => item.Name);
     const orderItem = new OrderItemAppModel();
     orderItem.IsUpgrade = item.IsUpgrade;
@@ -2486,7 +2457,6 @@ console.log("this.categories ",this.categories )
       orderSubItem.ItemName = selectedItem.ItemName;
       orderSubItem.Price = selectedItem.Price;
       orderSubItem.IsItemsGroupItemKeptPrice = true;
-      console.log("orderItem",orderSubItem);
      // orderSubItem.Amount = 1;
       orderSubItem.GroupItemId = selectedItem.GroupItemId;
       orderSubItem.ParentItemId = item.Id;
@@ -2554,7 +2524,6 @@ console.log("this.categories ",this.categories )
         "price":this.itemPrice(orderItem,false)/orderItem.Amount, 
         'quantity':orderItem.Amount
       }
-      console.log("dataLayerItem",dataLayerItem);
      
       this.dataLayerItems.push(dataLayerItem);
     }
@@ -2636,7 +2605,6 @@ console.log("this.categories ",this.categories )
 
   private prepareComboForOrder(item, comboItem) {
 
-    console.log("prepareComboForOrder(): COMBO - item", item);
 
     const orderItem = new OrderComboAppModel();
 
@@ -2700,12 +2668,9 @@ console.log("this.categories ",this.categories )
           });
           // Check free count of garnishGroup:
 
-          console.log("garnishesGroup",garnishesGroup);
           
           Object.keys(garnishesGroup).forEach((key) => {
-            console.log("key",key);
             if (combo.GarnishGroups && combo.GarnishGroups.length>0) {
-              console.log("combo",combo);
               for (let i = 0; i < combo.GarnishGroups.length; i++) {
                 if (combo.GarnishGroups[i].Garnishes && combo.GarnishGroups[i].Garnishes[0]
                   && combo.GarnishGroups[i].Garnishes[0].GarnishGroupId === +key && combo.GarnishGroups[i].FreeCount) {
@@ -2720,7 +2685,6 @@ console.log("this.categories ",this.categories )
               }
             }
             if (combo.GeneralGarnishGroups && combo.GeneralGarnishGroups.length>0  && (!combo.GarnishGroups || combo.GarnishGroups.length == 0)) {
-              console.log("combo",combo);
               for (let i = 0; i < combo.GeneralGarnishGroups.length; i++) {
                 if (combo.GeneralGarnishGroups[i].Garnishes && combo.GeneralGarnishGroups[i].Garnishes[0]
                   && combo.GeneralGarnishGroups[i].Garnishes[0].GarnishGroupId === +key && combo.GeneralGarnishGroups[i].FreeCount) {
@@ -2762,7 +2726,6 @@ console.log("this.categories ",this.categories )
     orderItem.Pizzas = [];
     if (item.SelectedPizzas) {
       const itemSelectedPizzas = this.commonFunctionsService.deepCopy(item.SelectedPizzas);
-      console.log("prepareComboForOrder() - itemSelectedPizzas", itemSelectedPizzas);
 
       item.SelectedPizzas.forEach((selectedPizza, index) => {
         const newPizza = new OrderPizzaAppAdvancedModel();
@@ -2789,12 +2752,10 @@ console.log("this.categories ",this.categories )
             return +pizzaTopping1.TotalPrice / pizzaTopping1.QuarterNums.length -
               +pizzaTopping2.TotalPrice / pizzaTopping2.QuarterNums.length
           });
-          console.log("toppingsOrderedByPrice", toppingsOrderedByPrice);
           /*if (selectedPizza.ComboPizza && selectedPizza.ComboPizza.MaxToppings){
 
             selectedPizza.SelectedToppings.forEach(selTop => {
               if(selTop.ToppingGroupId == selectedPizza.ComboPizza.ToppingGroupId){
-                console.log("top from freeTop Group - selTop", selTop);
                 selTop.TotalPrice = 0;
               }
               
@@ -2803,8 +2764,6 @@ console.log("this.categories ",this.categories )
           }*/
 
           if (selectedPizza.ComboPizza && selectedPizza.ComboPizza.MaxToppings && (!selectedPizza.ComboPizza.ToppingGroupId || selectedPizza.ComboPizza.ToppingGroupId == null)) {
-            console.log("prepareComboForOrder - selectedPizza", selectedPizza);
-            console.log("prepareComboForOrder - this.order ", this.order);
 
             if (selectedPizza.ComboPizza.ToppingGroupId && selectedPizza.ComboPizza.ToppingGroupId > 0) {
               let toppingsTotalCount = 0;
@@ -2813,13 +2772,11 @@ console.log("this.categories ",this.categories )
                 if (item.ToppingGroupId == selectedPizza.ComboPizza.ToppingGroupId) {
                   for (var quarter = 1; quarter <= toppingsOrderedByPrice[j].QuarterNums.length; quarter++) {
                     toppingsTotalCount += 0.25;
-                    console.log("toppingsOrderedByPrice[j].quarterPrice", toppingsOrderedByPrice[j].quarterPrice);
 
                     if (toppingsOrderedByPrice[j].quarterPrice == undefined) {
                       toppingsOrderedByPrice[j].quarterPrice =
                         toppingsOrderedByPrice[j].TotalPrice / toppingsOrderedByPrice[j].QuarterNums.length;
                     }
-                    console.log("toppingsOrderedByPrice[j].quarterPrice", toppingsOrderedByPrice[j].quarterPrice);
                     if (toppingsTotalCount <= selectedPizza.ComboPizza.MaxToppings) {
                       toppingsOrderedByPrice[j].TotalPrice -= toppingsOrderedByPrice[j].quarterPrice;
                     } else {
@@ -2840,12 +2797,10 @@ console.log("this.categories ",this.categories )
               selectedPizza.SelectedToppings.forEach((item, j) => {
                 for (var quarter = 1; quarter <= toppingsOrderedByPrice[j].QuarterNums.length; quarter++) {
                   toppingsTotalCount += 0.25;
-                  console.log("toppingsOrderedByPrice[j].quarterPrice", toppingsOrderedByPrice[j].quarterPrice);
                   if (toppingsOrderedByPrice[j].quarterPrice == undefined) {
                     toppingsOrderedByPrice[j].quarterPrice =
                       toppingsOrderedByPrice[j].TotalPrice / toppingsOrderedByPrice[j].QuarterNums.length;
                   }
-                  console.log("toppingsOrderedByPrice[j].quarterPrice", toppingsOrderedByPrice[j].quarterPrice);
                   if (toppingsTotalCount <= selectedPizza.ComboPizza.MaxToppings) {
                     toppingsOrderedByPrice[j].TotalPrice -= toppingsOrderedByPrice[j].quarterPrice;
                   } else {
@@ -2890,11 +2845,9 @@ console.log("this.categories ",this.categories )
         newPizza.FullPizza.SelectedGarnishes = garnishes;
         newPizza.SelectedGarnishes = garnishes;
 
-        console.log("newPizza", newPizza);
 
         orderItem.Pizzas.push(newPizza);
 
-        console.log("pizzaCombo", selectedPizza);
       });
 
     }
@@ -2905,7 +2858,6 @@ console.log("this.categories ",this.categories )
       "price":this.itemComboPrice(orderItem) , 
       'quantity':1
     }
-    console.log("dataLayerItem",dataLayerItem);
     this.dataLayerItems=[];
     this.dataLayerItems.push(dataLayerItem);
 
@@ -2926,15 +2878,10 @@ console.log("this.categories ",this.categories )
 
 
   private addToCartComboItem(item, comboItem) {
-    console.log("addToCartComboItem(): item", item);
-    console.log("addToCartComboItem(): comboItem", comboItem);
     const myItem = this.commonFunctionsService.deepCopy(item);
-    console.log("addToCartComboItem() - myItem", myItem);
 
     if(comboItem.HasItemGroups){
    /*   console.log("dont add to cart --> for loop on items and wrap as items and add to cart");
-      console.log("item(afterComboComponent) --> need to wrap all items as items",item);
-      console.log("comboItem(originalItem)",comboItem);
 
       //for loop on selected items after combo and wrap as items
       item.SelectedItems.forEach(selectedItem => {
@@ -2943,7 +2890,6 @@ console.log("this.categories ",this.categories )
           orderItem.ItemName = selectedItem.ItemName;
           orderItem.Price = selectedItem.Price;
           orderItem.IsItemsGroupItemKeptPrice = true;
-          console.log("orderItem",orderItem);
           orderItem.Amount = 1;
           orderItem.GroupItemId = selectedItem.GroupItemId;
           this.order.OrderItems.push(orderItem);
@@ -2953,11 +2899,9 @@ console.log("this.categories ",this.categories )
     }
     else{
       const orderItem = this.prepareComboForOrder(item, comboItem);
-      console.log("addToCartComboItem(): orderItem", orderItem);
       this.order.OrderCombos.push(orderItem);
       this.checkOrderResultHeight();
       this.orderService.recalculateSum();
-       console.log("resetItem(item)");
       this.resetItem(item);
       this.loadSuccessAddingToCartMessage(false);
     }
@@ -2972,8 +2916,6 @@ console.log("this.categories ",this.categories )
   
 
   private addToCartItemWithGarnishes(item, data?, callback?) {
-    console.log("addToCartItemWithGarnishes", item);
-    console.log("data", data);
     if (!this.isNotFilledAllRequiredGarnishesOfGarnishGroup(item)) {
       if (item.PizzaPrices) {
         this.myPrepare(item);
@@ -2981,7 +2923,6 @@ console.log("this.categories ",this.categories )
       else {
         if (item.HasItemGroups){
           const orderItem = this.prepareItemWithItemGroupsForOrder(item, data.combo.SelectedItems);
-          console.log("orderItem", orderItem);
           if (data && data.comments) {
             orderItem.SpecialRequests = data.comments || '';
           }
@@ -2994,7 +2935,6 @@ console.log("this.categories ",this.categories )
         }
         else {
           const orderItem = this.prepareItemForOrder(item);
-          console.log("orderItem", orderItem);
           if (data && data.comments) {
             orderItem.SpecialRequests = data.comments || '';
           }
@@ -3015,7 +2955,6 @@ console.log("this.categories ",this.categories )
         }
         
         this.orderService.recalculateSum();
-          console.log("resetItem(item)");
         this.resetItem(item);
         if (item.Name == this.translationService.translate('PIZZA_BASE')) {
           this.pizzaBaseLoaded = true;
@@ -3034,9 +2973,6 @@ console.log("this.categories ",this.categories )
   }
 
   private addToCartPizzaWithGarnishes(item, isBeforePizza, data?, callback?) {
-    console.log("addToCartPizzaWithGarnishes", item);
-    console.log("data", data);
-    console.log("isBeforePizza", data);
     if (isBeforePizza){
       this.pizzaBaseLoaded = true;
     } else {
@@ -3050,7 +2986,6 @@ console.log("this.categories ",this.categories )
 
     const myorderitems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
 
-    console.log("myorderitems",myorderitems);
 
     //this.categories = this.appStorageService.categories || [];
 
@@ -3060,7 +2995,6 @@ console.log("this.categories ",this.categories )
         this.order.OrderItems.forEach(orderItem => {
           if(originalItem.Id == orderItem.ItemId ){
             orderItem.Price = originalItem.Price;
-            console.log("rderItem",orderItem);
           }
         });
       });
@@ -3074,7 +3008,6 @@ console.log("this.categories ",this.categories )
     this.order.OrderItems.forEach(orderItem => {
       if(orderItem.IsCombo){
         if(orderItem.Amount>1){
-          console.log("if(orderItem.Amount>1)");
           for (let i = 0; i < orderItem.Amount; i++) {
             const newItem = new OrderItemAppModel();
             newItem.Amount = 1;
@@ -3097,32 +3030,24 @@ console.log("this.categories ",this.categories )
         }else itemsInCombos.push(orderItem);
       }
     });
-    console.log("itemsInCombos",itemsInCombos);
 
     const sortedItemsCombos = itemsInCombos.sort(
       (i1, i2) =>
       +i2.CategoryId - +i1.CategoryId ||
       +i2.Price - +i1.Price
     )
-    console.log("sortedItemsCombos", sortedItemsCombos);
     const mySorted = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted", mySorted);
 
 
     for (let index = 1; index < sortedItemsCombos.length; index+=2) {
-      console.log("sortedItemsCombos[index]",sortedItemsCombos[index]);
       sortedItemsCombos[index].Price = 0;
     }
     const mySorted2 = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted2", mySorted2);
-    console.log("this.order.OrderItems",this.order.OrderItems);
 
     this.order.OrderItems.forEach(orderItem => {
       if(orderItem.Amount>1 && orderItem.IsCombo){
         this.order.OrderItems.splice(this.order.OrderItems.indexOf(orderItem), 1);
-        console.log("this.order.OrderItems4",this.order.OrderItems)
         for (let i = 0; i < orderItem.Amount; i++) {
-          console.log("this.order.OrderItems5",this.order.OrderItems)
           this.order.OrderItems.push(sortedItemsCombos[i]);
         }
       }
@@ -3130,16 +3055,13 @@ console.log("this.categories ",this.categories )
     });
 
     const mySorted3 = this.commonFunctionsService.deepCopy( this.order.OrderItems);
-    console.log("mySorted3", mySorted3);
   }
 
   public checkForCombo(){
     const myorderitems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("myorderitems", myorderitems);
 
     //this.categories = this.appStorageService.categories || [];
 
-    console.log("this.categories", this.categories);
 
 
     this.categories.forEach(category => {
@@ -3147,7 +3069,6 @@ console.log("this.categories ",this.categories )
         this.order.OrderItems.forEach(orderItem => {
           if(originalItem.Id == orderItem.Item.Id && !orderItem.IsItemsGroupItemKeptPrice){
             orderItem.Price = originalItem.Price;
-            console.log("rderItem",orderItem);
           }
         });
       });
@@ -3161,7 +3082,6 @@ console.log("this.categories ",this.categories )
     this.order.OrderItems.forEach(orderItem => {
       if (orderItem.IsCombo) {
         if (orderItem.Amount > 1) {
-          console.log("if(orderItem.Amount>1)");
           for (let i = 0; i < orderItem.Amount; i++) {
             const newItem = this.commonFunctionsService.deepCopy(orderItem);
             newItem.Amount = 1
@@ -3173,11 +3093,9 @@ console.log("this.categories ",this.categories )
         }
       }
     });
-    console.log("itemsInCombos", itemsInCombos);
 
     itemsInCombos = itemsInCombos.filter(item => (item.CategoryId));
 
-    console.log("itemsInCombos", itemsInCombos);
 
 
 
@@ -3186,12 +3104,9 @@ console.log("this.categories ",this.categories )
         +i2.Item.CategoryId - +i1.Item.CategoryId ||
         +i2.Item.Price - +i1.Item.Price
     )
-    console.log("sortedItemsCombos", sortedItemsCombos);
     const mySorted = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted", mySorted);
 
     var listOfLists : [][];
-    console.log("listOfLists",listOfLists);
 
     /*for (let index = 0; index < sortedItemsCombos.length; index++) {
       if(sortedItemsCombos[index].CategoryId != sortedItemsCombos[index+1]?.CategoryId){
@@ -3200,7 +3115,6 @@ console.log("this.categories ",this.categories )
 
 
     for (let index = 0; index < sortedItemsCombos.length; index ++) {
-     console.log("sortedItemsCombos[index]", sortedItemsCombos[index]);
 
       if(sortedItemsCombos[index].CategoryId == sortedItemsCombos[index+1]?.CategoryId
         && sortedItemsCombos[index]?.Price == 0){
@@ -3211,12 +3125,10 @@ console.log("this.categories ",this.categories )
       else if (sortedItemsCombos[index].CategoryId == sortedItemsCombos[index + 1]?.CategoryId
         && sortedItemsCombos[index]?.Price > 0  //masha 6.9.22
       ) {
-        console.log("next item from same category, reset to 0");
         sortedItemsCombos[index+1].Price = 0;
       }
 
       else{
-        console.log("next item is not from same category, keep price");
       }
     
 
@@ -3227,15 +3139,12 @@ console.log("this.categories ",this.categories )
 
 
     const myselectedItems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("myselectedItems", myselectedItems);
 
     this.order.OrderItems = this.order.OrderItems.filter(item => !(item.IsCombo));
 
     const mySorted4 = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("mySorted4 - after delete all combo", mySorted4);
 
     sortedItemsCombos.forEach(itemWithRightPrice => {
-      console.log("itemWithRightPrice",itemWithRightPrice);
       this.order.OrderItems.push(itemWithRightPrice);
     });
 
@@ -3257,9 +3166,7 @@ console.log("this.categories ",this.categories )
   public addToCart(item, isNotPizza, isCombo, event?, callback?, comment?) { //combo,false,true,event
     if (!this.isDigitalMenu() && this.currentBranch.UseInventory && !this.isInStock(item)) return;
     if (isCombo && !this.isDigitalMenu() && this.currentBranch.UseInventory && !this.isInStockCombo(item)) return;
-    console.log("AddToCart() -  item", item);
     if (isNotPizza ) {//||  (!isCombo )&& item.PizzaToppings.length == this.appStorageService.pizzaToppings.length
-      console.log("isNotPizza",isNotPizza);
       if (!isNotPizza) {
        // item.SelectedPizzaPriceSize = item.PizzaPrices[0];
       }
@@ -3270,18 +3177,13 @@ console.log("this.categories ",this.categories )
           item && ((item.Garnishes && item.Garnishes.length > 0) ||
             (item.GarnishGroups && item.GarnishGroups.length > 0) ||
             (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0))) {
-          console.log("this.loadItemPopupDesktop(item);",item);
-          console.log("comments", comment);
           this.loadItemPopupDesktop(item, comment);
         } else {
           if(item.ItemGroups && item.ItemGroups.length>0){
-            console.log("item.ItemGroups",item.ItemGroups);
             this.loadNewComboWithItems(item, (result) => {
-              console.log("result - after combo --> add to cart itemWithGroups", result);
               if(result && result.isSaved){
                 //const orderItem = this.prepareItemForOrder(item);
                 const orderItem = this.prepareItemWithItemGroupsForOrder(item, result.combo.SelectedItems);
-                console.log("orderItem", orderItem);
                 if (result && result.comments) {
                   orderItem.SpecialRequests = result.comments || '';
                 }
@@ -3302,7 +3204,6 @@ console.log("this.categories ",this.categories )
                 }
   
                 this.orderService.recalculateSum();
-                  console.log("resetItem(item)");
                 this.resetItem(item);
                 
                  result.combo.SelectedItems.forEach((gi)=>{
