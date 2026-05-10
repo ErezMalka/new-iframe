@@ -1076,7 +1076,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     this.order.OrderItems.forEach(orderItem => {
       if(orderItem.IsCombo){
         if(orderItem.Amount>1){
-          console.log("if(orderItem.Amount>1)");
           for (let i = 0; i < orderItem.Amount; i++) {
             const newItem = new OrderItemAppModel();
             newItem.Amount = 1;
@@ -1099,18 +1098,14 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         }else itemsInCombos.push(orderItem);
       }
     });
-    console.log("itemsInCombos",itemsInCombos);
 
     const sortedItemsCombos = itemsInCombos.sort(
       (i1, i2) =>
       +i2.CategoryId - +i1.CategoryId ||
       +i2.Price - +i1.Price
     )
-    console.log("sortedItemsCombos", sortedItemsCombos);
     const mySorted = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted", mySorted);
     for (let index = 1; index < sortedItemsCombos.length; index += 2) {
-      console.log("sortedItemsCombos[index]", sortedItemsCombos[index]);
       if (sortedItemsCombos[index].CategoryId != sortedItemsCombos[index - 1].CategoryId  //masha 6.9.22
         && sortedItemsCombos[index].CategoryId == sortedItemsCombos[index + 1]?.CategoryId) {
         sortedItemsCombos[index + 1].Price = 0;
@@ -1118,8 +1113,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       else sortedItemsCombos[index].Price = 0;
     }
     const mySorted2 = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted2", mySorted2);
-    console.log("this.order.OrderItems",this.order.OrderItems);
 
     this.order.OrderItems.forEach(orderItem => {
       if(orderItem.Amount>1 && orderItem.IsCombo){
@@ -1132,7 +1125,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     });
 
     const mySorted3 = this.commonFunctionsService.deepCopy( this.order.OrderItems);
-    console.log("mySorted3", mySorted3);
   }*/
 
   public checkForCombo(){
@@ -1141,7 +1133,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
     //this.categories = this.appStorageService.categories || [];
 
-    console.log("this.categories", this.categories);
 
 
     this.categories.forEach(category => {
@@ -1149,21 +1140,18 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         this.order.OrderItems.forEach(orderItem => {
           if(originalItem.Id == orderItem.Item.Id && !orderItem.IsItemsGroupItemKeptPrice){
             orderItem.Price = originalItem.Price;
-            console.log("rderItem",orderItem);
           }
         });
       });
     });
 
 
-    console.log('this.checkForCombo()');
 
 
     let itemsInCombos = [];
     this.order.OrderItems.forEach(orderItem => {
       if (orderItem.IsCombo) {
         if (orderItem.Amount > 1) {
-          console.log("if(orderItem.Amount>1)");
           for (let i = 0; i < orderItem.Amount; i++) {
             const newItem = this.commonFunctionsService.deepCopy(orderItem);
             newItem.Amount = 1
@@ -1175,11 +1163,9 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         }
       }
     });
-    console.log("itemsInCombos", itemsInCombos);
 
     itemsInCombos = itemsInCombos.filter(item => (item.CategoryId));
 
-    console.log("itemsInCombos", itemsInCombos);
 
 
 
@@ -1188,29 +1174,23 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         +i2.Item.CategoryId - +i1.Item.CategoryId ||
         +i2.Item.Price - +i1.Item.Price
     )
-    console.log("sortedItemsCombos", sortedItemsCombos);
     const mySorted = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted", mySorted);
 
 
     for (let index = 0; index < sortedItemsCombos.length; index ++) {
-     console.log("sortedItemsCombos[index]", sortedItemsCombos[index]);
 
       if(sortedItemsCombos[index].CategoryId == sortedItemsCombos[index+1]?.CategoryId
         && sortedItemsCombos[index]?.Price == 0){
-          console.log("same category but price alredy fixed - skip");
 
       }
 
       else if (sortedItemsCombos[index].CategoryId == sortedItemsCombos[index + 1]?.CategoryId
         && sortedItemsCombos[index]?.Price > 0  //masha 6.9.22
       ) {
-        console.log("next item from same category, reset to 0");
         sortedItemsCombos[index+1].Price = 0;
       }
 
       else{
-        console.log("next item is not from same category, keep price");
       }
     
 
@@ -1221,15 +1201,12 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
 
     const myselectedItems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("myselectedItems", myselectedItems);
 
     this.order.OrderItems = this.order.OrderItems.filter(item => !(item.IsCombo));
 
     const mySorted4 = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("mySorted4 - after delete all combo", mySorted4);
 
     sortedItemsCombos.forEach(itemWithRightPrice => {
-      console.log("itemWithRightPrice",itemWithRightPrice);
       this.order.OrderItems.push(itemWithRightPrice);
     });
     this.orderService.recalculateSum();
@@ -1278,9 +1255,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   
 
   public myFunction(itemOrderCombo){
-    console.log("itemOrderCombo",itemOrderCombo);
     itemOrderCombo.Pizzas.forEach(pizza => {
-      console.log("pizza",pizza.FullPizza.SelectedToppings)
       
     });
 
