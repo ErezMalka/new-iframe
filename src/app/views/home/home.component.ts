@@ -467,7 +467,6 @@ public phoneNumber:string;
     this.multilingual = AppConfig.configSettings.multilingual;
     this.phoneNumber = this.appStorageService?.franchise?.ManagerPhone;
     this.displayFutureDates = true;
-    this.appStorageService.getItemFromLocalStorage(this.configService.currentUrl));
     let _order =this.appStorageService.getItemFromLocalStorage(this.configService.currentUrl);
     if ( _order != null && _order != undefined) {
       this.isLoaded = false;
