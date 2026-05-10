@@ -1321,7 +1321,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
  public itemsOutOfStock: string[];
   public continuePayment() {
    var outOfStockItemsCounter = 0;
-    console.log("continuePayment()");
     if (this.currentBranch.UseInventory) {
       this.paymentService.CheckItemsInventory(this.order).subscribe((response) => {
         if ( response.Data.outOfStockItems) {
@@ -1375,7 +1374,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
               }
               else if(item.IsBDayBenefitItem){
                 this.user.UsedBirthdayVoucher = true;
-                console.log(" this.user.UsedBirthdayVoucher", this.user.UsedBirthdayVoucher)
               }
               else if(item.IsJoinBenefitItem){
                 this.user.UsedJoinVoucher = true;
@@ -1420,8 +1418,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
             });
       
             this.order.OrderPizzas.forEach(pizza => {
-              console.log("from payment - pizza", pizza);
-              console.log("from payment - pizza", pizza.SpecialRequests);
               if (pizza.SpecialRequests == undefined || pizza.SpecialRequests == "undefined" || pizza.SpecialRequests == "undefined " || pizza.SpecialRequests == null) {
                 pizza.SpecialRequests = "";
               }
@@ -1431,7 +1427,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       
               pizza.SpecialRequests = pizza.ItemName + '\n' + pizza.SpecialRequests;
       
-              console.log("from payment - pizza", pizza.SpecialRequests);
             });
       
             this.isOrderOption = false;
@@ -1466,7 +1461,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           }
           else if(item.IsBDayBenefitItem){
             this.user.UsedBirthdayVoucher = true;
-            console.log(" this.user.UsedBirthdayVoucher", this.user.UsedBirthdayVoucher)
           }
           else if(item.IsJoinBenefitItem){
             this.user.UsedJoinVoucher = true;
@@ -1511,8 +1505,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         });
   
         this.order.OrderPizzas.forEach(pizza => {
-          console.log("from payment - pizza", pizza);
-          console.log("from payment - pizza", pizza.SpecialRequests);
           if (pizza.SpecialRequests == undefined || pizza.SpecialRequests == "undefined" || pizza.SpecialRequests == "undefined " || pizza.SpecialRequests == null) {
             pizza.SpecialRequests = "";
           }
@@ -1522,7 +1514,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   
           pizza.SpecialRequests = pizza.ItemName + '\n' + pizza.SpecialRequests;
   
-          console.log("from payment - pizza", pizza.SpecialRequests);
         });
   
         this.isOrderOption = false;
@@ -1555,7 +1546,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     let maxWidth: string = "";
     let position: any;
     if(this.isMobileMode()){
-      console.log("this.isMobileMode",this.isMobileMode())
       width="350px";
       maxWidth="350px";
       position = {top: '10px'};
@@ -1584,23 +1574,18 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       //console.log("result",result);
       //console.log("callback",callback);
       if (result && result.order && result.isSaved) {
-        console.log("result",result);
-        console.log("callback",callback);
         this.deliveryGroup = result.availableGroups[0].group;
-        console.log(" this.deliveryGroup", this.deliveryGroup);
         if (this.appStorageService.franchise.IsFutureDatesOrderAvailable && this.appStorageService.franchise.IsFutureOrderAvailable){
           let branchFutureDates: BranchFutureDatesAppModel[];
 
           this.metadataService.BranchOpenForPickupMethod(this.order.BranchId, this.appStorageService.orderType)
           .subscribe((branchOpenResult) => {
-            console.log("branchOpenResult",branchOpenResult);
             branchFutureDates = branchOpenResult.FurureDates;
           //  this.isLoaded = true;
             let width : string = "";
             let maxWidth: string = "";
             let maxHeight: string = "";
             if (this.isMobileMode()){
-              console.log("this.isMobileMode",this.isMobileMode());
               width="350px";
               maxWidth="350px";
               maxHeight = "90vh";
@@ -1610,7 +1595,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
               maxHeight = "900px"
             }
             //console.log("branchOpenResult",branchOpenResult);
-            console.log("branchFutureDates",branchFutureDates);
             var description = this.translationsService.translate('HOME_FUTURE_DELIVERY');
             const dialogRef = this.matDialog.open(SelectDateComponent, {
               data: {
@@ -1632,11 +1616,8 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                 this.order.FutureDateModel = dialogResult.selectedDay;
                 this.order.FutureDeliveryTime = dialogResult.futureDeliveryTime;
                 this.order.FutureDate = dialogResult.selectedDay.Date;
-                console.log(" this.order.FutureDate", this.order.FutureDate);
-                console.log(" this.order.FutureDeliveryTime", this.order.FutureDeliveryTime);
               //  this.isLoaded = false;
               } else {
-                  console.log(" this.cancelOptionSelection();");
                               //this.cancelOptionSelection();
               }
                           
@@ -1811,14 +1792,11 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   /*private legalTz(num) {
-    console.log("legalTz: num", num);
     let tot = 0;
     let tz = new String(num);
-    console.log("legalTz: tz", tz);
     for (let i = 0; i < 8; i++) {
       let x = (((i % 2) + 1) * +tz.charAt(i));
       if (x > 9) {
-        console.log("x",x);
         let x1 = x.toString();
         x = parseInt(x1.charAt(0)) + parseInt(x1.charAt(1));
       }
@@ -1826,26 +1804,20 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     }
     if ((tot + parseInt(tz.charAt(8))) % 10 == 0) {
       this.errorsCashRegister.ownerId.notValidId = false;
-      console.log("tot",tot);
       return true;
     } else {
       this.errorsCashRegister.ownerId.notValidId = true;
-      console.log("tot",tot);
       return false;
     }
   }*/
 
   private legalTz(num) {
-    console.log("legalTz: num", num);
     let tot = 0;
     let tz = new String(num);
-    console.log("legalTz: tz", tz);
     if (Number.isInteger(parseInt(num))) {
-      console.log("Number.isInteger",num);
       for (let index = 0; index < tz.length; index++) {
         tot++;
         var myChar = tz[index];
-        console.log("myChar", myChar);
 
       }
       if(tot == 8 || tot ==9){
@@ -1902,7 +1874,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public isCVV(value:string) {
-    console.log("isCVV",value);
     const cvvStr = value.toString().split('');
     if (cvvStr.length == 3 && 
         Number.isInteger(parseInt(cvvStr[0])) &&
@@ -1917,7 +1888,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public isCreditValidData() {
-    console.log("isCreditValidData");
     if (this.paymentType === PaymentTypeEnum.cash) {
       return true;
     } else if (this.paymentType === PaymentTypeEnum.sibus) {
@@ -1937,7 +1907,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
       } else {
         if(this.selectedCibus){
-          console.log("this.selectedCibus", this.selectedCibus);
           this.cibusCard.number = this.selectedCibus;
         }
         if (this.cibusCard.number.length == 9 || 
@@ -1989,25 +1958,18 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         return true;
       } else { 
         if (this.order.CCTokens.length > 0 && this.selectedCcId >0 && !this.addCC){
-          console.log("isCreditValidData: true");
            return true;
          } else {
-           console.log("isCreditValidData: else");
            if (this.country !== CountryEnum.US &&
              !this.legalTz(this.cashRegisterCreditCard.ownerId)) {
-              console.log("this.country",this.country);
-              console.log("this.cashRegisterCreditCard",this.cashRegisterCreditCard);
-              console.log("this.errorsCashRegister",this.errorsCashRegister);
 
              return false;
            }
            if (!this.legalCC_Short(this.cashRegisterCreditCard.number) &&
              !this.legalCC(this.cashRegisterCreditCard.number) && !this.verifyAE_CC(this.cashRegisterCreditCard.number)) {
-              console.log("this.cashRegisterCreditCard",this.cashRegisterCreditCard);
              return false;
            }
            if (!this.isCVV(this.cashRegisterCreditCard.cvv)) {
-            console.log("this.cashRegisterCreditCard",this.cashRegisterCreditCard);
              return false;
            }
            return true;
@@ -2019,26 +1981,21 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public isSplittedCreditValidData() {
-    console.log("isSplittedCreditValidData");
-    console.log("this.ccWithToken.expirationMonth",this.ccWithToken.expirationMonth);
     if (Number(this.ccWithToken.sum) == 0 || 
         Number(this.ccWithToken.sum) > this.resultSum(this.order.Sum) - this.sumPayed ) {
           return false;
         }
         if (this.ccWithToken.expirationMonth =='') {
-          console.log("this.ccWithToken.expirationMonth1",this.ccWithToken.expirationMonth)
           this.ccWithToken.expirationMonth = (this.date.getMonth() + 1).toString();
           this.ccWithToken.expirationYear = this.date.getFullYear().toString();
         }
          
         if (this.country !== CountryEnum.US &&
           !this.legalTz(this.ccWithToken.ownerId)) {
-            console.log("this.ccWithToken.expirationMonth2",this.ccWithToken.expirationMonth);
             return false;
         }
         if (!this.legalCC_Short(this.ccWithToken.number) &&
           !this.legalCC(this.ccWithToken.number) && !this.verifyAE_CC(this.ccWithToken.number)) {
-            console.log("this.ccWithToken.expirationMonth3",this.ccWithToken.expirationMonth);
           return false;
         }
         if (!this.isCVV(this.ccWithToken.cvv)) {
