@@ -1154,8 +1154,6 @@ public phoneNumber:string;
       //console.log("result",result);
       //console.log("callback",callback);
       if (result && result.order && result.isSaved) {
-        console.log("result",result);
-        console.log("callback",callback);
         if (callback) {
          
           callback(result);
@@ -1194,20 +1192,14 @@ public phoneNumber:string;
     let branchFutureDates: BranchFutureDatesAppModel[];
     let description: string;
     let futureOrderAvailable: boolean = false;
-    console.log(" this.order", this.order);
-    console.log(" this.selectedBranch", this.selectedBranch);
     this.order.BranchId = this.selectedBranch.Id;
     if (this.selectedOrderReceipt.isDelivery) {
       description = this.translationsService.translate('HOME_FUTURE_DELIVERY');
     } else {
       description = this.translationsService.translate('HOME_FUTURE_PICKUP');
     }
-    console.log("getFranchiseWithBranches", this.appStorageService.orderType);
 
     ///Tanya 01-09-22
-    console.log ("this.appStorageService.franchise",  this.appStorageService.franchise);
-    console.log ("this.appStorageService.backResultFranchiseBranches",   this.appStorageService.backResultFranchiseBranches);
-    console.log ("this.branches", this.branches);
     AppConfig.settings.taxId =   this.appStorageService.franchise.AndroidName; ///???
     branch = this.branches.find((brnch) => {
       return brnch && brnch.Id === this.order.BranchId;
@@ -1226,9 +1218,6 @@ public phoneNumber:string;
       }
       
     }
-    console.log (" this.appStorageService.franchise.IsFutureOrderAvailable", this.appStorageService.franchise.IsFutureOrderAvailable);
-    console.log("branchDeliveryTimeOptions", branchDeliveryTimeOptions);
-    console.log("branch.TakeawayTimeInMinutes",branch.TakeawayTimeInMinutes);
     if (this.isAvailableContinue()) {
       if (!this.loadedData) {
         this.loadedData = new LoadedData();
@@ -1238,7 +1227,6 @@ public phoneNumber:string;
       this.isLoadedAllData.next(createLoadedData(false, false, false));
       if (this.order.IsDigitalMenu) {
         this.initializeMenuForBranch(() => { 
-          console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
 
           this.router.navigateByUrl(`/${this.franchiseId}/menu`); 
         });
@@ -1254,10 +1242,8 @@ public phoneNumber:string;
         //BranchOpenForPickupMethod
         // this.metaDataService.isOpenForPickupMethod(this.order.BranchId, method)
        // .subscribe((branchOpenResult) => {
-        console.log("BranchOpenForPickupMethod",this.appStorageService.orderType);
         this.metaDataService.BranchOpenForPickupMethod(this.order.BranchId, this.appStorageService.orderType)
           .subscribe((branchOpenResult) => {
-            console.log("branchOpenResult",branchOpenResult);
             branchFutureDates = branchOpenResult.FurureDates;
 
          //   var trackingParams = branchOpenResult.EventTrackingParams;
@@ -1267,11 +1253,9 @@ public phoneNumber:string;
                   try {
                     // Code that might throw an error
                     const trackingParams = JSON.parse(branchOpenResult.EventTrackingParams);
-                    console.log('trackingParams:', trackingParams);
                     this.initEventTracking(trackingParams);
                   } catch (error) {
                     // Handle the error
-                    console.error('cannot parse trackingParams:', branchOpenResult.EventTrackingParams, error);
                   }
                 }
 
@@ -1281,8 +1265,6 @@ public phoneNumber:string;
                   this.order.IsFutureOrder = true;
                   this.isLoaded = false;
                   this.initializeMenuForBranch(() => {
-                    console.log("---this.order",this.order);
-                    console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
                     this.router.navigateByUrl(`/${this.franchiseId}/menu`);
                   });
                 } else {
@@ -1313,8 +1295,6 @@ public phoneNumber:string;
                              maxHeight = "900px"
                           }
                           console.log(" this.isLoaded = true;");
-                          console.log("branchOpenResult",branchOpenResult);
-                          console.log("branchFutureDates",branchFutureDates);
                           const dialogRef = this.matDialog.open(SelectDateTimeComponent, {
                             data: {
                               futureDates: branchFutureDates,
@@ -1338,14 +1318,10 @@ public phoneNumber:string;
                               this.order.FutureDateModel = dialogResult.selectedDay;
                               this.order.FutureTime = dialogResult.selectedTime;
                               this.order.FutureDate = dialogResult.selectedDay.Date;
-                              console.log(" this.order.FutureDate", this.order.FutureDate);
-                              console.log(" this.order.FutureTime", this.order.FutureTime);
                               //this.getDateTimeFromTimeStr(dialogResult.selectedText) || dialogResult.selectedText;
                           
                               this.isLoaded = false;
                               this.initializeMenuForBranch(() => {
-                                console.log("---this.order",this.order);
-                                console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
                                 this.router.navigateByUrl(`/${this.franchiseId}/menu`);
                               });
           
@@ -1388,8 +1364,6 @@ public phoneNumber:string;
                          maxHeight = "900px"
                       }
                       console.log(" this.isLoaded = true;");
-                      console.log("branchOpenResult",branchOpenResult);
-                      console.log("branchFutureDates",branchFutureDates);
                       const dialogRef = this.matDialog.open(SelectDateTimeComponent, {
                         data: {
                           futureDates: branchFutureDates.filter(item => item.TimeOptions.length >0),
@@ -1413,14 +1387,10 @@ public phoneNumber:string;
                           this.order.FutureDateModel = dialogResult.selectedDay;
                           this.order.FutureTime = dialogResult.selectedTime;
                           this.order.FutureDate = dialogResult.selectedDay.Date;
-                          console.log(" this.order.FutureDate", this.order.FutureDate);
-                          console.log(" this.order.FutureTime", this.order.FutureTime);
                           //this.getDateTimeFromTimeStr(dialogResult.selectedText) || dialogResult.selectedText;
                       
                           this.isLoaded = false;
                           this.initializeMenuForBranch(() => {
-                            console.log("---this.order",this.order);
-                            console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
                             this.router.navigateByUrl(`/${this.franchiseId}/menu`);
                           });
       
@@ -1462,8 +1432,6 @@ public phoneNumber:string;
                      maxWidth="580px"
                   }
                   console.log(" this.isLoaded = true;");
-                  console.log("branchOpenResult",branchOpenResult);
-                  console.log("branchDeliveryTimeOptions",branchDeliveryTimeOptions);
                   const dialogRef = this.matDialog.open(SelectTimeComponent, {
                     data: {
                       txtArray: branchDeliveryTimeOptions,
@@ -1483,15 +1451,12 @@ public phoneNumber:string;
                     if (dialogResult && dialogResult.isSaved) {
                      
                       this.selectedFutureTime = dialogResult.selectedText;
-                      console.log("this.selectedFutureTime",this.selectedFutureTime);
                       this.order.IsFutureOrder = true;
                       this.order.FutureDateTime = this.getDateTimeFromTimeStr(dialogResult.selectedText) || dialogResult.selectedText;
                       this.order.FutureTime = dialogResult.selectedText;
                       this.order.FutureDate = "";
                       this.isLoaded = false;
                       this.initializeMenuForBranch(() => {
-                        console.log("---this.order",this.order);
-                        console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
                         this.router.navigateByUrl(`/${this.franchiseId}/menu`);
                       });
   
@@ -1506,8 +1471,6 @@ public phoneNumber:string;
                 //this.isLoaded = false;
                // this.isLoadedAllData.next(createLoadedData(false, false, true));
                   this.initializeMenuForBranch(() => {
-                    console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
-                    console.log("---this.order",this.order);
                     this.router.navigateByUrl(`/${this.franchiseId}/menu`);
                   });
                 }
@@ -1515,8 +1478,6 @@ public phoneNumber:string;
   
               } else { 
                 if (branch)  {
-                  console.log ("else: if branch ",branch);
-                  console.log ("else: if branch futureOrderAvailable",futureOrderAvailable);
                   branch.WorkingHoursStr = branchOpenResult.WorkingHoursStr;
                   branch.WorkingHours = branchOpenResult.WorkingHours;
                   if (futureOrderAvailable && !branchOpenResult.IsClosedToday) {
@@ -1535,7 +1496,6 @@ public phoneNumber:string;
                  // branchDeliveryTimeOptions =
                    // this.buildBranchDeliveryTimeOptions(branch.OpeningTime, branch.ClosingTime, branch.IsOpen, branch.TakeawayTimeInMinutes);
                   }
-                  console.log ("  branchDeliveryTimeOptions",branchDeliveryTimeOptions);
                   if (futureOrderAvailable && branchDeliveryTimeOptions.length > 1 && !branchOpenResult.IsClosedToday) {
                     this.isLoaded = true;
                     let width: string = "";
@@ -1565,7 +1525,6 @@ public phoneNumber:string;
                   });
                   dialogRef.afterClosed().subscribe(result => {
                     if (result && result.isSaved) {
-                      console.log ("530 branchDeliveryTimeOptions afterClosed",result);
                       this.selectedFutureTime = result.selectedText;
                       this.order.IsFutureOrder = true;
                       this.order.FutureDateTime = this.getDateTimeFromTimeStr(result.selectedText) || result.selectedText;
@@ -1577,8 +1536,6 @@ public phoneNumber:string;
                     //  this.isLoadedAllData.next(createLoadedData(false, false, true));
                       this.isLoaded =false;
                       this.initializeMenuForBranch(() => { 
-                        console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
-                        console.log("---this.order",this.order);
                         this.router.navigateByUrl(`/${this.franchiseId}/menu`); 
                       });
                     } else {
@@ -1880,7 +1837,6 @@ public phoneNumber:string;
   }
 
   private initializeGraphics() {
-    console.log("AppConfig.settings",AppConfig.settings);
     this.graphics.logo = AppConfig.settings.logo;
     this.colors.buttonColor = AppConfig.settings.buttonColor;
     this.colors.menuColor = AppConfig.settings.menuColor;
@@ -2031,12 +1987,9 @@ public phoneNumber:string;
   }
 
   private initializeBranches() {
-      console.log("initializeBranches this.appStorageService.isFranchiseBranchesWasLoaded",this.appStorageService.isFranchiseBranchesWasLoaded)
-          console.log("initializeBranches trackingParamsLoaded",this.trackingParamsLoaded)
 
       this.appStorageService.branch = undefined;
     if (!this.appStorageService.isFranchiseBranchesWasLoaded) {
-      console.log("getFranchiseWithBranches - initializeBranches", this.appStorageService.orderType);
       this.metaDataService.getFranchiseWithBranches(this.appStorageService.orderType).subscribe((data) => {
         this.appStorageService.backResultFranchiseBranches = this.commonFunctionsService.deepCopy(data);
         this.appStorageService.isFranchiseBranchesWasLoaded = true;
@@ -2046,20 +1999,16 @@ public phoneNumber:string;
           this.appStorageService.franchise = data.franchise;
           
           this.phoneNumber = this.appStorageService.franchise.ManagerPhone;
-          console.log("AppConfig.configSettings.displayFranchisePhoneLink",AppConfig.configSettings.displayFranchisePhoneLink)
-          console.log("this.phoneNumber",this.phoneNumber)
           if (data.branches.length == 1 &&  data.branches[0].EventTrackingParams != undefined && 
                 data.branches[0].EventTrackingParams != null && 
                 data.branches[0].EventTrackingParams != "" && !this.trackingParamsLoaded){
                   try {
                     // Code that might throw an error
                     const trackingParams = JSON.parse(data.branches[0].EventTrackingParams);
-                    console.log('trackingParams:', trackingParams);
                     this.initEventTracking(trackingParams);
                     this.trackingParamsLoaded = true;
                   } catch (error) {
                     // Handle the error
-                    console.error('cannot parse trackingParams:', data.branches[0].EventTrackingParams, error);
                   }
                 }
 
@@ -2139,7 +2088,6 @@ public phoneNumber:string;
   }
 
   private initializeMenuForBranch(continueCallBack?) {
-    console.log("initializeMenuForBranch",this.appStorageService.orderType);
     // if (!this.appStorageService.isMenuWasLoaded) {
     let hasPizzas: boolean = false;
     let hascCombos: boolean = false;
@@ -2158,7 +2106,6 @@ public phoneNumber:string;
             if ((cat.Name == this.translationsService.translate('CM_JOIN') || cat.Name == 'CM_JOIN')
               || (cat.Name == this.translationsService.translate('CM_BIRTHDAY') || cat.Name == 'CM_BIRTHDAY')
               || (cat.Name == this.translationsService.translate('CM_ANNIVERSARY') || cat.Name == 'CM_ANNIVERSARY')) {
-              console.log("cat", cat);
               cat.Items.forEach(item => {
                 if (cat.Name == this.translationsService.translate('CM_JOIN') || cat.Name == 'CM_JOIN') {
                   item.IsJoinBenefitItem = true;
@@ -2176,7 +2123,6 @@ public phoneNumber:string;
           });
         }
 
-        console.log("this.appStorageService.clubMembershipCategories",this.appStorageService.clubMembershipCategories)
         this.appStorageService.pizzas = result.pizzas;
         if (result.pizzas && result.pizzas.length > 0) {
           hasPizzas = true;
@@ -2354,8 +2300,6 @@ console.log("HOME GET MENU!!!!!!!!!!!!!!!!!!!!!!!");
 
   selectedBranchChanged(event: any) {
     //update the ui
-    console.log("selectedBranchChanged event",event.target.value);
-    console.log("selectedBranchChanged _filteredBranches",this._filteredBranches);
     this.selectedBranch = this._filteredBranches.find((e: BranchAppModel) => { return e.Name.replace( /\s\s+/g, ' ' ) == event.target.value });
     this.appStorageService.branch = this.selectedBranch;
     this.branchLoaded = true;
