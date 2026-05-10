@@ -780,14 +780,11 @@ public pelecardOrderSent: boolean = false;
                                                   this.resultSum(this.order.Sum),
                                                    )
                 .subscribe((response) => {
-                  console.log("CheckTransactionStatusAndSendOrder response", response);
                   if (response && response.Data && response.Data.success) {// && !this.pelecardOrderSent
                     this.pelecardOrderSent = true; // ✅ Prevent future calls
                     this.hidePelecardIframe = true;
                   //  this.showLoader = true;
-                    console.log("response.Data", response.Data);
                     if (this.timerId) {                  
-                      console.log("this.timerId", this.timerId);
                       clearInterval(this.timerId);     
                                     
                     }
@@ -817,14 +814,11 @@ public pelecardOrderSent: boolean = false;
                                                 loginToken, 
                                                 this.resultSum(this.order.Sum))
                   .subscribe((response) => {
-                    console.log("response", response);
                     if (response && response.Data && response.Data.success && !this.pelecardOrderSent) {
                       this.pelecardOrderSent = true; // ✅ Prevent future calls
                       this.hidePelecardIframe = true;
                       this.showLoader = true;
-                      console.log("response.Data", response.Data);
                       if (this.timerId) {                  
-                        console.log("this.timerId", this.timerId);
                         clearInterval(this.timerId);     
                                       
                       }
@@ -878,14 +872,11 @@ public pelecardOrderSent: boolean = false;
                                                   loginToken, 
                                                   this.resultSum(this.order.Sum))
                 .subscribe((response) => {
-                  console.log("CheckTransactionStatusAndSendOrder response", response);
                   if (response && response.Data && response.Data.success) {// && !this.pelecardOrderSent
                     this.pelecardOrderSent = true; // ✅ Prevent future calls
                     this.hidePelecardIframe = true;
                    // this.showLoader = true;
-                    console.log("response.Data", response.Data);
                     if (this.timerId) {                  
-                      console.log("this.timerId", this.timerId);
                       clearInterval(this.timerId);     
                                     
                     }
@@ -914,22 +905,17 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                                     loginToken, 
                                     sum, false)
       .subscribe((response) => {
-        console.log("response", response);
       
         if (response && response.Data && response.Data.success) {
           this.displayTranzilaSplitPaymentIframeUrl = false;
-          console.log("response.Data", response.Data);
          
           if (this.timerId) {                  
-            console.log("this.timerId", this.timerId);
             clearInterval(this.timerId);                   
           }
           if (response.Data.transaction && response.Data.transaction.success) {
-            console.log("this.sumPayed",this.sumPayed);
 
             //this.ccWithToken.token = res.Data
             this.sumPayed += Number(this.ccWithToken.sum);
-            console.log("after this.sumPayed",this.sumPayed);
             this.tranzilaPayersArray.push(response.Data.transaction);
              
             this.ccWithToken.sum =  (Math.round(this.resultSum(this.order.Sum)  * 100) / 100 ) - this.sumPayed;
@@ -973,22 +959,18 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
     //var count = 0;
 
-    console.log("this.messagesFromBranch",this.messagesFromBranch);
     this.messagesFromBranch.forEach(message => {
 
       if (message.DisplayInEndOfOrder) {
 
         this.displayPopupMessageEndOfOrder(message, message.Message, message.ImageUrl, (result) => {
-          console.log("result", result)
           if (!result.isDigitalMenu)
             this.count++;
-          console.log("this.count", this.count);
 
           if (this.count == this.messagesFromBranch.length) {
 
             this.appStorageService.isFirstPopUp = false;
 
-            console.log("if(this.count == this.messagesFromBranch.length)")
             this.checkSigning((result) => {
               console.log("continue here 3");
 
@@ -1005,7 +987,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       }
 
       else{
-        console.log("no messages to display in end of order");
       }
 
     
@@ -1042,7 +1023,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       });
 
       matDialogRef.afterClosed().subscribe((result) => {
-        console.log("my-result", result);
         if (callback) {
           //this.isFirst=false;
           callback(result);
@@ -1062,10 +1042,8 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
   public flicker() {
     //document.getElementById("flicker2").classList.add("animate-flicker");
-    console.log("flicker()-document",  document);
     const myElement = document.getElementById("flicker2");
     const elemsByClass = document.getElementsByClassName("btn-continue-payment-flicker");
-    console.log("flicker()- myElement", elemsByClass);
     //console.log("flicker()- elemByClass", elemsByClass.item());
     //const elemSetted = elemsByClass.setAttribute("style","display:none");
 
@@ -1077,7 +1055,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
     const myorderitems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
 
-    console.log("myorderitems",myorderitems);
 
     this.categories = this.appStorageService.categories || [];
 
@@ -1087,14 +1064,12 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         this.order.OrderItems.forEach(orderItem => {
           if(originalItem.Id == orderItem.ItemId ){
             orderItem.Price = originalItem.Price;
-            console.log("rderItem",orderItem);
           }
         });
       });
     });
 
 
-    console.log('this.checkForCombo()');
 
 
     let itemsInCombos = [];
