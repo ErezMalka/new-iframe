@@ -3231,17 +3231,13 @@ public cmShopCategory:any;
         if (item && ((item.Garnishes && item.Garnishes.length > 0) ||
           (item.GarnishGroups && item.GarnishGroups.length > 0) ||
           (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0))) {
-          console.log("this.includeGarnishes(item);");
           this.includeGarnishes(item, callback);
         } else {
           if(item.ItemGroups && item.ItemGroups.length>0){
-            console.log("item.ItemGroups",item.ItemGroups);
             this.loadNewComboWithItems(item, (result) => {
-              console.log("result - after combo --> add to cart itemWithGroups", result);
               if(result && result.isSaved){
               //  const orderItem = this.prepareItemForOrder(item);
                 const orderItem = this.prepareItemWithItemGroupsForOrder(item, result.combo.SelectedItems);
-                console.log("orderItem", orderItem);
                 if (result && result.comments) {
                   orderItem.SpecialRequests = result.comments || '';
                 }
@@ -3261,7 +3257,6 @@ public cmShopCategory:any;
                 }
   
                 this.orderService.recalculateSum();
-                  console.log("resetItem(item)");
                 this.resetItem(item);
                 if (item.MealUpgrade && this.upgradeItems && this.upgradeItems.length > 0) {
                   this.loadSuccessAddingToCartMessage(true);
@@ -3286,7 +3281,6 @@ public cmShopCategory:any;
      
     } else {
       if (!isCombo) {
-        console.log("this.loadPizzaWithToppings(item);",item);
         this.loadPizzaWithToppings(item);
       } else {
         
@@ -3304,7 +3298,6 @@ public cmShopCategory:any;
     let maxWidth: string = "";
     let width: string = "";
     if (this.isMobileMode()) {
-      console.log("this.isMobileMode", this.isMobileMode())
       minWidth = "350px";
       maxWidth = "1000px";
       width = "100%";
@@ -3315,10 +3308,8 @@ public cmShopCategory:any;
       maxWidth = "1000px";
     }
     let items = this.commonFunctionsService.deepCopy(this.upgradeItems);
-    console.log("itemFromUpgradeStorage",items);
     items[0].IsUpgrade = true;
     const message = this.translationService.translate('UPGRADE');
-    console.log("AdditionalItems", this.upgradeItems);
     if (this.upgradeItems && this.upgradeItems.length > 0) {
       const matDialogRef = this.matDialog.open(AdditionalItemsComponent, {
         data: {
@@ -3337,15 +3328,11 @@ public cmShopCategory:any;
       });
       
       matDialogRef.afterClosed().subscribe((result) => {
-        console.log("upgrade-result",result);
-        console.log("this.upgradeItems",this.upgradeItems);
         this.upgradeItems[0].IsUpgrade = true;
 
-        console.log("this.upgradeItems",this.upgradeItems);
         if (result.isSaved) {
           if(!this.isMobileMode()){
              this.loadItemPopupDesktop(this.upgradeItems);
-             console.log("this.order.OrderItems", this.order.OrderItems);
           }
           else if(this.isMobileMode()){
             result.selectedItems.forEach(orderAdditionalItem => {
@@ -3382,7 +3369,6 @@ public cmShopCategory:any;
 
 
   private loadNewComboWithItems(comboItem, callback?) {
-    console.log("comboItem", comboItem);
     let cls = 'modal-new-combo';
     
     if (this.isMobileMode()) cls = 'modal-dialog-scrollable modal-xl';
@@ -3396,12 +3382,8 @@ public cmShopCategory:any;
    
     this.modalService.onHide
       .pipe(take(1)).subscribe(() => {
-        console.log("this.bsModalRef.content", this.bsModalRef.content);
         if (this.bsModalRef.content.isSaved && this.bsModalRef.content.combo) {
-          console.log("this.bsModalRef.content.combo", this.bsModalRef.content.combo);
           const myBsModalContentCombo = this.commonFunctionsService.deepCopy(this.bsModalRef.content.combo);
-          console.log("loadNewComboWithItems() - myBsModalContentCombo", myBsModalContentCombo);
-          console.log("comboItem", comboItem);
           this.addToCartComboItem(this.bsModalRef.content.combo, comboItem);
 
 
@@ -3423,7 +3405,6 @@ public cmShopCategory:any;
     this.modalService.onHide
       .pipe(take(1)).subscribe(() => {
 
-        console.log("menu close modal item", this.bsModalRef.content)
         if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
           const orderItem = this.prepareItemForOrder(this.bsModalRef.content.item);
           const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
@@ -3441,7 +3422,6 @@ public cmShopCategory:any;
           }
           this.checkOrderResultHeight();
           this.orderService.recalculateSum();
-            console.log("resetItem(item)");
           this.resetItem(item);
           if (item.MealUpgrade && this.upgradeItems && this.upgradeItems.length > 0) {
             this.loadSuccessAddingToCartMessage(true);
@@ -3469,7 +3449,6 @@ public cmShopCategory:any;
     this.modalService.onHide
       .pipe(take(1)).subscribe(() => {
 
-        console.log("menu close modal item", this.bsModalRef.content)
         if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
 
          if(this.bsModalRef.content.item.PizzaPrices){
@@ -3479,7 +3458,6 @@ public cmShopCategory:any;
           console.log("this.preparePizzaForOrder");
           const orderPizza = this.preparePizzaForOrder(
             this.commonFunctionsService.deepCopy(this.bsModalRef.content.item),comment2);
-            console.log("********orderPizza",orderPizza);
             
             if(orderPizza.SpecialRequests == undefined) orderPizza.SpecialRequests = '';            
             if( orderPizza.Comment == undefined ) orderPizza.Comment = '';
@@ -3488,7 +3466,6 @@ public cmShopCategory:any;
            
             this.order.OrderPizzas.push(orderPizza);
             this.checkOrderResultHeight();
-            console.log("this.order.OrderPizzas",this.order.OrderPizzas);
               this.orderService.recalculateSum();
 
               
@@ -3512,19 +3489,15 @@ public cmShopCategory:any;
          }
           else if(item.ItemGroups && item.ItemGroups.length>0){
             const tmpItem = this.bsModalRef.content.item;
-            console.log("tmpItem",tmpItem);
             let specialRequests = this.bsModalRef.content.comments || '';
             let itemName = this.bsModalRef.content.itemName;
             const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
           
            
-            console.log("item.ItemGroups",item.ItemGroups);
             //this.loadNewComboWithItems(item);
             this.loadNewComboWithItems(item, (result) => {
-              console.log("result - after combo --> add to cart itemWithGroups", result);
               if(result && result.isSaved){
                 const orderItem = this.prepareItemWithItemGroupsForOrder(tmpItem, result.combo.SelectedItems);
-                console.log("orderItem", orderItem);
                 if (result.comments) {
 
                   item.SpecialRequests = specialRequests + result.comments ;
@@ -3546,7 +3519,6 @@ public cmShopCategory:any;
                 }
 
                 this.orderService.recalculateSum();
-                  console.log("resetItem(item)");
                 this.resetItem(item);
                 if (item.MealUpgrade && this.upgradeItems && this.upgradeItems.length > 0) {
                   this.loadSuccessAddingToCartMessage(true);
@@ -3564,7 +3536,6 @@ public cmShopCategory:any;
           else if (!item.ItemGroups || item.ItemGroups.length == 0) {
             //new 07/01/24
             const orderItem = this.prepareItemForOrder(this.bsModalRef.content.item);
-            console.log("orderItem", orderItem);
             orderItem.SpecialRequests = this.bsModalRef.content.comments;
             if (this.bsModalRef.content.itemComments != undefined && 
               this.bsModalRef.content.itemComments != null)
@@ -3593,7 +3564,6 @@ public cmShopCategory:any;
             }
             
             this.orderService.recalculateSum();
-              console.log("resetItem(item)");
             this.resetItem(item);
             if (item.MealUpgrade && this.upgradeItems && this.upgradeItems.length > 0) {
               this.loadSuccessAddingToCartMessage(true);
@@ -3628,8 +3598,6 @@ public cmShopCategory:any;
       {initialState, class:'modal-dialog-item-with-garnishes'});
      this.modalService.onHide
     .pipe(take(1)).subscribe(() => {
-        console.log("menu close modal item",this.bsModalRef.content);
-        console.log("menu close modal comment",comment);
        
       if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
         if(!this.bsModalRef.content.item.PizzaPrices){
@@ -3637,21 +3605,17 @@ public cmShopCategory:any;
          
           if(item.ItemGroups && item.ItemGroups.length>0){
             const tmpItem = this.bsModalRef.content.item;
-            console.log("tmpItem",tmpItem);
             let specialRequests = this.bsModalRef.content.itemComments;
             let itemName = this.bsModalRef.content.itemName;
             const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
-            console.log("item.ItemGroups",item.ItemGroups);
             //this.loadNewComboWithItems(item);
             this.loadNewComboWithItems(item, (result) => {
-              console.log("result - after combo --> add to cart itemWithGroups", result);
               if(result && result.isSaved){
 
 
 
              //   const orderItem = this.prepareItemForOrder(this.bsModalRef.content.item);
                 const orderItem = this.prepareItemWithItemGroupsForOrder(tmpItem, result.combo.SelectedItems);
-                console.log("orderItem", orderItem);
                 orderItem.SpecialRequests = specialRequests;//this.bsModalRef.content.itemComments;
                 orderItem.ItemName = itemName;//this.bsModalRef.content.itemName;
               //  const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
@@ -3670,7 +3634,6 @@ public cmShopCategory:any;
                 }
 
                 this.orderService.recalculateSum();
-                  console.log("resetItem(item)");
                 this.resetItem(item);
                 if (item.MealUpgrade && this.upgradeItems && this.upgradeItems.length > 0) {
                   this.loadSuccessAddingToCartMessage(true);
@@ -3687,7 +3650,6 @@ public cmShopCategory:any;
           }
           else if (!item.ItemGroups || item.ItemGroups.length == 0) {
             const orderItem = this.prepareItemForOrder(this.bsModalRef.content.item);
-            console.log("orderItem", orderItem);
             orderItem.SpecialRequests = this.bsModalRef.content.itemComments;
             orderItem.ItemName = this.bsModalRef.content.itemName;
             const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
@@ -3711,7 +3673,6 @@ public cmShopCategory:any;
 
             }
             this.orderService.recalculateSum();
-              console.log("resetItem(item)");
             this.resetItem(item);
             if (item.MealUpgrade && this.upgradeItems && this.upgradeItems.length > 0) {
               this.loadSuccessAddingToCartMessage(true);
@@ -3731,8 +3692,6 @@ public cmShopCategory:any;
           const orderPizza = this.preparePizzaForOrder(
             this.commonFunctionsService.deepCopy(this.bsModalRef.content.item),
             this.commonFunctionsService.deepCopy(comment+' '+comment2));
-            console.log("********orderPizza",orderPizza);
-            console.log("********comment",comment);
             if(orderPizza.Comment == 'undefined undefined ' || orderPizza.SpecialRequests == 'undefined undefined ' || orderPizza.Comment=='undefined' || orderPizza.SpecialRequests == 'undefined' || orderPizza.Comment == undefined || orderPizza.SpecialRequests == undefined){
               orderPizza.Comment = '';
               orderPizza.SpecialRequests = '';
@@ -3740,7 +3699,6 @@ public cmShopCategory:any;
            
             this.order.OrderPizzas.push(orderPizza);
             this.checkOrderResultHeight();
-            console.log("this.order.OrderPizzas",this.order.OrderPizzas);
               this.orderService.recalculateSum();
 
               
@@ -3769,7 +3727,6 @@ public cmShopCategory:any;
   }
 
   private loadPizzaGarnishesPopupDesktop(item, isBeforePizza, comment?) {
-    console.log("isBeforePizza",isBeforePizza);
     const initialState = {
       item: item,
       showBeforePizzaGarnishes: isBeforePizza
@@ -3778,9 +3735,6 @@ public cmShopCategory:any;
         {initialState, class:'modal-dialog-item-with-garnishes'});
     this.modalService.onHide
       .pipe(take(1)).subscribe(() => {
-          console.log("this.bsModalRef.content",this.bsModalRef.content);
-          console.log("menu close modal item",this.bsModalRef.content.item);
-          console.log("item",item);
 
         if (this.bsModalRef.content.isSaved && 
             this.bsModalRef.content.item &&
@@ -3799,8 +3753,6 @@ public cmShopCategory:any;
             const orderPizza = this.preparePizzaForOrder(
               this.commonFunctionsService.deepCopy(this.bsModalRef.content.item),
               this.commonFunctionsService.deepCopy(comment+' '+comment2));
-              console.log("********orderPizza",orderPizza);
-              console.log("********comment",comment);
               if (orderPizza.Comment != undefined && 
                   orderPizza.Comment != null && 
                   orderPizza.Comment.length > 0 )
@@ -3818,7 +3770,6 @@ public cmShopCategory:any;
              // }
               this.order.OrderPizzas.push(orderPizza);
               this.checkOrderResultHeight();
-              console.log("this.order.OrderPizzas",this.order.OrderPizzas);
                 this.orderService.recalculateSum();
               //  this.resetPizza(this.bsModalRef.content.item);
                   this.resetPizza(item);
@@ -3841,14 +3792,11 @@ public cmShopCategory:any;
     //var resultHeight = document.getElementById("myOrderResult").style.height;
     console.log("this.myIdentifier",this.myIdentifier);
     var height = this.myIdentifier.nativeElement.offsetHeight;
-    console.log("height",height);
 
     if(height>650){
       console.log("HEIGHT > 500");
       var resultBTN = document.getElementById("result-btn");
       var perfectScroll = document.getElementById("my-scroll");
-      console.log("resultBTN", resultBTN);
-      console.log("perfectScroll", perfectScroll);
       resultBTN.classList.add("greater-height");
       perfectScroll.classList.add("greater-scroll-height");
     }
@@ -3880,7 +3828,6 @@ public cmShopCategory:any;
     console.log(" loadSuccessAddingToCartMessage");
     this.routeActivate.canActivateHome = false;
 
-    console.log("this.routeActivate.canActivateHome", this.routeActivate.canActivateHome);
 
     document.getElementById("snackbar").classList.add("show");
     // const x = document.getElementById("snackbar").classList.add("show");
@@ -3891,7 +3838,6 @@ public cmShopCategory:any;
     setTimeout(() => {
       //document.getElementById("snackbar").classList.remove("show");
       if (mealUpgrade) {
-        console.log("mealUpgrade", mealUpgrade);
         this.displayUpgradesPopup();
       }
       else if (AppConfig.configSettings.minAmountForBonus && !this.order.hasBonusItems
@@ -3900,7 +3846,6 @@ public cmShopCategory:any;
         this.displayBonusItems();
       }
     }, 100);
-    console.log("TANYAAAAA", window.location.hash);
     this.appStorageService.setItemInLocalStorage(window.location.hash, this.order);
  
   }
@@ -3916,7 +3861,6 @@ public cmShopCategory:any;
   }
 
   public makeOrder() {
-    console.log("makeOrder", this.order);
     if (this.order && ((this.order.OrderItems && this.order.OrderItems.length > 0)
       || (this.order.OrderPizzas && this.order.OrderPizzas.length > 0) ||
       (this.order.OrderCombos && this.order.OrderCombos.length > 0))) {
@@ -3928,7 +3872,6 @@ public cmShopCategory:any;
    
 
   public openItemPopup(res: any) {
-    console.log("res", res);
     // let index = res.index;
 
     if (res.item.FullPizza) {
@@ -3948,23 +3891,17 @@ public cmShopCategory:any;
       this.modalService.onHide
         .pipe(take(1)).subscribe(() => {
 
-          console.log("menu close modal item", this.bsModalRef.content)
           if (this.bsModalRef.content.isSaved && this.bsModalRef.content.pizza) {
             console.log("this.preparePizzaForOrder");
             const orderPizza = this.preparePizzaForOrder(this.bsModalRef.content.pizza, this.bsModalRef.content.comments);
-            console.log("orderPizza", orderPizza);
             //orderPizza.SpecialRequests = this.bsModalRef.content.comments;
-            console.log("orderPizza", orderPizza);
             //const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
 
-            console.log("this.order.OrderPizzas", this.order.OrderPizzas);
             var index = this.order.OrderPizzas.indexOf(res.item);
             console.log("index", index);
             this.order.OrderPizzas[index] = orderPizza;
-            console.log("this.order.OrderPizzas[index]", this.order.OrderPizzas[index]);
 
             this.orderService.recalculateSum();
-            console.log("this.order.Sum", this.order.Sum)
             //this.resetItem(item);
 
             if (orderPizza.FullPizza.SelectedGarnishes && orderPizza.FullPizza.SelectedGarnishes.length > 0) {
@@ -3981,7 +3918,6 @@ public cmShopCategory:any;
     else {
 
       let itemToEdit = res.item;
-      console.log("itemToEdit", itemToEdit);
 
       if (!itemToEdit.IsBonus) {
         console.log("ITEM IS NOT BONUS");
@@ -3994,25 +3930,20 @@ public cmShopCategory:any;
         this.modalService.onHide
           .pipe(take(1)).subscribe(() => {
 
-            console.log("menu close modal item", this.bsModalRef.content)
             if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
               if(this.bsModalRef.content.item.ItemGroups && this.bsModalRef.content.item.ItemGroups.length>0){
                 const tmpItem = this.bsModalRef.content.item;
-                console.log("tmpItem",tmpItem);
                 let specialRequests = this.bsModalRef.content.itemComments;
                 let itemName = this.bsModalRef.content.itemName;
                //const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
-                console.log("item.ItemGroups",this.bsModalRef.content.item.ItemGroups);
                 //this.loadNewComboWithItems(item);
                 this.loadNewComboWithItems(this.bsModalRef.content.item, (result) => {
-                  console.log("result - after combo --> add to cart itemWithGroups", result);
                   if(result && result.isSaved){
     
     
     
                  //   const orderItem = this.prepareItemForOrder(this.bsModalRef.content.item);
                     const orderItem = this.prepareItemWithItemGroupsForOrder(tmpItem, result.combo.SelectedItems);
-                    console.log("orderItem", orderItem);
                     orderItem.SpecialRequests = specialRequests;//this.bsModalRef.content.itemComments;
                     orderItem.ItemName = itemName;//this.bsModalRef.content.itemName;
                   //  const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
@@ -4026,7 +3957,6 @@ public cmShopCategory:any;
                     }
     
                   this.orderService.recalculateSum();
-                    console.log("resetItem(item)");
                   this.resetItem(res.item);
     
                   this.loadSuccessAddingToCartMessage(false);
@@ -4049,8 +3979,6 @@ public cmShopCategory:any;
               else {
                 const orderItem = this.prepareEditedItemForOrder(this.bsModalRef.content.item);
                 orderItem.SpecialRequests = this.bsModalRef.content.comments;
-                console.log("orderItem", orderItem)
-                console.log("this.bsModalRef.content.comments", this.bsModalRef.content.comments)
                 //const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
                 var index = this.order.OrderItems.indexOf(res.item);
                 this.order.OrderItems[index] = orderItem;
@@ -4061,7 +3989,6 @@ public cmShopCategory:any;
                   }
   
                 this.orderService.recalculateSum();
-                  console.log("resetItem(item)");
                 this.resetItem(res.item);
   
                 this.loadSuccessAddingToCartMessage(false);
@@ -4091,8 +4018,6 @@ public cmShopCategory:any;
         const minForBonus = AppConfig.configSettings.minAmountForBonus;
         const firstMessage = this.translationService.translate('BONUS_FIRST');
         const bonusMSG = AppConfig.configSettings.bonusMsg;
-        console.log(minForBonus);
-        console.log(firstMessage);
         if (this.bonusItems && this.bonusItems.length > 0) {
           const matDialogRef = this.matDialog.open(AdditionalItemsComponent, {
             data: {
@@ -4112,7 +4037,6 @@ public cmShopCategory:any;
             panelClass: 'custom-mat-dialog-mobile-bonus'
           });
           matDialogRef.afterClosed().subscribe((result) => {
-            console.log("afterClosed()-->", result);
             if (result.isSaved && result.selectedItems) {
               this.order.OrderItems.forEach(item => {
                 if (item.IsBonus) {
@@ -4138,11 +4062,9 @@ public cmShopCategory:any;
 
   public openGarnishesEdit(item) {
     console.log("openGarnishesEdit()");
-    console.log("item",item);
     // let index = res.index;
 
     let itemToEdit = item;
-    console.log("itemToEdit", itemToEdit);
 
     if (!itemToEdit.IsBonus) {
       console.log("ITEM IS NOT BONUS");
@@ -4155,18 +4077,14 @@ public cmShopCategory:any;
       this.modalService.onHide
         .pipe(take(1)).subscribe(() => {
 
-          console.log("menu close modal item", this.bsModalRef.content)
           if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
             const orderPizza = this.prepareEditedGarnishesForPizza(this.bsModalRef.content.item , item);
             orderPizza.SpecialRequests = this.bsModalRef.content.comments;
-            console.log("orderPizza - AfterEditGarForPizza",orderPizza)
-            console.log("this.bsModalRef.content.comments", this.bsModalRef.content.comments)
             //const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
             var index = this.order.OrderPizzas.indexOf(item);
             this.order.OrderPizzas[index] = orderPizza;
 
             this.orderService.recalculateSum();
-              console.log("resetItem(item)");
             this.resetItem(item);
 
             //this.loadSuccessAddingToCartMessage(false);
@@ -4209,7 +4127,6 @@ public cmShopCategory:any;
       this.order.OrderPizzas = [];
       this.order.OrderCombos = [];
       this.order.hasBonusItems = false;
-      console.log("this.order.hasBonusItems = false;");
     }
     this.orderService.recalculateSum();
   }
@@ -4234,8 +4151,6 @@ public cmShopCategory:any;
 
   private loadingGarnishesPopup(item, garnishes: GarnishAppModel[], garnishGroup: GarnishGroupAppModel,
     comments: string, selectedGarnishes, isFirstPage, selectedGarnishesPrice?, callback?) {
-      console.log("loadingGarnishesPopup - ITEM", item);
-      console.log("loadingGarnishesPopup - SELECTED-GAR", selectedGarnishes);
     const matDialogRef = this.matDialog.open(GarnishesComponent, {
       data: {
         garnishGroup: garnishGroup,
@@ -4253,32 +4168,26 @@ public cmShopCategory:any;
       panelClass: 'custom-mat-dialog-mobile-garnishes-with-item'
     });
     matDialogRef.afterClosed().subscribe((result: GarnishesDialog) => {
-      console.log("result - AFTER GARNISHES COMPONENT", result);
 
 
       if (result.isSaved) {
         console.log("IDK");
         if (result && result.allGettingGarnishes && item && !result.returnToPreviousPage) {
           //console.log("IDK- item.selectedGarnishes", item.SelectedGarnishes);
-          console.log("result.allGettingGarnishes", result.allGettingGarnishes);
           item.SelectedGarnishes = result.allGettingGarnishes.slice();
-          console.log("item.selectedGarnishes", item.SelectedGarnishes);
         }
         if ((!result.returnToPreviousPage && item && item.GarnishGroups && item.GarnishGroups.indexOf(garnishGroup) != -1 &&
           item.GarnishGroups.indexOf(garnishGroup) + 1 < item.GarnishGroups.length) ||
           (!result.returnToPreviousPage && item && item.GeneralGarnishGroups && item.GeneralGarnishGroups.indexOf(garnishGroup) != -1 &&
             item.GeneralGarnishGroups.indexOf(garnishGroup) + 1 < item.GeneralGarnishGroups.length)) {
           if (item.GarnishGroups) {
-            console.log(" if (item.GarnishGroups)");
             var grnGrp = item.GarnishGroups[item.GarnishGroups.indexOf(garnishGroup) + 1];
           }
           else {
             console.log(" else");
             grnGrp = item.GeneralGarnishGroups[item.GeneralGarnishGroups.indexOf(garnishGroup) + 1];
-            console.log("grnGrp",grnGrp);
           }
           if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-            console.log("item1", item);
             this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
               item.SelectedGarnishes, false, result.selectedGarnishesPrice);
           }
@@ -4299,7 +4208,6 @@ public cmShopCategory:any;
             grnGrp = item.GeneralGarnishGroups[item.GeneralGarnishGroups.indexOf(garnishGroup) - 1];
           }
           if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-            console.log("item2", item);
             this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
               item.SelectedGarnishes, item.GarnishGroups.indexOf(grnGrp) === 0, result.selectedGarnishesPrice);
           }
@@ -4308,7 +4216,6 @@ public cmShopCategory:any;
           if (item.Garnishes) {
             const grnGrp = item.GarnishGroups[item.GarnishGroups.length - 1];
             if (grnGrp) {
-              console.log("item5", item);
               this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
                 item.SelectedGarnishes, item.GarnishGroups.indexOf(grnGrp) === 0, result.selectedGarnishesPrice);
             }
@@ -4316,13 +4223,10 @@ public cmShopCategory:any;
         } else if (!result.returnToPreviousPage) {
           // If everything was added to list of garnishes - add to card
           // console.log("---item",item);
-          console.log("item3", item);
 
           if(item.ItemGroups && item.ItemGroups.length>0){
-            console.log("item.ItemGroups",item.ItemGroups);
 
             this.loadNewComboWithItems(item, (result) => {
-              console.log("result - after combo --> add to cart itemWithGroups", result);
               if(result && result.isSaved){
                 this.addToCartItemWithGarnishes(item, result, callback);
               }
@@ -4347,8 +4251,6 @@ public cmShopCategory:any;
                                         garnishGroup: GarnishGroupAppModel,
                                         selectedGarnishes, isFirstPage, 
                                         selectedGarnishesPrice?, callback?) {
-      console.log("loadingGarnishesPopupForPizza - ITEM", item);
-      console.log("loadingGarnishesPopupForPizza - SELECTED-GAR", selectedGarnishes);
     const matDialogRef = this.matDialog.open(GarnishesComponent, {
       data: {
         garnishGroup: garnishGroup,
@@ -4367,16 +4269,13 @@ public cmShopCategory:any;
       panelClass: 'custom-mat-dialog-mobile-garnishes-with-item'
     });
     matDialogRef.afterClosed().subscribe((result: GarnishesDialog) => {
-      console.log("result - AFTER GARNISHES COMPONENT", result);
 
 
       if (result.isSaved) {
         
         if (result && result.allGettingGarnishes && item && !result.returnToPreviousPage) {
           //console.log("IDK- item.selectedGarnishes", item.SelectedGarnishes);
-          console.log("result.allGettingGarnishes", result.allGettingGarnishes);
           item.SelectedGarnishes = result.allGettingGarnishes.slice();
-          console.log("item.selectedGarnishes", item.SelectedGarnishes);
         }
         if (isBeforePizza) {
 
@@ -4386,10 +4285,8 @@ public cmShopCategory:any;
             item.GarnishGroupsBeforePizza.indexOf(garnishGroup) + 1 < 
             item.GarnishGroupsBeforePizza.length) {
               grnGrp = item.GarnishGroupsBeforePizza[item.GarnishGroupsBeforePizza.indexOf(garnishGroup) + 1];
-              console.log("grnGrp",grnGrp);
          
               if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-                console.log("item1", item);
                 this.loadingGarnishesPopupForPizza(item, isBeforePizza, 
                                               grnGrp, item.SelectedGarnishes, 
                                               false, result.selectedGarnishesPrice);
@@ -4401,14 +4298,12 @@ public cmShopCategory:any;
                     var grnGrp = item.GarnishGroupsBeforePizza[item.GarnishGroupsBeforePizza.indexOf(garnishGroup) - 1];
          
                     if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-                      console.log("item2", item);
                       this.loadingGarnishesPopupForPizza(item, isBeforePizza, 
                                               grnGrp, item.SelectedGarnishes, 
                                               item.GarnishGroupsBeforePizza.indexOf(grnGrp) === 0, 
                                               result.selectedGarnishesPrice);
                     }
             }  else if (!result.returnToPreviousPage) {
-                console.log("item3", item);
                 this.addToCartPizzaWithGarnishes(item, isBeforePizza, result, callback);
             } 
         } else {
@@ -4419,10 +4314,8 @@ public cmShopCategory:any;
               item.GarnishGroupsAfterPizza.indexOf(garnishGroup) + 1 < 
               item.GarnishGroupsAfterPizza.length) {
                 grnGrp = item.GarnishGroupsAfterPizza[item.GarnishGroupsAfterPizza.indexOf(garnishGroup) + 1];
-                console.log("grnGrp",grnGrp);
        
                 if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-                  console.log("item1", item);
                   this.loadingGarnishesPopupForPizza(item, isBeforePizza, 
                                             grnGrp, item.SelectedGarnishes, 
                                             false, result.selectedGarnishesPrice);
@@ -4434,14 +4327,12 @@ public cmShopCategory:any;
                   var grnGrp = item.GarnishGroupsAfterPizza[item.GarnishGroupsAfterPizza.indexOf(garnishGroup) - 1];
        
                   if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-                  console.log("item2", item);
                   this.loadingGarnishesPopupForPizza(item, isBeforePizza, 
                                             grnGrp, item.SelectedGarnishes, 
                                             item.GarnishGroupsAfterPizza.indexOf(grnGrp) === 0, 
                                             result.selectedGarnishesPrice);
                   }
           }  else if (!result.returnToPreviousPage) {
-                console.log("item3", item);
                 this.addToCartPizzaWithGarnishes(item, isBeforePizza, result, callback);
           }       
 
@@ -4457,12 +4348,10 @@ public cmShopCategory:any;
       if ((item.GarnishGroups && item.GarnishGroups.length) > 0 || (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0) ) {
         if(item.GarnishGroups){
         var garnishGrp = item.GarnishGroups[0];
-        console.log("garnishGrp",garnishGrp);
         }
         else {
           console.log("NO GARNISHGROUPS - Its Pizza");
           garnishGrp = item.GeneralGarnishGroups[0];
-          console.log("garnishGrp",garnishGrp);
         } 
         this.loadingGarnishesPopup(item, null, garnishGrp, '', item.SelectedGarnishes, true, callback);
       } else if (item.Garnishes && item.Garnishes.length > 0) {
@@ -4474,13 +4363,11 @@ public cmShopCategory:any;
   public includePizzaGarnishes(item: PizzaAppAdvancedModel, isBeforePizza:boolean, callback?) {
     if (item && (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0 )) {
       if (!this.isMobileMode()) {
-        console.log("this.loadItemPopupDesktop(item);",item);
         this.loadPizzaGarnishesPopupDesktop(item, isBeforePizza,"");        
       } else {
         var garnishGrp:GarnishGroupAppModel;
         if (isBeforePizza) garnishGrp = item.GarnishGroupsBeforePizza[0];
         else  garnishGrp = item.GarnishGroupsAfterPizza[0];
-        console.log("garnishGrp",garnishGrp);
         
         this.loadingGarnishesPopupForPizza(item, isBeforePizza, garnishGrp, 
                                            item.SelectedGarnishes, true, callback);
@@ -4573,7 +4460,6 @@ public cmShopCategory:any;
   private prepareOrder() {
     this.order = this.orderService.getOrder();
 
-    console.log("prepareOrder: this.order", this.order);
     if (this.order.OrderItems === undefined || this.order.OrderItems === null) {
       this.order.OrderItems = [];
     }
@@ -4583,7 +4469,6 @@ public cmShopCategory:any;
     if (this.order.OrderCombos === undefined || this.order.OrderCombos === null) {
       this.order.OrderCombos = [];
     }
-    console.log("TANYAAAAA", window.location.hash);
     this.appStorageService.setItemInLocalStorage(window.location.hash, this.order);
   }
 
@@ -4638,8 +4523,6 @@ public cmShopCategory:any;
   }
 
   private preparePizzaForOrder(pizza: PizzaAppAdvancedModel, specialRequest: string) {
-    console.log("preparePizzaForOrder - pizza", pizza);
-    console.log("preparePizzaForOrder - specialRequest", specialRequest);
     const newPizza = new OrderPizzaAppAdvancedModel();
     newPizza.Amount = pizza.Amount;
     newPizza.PizzaId = pizza.Id;
@@ -4713,7 +4596,6 @@ public cmShopCategory:any;
         garnish.SelectedAmount = 1;
       });
     }
-    console.log("garnishes", garnishes);
 
     const garnishesGroup = {};
     garnishes.forEach((garnish) => {
@@ -4744,14 +4626,12 @@ public cmShopCategory:any;
         newPizza.Comment = newPizza.SpecialRequests
     newPizza.FullPizza = pizza;
 
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!newPizza", newPizza);
     var dataLayerItem={
       "item_id": newPizza.PizzaId,
       "item_name":newPizza.Name,
       "price": this.itemPrice(newPizza, true),
         'quantity':1
     }
-    console.log("dataLayerItem",dataLayerItem);
     this.dataLayerItems=[];
     this.dataLayerItems.push(dataLayerItem);
     window['dataLayer'].push({
@@ -4853,7 +4733,6 @@ public cmShopCategory:any;
     pizzaSize?: PizzaSizeAppModel,
     specialRequests?: string) {
       clearInterval(this.stop);
-    console.log("pizza.MaxFreeToppings",pizza.MaxFreeToppings)
     if (pizza.GarnishGroupsBeforePizza && pizza.GarnishGroupsBeforePizza.length > 0) { //(this.pizzaAdditionItems && this.pizzaAdditionItems.length > 0)
   
       this.pizzaBaseLoaded = false;
@@ -4865,7 +4744,6 @@ public cmShopCategory:any;
       if (this.pizzaBaseLoaded) {
         clearInterval(this.stop);
         let cls = 'modal-dialog-item-with-garnishes';
-        console.log("pizza",pizza);
         if (this.isMobileMode()) cls = 'modal-dialog-scrollable modal-xl';
 
         const initialState = {
@@ -4882,8 +4760,6 @@ public cmShopCategory:any;
         this.modalService.onHide
           .pipe(take(1)).subscribe(() => {
             if (this.bsModalRef.content.isSaved && this.bsModalRef.content.pizza) {
-              console.log("this.bsModalRef.content",this.bsModalRef.content);
- console.log("pizza",pizza);
               //if (!this.isMobileMode()) {
                 if(this.bsModalRef.content.pizza.GarnishGroupsAfterPizza && 
                    this.bsModalRef.content.pizza.GarnishGroupsAfterPizza.length>0 ){
@@ -4898,7 +4774,6 @@ public cmShopCategory:any;
                     this.commonFunctionsService.deepCopy(this.bsModalRef.content.pizza),
                     this.commonFunctionsService.deepCopy(this.bsModalRef.content.specialRequests));
                     orderPizza.SpecialRequests = this.bsModalRef.content.comments;
-                  console.log("orderPizza", orderPizza);
                   this.order.OrderPizzas.push(orderPizza);
                   this.checkOrderResultHeight();
                   this.orderService.recalculateSum();
@@ -4925,7 +4800,6 @@ public cmShopCategory:any;
     const orderPizza = this.preparePizzaForOrder(
       this.commonFunctionsService.deepCopy(item), //this.bsModalRef.content.pizza
       this.commonFunctionsService.deepCopy(this.bsModalRef.content.specialRequests));
-    console.log("orderPizza", orderPizza);
     this.order.OrderPizzas.push(orderPizza);
     this.checkOrderResultHeight();
     this.orderService.recalculateSum();
@@ -4949,7 +4823,6 @@ public cmShopCategory:any;
   }
 
   public resetPizza(item) {
-    console.log("resetPizza", item);
    
       if (item) {
         item.Amount = 1;
@@ -5093,10 +4966,7 @@ public cmShopCategory:any;
 
   private displayDiscount(callback?) {
     console.log("displayDiscount");
-    console.log("AppConfig.configSettings.ignoreCupons", AppConfig.configSettings.ignoreCupons)
     if (!AppConfig.configSettings.ignoreCupons) {
-      console.log("this.previousRouteService.getPreviousUrl()", this.previousRouteService.getPreviousUrl());
-      console.log("discount", this.discount);
       if (
         (this.previousRouteService.getPreviousUrl() === `/${this.franchiseId}/` ||
           this.previousRouteService.getPreviousUrl() === `/${this.franchiseId}/home`) &&
@@ -5111,12 +4981,10 @@ public cmShopCategory:any;
           disableClose: true,
           panelClass: 'custom-mat-dialog-popup'
         }).afterClosed().subscribe((result) => {
-          console.log("my-result-2", result);
           console.log("continue here 10");
           /*if (!this.isSignedUser) {
             console.log("continue here 12")
             this.loadSignInForm((result) => {
-              console.log("result", result)
               if (result.isSignedIn)
                 this.verifyToken();
             });
@@ -5206,13 +5074,9 @@ public cmShopCategory:any;
 
       this.signInOutService.verifyToken(token).subscribe((response) => {
         this.isLoaded.isDiscountLoaded = true;
-        console.log("verifyToken: response", response);
         const result = response ? !!response.user : !!response;
         if (result) {
           this.user = response.user;
-          console.log("this.appStorageService.franchise", this.appStorageService.franchise);
-          console.log("this.appStorageService.showClubMember", this.appStorageService.showClubMember);
-          console.log("this.user", this.user);
           this.appStorageService.appUser = this.user;
           this.appStorageService.ccTokens = response.ccTokens;
           this.appStorageService.addresses = response.addresses;
@@ -5229,9 +5093,7 @@ public cmShopCategory:any;
             !this.user.DontDisplayAnymore && 
             this.appStorageService.franchise.UseMembersClub && 
             !AppConfig.configSettings.cancelPhoneVerification) {
-              console.log("openCustomerClub=====", result);
             this.openCustomerClub(false, (result) => {
-              console.log("result", result);
               this.loadDiscountAndScratchCoupons();
               //if (result.isSignedIn)
               //this.verifyToken();
@@ -5240,9 +5102,7 @@ public cmShopCategory:any;
           else if ( this.user.IsClubMember && 
                   this.appStorageService.franchise.UseMembersClub && 
                   !AppConfig.configSettings.cancelPhoneVerification) {
-                    console.log("this.user.IsClubMember" );
                     if (this.clubMemberCategories && this.clubMemberCategories.length > 0) {
-                      console.log("clubMemberCategories" ,this.clubMemberCategories );
                       this.cmShopCategory = this.clubMemberCategories.find
                       (it => it.Name === "CM_SHOP");
                       if (this.cmShopCategory?.Items?.length > 0){
@@ -5253,12 +5113,9 @@ public cmShopCategory:any;
                         this.displayCmShopCategory = true;
                       }
                       
-                      console.log("this.cmShopCategory ", this.cmShopCategory ,this.displayCmShopCategory )
                     }
                     if (this.appStorageService.showClubMember ){
-                      console.log("openCustomerClub+++++", result);
                       this.openCustomerClub(true, (result) => {
-                        console.log("result", result);
                         this.loadDiscountAndScratchCoupons();
                         //if (result.isSignedIn)
                         //this.verifyToken();
@@ -5271,7 +5128,6 @@ public cmShopCategory:any;
 
           else this.loadDiscountAndScratchCoupons();
 
-          console.log(" this.user", this.user);
 
           this.isLoaded.isDiscountLoaded = false;
         } else {
@@ -5286,7 +5142,6 @@ public cmShopCategory:any;
          
           this.menuService.getDiscount(this.order.BranchId, undefined).subscribe((result) => {
             if (result) {
-              console.log("result", result);
               this.discount = result;
               //this.displayDiscount();
             }
@@ -5297,7 +5152,6 @@ public cmShopCategory:any;
         }
       }, (error) => {
         this.isLoaded.isDiscountLoaded = true;
-        console.log("error", error);
         // this.messageService.displayServerErrorMessage();
       });
       console.log("this.loadDiscountAndScratchCoupons-cont-9");
@@ -5312,10 +5166,8 @@ public cmShopCategory:any;
       this.isLoadedScratchCoupon = false;
       this.isSignedUser = false;
 
-      console.log("this.order.BranchId", this.order.BranchId);
       this.menuService.getDiscount(this.order.BranchId, undefined).subscribe((result) => {
         if (result) {
-          console.log("result", result);
           this.discount = result;
           //this.displayDiscount();
         }
@@ -5328,10 +5180,8 @@ public cmShopCategory:any;
 
 
   public displayPopupMessage(message, messageText, imgIcon,  callback?) {
-    console.log("AppConfig.configSettings.displayPopup",AppConfig.configSettings.displayPopup);
    // if (AppConfig.configSettings.displayPopup == true) {
       let myMessageText = messageText;
-      console.log("messageText",messageText);
       let header = this.translationService.translate('IMPORTANT_MESSAGE');
       let icon = imgIcon ; //"../../../assets/images/items/important-message.svg"
       //const message = this.currentBranch;
@@ -5349,7 +5199,6 @@ public cmShopCategory:any;
       });
 
       matDialogRef.afterClosed().subscribe((result) => {
-        console.log("my-result", result);
         if (callback) {
           //this.isFirst=false;
           callback(result);
@@ -5370,11 +5219,7 @@ public cmShopCategory:any;
     const minForBonus = AppConfig.configSettings.minAmountForBonus;
     const firstMessage = this.translationService.translate('BONUS_FIRST');
     const bonusMSG = AppConfig.configSettings.bonusMsg;
-    console.log(minForBonus);
-    console.log(firstMessage);
-    console.log("this.bonusItems",this.bonusItems);
     if (this.bonusItems && this.bonusItems.length > 0) {
-      console.log("if (this.bonusItems && this.bonusItems.length > 0)");
       const matDialogRef = this.matDialog.open(AdditionalItemsComponent, {
         data: {
           //header: message,
@@ -5393,14 +5238,11 @@ public cmShopCategory:any;
         panelClass: 'custom-mat-dialog-mobile-bonus'
       });
       matDialogRef.afterClosed().subscribe((result) => {
-        console.log("afterClosed()-->", result);
         if (result && result.isSaved && result.selectedItems) {
           result.selectedItems.forEach(orderAdditionalItem => {
             this.order.OrderItems.push(orderAdditionalItem);
             this.checkOrderResultHeight();
             this.order.hasBonusItems = true;
-            console.log("window.location.hash " + window.location.hash,  this.order);
-            console.log("TANYAAAAA", window.location.hash);
             this.appStorageService.setItemInLocalStorage(window.location.hash, this.order);
           });
           //  this.addToCartComboItem(result.combo, comboItem);
