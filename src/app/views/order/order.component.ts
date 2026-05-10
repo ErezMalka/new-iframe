@@ -397,8 +397,6 @@ bsModalRef: BsModalRef;
 
   @HostListener('window:payment.success', ['$event']) 
     onPaymentSuccess(event): void {
-      console.log("event",event);
-      console.log("event.detail",event.detail);
       this.MeshulamPayment(event.detail.payment_method, 
                            event.detail.confirmation_number,
                            event.detail.number_of_payments);
@@ -459,7 +457,6 @@ bsModalRef: BsModalRef;
     this.openAdditionalItemsModalFlag = true;
 
     this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
-    console.log(this.order);
 
     this.categories = this.appStorageService.categories || [];
 
@@ -467,9 +464,7 @@ bsModalRef: BsModalRef;
 
     this.flicker();
     this.notAllowedBenefitsAmount = false;
-    console.log("AppConfig.configSettings.cancelPhoneVerification", AppConfig.configSettings.cancelPhoneVerification);
     if(AppConfig.configSettings.cancelPhoneVerification){
-      console.log("AppConfig.configSettings.cancelPhoneVerification", AppConfig.configSettings.cancelPhoneVerification);
       this.cancelVerification = AppConfig.configSettings.cancelPhoneVerification;
     }
 
@@ -487,7 +482,6 @@ bsModalRef: BsModalRef;
   
     // Access the data sent with the post message
     const postData = event.data;
-    console.log('Received post message:', postData);
   
     // Process the post message data and perform the necessary actions
     // ...
@@ -513,7 +507,6 @@ bsModalRef: BsModalRef;
                   }
                 }                  
               */ 
-              console.log("response", response);
               var event = new CustomEvent("payment.success", 
                 {
                   detail: response.data,
@@ -535,10 +528,8 @@ bsModalRef: BsModalRef;
                 }
               */ 
                // this.messageService.displayErrorMessage(response.message);
-                console.log("onFailure response", response);
             },
             onError: (response) => {              
-                console.log("onError response", response);
               //  this.messageService.displayErrorMessage(response.message);
             },
             onWalletChange: (state) => {
@@ -550,7 +541,6 @@ bsModalRef: BsModalRef;
                 }
               );    
               window.dispatchEvent(event);
-              console.log("state", state);
             },
         }
     };
@@ -594,7 +584,6 @@ bsModalRef: BsModalRef;
   }
 
   public selectPaymentTypeDesktop(paymentType){
-    console.log("selectPaymentTypeDesktop", paymentType );
  
     if (this.timerId) {
       console.log("clear timerId")
@@ -717,11 +706,8 @@ checkTransactionStatus(loginToken) {
                                             loginToken, 
                                             this.resultSum(this.order.Sum), this.order.SaveCredit)
               .subscribe((response) => {
-                console.log("response", response);
                 if (response && response.Data && response.Data.success) {
-                  console.log("response.Data", response.Data);
                   if (this.timerId) {                  
-                    console.log("this.timerId", this.timerId);
                     clearInterval(this.timerId);     
                                   
                   }
@@ -749,14 +735,11 @@ public pelecardOrderSent: boolean = false;
                                               loginToken, 
                                               this.resultSum(this.order.Sum))
                 .subscribe((response) => {
-                  console.log("response", response);
                   if (response && response.Data && response.Data.success && !this.pelecardOrderSent) {
                     this.pelecardOrderSent = true; // ✅ Prevent future calls
                     this.hidePelecardIframe = true;
                     this.showLoader = true;
-                    console.log("response.Data", response.Data);
                     if (this.timerId) {                  
-                      console.log("this.timerId", this.timerId);
                       clearInterval(this.timerId);     
                                     
                     }
