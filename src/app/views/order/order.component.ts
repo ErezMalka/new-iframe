@@ -1999,7 +1999,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           return false;
         }
         if (!this.isCVV(this.ccWithToken.cvv)) {
-          console.log("this.ccWithToken.expirationMonth4",this.ccWithToken.expirationMonth);
           return false;
         }
         return true;
@@ -2020,11 +2019,8 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           .CheckCCToken(loginToken, this.order.BranchId, encrypted, this.ccWithToken.sum)
           .subscribe((res) => {            
             if (res && res.Data && res.Data != -1) {
-              console.log("res",res);
-              console.log("this.sumPayed",this.sumPayed);
               this.ccWithToken.token = res.Data
               this.sumPayed += Number(this.ccWithToken.sum);
-              console.log("after this.sumPayed",this.sumPayed);
               const cc = this.commonFunctionsService.deepCopy(this.ccWithToken);
               this.paymentService
               .dataEncryption(loginToken, JSON.stringify(this.ccWithToken))
@@ -2032,7 +2028,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                 let encryptedWithToken = response;
                 this.payersArray.push(cc);
                 this.encriptedPayersArray.push(encryptedWithToken);
-                console.log("this.payersArray",this.payersArray);
                 this.ccWithToken.cvv = '';
                 this.ccWithToken.expirationMonth = '';
                 this.ccWithToken.expirationYear = '';
@@ -2111,12 +2106,9 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           .TranzilaVerifyCard(loginToken, this.order.BranchId, encrypted, this.ccWithToken.sum)
           .subscribe((res) => {            
             if (res && res.Data && res.Data.Success) {
-              console.log("res",res);
-              console.log("this.sumPayed",this.sumPayed);
 
               //this.ccWithToken.token = res.Data
               this.sumPayed += Number(this.ccWithToken.sum);
-              console.log("after this.sumPayed",this.sumPayed);
               this.tranzilaPayersArray.push(res.Data);
 
               let cibusOrderDetails = new CibusAppModel();               
@@ -2195,7 +2187,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       .TranzilaForceCardPayment(loginToken, order.BranchId, payment.index, payment.ConfirmationCode, payment.sum)
       .subscribe((res) => {
         if (res && res.Data && res.Data.Success) { 
-          console.log("TranzilaForceCardPayment res",res);
           if (res.Data.Success) {
             counter++;
             payment.index = res.Data.index;
@@ -2276,16 +2267,12 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public calcMemberPoints(){
-    console.log("calcMemberPoints(): ",this.user);
-    console.log("calcMemberPoints(): this.user.MemberPoints",this.user.MemberPoints);
     var memberPoints = this.user.MemberPoints || 0;
-    console.log("memberPoints",memberPoints);
 
      const itemsFromCmShop = this.order.OrderItems.filter((item) => {
       return item.IsClubMemberItem;
     });
     var itemsFromShopPrice = 0;
-    console.log("itemsFromCmShop",itemsFromCmShop);
 
     itemsFromCmShop.forEach(item => {
       if(!item.IsAnnBenefitItem && !item.IsBDayBenefitItem && !item.IsJoinBenefitItem){
@@ -2302,7 +2289,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       }
     });
 
-    console.log("itemsFromShopPrice",itemsFromShopPrice);
     this.appStorageService.itemsFromShopPrice = itemsFromShopPrice;
 
     //this.currentUserPoints = memberPoints-itemsFromShopPrice;
@@ -2370,7 +2356,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
    private pelecardPaymentCallBack(response) {
-console.log("pelecardPaymentCallBack",response);
     if (this.isAvailableScratchCoupon()) {
       // if (response && response.Data && response.Data.success &&
        // response.Data.orderData && response.Data.orderData.Data.Data.success)
@@ -2392,7 +2377,6 @@ console.log("pelecardPaymentCallBack",response);
     this.isLoaded.isCreditPaymentLoaded = true;
     if (response.Data && !response.Data.success)   this.appStorageService.paymentResult = response.Data;
     else this.appStorageService.paymentResult = response;//Data.orderData.Data;
-    console.log(" this.appStorageService.paymentResult", this.appStorageService.paymentResult)
     localStorage.removeItem(window.location.hash);
     this.ngZone.run(() => this.router.navigate([`/${this.franchiseId}/payment/${this.order.BranchId}`])).then();
   }
@@ -2400,19 +2384,13 @@ console.log("pelecardPaymentCallBack",response);
   public updateClubMemberDetails(){
     if(this.user.IsClubMember){
 
-      console.log(" if(this.user.IsClubMember): this.user", this.user);
       const myUser = this.commonFunctionsService.deepCopy(this.user);
-      console.log("paymentRequestCashRegister: myUser", myUser);
   
-      console.log("paymentRequestCashRegister: this.calcMemberPoints()",this.calcMemberPoints());
       //this.user.MemberPoints =  this.calcMemberPoints();
   
       if(this.appStorageService.franchise.UseMembersClub){
-        console.log("payment(): this.appStorageService.franchise.UseMembersClub",this.appStorageService.franchise.UseMembersClub);
         this.userPoints = this.calcReceivedPoints();
-        console.log("this.userPoints",this.userPoints);
         //this.user.MemberPoints += this.userPoints;
-        console.log("this.user",this.user);
         if(this.userPoints != 0){
           //this.updateUser();
           this.appStorageService.pointsPerOrder = this.userPoints;
@@ -2420,9 +2398,7 @@ console.log("pelecardPaymentCallBack",response);
       }
   ///// כאן הבעיה
      /* this.signInOutService.updateUserDetails(this.user).subscribe((result) => {
-        console.log("result - update user", result);
       }, (error) => {
-        console.log("error update user");
   
       });*/
     }
@@ -2435,7 +2411,6 @@ console.log("pelecardPaymentCallBack",response);
     console.log("checkSigning");
     this.isSignedUser = !!this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
-      console.log("result",result);
       console.log("result!!!",result);
      // console.log("this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN)",
      // this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN));
