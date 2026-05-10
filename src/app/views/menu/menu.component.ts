@@ -375,8 +375,6 @@ public displayPhone: boolean;
     this.displayPickupPoints=AppConfig.configSettings.pickupPoints;
     this.multilingual = AppConfig.configSettings.multilingual;
     this.logoImg = AppConfig.settings.logo;
-    console.log("this.isSignedUser", this.isSignedUser);
-    console.log("this.this.order", this.order);
     this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
     this.isSignedUser = !!this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.franchiseId);
     if (this.appStorageService.categories == undefined || this.appStorageService.categories.length == 0) {
@@ -394,16 +392,12 @@ public displayPhone: boolean;
     this.loadMenu();
 
     this.browserRefresh = browserRefresh;
-    console.log('refreshed?:', browserRefresh);
 
 
     //this.checkDiscount();
-    console.log("logo", AppConfig.settings.logo);
     this.imgSrc = AppConfig.settings.logo;
     this.selectedLang = this.translationService.language();
-    console.log("currentBranch", this.currentBranch);
     this.displayPhone = AppConfig.configSettings.displayBranchPhoneLink;
-    console.log("this.displayPhone", this.displayPhone);
      
 
 
@@ -432,9 +426,7 @@ public displayPhone: boolean;
         
         console.log("first else");
 
-        console.log("document", document);
         const mySec = document.getElementsByClassName("my-items");
-        console.log("mySec", mySec);
 
         for (let index = 0; index < mySec.length; index++) {
           mySec[index].classList.add('animate__animated', 'animate__bounceInDown');
@@ -452,7 +444,6 @@ public displayPhone: boolean;
             if (!this.isSignedUser && this.appStorageService.franchise.UseMembersClub) {
               console.log("continue here 8 - if not signed and franchise use member club");
               this.loadSignInForm((result) => {
-                console.log("result", result)
               //  if (result.isSignedIn)
                   //this.verifyToken();
               });
@@ -543,7 +534,6 @@ private getAppLanguages() {
   this.languages =[];  
   this.signInOutService.getAppLanguages()
     .subscribe((response) => {
-      console.log('getAppLanguages',response);
       if (response) {
         this.appStorageService.languages =response;
         this.languages = this.appStorageService.languages; //this.languages.concat(response);
@@ -564,7 +554,6 @@ private getAppLanguages() {
   dateIsValid(date) {
     if( date instanceof Date) return true;
     else{
-      console.log("not instance of date: date", date);
       return false;
 
     }
@@ -590,7 +579,6 @@ private getAppLanguages() {
 
       if (this.user.BirthDateStr != null) {
         birthStrToDate = new Date(this.user.BirthDateStr);
-        console.log("birthStrToDate", birthStrToDate);
       }
       if (this.dateIsValid(this.user.BirthDate)) {
         availableMonthBDay = this.user.BirthDate?.getMonth();
@@ -598,12 +586,9 @@ private getAppLanguages() {
       else if (this.user.BirthDateStr != null) {
         availableMonthBDay = birthStrToDate?.getMonth();
       }
-      console.log("availableMonthBDay", availableMonthBDay);
-      console.log("currentMonth", currentMonth);
 
       if(this.user.AnniversaryStr != null){
         annStrToDate = new Date(this.user.AnniversaryStr);
-        console.log("annStrToDate", annStrToDate);
       }
       if(this.dateIsValid(this.user.Anniversary)){
         availableMonthAnn = this.user.Anniversary?.getMonth();
@@ -612,8 +597,6 @@ private getAppLanguages() {
         availableMonthAnn =  annStrToDate?.getMonth();
        }
     
-      console.log("availableMonthAnn", availableMonthAnn);
-      console.log("currentMonth", currentMonth);
 
       const bdayCategory = this.clubMemberCategories.filter((cat) => {
         return cat.Name == this.translationService.translate('CM_BIRTHDAY') || cat.Name == 'CM_BIRTHDAY'
@@ -624,8 +607,6 @@ private getAppLanguages() {
       });
 
       
-      console.log("bdayCategory", bdayCategory);
-      console.log("annCategory", annCategory);
 
       if((availableMonthAnn == availableMonthBDay) && (availableMonthAnn == currentMonth)
           && !this.user.UsedAnniversaryVoucher && !this.user.UsedBirthdayVoucher
@@ -685,7 +666,6 @@ private getAppLanguages() {
     
     matDialogRef.componentInstance.signInCompleted
       .subscribe((result) => {
-        console.log("result", result);
         //this.loadOrderUserDataToUser(this.order);
         this.isSignedUser = result;
         console.log("defaultLayout component verifyToken");
@@ -703,17 +683,12 @@ private getAppLanguages() {
               this.appStorageService.appUser.Address = null;
               this.appStorageService.appUser.IsClubMember = null;
             }
-            console.log("this.user", this.user);
 
             if (this.isSignedUser && this.user) {
-              console.log("this.appStorageService.franchise", this.appStorageService.franchise);
-              console.log("this.user", this.user);
-              console.log("this.appStorageService", this.appStorageService);
               if( this.user.BiteCredit > 0){
                 this.router.navigateByUrl(`/${this.franchiseId}/my-credit`);
               }
               else{
-                console.log("this.isMobileMode()",this.isMobileMode());
                 var minWidth;
                 var maxWidth;
                 var maxHeight;
@@ -729,7 +704,6 @@ private getAppLanguages() {
                   maxWidth = '50vw';
                   cls = 'bite-credit-desktop'
                 }
-                console.log("cls",cls)
                 const matDialogRef = this.matDialog.open(BiteCreditComponent, {
                   data: {
                     creditOptions: this.appStorageService.franchise.CreditOptions,
@@ -755,7 +729,6 @@ private getAppLanguages() {
             this.isSignedUser=false;
           }
         }, (error) => {
-          console.log("error", error);
         });
 
 
@@ -764,7 +737,6 @@ private getAppLanguages() {
       if (this.appStorageService.appUser?.BiteCredit > 0) {
         this.router.navigateByUrl(`/${this.franchiseId}/my-credit`);
       }else{
-        console.log("this.isMobileMode()",this.isMobileMode());
         var minWidth;
         var maxWidth;
         var maxHeight;
@@ -780,7 +752,6 @@ private getAppLanguages() {
           maxWidth = '50vw';
           cls = 'bite-credit-desktop'
         }
-        console.log("cls",cls)
         const matDialogRef = this.matDialog.open(BiteCreditComponent, {
           data: {
             creditOptions: this.appStorageService.franchise.CreditOptions,
@@ -846,11 +817,8 @@ private getAppLanguages() {
 
     console.log("openCustomerClub()");
 
-    console.log("this.user", this.user);
 
-    console.log("isClubMember", isClubMember);
 
-    console.log("this.checkUserBirthDay", this.checkUserEvents());
 
 
     let header = this.translationService.translate("CONTACT");
@@ -895,8 +863,6 @@ private getAppLanguages() {
       });
 
       matDialogRef.afterClosed().subscribe((result) => {
-        console.log("CLUB_MEMBER-RESULT", result);
-        console.log("this.user", this.user);
         if (result) {
 
           if (callback) {
@@ -933,20 +899,15 @@ private getAppLanguages() {
             if (!this.dateIsValid(this.user.JoinedToClub) && this.user.JoinedToClubStr != null) {
               this.user.JoinedToClub = new Date(this.user.JoinedToClubStr);
             }*/
-            console.log("MENU - ClubMemberSignIn: this.user", this.user);
-            console.log(" this.user.JoinedToClub ", this.user.JoinedToClub);
 
 
 
             this.signInOutService.updateUserDetails(this.user).subscribe((result) => {
-              console.log("result - update user", result);
               const joinCategory = this.clubMemberCategories.filter((cat) => {
                 return cat.Name == this.translationService.translate('CM_JOIN') || cat.Name == 'CM_JOIN'
               });
-              console.log("joinCategory", joinCategory);
               if (result && !this.user.UsedJoinVoucher && joinCategory && joinCategory[0] && joinCategory[0].Items && joinCategory[0].Items.length>0) {
                 this.userJoinedClub = true;
-                console.log("openCustomerClub 00000", joinCategory);
                 this.openCustomerClub()
               }
               else if (result && (this.user.UsedJoinVoucher || !joinCategory[0])) {
@@ -1006,18 +967,14 @@ public loadSuccessRegistrationMessage() {
 
     //var count = 0;
 
-    console.log("this.messagesFromBranch", this.messagesFromBranch);
     this.messagesFromBranch.forEach(message => {
 
       if (!message.DisplayInEndOfOrder) {
 
-        console.log("message", message);
 
         this.displayPopupMessage(message, message.Message, message.ImageUrl, (result) => {
-          console.log("result", result)
           if (!result.isDigitalMenu)
             this.count++;
-          console.log("this.count", this.count);
 
           if (this.count == this.messagesFromBranch.length) {
 
@@ -1032,7 +989,6 @@ public loadSuccessRegistrationMessage() {
 
                 if (!this.isSignedUser && !AppConfig.configSettings.dontDisplayPhonePopup) { //&& this.appStorageService.franchise.UseMembersClub
                   console.log("continue here 11 - if not signed and franchise dontDisplayPhonePopup");
-                  console.log("AppConfig.configSettings",AppConfig.configSettings);
                   this.loadSignInForm((result) => {
                   /*  console.log("result", result)
                     if (result.isSignedIn) {
@@ -1066,7 +1022,6 @@ public loadSuccessRegistrationMessage() {
       }
 
       else {
-        console.log("this message diplayed in end of order");
       }
 
 
@@ -1085,7 +1040,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   private initializeMenuForBranch(continueCallBack?) {
-    console.log("initializeMenuForBranch",this.appStorageService.orderType);
     console.log("this.translationService.language()", this.translationService.language());
     // if (!this.appStorageService.isMenuWasLoaded) {
     let hasPizzas: boolean = false;
@@ -1121,7 +1075,6 @@ public loadSuccessRegistrationMessage() {
           
         });
 
-        console.log("this.appStorageService.clubMembershipCategories",this.appStorageService.clubMembershipCategories);
 
         this.appStorageService.pizzas = result.pizzas;
         if (result.pizzas && result.pizzas.length > 0) {
@@ -1204,7 +1157,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   public signOut() {
-    console.log("signOUT()", this.isSignedUser);
     this.signInOutService.signOut();
     this.isSignedUser = false;
   }
@@ -1215,8 +1167,6 @@ public loadSuccessRegistrationMessage() {
       //this.selectedLang = this.translationService.language();
       console.log("this.translationService.language", this.translationService.language());
       this.initializeMenuForBranch(() => {
-        console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
-        console.log("---this.order",this.order);
 
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload'
@@ -1252,7 +1202,6 @@ public loadSuccessRegistrationMessage() {
         });
   
         matDialogRef.afterClosed().subscribe((result) => {
-          console.log("my-result", result);
           /*if (callback) {
             //this.isFirst=false;
             callback(result);
@@ -1286,7 +1235,6 @@ public loadSuccessRegistrationMessage() {
     });
 
     matDialogRef.afterClosed().subscribe((result) => {
-      console.log("my-result", result);
       /*if (callback) {
         //this.isFirst=false;
         callback(result);
@@ -1298,7 +1246,6 @@ public loadSuccessRegistrationMessage() {
 
   /*public loadSignInAndCoupons() {
     this.loadSignInForm((result) => {
-      console.log("result-load", result);
       if (result.isSignedIn)
         this.verifyToken();
 
@@ -1307,10 +1254,8 @@ public loadSuccessRegistrationMessage() {
 
   public doSomething() {
     localStorage.removeItem(window.location.hash);
-    console.log("this.inLinks", this.inLinks);
     this.appStorageService.inLinks = true;
     this.inLinks = true;
-    console.log("this.inLinks", this.inLinks);
     document.getElementById("mySidebar").style.display = "none";
     const body = document.getElementsByTagName('body')[0];
     body.classList.remove('sidebar-show');
@@ -1330,7 +1275,6 @@ public loadSuccessRegistrationMessage() {
     else{
        position = {} 
     }
-    console.log("position",position);
     const matDialogRef = this.matDialog.open(DialogSignInComponent, {
       data: {
         isFirst: true,
@@ -1361,7 +1305,6 @@ public loadSuccessRegistrationMessage() {
       });
     matDialogRef.afterClosed().subscribe((result) => {
     if(result){
-      console.log("load-result", result);
       if (callback) {
         callback(result);
 
@@ -1369,7 +1312,6 @@ public loadSuccessRegistrationMessage() {
     }
 
     else{
-      console.log("no result - open club");
       //this.openCustomerClub();
     }
     });
@@ -1409,7 +1351,6 @@ public loadSuccessRegistrationMessage() {
     var xhr = new XMLHttpRequest();
     xhr.open('HEAD', urlToFile, false);
     xhr.send();
-    console.log("xhr.status", xhr.status);
     if (xhr.status == 404) {
       return false;
     } else {
@@ -1440,16 +1381,13 @@ public loadSuccessRegistrationMessage() {
   }
   scrollTo(section) {
   /*  const el = document.getElementById('nav-' + section);
-    console.log("el", el);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', inline: 'center' });
     }*/
 
     const element = document.getElementById('cat' + section);
-    console.log("element-section", element);
 
     const mySec = document.getElementById('cat11' + section).getElementsByClassName("my-items");
-    console.log("mySec", mySec);
 
     for (let index = 0; index < mySec.length; index++) {
       mySec[index].classList.add('animate__animated', 'animate__zoomIn');
@@ -1474,15 +1412,11 @@ public loadSuccessRegistrationMessage() {
       topOffset = 120;
     }
 
-    console.log("scroll to: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + section, topOffset);
-    console.log("scroll to: element.getBoundingClientRect().top", element.getBoundingClientRect().top);
-    console.log("scroll to: window.pageYOffset", window.pageYOffset);
     const y = element.getBoundingClientRect().top + window.pageYOffset - topOffset;
     console.log("scroll to: y", y);
     //document.querySelector('#cat' + section).scrollIntoView();
     window.scrollTo({ top: y, behavior: 'smooth' });
    /* const el = document.getElementById('nav-' + section);
-    console.log("el", el);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', inline: 'center' });
     }*/
@@ -1588,37 +1522,27 @@ public loadSuccessRegistrationMessage() {
    }
 
   public completeSignIn(result) {
-    console.log("completeSignIn result",result);
-    console.log("LOGIN_TOKEN",
-    this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN  + "_" + this.configService.franchiseId));
     this.isSignedUser = result || !!this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
     this.loadDiscountAndScratchCoupons();
   }
 
   public checkSigning(callback?) {
-    console.log("checkSigning",callback);
     //this.isSignedUser = !!result;
-    console.log("this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN)", this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId));
     this.isSignedUser = !!this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.franchiseId);
     if (this.isSignedUser) {
-      console.log("isSignedUser", this.isSignedUser);
       this.verifyToken();
     } 
     else {
-      console.log("else is not isSignedUser", this.isSignedUser);
       this.menuService.getDiscount(this.order.BranchId, undefined).subscribe((result) => {
         if (result) {
 
           this.discount = result;
-          console.log("this.discount11", this.discount);
           if (this.discount.active)
             this.displayDiscount(callback);
           else {
             if (!this.isSignedUser  && !AppConfig.configSettings.dontDisplayPhonePopup) { // && this.appStorageService.franchise.UseMembersClub
               console.log("continue here 12 - if not signed and franchise dontDisplayPhonePopup");
-              console.log("AppConfig.configSettings",AppConfig.configSettings);
               this.loadSignInForm((result) => {
-                console.log("result", result)
                // if (result.isSignedIn)
                  // this.verifyToken();
               });
@@ -1654,29 +1578,20 @@ public loadSuccessRegistrationMessage() {
   }
 
   public checkDiscount(extraActions?) {
-    console.log("this.user", this.user);
-    console.log("checkDiscount", extraActions);
     if (this.isSignedUser) {
-      console.log("checkDiscount(): this.isSignedUser");
       const token = this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
       if (token) {
-        console.log("checkDiscount(): token",token);
         this.isLoaded.isDiscountLoaded = false;
         this.signInOutService.verifyToken(token).subscribe((response) => {
           this.isLoaded.isDiscountLoaded = true;
-          console.log("checkDiscount(): response",response);
           const result = response ? !!response.user : !!response;
           if (result) {
             this.user = response.user;
-             console.log("this.user", this.user);
              
             this.isLoaded.isDiscountLoaded = false;
              
-                 console.log("this.order.BranchId",this.order.BranchId);
-                 console.log("this.user",this.user);
             this.menuService.getAllDiscounts(this.order.BranchId, this.user && this.user.Id ? this.user.Id : undefined).subscribe((result) => {
               if (result) {
-                console.log("getAllDiscountsResult", result);
                 if (result.cupon && (result.cupon.active || result.cupon.alwaysActive)) {
                   if (result.firstTimeCupon && result.firstTimeCupon.active
                     && result.firstTimeCupon.sum > result.cupon.sum) {
@@ -1710,7 +1625,6 @@ public loadSuccessRegistrationMessage() {
           }
         }, (error) => {
           this.isLoaded.isDiscountLoaded = true;
-          console.log("error", error);
           // this.messageService.displayServerErrorMessage();
         });
       }
@@ -1718,7 +1632,6 @@ public loadSuccessRegistrationMessage() {
 
     } else {
       if (extraActions) {
-        console.log("checkDiscount else extraActions", extraActions);
         extraActions();
       }
     }
@@ -1862,7 +1775,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   public resetItem(item) {
-    console.log("resetItem",item)
     if (item) {
       item.Quantity -=item.Amount;
       item.Amount = 1;
