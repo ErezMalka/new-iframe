@@ -156,7 +156,6 @@ public phoneNumber:string;
     protected browserIdentificatorService: BrowserIdentificatorService,
     private previousRouteService: PreviousRouteService) {
      // this.routeActivate.canActivateHome = false;
-     console.log("this.routeActivate",this.routeActivate);
      console.log("this.selectedLang", this.selectedLang);
     //super(browserIdentificatorService);
     this.setNgSelectConfig();
@@ -347,7 +346,6 @@ public phoneNumber:string;
     }
 
     if (window.location.hostname === 'localhost') {
-      console.log('[Tracking Event]', event, eventData);
     }
   }
 
@@ -367,12 +365,10 @@ public phoneNumber:string;
     this.selectedLang = this.translationsService.language();
     console.log("this.translationService.language",this.translationsService.language());
     console.log(" this.selectedLang", this.selectedLang);AppConfig.configSettings
-    console.log("AppConfig.configSettings",AppConfig.configSettings);
     this.languages =[];
     this.languages =this.languages.concat({Id:0, Name: "עברית", Code:"he"});
     this.signInOutService.getAppLanguages()
       .subscribe((response) => {
-        console.log('getAppLanguages',response);
         if (response) {
           this.appStorageService.languages =response;
           this.languages = this.appStorageService.languages; //this.languages.concat(response);
@@ -384,7 +380,6 @@ public phoneNumber:string;
           if (AppConfig.configSettings.displayPopup == true) {
   
             this.displayPopupMessage((result) => {
-              console.log("continue here 11- result", result);
     
               if (!result.isDigitalMenu) {
                 console.log("document", document);
@@ -472,18 +467,15 @@ public phoneNumber:string;
     this.multilingual = AppConfig.configSettings.multilingual;
     this.phoneNumber = this.appStorageService?.franchise?.ManagerPhone;
     this.displayFutureDates = true;
-    console.log("getItemFromLocalStorage " + this.configService.currentUrl,
     this.appStorageService.getItemFromLocalStorage(this.configService.currentUrl));
     let _order =this.appStorageService.getItemFromLocalStorage(this.configService.currentUrl);
     if ( _order != null && _order != undefined) {
-      console.log("tanyaaaa", _order);
       this.isLoaded = false;
       this.initializeGraphics();
       this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
      
       this.orderService.setOrder(_order);
       this.initializeOrder();
-      console.log("this.order", this.order);
        
       let method: PickupsMethodsEnum;
       if (this.order.IsSit) {
@@ -495,18 +487,14 @@ public phoneNumber:string;
       }   else  if ( this.order.IsDigitalMenu){
         this.appStorageService.orderType = PickupsMethodsEnum.digitalmenu;      
       }     
-      console.log("getFranchiseWithBranches", this.appStorageService.orderType);
       this.metaDataService.getFranchiseWithBranches( this.appStorageService.orderType).subscribe((data) => {
         this.appStorageService.backResultFranchiseBranches = this.commonFunctionsService.deepCopy(data);
         this.appStorageService.isFranchiseBranchesWasLoaded = true;
         // console.log("data",  data);
         if (data) {
           this.branches = data.branches || [];
-          console.log("this.branches", this.branches);
           this.appStorageService.franchise = data.franchise;
          this.phoneNumber = data.franchise.ManagerPhone;
-         console.log("AppConfig.configSettings.displayFranchisePhoneLink",AppConfig.configSettings.displayFranchisePhoneLink)
-         console.log("this.phoneNumber",this.phoneNumber)
           if (data.Policy){
             this.appStorageService.privacyPolicy = data.Policy.PrivacyPolicy;
             this.appStorageService.memberClubPolicy = data.Policy.MembersClubPolicy;
@@ -516,7 +504,6 @@ public phoneNumber:string;
           }
           // this.initializeOrderReceipt();
           let currentBranch = this.branches.find((b) => { return b.Id == this.order.BranchId });
-          console.log("currentBranch",  currentBranch);
          // currentBranch.DeliveryBranchGroup = 
          
           if (currentBranch != undefined) {
@@ -527,19 +514,14 @@ public phoneNumber:string;
                   try {
                     // Code that might throw an error
                     const trackingParams = JSON.parse(currentBranch.EventTrackingParams);
-                    console.log('trackingParams:', trackingParams);
                     this.initEventTracking(trackingParams);
                       this.trackingParamsLoaded = true;
                   } catch (error) {
                     // Handle the error
-                    console.error('cannot parse trackingParams:', currentBranch.EventTrackingParams, error);
                   }
                 }
             this.initializeMenuForBranch(() => {
-              console.log("params current url",this.configService.currentUrl);
               let pathArr: string[] =  this.configService.currentUrl.split('/');
-              console.log("pathArr",pathArr);
-              console.log("currentBranch",currentBranch);
               this.router.navigateByUrl('/'+ pathArr[1]+ '/'+ pathArr[2]);
             //  this.router.navigateByUrl(`/${this.franchiseId}/menu`);
             });
@@ -560,7 +542,6 @@ public phoneNumber:string;
       });
 
     }  else if (this.configService.branchId && this.configService.isTVMenu) {
-      console.log("if (this.configService.branchId && this.configService.isTVMenu)");
       this.isLoaded = false;
       this.initializeGraphics();
       this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
@@ -573,8 +554,6 @@ public phoneNumber:string;
       this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
       this.initializeOrder();
       this.order.BranchId = this.configService.branchId;
-      console.log("this.configService.branchId", this.configService.branchId);
-      console.log("this.configService.isMenu", this.configService.isMenu);
       let method: PickupsMethodsEnum;
       if (this.configService.isEatIn) {
         this.appStorageService.orderType = PickupsMethodsEnum.eatinbranch;
@@ -588,7 +567,6 @@ public phoneNumber:string;
       }
       method = this.appStorageService.orderType;
       //if (this.order.IsDigitalMenu) method = PickupsMethodsEnum.delivery;
-      console.log("getFranchiseWithBranches", this.appStorageService.orderType);
       this.metaDataService.getFranchiseWithBranches(method).subscribe((data) => {
         this.appStorageService.backResultFranchiseBranches = this.commonFunctionsService.deepCopy(data);
         this.appStorageService.isFranchiseBranchesWasLoaded = true;
@@ -596,12 +574,9 @@ public phoneNumber:string;
         if (data) {
 
           this.branches = data.branches || [];
-          console.log("this.branches", this.branches);
           this.appStorageService.franchise = data.franchise;
           this.appStorageService.franchise = data.franchise;
           this.phoneNumber = data.franchise.ManagerPhone;
-          console.log("AppConfig.configSettings.displayFranchisePhoneLink",AppConfig.configSettings.displayFranchisePhoneLink)
-          console.log("this.phoneNumber",this.phoneNumber)
           if (data.Policy){
             this.appStorageService.privacyPolicy = data.Policy.PrivacyPolicy;
             this.appStorageService.memberClubPolicy = data.Policy.MembersClubPolicy;
@@ -620,16 +595,13 @@ public phoneNumber:string;
                   try {
                     // Code that might throw an error
                     const trackingParams = JSON.parse(currentBranch.EventTrackingParams);
-                    console.log('trackingParams:', trackingParams);
                     this.initEventTracking(trackingParams);
                       this.trackingParamsLoaded = true;
                   } catch (error) {
                     // Handle the error
-                    console.error('cannot parse trackingParams:', currentBranch.EventTrackingParams, error);
                   }
                 }
             this.initializeMenuForBranch(() => {
-              console.log("params from config service");
 
               this.router.navigateByUrl(`/${this.franchiseId}/menu`);
             });
@@ -652,9 +624,7 @@ public phoneNumber:string;
     } else {
 
       this.message = AppConfig.configSettings.popupMsg;
-      console.log("this.message", this.message);
       this.openLangSelector = false;
-      console.log("AppConfig.configSettings", AppConfig.configSettings.deliveryBtnTxt);
       if (AppConfig.configSettings.sitBtnTxt != undefined
         && AppConfig.configSettings.sitBtnTxt != null
         && AppConfig.configSettings.sitBtnTxt != "") this.sitBtnTxt = AppConfig.configSettings.sitBtnTxt
@@ -674,12 +644,10 @@ public phoneNumber:string;
 
       if (this.isDigitalMenu()) {
         this.initializeOrder();
-        console.log("getFranchiseWithBranches - isDigitalMenu", this.appStorageService.orderType);
         this.metaDataService.getFranchiseWithBranches(PickupsMethodsEnum.delivery).subscribe((franchiseResult) => {
           if (franchiseResult && franchiseResult.branches) {
             this.order.BranchId = franchiseResult.branches[0].Id;
             this.initializeMenuForBranch(() => {
-              console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
               this.router.navigateByUrl(`${this.franchiseId}/menu`);
 
             });
@@ -744,7 +712,6 @@ public phoneNumber:string;
         });
 
         matDialogRef.afterClosed().subscribe((result) => {
-          console.log("my-result", result);
           if (callback) {
             callback(result);
     
@@ -874,7 +841,6 @@ public phoneNumber:string;
     this.order.IsDelivery = false;
     this.order.IsTakeAway = false;
     this.order.IsDigitalMenu = false;
-    console.log("cancelOptionSelection:order.IsDelivery",this.order.IsDelivery);
   }
 
   private completeSelectOptionForBranches() {
@@ -889,13 +855,10 @@ public phoneNumber:string;
        width="580px"
        maxWidth="580px"
     }
-    console.log("this.isAnySelected(this.selectedOrderReceipt)",this.isAnySelected(this.selectedOrderReceipt))
     if (this.isAnySelected(this.selectedOrderReceipt)) {//} && this.isMobileBrowser()) {
       this.displayMobileMode = true;
       // if (this.branches.length > 1) {
-        console.log("this._filteredBranches",this._filteredBranches);
       if (this._filteredBranches.length > 1) {
-        console.log("this._filteredBranches",this._filteredBranches);
         this._filteredBranches.sort((a,b) => Number(b.IsOpenForDelivery) - Number(a.IsOpenForDelivery));
         const dialogRef = this.matDialog.open(SelectBranchComponent, {
           data: {
@@ -914,9 +877,7 @@ public phoneNumber:string;
         dialogRef.afterClosed().subscribe(result => {
           if (result && result.isSaved) {
             this.selectedBranch = result.selectedBranch;
-            console.log("this.selectedBranch", this.selectedBranch);
             this.order.deliveryGroup = this.selectedBranch.DeliveryBranchGroup;
-            console.log(" this.order.", this.order)
             this.continueOrder();
           } else {
             console.log(" this.cancelOptionSelection();");
@@ -947,13 +908,11 @@ public phoneNumber:string;
 
   public selectCurrentOrderReceipt(isSit, isDelivery, isTakeAway, isDigitalMenu) {
     //this.resetPickupOrderType();
-    console.log("isSit, isDelivery, isTakeAway, isDigitalMenu ",isSit, isDelivery, isTakeAway, isDigitalMenu);
    // this.orderService.resetOrder();
    this.order.OrderItems = [];
    this.order.OrderPizzas = [];
    this.order.OrderCombos = [];
    this.order.hasBonusItems = false;
-   console.log("this.order.hasBonusItems = false;");
    this.order.Sum = 0;
     this.selectedOrderReceipt.isSit = isSit;
     this.selectedOrderReceipt.isDelivery = isDelivery;
@@ -990,7 +949,6 @@ public phoneNumber:string;
     
     matDialogRef.afterClosed()
       .subscribe((result) => {
-        console.log("result", result);
         if (result) {
           this.selectedBranch = undefined;
           this.branchControl.setValue('');
@@ -998,7 +956,6 @@ public phoneNumber:string;
             this._filteredBranches = this.selectBranchesByOrderReceipt();
       
             this.completeSelectOptionForBranches();
-            console.log("&&& this.order",this.order);
           } else {
             if (AppConfig.configSettings.deliveryDetailsAtCheckout){
               this._filteredBranches = this.selectBranchesByOrderReceipt();
@@ -1009,7 +966,6 @@ public phoneNumber:string;
               this.displayAddressInformation((result) => {
                 if (result.isSaved) {
                   this.isLoaded = false;
-                  console.log("--prepareBranchDeliveryGroups",result);
                   this.prepareBranchDeliveryGroups(result);
                   // this.addressBranchHandler(result);
                   this.completeSelectOptionForBranches();
@@ -1022,7 +978,6 @@ public phoneNumber:string;
           }
         }
         }, (error) => {
-          console.log("error", error);
         });
 
 
@@ -1034,7 +989,6 @@ public phoneNumber:string;
         this._filteredBranches = this.selectBranchesByOrderReceipt();
   
         this.completeSelectOptionForBranches();
-        console.log("&&& this.order",this.order);
       } else {
         if (AppConfig.configSettings.deliveryDetailsAtCheckout){
           this._filteredBranches = this.selectBranchesByOrderReceipt();
@@ -1045,7 +999,6 @@ public phoneNumber:string;
           this.displayAddressInformation((result) => {
             if (result.isSaved) {
               this.isLoaded = false;
-              console.log("--prepareBranchDeliveryGroups",result);
               this.prepareBranchDeliveryGroups(result);
               // this.addressBranchHandler(result);
               this.completeSelectOptionForBranches();
@@ -1064,10 +1017,8 @@ public phoneNumber:string;
 
   private prepareBranchDeliveryGroups(result) {
     this.isLoaded = false;
-    console.log("prepareBranchDeliveryGroups:result.availableGroups",result.availableGroups);
     
     this._filteredBranches = this.selectBranchesByOrderReceipt();
-    console.log("prepareBranchDeliveryGroups:result._filteredBranches",result._filteredBranches);
     if (result.availableGroups) {
       this._filteredBranches = this._filteredBranches.filter((item) => {
         const find = result.availableGroups.find(i => i.branchID === item.Id);
@@ -1075,7 +1026,6 @@ public phoneNumber:string;
           item.DeliveryBranchGroup = find.group;
         }
         this.isLoaded = true;
-        console.log("prepareBranchDeliveryGroups:!!find", find);
         return !!find;
        
       });
@@ -1123,7 +1073,6 @@ public phoneNumber:string;
 
   private displayPopupMessageIsClosedBranch(branch) {
     let header = this.translationsService.translate('PAY_ATTENTION');
-    console.log("displayPopupMessageIsClosedBranch: branch", branch)
     let icon = "../../../assets/images/items/branch-close.svg";
     let isBranchClose = true;
     let message = this.translationsService.translate('ORDER_BRANCH_CLOSED_NOW')+" ";
@@ -1141,12 +1090,9 @@ public phoneNumber:string;
     if (branch) {
       message += '\n' + (branch.IsClosedTodayComment || '');
       if (branch.WorkingHoursStr) {
-        console.log("branch.WorkingHours", branch.WorkingHours)
-        console.log("branch.WorkingHoursStr", branch.WorkingHoursStr)
         message += '\n' + (this.translationsService.translate('ORDER_OPENTIME'));
         //message += '\n \n' + (branch.WorkingHoursStr || '');
         workingHours= (branch.WorkingHoursStr || '');
-        console.log(workingHours);
       }
     }
     const data = {
