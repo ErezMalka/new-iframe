@@ -300,11 +300,9 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
     super(browserIdentificatorService);
     if(this.appStorageService.appUser && this.appStorageService.appUser != undefined) 
     this.appUser = this.appStorageService.appUser;
-    console.log("this.appUser",this.appUser);
     this.currentUserPoints = this.appUser.MemberPoints;
     this.clubMemberCategories = this.appStorageService.clubMembershipCategories;
     
-    console.log("this.clubMemberCategories",this.clubMemberCategories);
 
     this.currentDate = new Date();
   }
@@ -332,9 +330,7 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
     this.description = this.appStorageService.franchise.Description;
 
-    console.log("this.currentBranch",this.currentBranch);
 
-    console.log("this.appStorageService.clubMembershipCategories",this.appStorageService.clubMembershipCategories);
 
     this.appStorageService.clubMembershipCategories.sort((a,b) => b.Name.localeCompare(a.Name));
 
@@ -351,7 +347,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
     this.signInOutService.GetUserMemberPointsLog(this.appUser.Id).subscribe((response) => {
       if(response){
-        console.log("response",response);
         this.ordersWithPoints = response;
         this.ordersWithPoints.forEach(order => {
           order.isCollapsed = true;
@@ -372,14 +367,11 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
       if (result) {
         const fullOrder=result;
 
-        console.log("getOrderInfo fullOrder",fullOrder);
         this.orderSum = fullOrder.Sum - fullOrder.DiscountSum;
       }
     },(error) => {
-      console.log("getOrderInfo Error", error)
 
     });
-    console.log("order",order);
     /*if (this.myOrders && this.myOrders.length > 0) {
       const myorder = this.myOrders.filter((fullOrder) => {
         return fullOrder.Id == order.OrderId;
@@ -414,20 +406,17 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
       .subscribe((result) => {
         if (result) {
           this.myOrders=result;
-          console.log("this.myOrders",this.myOrders);
           //console.log("getOrderInfo result",result);
           //this.displayPizzaLogicForOrders();
 
           this.myOrders.forEach(order => {
             order.isCollapsed = true;
             order.OrderItems.forEach(item => {
-              console.log("item",item);
             });
             
           });
         }
       },(error) => {
-        console.log("getOrderInfo Error", error)
         this.messageService.displayServerErrorMessage();
       });
     }
@@ -439,8 +428,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
     this.displayPersonalInfo = false;
     this.displayPointsHistory = true;
 
-    console.log("displayPersonalInfo", this.displayPersonalInfo);
-    console.log("displayPointsHistory", this.displayPointsHistory);
   }
 
 
@@ -449,20 +436,14 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
     this.displayPersonalInfo = true;
     this.displayPointsHistory = false;
 
-    console.log("displayPersonalInfo22", this.displayPersonalInfo);
-    console.log("displayPointsHistory22", this.displayPointsHistory);
 
   }
 
   public cancelMembership(){
     const token = this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.franchiseId);
     
-        console.log("cancelMembership :franchise", this.appStorageService.franchise);
-        console.log("cancelMembership :showClubMember", this.appStorageService.showClubMember);
-        console.log("this.user", this.appStorageService.appUser);
 
         if (this.appStorageService.appUser && this.appStorageService.appUser) {
-          console.log("if (this.user && this.user.IsClubMember): user", this.appStorageService.appUser);
           this.appStorageService.appUser.IsClubMember = false;
           this.appStorageService.appUser.MemberPoints = 0;
           this.appStorageService.appUser.CanceledMembership = true;
@@ -476,7 +457,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
           this.appStorageService.showClubMember = false;
     
           this.signInOutService.updateUserDetails(this.appStorageService.appUser).subscribe((reslt) => {
-            console.log("result - update user", reslt);
             if(reslt){
               this.appStorageService.loadSuccessCancelMembershipMessage = true;
               this.loadSuccessCancelMembershipMessage();
@@ -489,10 +469,8 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
   public doSomething() {
-    console.log("this.inLinks", this.inLinks);
     this.appStorageService.inLinks = true;
     this.inLinks = true;
-    console.log("this.inLinks", this.inLinks);
     document.getElementById("mySidebar").style.display = "none";
     const body = document.getElementsByTagName('body')[0];
     body.classList.remove('sidebar-show');
@@ -506,7 +484,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
   public checkCategoryAvailabilityByDate(category) {
-    console.log("checkCategoryAvailabilityByDate(): category", category);
 
 
     if (category.Name == 'CM_SHOP') {
@@ -514,14 +491,12 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
     }
 
     if (category.Name == 'CM_BIRTHDAY') {
-      console.log("category", category);
 
       var birthStrToDate;
       var availableMonth;
 
       if(this.appUser.BirthDateStr != null){
         birthStrToDate = new Date(this.appUser.BirthDateStr);
-        console.log("birthStrToDate", birthStrToDate);
       }
       if(this.dateIsValid(this.appUser.BirthDate)){
        availableMonth = this.appUser.BirthDate?.getMonth();
@@ -529,21 +504,17 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
       else if(this.appUser.BirthDateStr != null){
       availableMonth =  birthStrToDate?.getMonth();
       }
-      console.log("availableMonth", availableMonth);
       const currentMonth = this.currentDate.getMonth();
-      console.log("currentMonth", currentMonth);
       if (availableMonth == currentMonth && !this.appUser.UsedBirthdayVoucher) return true;
       else false;
     }
     if (category.Name == 'CM_ANNIVERSARY') {
-      console.log("category", category);
       
       var annStrToDate;
       var availableMonth;
 
       if(this.appUser.AnniversaryStr != null){
         annStrToDate = new Date(this.appUser.AnniversaryStr);
-        console.log("annStrToDate", annStrToDate);
       }
       if(this.dateIsValid(this.appUser.Anniversary)){
         availableMonth = this.appUser.Anniversary?.getMonth();
@@ -552,22 +523,18 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
        availableMonth =  annStrToDate?.getMonth();
        }
 
-      console.log("availableMonth", availableMonth);
       const currentMonth = this.currentDate.getMonth();
-      console.log("currentMonth", currentMonth);
       if (availableMonth == currentMonth && !this.appUser.UsedAnniversaryVoucher) return true;
       else false;
     }
 
     if (category.Name == 'CM_JOIN') {
-      console.log("category", category);
       
       var joinStrToDate;
       var joinTimeStart;
 
       if(this.appUser.JoinedToClubStr != null){
         joinStrToDate = new Date(this.appUser.JoinedToClubStr);
-        console.log("joinStrToDate", joinStrToDate);
       }
 
       if(this.dateIsValid(this.appUser.JoinedToClub)){
@@ -577,9 +544,7 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
         joinTimeStart =  joinStrToDate;
        }
 
-      console.log("joinTimeStart", joinTimeStart);
       const dateDiffJoin =  this.calculateDiff(joinTimeStart);
-      console.log("Date Difference = ", this.calculateDiff(joinTimeStart));
       if((dateDiffJoin && dateDiffJoin < 31 || dateDiffJoin == 0) && !this.appUser.UsedJoinVoucher) return true;
       else false;
 
@@ -595,14 +560,12 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
   public goBackToMenu(){
-    console.log("goBackToMenu(): this.franchiseId", this.franchiseId);
     this.router.navigate([`${this.franchiseId}/menu`]);
   }
 
 
   public calcMemberPoints(){
     var memberPoints = this.appUser.MemberPoints || 0;
-    console.log("memberPoints",memberPoints);
 
      const itemsFromCmShop = this.order.OrderItems.filter((item) => {
       return item.IsClubMemberItem;
@@ -610,7 +573,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
     var itemsFromShopPrice = 0;
 
-    console.log("itemsFromCmShop",itemsFromCmShop);
 
     itemsFromCmShop.forEach(item => {
 
@@ -619,7 +581,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
       
     });
 
-    console.log("itemsFromShopPrice",itemsFromShopPrice);
     this.appStorageService.itemsFromShopPrice = itemsFromShopPrice;
 
     this.currentUserPoints = memberPoints-itemsFromShopPrice;
@@ -631,7 +592,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
   public makeOrder() {
-    console.log("makeOrder", this.order);
     if (this.order && ((this.order.OrderItems && this.order.OrderItems.length > 0)
       || (this.order.OrderPizzas && this.order.OrderPizzas.length > 0) ||
       (this.order.OrderCombos && this.order.OrderCombos.length > 0))) {
@@ -662,9 +622,7 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
   public addToCart(item, isNotPizza, isCombo, event?, callback?, comment?) { //combo,false,true,event
     this.selectItem(item);
-    console.log("AddToCart() -  item", item);
     if (isNotPizza && this.isEnoughPoints(item)) {
-      console.log("isNotPizza",isNotPizza);
       // Loading Garnishes if item has them:
       if (!this.isMobileMode()) 
        {
@@ -673,7 +631,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
           (item.GarnishGroups && item.GarnishGroups.length > 0) || 
           (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0)) ){
         console.log("this.loadItemPopupDesktop(item);");
-        console.log("comments", comment);
         this.loadItemPopupDesktop(item, comment);}
        } else {
          console.log("addToCart: this is mobile mode");
@@ -695,7 +652,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
   public selectItem(item){
-    console.log("selectItem(): item", item);
     item.MySelected = true;
     this.clubMemberCategories.forEach(cat => {
       cat.Items.forEach(it => {
@@ -712,7 +668,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
   getOrderInfo(order) {
-    console.log("getOrderInfo: order", order);
     //const orderID = this.appStorageService.getItemFromLocalStorage("OrderId");
     this.orderService.GetOrderInfo(order.OrderId)
     .subscribe((result) => {
@@ -722,7 +677,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
       }
     },(error) => {
-      console.log("getOrderInfo Error", error);
       
      // this.isLoaded.isFranchiseWithBranchesLoaded = true;
       //this.messageService.displayServerErrorMessage();
@@ -739,7 +693,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
     this.modalService.onHide
       .pipe(take(1)).subscribe(() => {
 
-        console.log("menu close modal item", this.bsModalRef.content)
         if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
           const orderItem = this.prepareItemForOrder(this.bsModalRef.content.item);
           orderItem.Amount = 1;
@@ -777,12 +730,10 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
       if ((item.GarnishGroups && item.GarnishGroups.length) > 0 || (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0) ) {
         if(item.GarnishGroups){
         var garnishGrp = item.GarnishGroups[0];
-        console.log("garnishGrp",garnishGrp);
         }
         else {
           console.log("NO GARNISHGROUPS - Its Pizza");
           garnishGrp = item.GeneralGarnishGroups[0];
-          console.log("garnishGrp",garnishGrp);
         } 
         this.loadingGarnishesPopup(item, null, garnishGrp, '', item.SelectedGarnishes, true, callback);
       } else if (item.Garnishes && item.Garnishes.length > 0) {
@@ -793,8 +744,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
   private loadingGarnishesPopup(item, garnishes: GarnishAppModel[], garnishGroup: GarnishGroupAppModel,
     comments: string, selectedGarnishes, isFirstPage, selectedGarnishesPrice?, callback?) {
-      console.log("loadingGarnishesPopup - ITEM", item);
-      console.log("loadingGarnishesPopup - SELECTED-GAR", selectedGarnishes);
     const matDialogRef = this.matDialog.open(GarnishesComponent, {
       data: {
         garnishGroup: garnishGroup,
@@ -812,16 +761,13 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
       panelClass: 'custom-mat-dialog-mobile-garnishes-with-item'
     });
     matDialogRef.afterClosed().subscribe((result: GarnishesDialog) => {
-      console.log("result - AFTER GARNISHES COMPONENT", result);
 
 
       if (result.isSaved) {
         console.log("IDK");
         if (result && result.allGettingGarnishes && item && !result.returnToPreviousPage) {
           //console.log("IDK- item.selectedGarnishes", item.SelectedGarnishes);
-          console.log("result.allGettingGarnishes", result.allGettingGarnishes);
           item.SelectedGarnishes = result.allGettingGarnishes.slice();
-          console.log("item.selectedGarnishes", item.SelectedGarnishes);
         }
         if ((!result.returnToPreviousPage && item && item.GarnishGroups && item.GarnishGroups.indexOf(garnishGroup) != -1 &&
           item.GarnishGroups.indexOf(garnishGroup) + 1 < item.GarnishGroups.length) ||
@@ -834,10 +780,8 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
           else {
             console.log(" else");
             grnGrp = item.GeneralGarnishGroups[item.GeneralGarnishGroups.indexOf(garnishGroup) + 1];
-            console.log("grnGrp",grnGrp);
           }
           if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-            console.log("item1", item);
             this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
               item.SelectedGarnishes, false, result.selectedGarnishesPrice);
           }
@@ -858,7 +802,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
             grnGrp = item.GeneralGarnishGroups[item.GeneralGarnishGroups.indexOf(garnishGroup) - 1];
           }
           if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-            console.log("item2", item);
             this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
               item.SelectedGarnishes, item.GarnishGroups.indexOf(grnGrp) === 0, result.selectedGarnishesPrice);
           }
@@ -867,7 +810,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
           if (item.Garnishes) {
             const grnGrp = item.GarnishGroups[item.GarnishGroups.length - 1];
             if (grnGrp) {
-              console.log("item5", item);
               this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
                 item.SelectedGarnishes, item.GarnishGroups.indexOf(grnGrp) === 0, result.selectedGarnishesPrice);
             }
@@ -875,7 +817,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
         } else if (!result.returnToPreviousPage) {
           // If everything was added to list of garnishes - add to card
           // console.log("---item",item);
-          console.log("item3", item);
           this.addToCartItemWithGarnishes(item, result, callback);
         } else {
 
@@ -887,15 +828,12 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
     private addToCartItemWithGarnishes(item, data?, callback?) {
-    console.log("addToCartItemWithGarnishes", item);
-    console.log("data", data);
     if (!this.isNotFilledAllRequiredGarnishesOfGarnishGroup(item)) {
       if (item.PizzaPrices) {
         //this.myPrepare(item);
       }
       else {
         const orderItem = this.prepareItemForOrder(item);
-        console.log("orderItem", orderItem);
         if (data && data.comments) {
           orderItem.SpecialRequests = data.comments || '';
         }
@@ -964,12 +902,9 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
       { initialState, class: 'modal-dialog-item-with-garnishes' });
     this.modalService.onHide
       .pipe(take(1)).subscribe(() => {
-        console.log("menu close modal item", this.bsModalRef.content);
-        console.log("menu close modal comment", comment);
         if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
           if (!this.bsModalRef.content.item.PizzaPrices) {
             const orderItem = this.prepareItemForOrder(this.bsModalRef.content.item);
-            console.log("orderItem", orderItem);
             orderItem.SpecialRequests = this.bsModalRef.content.itemComments;
             orderItem.ItemName = this.bsModalRef.content.itemName;
             const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
@@ -1047,7 +982,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
 
   private prepareItemForOrder(item : ItemAppAdvancedModel) {
-    console.log("prepareItemForOrder - item", item)
 
     const orderItem = new OrderItemAppModel();
     orderItem.IsUpgrade = item.IsUpgrade;
@@ -1162,7 +1096,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
     if(this.isAllValidUserData()){
       this.signInOutService.updateUserDetails(this.appUser).subscribe((result) => {
-        console.log("myMembershipComp: result - update user", result);
         this.entryMemberScreen = true;
         this.displayMyInfo = false;
         if(result){
@@ -1178,7 +1111,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
       }
       else {
-        console.log("payment !this.isAllValid()",this.isAllValidUserData());
         //this.displayCustomerErrorFields();
       }
 
@@ -1192,11 +1124,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
 
   public isFilledCustomerFields() {
     var pattern = new RegExp('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}'); 
-    console.log("BirthDate", this.appUser.BirthDate);  
-    console.log("Anniversary", this.appUser.Anniversary);  
-    console.log("Email", this.appUser.Email);  
-    console.log(" pattern.test", pattern.test(this.appUser.Email.toString().trim())); 
-    console.log("this.trimField(this.appUser.FirstName)",this.trimField(this.appUser.FirstName)); 
 
     if (/*this.sendInvoice &&*/ this.appUser.Email!= null && 
         this.appUser.Email!= undefined && 
@@ -1237,10 +1164,8 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
   dateIsValid(date) {
-    console.log("date",date);
     if( date instanceof Date) return true;
     else{
-      console.log("not instance of date: date", date);
       return false;
 
     }
@@ -1413,8 +1338,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
   }
 
   public openBiteCreditPopup(){
-    console.log("this.isMobileMode()",this.isMobileMode());
-    console.log("this.appUser",this.appUser);
     var minWidth;
     var maxWidth;
     var maxHeight;
@@ -1430,7 +1353,6 @@ export class MyCreditComponent extends SizeMobileInitializationComponent impleme
       maxWidth = '50vw';
       cls = 'bite-credit-desktop'
     }
-    console.log("cls",cls)
     const matDialogRef = this.matDialog.open(BiteCreditComponent, {
       data: {
         isAddCredit:true,
