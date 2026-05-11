@@ -84,9 +84,7 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
     this.selectFreeTop = false;
     this.selectedQuartersCounter = 0;
     if (this.data) {
-      console.log("this.data - pizza data",this.data)
       this.pizza = this.data.pizza;
-      console.log("Constructor - pizza", this.pizza);
       this.isCombo = this.data.isCombo;
       if (data.Combo) {
         this.combo = data.Combo;
@@ -94,7 +92,6 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
       if (this.data.ToppingGroupId == null || this.data.ToppingGroupId == undefined) {
         this.toppingGroupId = -1;
         this.selectFreeTop = false;
-        console.log(" this.selectFreeTop", this.selectFreeTop);
         this.notSelectedToppingsArr = this.appStorageService.pizzaToppings || [];
       } else {
         this.toppingGroupId = this.data.ToppingGroupId;
@@ -112,7 +109,6 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
       this.specialRequests = this.data.specialRequests;
       this.preparePizza();
       this.toppings = this.appStorageService.pizzaToppings || [];
-      console.log("this.toppings", this.toppings);
       this.franchise = this.appStorageService.franchise;
     }
     this.initializeSize();
@@ -167,7 +163,6 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
     this.combo.PizzaCombos.forEach(pizzaCombo => {
       //console.log("pizzaCombo",pizzaCombo);
       this.pizza.SelectedToppings.forEach(topping => {
-        console.log("selected-topping", topping);
       });
     });
 
@@ -370,17 +365,14 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
 
         this.selectedQuartersCounter = 0;
         let counter = 0;
-        console.log("this.selectedQuartersCounter", this.selectedQuartersCounter);
         result.selectedQuarters.forEach(i => {
           counter += 1;
           this.selectQuarter(i, topping);
           if (counter == result.selectedQuarters.length && this.selectFreeTop) {
             this.pizza.SelectedToppings.forEach((t) => {
               this.selectedQuartersCounter += t.QuarterNums.length;
-              console.log("this.selectedQuartersCounter", this.selectedQuartersCounter);
               if (this.selectedQuartersCounter == this.maxToppings * 4) {
                 //this.selectFreeTop = false;
-                console.log("this.selectFreeTop", this.selectFreeTop);
                 this.continueToSelectNotFreeTops();
               }
             });
@@ -398,14 +390,11 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
   public selectToppingElse(topping) {
     console.log("selectTopping() - WITHOUT GROUP")
       topping.IsSelect = !topping.IsSelect;
-      console.log("topping.IsSelect", topping.IsSelect);
       
       if (topping.IsSelect) {
-        console.log("IF - topping.IsSelect = true", topping.IsSelect);
         this.currentTopping = topping;
         this.setDefaultToppings(topping);
       } else {
-        console.log("ELSE -  topping.IsSelect=false", topping.IsSelect)
         topping.IsSelect = false;
         topping.FirstQuarter = true;
         topping.SecondQuarter = true;
@@ -427,23 +416,17 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
     topping.IsSelect = !topping.IsSelect;
     if (topping.IsSelect == false) {
       this.counter--;
-      console.log("counter--", this.counter);
     }
-    console.log("topping.IsSelect", topping.IsSelect);
     if (this.counter >= this.maxToppings) {
       console.log("this.counter>= this.maxToppings");
       topping.IsSelect = false;
-      console.log("topping.IsSelect", topping.IsSelect);
       return;
     }
     if (topping.IsSelect) {
-      console.log("IF - topping.IsSelect = true", topping.IsSelect);
       this.counter++;
-      console.log("this.counter", this.counter);
       this.currentTopping = topping;
       this.setDefaultToppings(topping);
     } else {
-      console.log("ELSE -  topping.IsSelect=false", topping.IsSelect)
       topping.IsSelect = false;
       topping.FirstQuarter = true;
       topping.SecondQuarter = true;
@@ -462,16 +445,13 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
 
   public continueToSelectNotFreeTops(){
     console.log("continueToSelectNotFreeTops()");
-    console.log("continueToSelectNotFreeTops() - this.pizza", this.pizza);
     const myPizza = this.commonFunctionService.deepCopy(this.pizza);
-    console.log("continueToSelectNotFreeTops() - myPizza", myPizza);
     this.selectFreeTop = false;
 
     this.pizza.SelectedToppings.forEach(selTop => {
       selTop.TotalPrice = 0;
     });
 
-    console.log("continueToSelectNotFreeTops() - this.pizza", this.pizza);
 
   }
 
@@ -479,9 +459,7 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
 
   public buildNotSelectedArray(){
     console.log("buildNotSelectedArray()");
-    console.log("buildNotSelectedArray() - this.pizza", this.pizza);
     const myPizza = this.commonFunctionService.deepCopy(this.pizza);
-    console.log("buildNotSelectedArray() - myPizza", myPizza);
 
     this.pizza.SelectedToppings.forEach(selTop => {
       selTop.TotalPrice = 0;
@@ -490,7 +468,6 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
     this.notSelectedToppingsArr = this.toppings.filter((top) => {
       return !top.IsSelect
     });
-    console.log("this.notSelectedToppingsArr",this.notSelectedToppingsArr);
 
     this.selectFreeTop=false; 
   }
@@ -509,8 +486,6 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
           return e.Id == freeTop.Id && !freeTop.ExcludedFromPizza;
         }) as ToppingAppAdvancedModel;
       if (originalTopping) {
-        console.log("originalTopping",originalTopping);
-        console.log("freeTop",freeTop);
         originalTopping.TotalPrice = 0;
         originalTopping.CurrentPrice = 0;
         originalTopping.IsSelect = true;
@@ -522,29 +497,23 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
   }
 
   public selectPizzaSize(pizzaPrice) {
-    console.log("selectPizzaSize: this.pizza",this.pizza);
     // Default or the first selected pizza; the next time just selected pizza
     this.pizza.SelectedPizzaPriceSize = pizzaPrice;
 
-    console.log("pizzaPrice",pizzaPrice);
     if (this.toppings) {
       this.toppings.forEach((topping: ToppingAppAdvancedModel) => {
 
-        console.log("topping",topping);
 
         let toppingPrice: ToppingPriceAppModel = new ToppingPriceAppModel();
         toppingPrice.Price = 0;
-        console.log("toppingPrice",toppingPrice);
 
         if (this.pizza.PizzaToppings && this.pizza.PizzaToppings.find((e) => {
           return e.Id === topping.Id && !e.ExcludedFromPizza;
         }) === undefined) {
-          console.log("this.pizza.PizzaToppings",this.pizza.PizzaToppings);
           //console.log("this.pizza.PizzaToppings",this.pizza.PizzaToppings);
           toppingPrice = topping.ToppingPrices.find((e) => {
             return e.PizzaSizeId == pizzaPrice.PizzaSizeId
           });
-          console.log("toppingPrice",toppingPrice);
         }
         topping.CurrentPrice = toppingPrice.Price;
         let quarterPrice = toppingPrice.Price / 4;
@@ -681,11 +650,7 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
 
   private selectQuarterToppings(quarterNum, topping) {
     console.log("selectQuarterToppings()");
-    console.log("quarterNum", quarterNum);
-    console.log("topping", topping);
     const mytopping = this.commonFunctionService.deepCopy(topping);
-    console.log("mytopping", mytopping);
-    console.log("this.pizza", this.pizza);
 
     //var selectedQuartersCounter = 0;
 
@@ -835,15 +800,12 @@ export class NewPizzaComponent extends SizeMobileInitializationComponent impleme
           this.pizza.SelectedPizzaPriceSize.PizzaSizeId;
       });
     }
-    console.log ("Tanya calcToppingPrice topPrice", topPrice);
     if (topPrice) {
 
       if (topping.FirstQuarter === true) quertersSelected++;
       if (topping.SecondQuarter === true) quertersSelected++;
       if (topping.ThirdQuarter === true) quertersSelected++;
       if (topping.ForthQuarter === true) quertersSelected++;
-console.log ("Tanya calcToppingPrice topping", topping);
-console.log ("Tanya calcToppingPrice quertersSelected", quertersSelected);
       switch (quertersSelected) {
         case 1:
           if (topPrice.QuarterPrice) currentPrice = topPrice.QuarterPrice;
@@ -858,7 +820,6 @@ console.log ("Tanya calcToppingPrice quertersSelected", quertersSelected);
           break;
       }
     }
-    console.log ("Tanya calcToppingPrice currentPrice", currentPrice);
     return currentPrice;
   }
 
@@ -922,13 +883,8 @@ console.log ("Tanya calcToppingPrice quertersSelected", quertersSelected);
     let counter = 0;
 
     console.log("selectedQuarters()");
-    console.log("result", result);
-    console.log("this.selectFreeTop", this.selectFreeTop);
     const myPizzaBeforeTop = this.commonFunctionService.deepCopy(this.pizza);
     const myTopping2 = this.commonFunctionService.deepCopy(result.topping);
-    console.log("myTopping2", myTopping2);
-    console.log("myPizzaBeforeTop", myPizzaBeforeTop);
-    console.log("this.pizza", this.pizza);
 
     this.currentTopping = result.topping;
 
@@ -939,11 +895,9 @@ console.log ("Tanya calcToppingPrice quertersSelected", quertersSelected);
         myPizzaBeforeTop.SelectedToppings.forEach((t) => {
           if (!this.checkSelectedToppingDefaultSelectedInPizza(t.ToppingId))
           selectedQuartersCounter += t.QuarterNums.length;
-          console.log("selectedQuartersCounter", selectedQuartersCounter);
         });
 
         let wantToBeSelectedCounter = selectedQuartersCounter + 1;
-        console.log("wantToBeSelectedCounter", wantToBeSelectedCounter);
 
         if (wantToBeSelectedCounter > this.maxToppings * 4) {
           //this.selectFreeTop = false;
@@ -951,7 +905,6 @@ console.log ("Tanya calcToppingPrice quertersSelected", quertersSelected);
           const foundTopOnPizza = this.pizza.SelectedToppings.find((top) => {
             return top.ToppingId == this.currentTopping.Id;
           })
-          console.log("foundTopOnPizza", foundTopOnPizza);
           if (foundTopOnPizza) {
             foundTopOnPizza.QuarterNums.forEach(quarterNum => {
               if (quarterNum == result.selectedQuarter) {
