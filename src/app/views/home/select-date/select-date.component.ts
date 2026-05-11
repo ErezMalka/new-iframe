@@ -107,7 +107,6 @@ export class SelectDateComponent implements OnInit {
       isTA: boolean,
       branchName: string
     }) {
-    console.log("AppConfig.configSettings.dontUseASAP",AppConfig.configSettings.dontUseASAP);
     if(!AppConfig.configSettings.dontUseASAP){
     //this.selectedTime.push(this.translationsService.translate('ASAP'));
     }
