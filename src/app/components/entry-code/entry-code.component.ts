@@ -49,7 +49,6 @@ export class EntryCodeComponent   implements OnInit {
                  
     
     this.isFirst = data.isFirst
-    console.log("isFirst???",this.isFirst);
   }
 
   ngOnInit() {
