@@ -60,7 +60,6 @@ export class PizzaBuilderComponent implements OnInit {
 
     if (this.data) {
       this.currentTopping = this.commonFunctionsService.deepCopy(this.data.topping);
-      console.log("this.currentTopping", this.currentTopping);
 
         if(this.currentTopping.FirstQuarter == true){
           this.currentTopping.QuarterNums.push(1);
@@ -79,9 +78,6 @@ export class PizzaBuilderComponent implements OnInit {
       this.pizza= this.data.pizza;
       this.isEdit = this.data.isEdit;
       this.selectFreeTop = this.data.selectFreeTop;
-      console.log("this.isEdit", this.isEdit); 
-      console.log("this.pizza", this.pizza);
-      console.log("this.selectFreeTop", this.selectFreeTop);
     }
   }
 
@@ -112,11 +108,7 @@ export class PizzaBuilderComponent implements OnInit {
 
     console.log("BUILDER - selectQuarter()");
 
-    console.log("quarter", quarter);
     //console.log("topping", topping);
-    console.log("current - topping", this.currentTopping);
-    console.log("this.selectFreeTop", this.selectFreeTop);
-    console.log("this.pizza.MaxFreeToppings", this.pizza.MaxFreeToppings);
     
     let counter=0;
       let selectedToppingsCounter = 0;
@@ -129,7 +121,6 @@ export class PizzaBuilderComponent implements OnInit {
         
         selectedToppingsCounter++;
         if (selectedToppingsCounter == this.pizza.SelectedToppings.length){
-          console.log("counter",  counter);
           if (counter + this.selectedQuarters.length  < this.pizza.MaxFreeToppings * 4) {
             switch (quarter) {
               case 'Quarter1': {
@@ -227,7 +218,6 @@ export class PizzaBuilderComponent implements OnInit {
               selTop.QuarterNums.splice(selTop.QuarterNums.indexOf(2), 1);
 
               //console.log("selTop.FirstQuarter", selTop.FirstQuarter);
-              console.log("selTop.QuarterNums",selTop.QuarterNums);
             }
           });
         }
@@ -240,11 +230,9 @@ export class PizzaBuilderComponent implements OnInit {
               selTop.QuarterNums.splice(selTop.QuarterNums.indexOf(4), 1);
 
               //console.log("selTop.FirstQuarter", selTop.FirstQuarter);
-              console.log("selTop.QuarterNums",selTop.QuarterNums);
             }
           });
         }
-        console.log("this.pizza", this.pizza);
       }
 
       
@@ -262,10 +250,8 @@ export class PizzaBuilderComponent implements OnInit {
           this.selectedQuarters.splice(index, 1);
         } else {
           if (this.selectFreeTop){
-            console.log("counter + this.selectedQuarters.length",counter + this.selectedQuarters.length);
             if (counter + this.selectedQuarters.length < this.pizza.MaxFreeToppings * 4){
               this.selectedQuarters.push(this.selectedQuarter);
-              console.log("this.selectedQuarters", this.selectedQuarters);
             }
           } else {
             this.selectedQuarters.push(this.selectedQuarter);
@@ -283,7 +269,6 @@ export class PizzaBuilderComponent implements OnInit {
 
   public closeToppingSelect(save:boolean) {
     if (save) {
-      console.log("closeToppingSelect: selectedQuarters",this.selectedQuarters);
       this.dialogRef.close({
         selectedQuarters:  this.selectedQuarters,
       //  additionItems: this.additionItems,
