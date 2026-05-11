@@ -27,7 +27,6 @@ export class MessageService {
     };
 
     this.displayPopupMessage(data, (result) => {
-      console.log("result", result);
       if(callback){
         callback(result);
       }
