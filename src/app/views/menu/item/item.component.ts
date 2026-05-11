@@ -425,12 +425,8 @@ export class ItemComponent implements OnInit {
               //console.log("item.GarnishGroups[i].FreeCount", item.GarnishGroups[i].FreeCount);
              
               if (index < item.GarnishGroups[i].FreeCount) {
-                console.log("index < item.GarnishGroups[i].FreeCount " + index, 
-                item.GarnishGroups[i].FreeCount);
                 garnish.Price = 0;
               } else {
-                console.log("index ! item.GarnishGroups[i].FreeCount " + index, 
-                item.GarnishGroups[i].FreeCount);
                 garnish.Price =  garnish.Price;
               }
             });
