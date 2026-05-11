@@ -89,7 +89,6 @@ export class ItemForComboComponent implements OnInit {
       this.item = data.item;
       if (this.data.showBeforePizzaGarnishes)
         this.showBeforePizzaGarnishes = data.showBeforePizzaGarnishes;
-      console.log("this.item - itemWithGar-Constructor",this.item);
     }
   }
 
@@ -120,9 +119,6 @@ export class ItemForComboComponent implements OnInit {
     }
     this.initializeSettings();
     this.item = this.commonFunctionService.deepCopy(this.item);
-    console.log("GarnishGroups", this.item.GarnishGroups);
-    console.log("this.item.GeneralGarnishGroups", this.item.GeneralGarnishGroups);
-    console.log("this.item", this.item);
     this.item.Amount = 1;
     this.price = this.item.Price;
     this.comments = "";
@@ -278,7 +274,6 @@ export class ItemForComboComponent implements OnInit {
         (garnishGroup.Garnishes || []).filter((garnish: GarnishAppAdvancedModel) => {
           return garnish.IsSelected;
         });
-      console.log("selectedGarnishes", selectedGarnishes);
 
       const selectedGarnishesSum = selectedGarnishes.reduce((sum, item) => {
         sum += item.SelectedAmount || 1;
@@ -288,8 +283,6 @@ export class ItemForComboComponent implements OnInit {
         sum += item.SelectedAmount || 1;
         return sum;
       }, 0);
-      console.log("this.totalGarnishsSum", selectedGarnishesSum);
-      console.log("selectedGarnishesSum", selectedGarnishesSum);
 
       if (
         selectedGarnishesSum <= garnishGroup.Max) {
@@ -323,12 +316,10 @@ export class ItemForComboComponent implements OnInit {
 
   private checkSelectedGarnishesFromGarnishGroupForSave(garnishGroup) {
     if (garnishGroup) {
-      console.log("checkSelectedGarnishesFromGarnishGroup - gGroup", garnishGroup);
       const selectedGarnishes =
         (garnishGroup.Garnishes || []).filter((garnish: GarnishAppAdvancedModel) => {
           return garnish.IsSelected;
         });
-      console.log("selectedGarnishes", selectedGarnishes);
 
       const selectedGarnishesSum = selectedGarnishes.reduce((sum, item) => {
         sum += item.SelectedAmount || 1;
@@ -339,7 +330,6 @@ export class ItemForComboComponent implements OnInit {
         return sum;
       }, 0);*/
       //console.log("this.totalGarnishsSum", selectedGarnishesSum);
-      console.log("selectedGarnishesSum", selectedGarnishesSum);
 
       if (selectedGarnishesSum == garnishGroup.Max ) { //for g.max = 1 && g.min = 1
         console.log("NO-ERROR");
@@ -498,7 +488,6 @@ export class ItemForComboComponent implements OnInit {
 
       this.item.GarnishGroups.forEach(ggroup => {
         if (!stop) {
-          console.log("ggroup", ggroup);
           if (!this.checkSelectedGarnishesFromGarnishGroupForSave(ggroup)) {
             console.log("NO GARNISHES SELECTED - group");
             this.showErrorGarnishMessage = true;
@@ -515,14 +504,12 @@ export class ItemForComboComponent implements OnInit {
       });
       if(counter == this.item.GarnishGroups.length){
         this.item.GarnishGroups.forEach(ggroup => {
-          console.log("ggroup-save", ggroup);
           ggroup.Garnishes.forEach(gar => {
             if (gar.IsSelected)
               this.selectedGarnishes.push(gar);
           });
   
         });
-        console.log("this.selectedGarnishes-save()", this.selectedGarnishes);
         this.isSaved = true;
         this.item.SelectedGarnishes = this.selectedGarnishes;
   
@@ -538,7 +525,6 @@ export class ItemForComboComponent implements OnInit {
       console.log("item has general groups");
       this.item.GeneralGarnishGroups.forEach(ggroup => {
         if (!stop) {
-          console.log("ggroup", ggroup);
           if (!this.checkSelectedGarnishesFromGarnishGroupForSave(ggroup)) {
             console.log("NO GARNISHES SELECTED - group");
             this.showErrorGarnishMessage = true;
@@ -555,14 +541,12 @@ export class ItemForComboComponent implements OnInit {
       });
       if(counter == this.item.GeneralGarnishGroups.length){
         this.item.GeneralGarnishGroups.forEach(ggroup => {
-          console.log("ggroup-save", ggroup);
           ggroup.Garnishes.forEach(gar => {
             if (gar.IsSelected)
               this.selectedGarnishes.push(gar);
           });
   
         });
-        console.log("this.selectedGarnishes-save()", this.selectedGarnishes);
         this.isSaved = true;
         this.item.SelectedGarnishes = this.selectedGarnishes;
   
@@ -601,8 +585,6 @@ export class ItemForComboComponent implements OnInit {
   }
 
   private handleGarnishMultiSelect(gar: GarnishAppAdvancedModel) {
-    console.log("gar", gar);
-    console.log("gar.isselected", gar.IsSelected);
     if (!gar) return;
     if (((gar.IsSelected && gar.SelectedAmount == gar.MaxAmount) || (gar.IsSelected && !gar.MaxAmount))) {
       gar.IsSelected = false;
@@ -614,9 +596,6 @@ export class ItemForComboComponent implements OnInit {
       console.log("3")
       gar.IsSelected = true;
       gar.SelectedAmount = 1;
-      console.log("gar", gar);
-      console.log("gar.isselected", gar.IsSelected);
-      console.log("gar.amount", gar.SelectedAmount);
       return;
     }
 
@@ -653,7 +632,6 @@ export class ItemForComboComponent implements OnInit {
   }
 
   public deselectGarnishAmount(garnish: GarnishAppAdvancedModel, garnishGroup: GarnishGroupAppModel) {
-    console.log("deselectGarnishAmount", garnish);
     if (garnish) { 
       garnish.SelectedAmount = garnish.SelectedAmount - 1;
       this.totalGarnishsSum = this.totalGarnishsSum - 1;
@@ -666,12 +644,9 @@ export class ItemForComboComponent implements OnInit {
     if (item) {
 
       console.log("selectGarnish()");
-      console.log("item.isselected", item.IsSelected);
-      console.log("garnishGroup", garnishGroup);
       this.showErrorGarnishMessage = false;
       if (garnishGroup) {
         const selectedItemsLength = this.selectedItems(garnishGroup.Garnishes).length;
-        console.log("selectedItemsLength", selectedItemsLength);
 
         if (!item.IsSelected && (garnishGroup.Max === 1 &&
           garnishGroup.Min <= garnishGroup.Max) &&
@@ -686,16 +661,13 @@ export class ItemForComboComponent implements OnInit {
         console.log("2")
         this.handleGarnishMultiSelect(item);
         if (selectedItemsLength < garnishGroup.Max) {
-          console.log("this.tempSelectedGarnishes", this.tempSelectedGarnishes);
         }
         if (!this.checkSelectedGarnishesFromGarnishGroup(garnishGroup)) {
           console.log("5")
           this.showErrorGarnishMessage = true;
           this.displayErrorGarnishMessage(garnishGroup);
           this.displayMessageByTime();
-          console.log("chekAmount1", item.SelectedAmount);
           item.SelectedAmount = item.SelectedAmount - 1;
-          console.log("chekAmount2", item.SelectedAmount);
           return;
         }
       }
@@ -761,7 +733,6 @@ export class ItemForComboComponent implements OnInit {
           this.translationService.translate("GARNISHES_ERROR_GARNISHES");
       }
       const errorMessage = "" + minMaxText;
-      console.log("errorMessage", errorMessage);
       this.errorMessage = errorMessage + " " + "ב" + garnishGroup.Name;
       return errorMessage;
     }
