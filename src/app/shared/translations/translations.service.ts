@@ -16,7 +16,6 @@ export class TranslationsService {
   private currentLanguage = this.defaultLanguage;
 
   constructor(private http: HttpClient) {
-    console.log("this.currentLanguage",this.currentLanguage);
   }
 
   public getLanguagesForIframe(): Observable<any> {
@@ -27,9 +26,7 @@ export class TranslationsService {
 /*  public use_(lang?: string): Promise<{}> {
 
     return new Promise<{}>((resolve, reject) => {
-      console.log("this.currentLanguage",this.currentLanguage);
      // this.currentLanguage = lang || this.defaultLanguage;
-      console.log("this.currentLanguage",this.currentLanguage);
       
       const langPath = `assets/i18n/${this.currentLanguage.toLowerCase()}.json?v=${new Date().getTime()}`;
       this.http.get<{}>(langPath).subscribe(
@@ -49,11 +46,9 @@ export class TranslationsService {
   public use(): Promise<{}> {
 
     return new Promise<{}>((resolve, reject) => {
-      console.log("this.currentLanguage",this.currentLanguage);
       this.http.get<any>(AppConfig.config.serverUrl + 
         'Localization/GetI18ForIframe?franchiseId='+ AppConfig.franchiseId +'&languageCode=' +this.currentLanguage.toLowerCase())
         .subscribe((i18res) => {
-          console.log("i18res",i18res);
           //var translation = JSON.parse(i18res);
           //console.log("translation",translation);
           TranslationsService.data = Object.assign({}, i18res || {});
@@ -93,12 +88,10 @@ export class TranslationsService {
   }
 
   public setLanguage(lang, callback?) {
-    console.log("setLanguage",lang);
     environment.language = lang;
     this.currentLanguage = lang;
     this.use();
    
-    console.log("this.currentLanguage",this.currentLanguage);
     if (callback) {
       callback();
     }
