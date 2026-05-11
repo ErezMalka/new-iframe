@@ -133,13 +133,10 @@ public  displayItems: boolean = false
                 super(browserIdentificatorService);
                 this.comment = '';
                 if (this.data) {
-                  console.log("(this.data",this.data);    
-                  console.log("(this.data sort ",this.data.items.sort(function(a, b) {return a.Order - b.Order} ));  
                 
                   //const sorted = [...this.data.items.sort(function(a, b) {return a.Order - b.Order}) ]
                   var json_= JSON.stringify(this.data.items.sort(function(a, b) {return a.Order - b.Order} ));
                   
-                  console.log("json_",json_);
                   
                   this.items = JSON.parse(json_);
                  // console.log('Sorted items:', sorted.map(i => i.Order));
@@ -154,7 +151,6 @@ public  displayItems: boolean = false
                   this.items.forEach((i)=>{
                     if (!i.Amount || i.Amount == 1) i.Amount = 0;
                   });
-                  console.log("this.items",this.items);
                   this.header =data.header;
                   this.minForBonus = data.minForBonus;
                   this.firstMessage = data.firstMessage;
@@ -271,7 +267,6 @@ public  displayItems: boolean = false
   }
 
   public addAmount(item, isPizza?) {
-    console.log ("addAmount", item);
     item.IsSelected = true;
       if (!item.Amount) {
         item.Amount = 0;
@@ -291,7 +286,6 @@ public  displayItems: boolean = false
   }
 
 public subAmount(item) {
-    console.log("subAmount", item);
     const index =  this.selectedItemsEndKiosk.findIndex((e) => {
       return e.ItemId == item.Id;
     });
@@ -311,7 +305,6 @@ public subAmount(item) {
 
 
   public selectItem(item) {
-    console.log("SELECTITEM(item): item",item);
     if ((item.Garnishes && item.Garnishes.length > 0) ||
       (item.GarnishGroups && item.GarnishGroups.length  > 0 )) {
         console.log("if ((item.Garnishes && item.Garnishes.length > 0)");
@@ -330,7 +323,6 @@ public subAmount(item) {
 
       }
       else { this.selected = null }
-      console.log("this.selected", this.selected);
       this.someOption = true;
     }
 
@@ -362,7 +354,6 @@ public subAmount(item) {
 
   private loadItemPopupDesktop(item, adding?) {
     console.log("loadItemPopupDesktop(item)");
-    console.log("item",item);
     const matDialogRef = this.matDialog.open(ItemForComboComponent, {
       data: {
         item: item
@@ -372,7 +363,6 @@ public subAmount(item) {
       panelClass: 'modal-dialog-item-with-garnishes-mat-dialog'
     });
     matDialogRef.afterClosed().subscribe((result) => {
-      console.log("result-afterLoadItem",result);
       if (result.isSaved) {
         console.log("item-with-garnishes-saved");
         this.addToCartItemWithGarnishes(result.item ,result,adding );
@@ -382,8 +372,6 @@ public subAmount(item) {
   }
 
   addToCart(item?) {
-    console.log("addToCart(): this.selectedItemsEndKiosk",this.selectedItemsEndKiosk);
-    console.log("addToCart():item",item);
     if (item) 
     {
       if (!this.isMobileMode()) {
@@ -407,13 +395,11 @@ public subAmount(item) {
     }
     else {
       console.log("else")
-      console.log("selectedItems", this.selectedItems)
       if(this.selectedItemsEndKiosk){
         for (let index = 0; index < this.selectedItemsEndKiosk.length; index++) {
           const i = this.selectedItemsEndKiosk[index];
           this.selectedItems.push(i);
           var itemm : any = i;
-          console.log("this.selectedItems.push(i);", this.selectedItems);
 
 
           //this.items.splice(this.items.indexOf(itemm), 1);
@@ -428,7 +414,6 @@ public subAmount(item) {
         //this.items.splice(this.items.indexOf(itemm), 1);
         this.loadSuccessAddingToCartMessage();
         //});
-        console.log("this.selectedItems",this.selectedItems)
       }
 
 
@@ -467,7 +452,6 @@ public subAmount(item) {
     this.addToCart(item);
    }
    else {
-    console.log("selectedItems", this.selectedItems)
     this.selected = this.prepareItemForOrder(item);
     this.items.splice(0, 1);
     this.selectedItems.push(this.selected)
@@ -486,7 +470,6 @@ public subAmount(item) {
 
   public includeGarnishes(item: ItemAppAdvancedModel, index:number) {
     if (item) {
-      console.log("includeGarnishes(): item", item);
       if (item.GarnishGroups && item.GarnishGroups.length > 0) {
         const garnishGrp = item.GarnishGroups[0];
         this.loadingGarnishesPopup(item,  index, null, garnishGrp, '', item.SelectedGarnishes, true);
@@ -520,7 +503,6 @@ public subAmount(item) {
     });
     matDialogRef.afterClosed().subscribe((result: GarnishesDialog) => {
       if (result.isSaved) {
-        console.log("matDialogRef.afterClosed(): result", result);
         if (result && result.allGettingGarnishes && item && !result.returnToPreviousPage) {
           item.SelectedGarnishes = result.allGettingGarnishes.slice();
         }
@@ -704,12 +686,10 @@ public subAmount(item) {
 
 
   private addToCartItemWithGarnishes(item, index, data?) {
-    console.log("XXXaddToCartItemWithGarnishesXXX: item", item);
     if (!this.isNotFilledAllRequiredGarnishesOfGarnishGroup(item)) {
       console.log("!this.isNotFilledAllRequiredGarnishesOfGarnishGroup(item)");
 
       const orderItem = this.prepareItemForOrder(item);
-      console.log("orderItem",orderItem);
       if (data && data.comments) {
         orderItem.SpecialRequests = data.comments || '';
       }
@@ -723,15 +703,12 @@ public subAmount(item) {
       //  item.Amount += orderItem.Amount;
      // } else {
       this.selectedItems.push(orderItem);
-      console.log("this.selectedItems",this.selectedItems);
       //}
       const index_ =  this.items.findIndex((e) => {
         return e.Id == item.Id;
       });
       this.items.splice(index_, 1);
       this.loadSuccessAddingToCartMessage();
-      console.log("this.items",this.items);
-      console.log("this.maxItems",this.maxItems);
 
       if (this.items.length==0) {
        this.cancelAction();
@@ -746,7 +723,6 @@ public subAmount(item) {
   public loadSuccessAddingToCartMessage() {
     console.log("loadSuccessAddingToCartMessage");
     if( document ){
-      console.log("document.getElementById(snackbar-a)",document.getElementById("snackbar-a"));
     document.getElementById("snackbar-a").classList.add("show");    
     setTimeout(() => {
 
