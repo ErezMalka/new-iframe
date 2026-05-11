@@ -58,17 +58,12 @@ export class QuartersComponent implements OnInit {
   public selectQuarter(quarter, topping, $event) {
 
     console.log("QUARTER COMP - selectedQuarter()");
-    console.log("quarter", quarter);
-    console.log("topping", topping);
     const myToppping = this.commonFunctionService.deepCopy(topping);
-    console.log("myToppping", myToppping);
-    console.log("this.pizza", this.pizza);
 
     if(topping.FirstQuarter==false && topping.SecondQuarter==false && topping.ThirdQuarter==false && topping.ForthQuarter==false){
       topping.IsSelect = false;
     } 
 
-    console.log("topping", topping);
 
 
     if(!this.continue) {
@@ -101,8 +96,6 @@ export class QuartersComponent implements OnInit {
         if ($event) {
           $event.stopPropagation();
         }
-        console.log("selectedQuarter", selectedQuarter);
-        console.log("topping", topping);
         this.quartersSelected.emit({
           selectedQuarter,
           topping
