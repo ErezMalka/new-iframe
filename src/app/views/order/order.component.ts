@@ -2411,12 +2411,10 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     console.log("checkSigning");
     this.isSignedUser = !!this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
-      console.log("result!!!",result);
      // console.log("this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN)",
      // this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN));
      // console.log("this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN)!!",
      // !!this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN));
-      console.log("this.isSignedUser",this.isSignedUser);
     if (this.isSignedUser) {
 
       this.verifyToken(true);
@@ -2431,7 +2429,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public checkedUserSigning(isSignedUser?) {
-    console.log("checkedUserSigning");
     this.isSignedUser = !!isSignedUser;
     this.checkBranch();
   }
@@ -2441,12 +2438,10 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     
      this.paymentService.getBranchPaymentOptions(this.order.BranchId).subscribe((result) => {
    // const result = this.appStorageService.paymentOptions;
-      console.log("this.appStorageService.paymentOptions",this.appStorageService.paymentOptions);
       if (result) {
         this.paymentSettings.Cash = result.Cash;
         if (this.paymentSettings.Cash) {
           if(!this.isMobileMode()){
-            console.log("this.isMobileMode()",this.isMobileMode());
             this.paymentType = PaymentTypeEnum.cash;
           }
         }
@@ -2454,9 +2449,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         
         if (this.paymentSettings.CreditCard) {
           if (!this.isMobileMode()) {
-            console.log("this.isMobileMode()", this.isMobileMode());
             this.paymentType = PaymentTypeEnum.card;
-             console.log("this.paymentType ttt", this.paymentType);
             
           }
         }
@@ -2466,7 +2459,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       this.paymentSettings.CreditCard = result.CreditCard;
       if (!this.paymentSettings.Cash && this.paymentSettings.CreditCard) {
         if (!this.isMobileMode()) {
-          console.log("this.isMobileMode()", this.isMobileMode());
           this.paymentType = PaymentTypeEnum.card;
         }
       } else if (!this.paymentSettings.CreditCard && 
@@ -2496,7 +2488,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   private checkDiscount(isNotSigned?) {
-    console.log("checkDiscount()");
     if (this.user) {
       this.isLoaded.isDiscountLoaded = false;
       this.menuService.getDiscount(this.order.BranchId, this.user && this.user.Id ? this.user.Id : undefined).subscribe((result) => {
@@ -2591,8 +2582,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   public isFilledCustomerFields() {
     if (this.order.Email == null ||  this.order.Email == undefined ) this.order.Email = "";
     var pattern = new RegExp('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[A-Za-za-z]{2,3}');   
-    console.log("pattern.test(this.order.Email.toString().trim()",pattern.test(this.order.Email.toString().trim()));
-   console.log("his.forceEmail",this.forceEmail);
     if (this.forceEmail ) {// this.order.Email!= null &&  this.order.Email!= undefined && this.sendInvoice 
       if (this.order && this.order.IsDelivery) {
         if (AppConfig.configSettings.allowIncompletAddress) 
@@ -2925,7 +2914,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
  /* private initializeBranchCities() {
-    console.log("initializeBranchCities");
     this.isLoaded.isDeliveryDataLoaded = false;
     this.metadataService.getFranchiseWithBranches(this.appStorageService.orderType)
       .subscribe((result) => {
@@ -2935,7 +2923,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           });
           if (branchesById) {            
             this.branch = branchesById;
-            console.log(" this.branch = ", this.branch);
             this.metadataService
               .getDeliveryCitiesInformation(this.order.BranchId)
               .subscribe((result) => {
@@ -2985,7 +2972,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     this.graphics.cover = AppConfig.settings.cover;
     this.colors.menuColor = AppConfig.settings.menuColor;
     this.colors.buttonColor = AppConfig.settings.buttonColor;
-    console.log("-----------------------this.colors.buttonColor",this.colors.buttonColor)
     this.lang = this.translationsService.language();
     this.country = this.configService.country;
     this.cashSymbol = AppConfig.cashSymbol;
@@ -2995,7 +2981,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   public getColor() { return this.colors.menuColor != 'white' ? 'white' : 'black'; }
 
   private initializeOrder() {
-    console.log("initializeOrder");
     this.order = this.orderService.getOrder();
     this.order.CibusReciptData = "";
     this.order.PayedByCibus = 0;
@@ -3058,12 +3043,10 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
             .subscribe((response) => { 
               // hideLoader();
               if (response) {
-                console.log('getBranchCuponCodes',response);
                 this.couponCodes = response;
               
               }
             }, error => {       
-              console.log('getBranchCuponCodes - Error',error);
             });   
             // this.couponCodes = this.currentBranch.Coupons;
            }
@@ -3079,12 +3062,10 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         .subscribe((response) => { 
           // hideLoader();
           if (response) {
-            console.log('getBranchCuponCodes',response);
             this.couponCodes = response;
           
           }
         }, error => {       
-          console.log('getBranchCuponCodes - Error',error);
         });   
         // this.couponCodes = this.currentBranch.Coupons;
        }
@@ -3105,11 +3086,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public isAllValid() {
-    console.log("this.isValidCountOfOrders()",this.isValidCountOfOrders());
-    console.log("this.isSelectedTypePayment()",this.isSelectedTypePayment());
-    console.log("this.isFilledFields()",this.isFilledFields());
-    console.log("this.isCreditValidData()",this.isCreditValidData());
-    console.log("this.isOpenedBranchToday()",this.isOpenedBranchToday());
     return this.isValidCountOfOrders() &&
       this.isSelectedTypePayment() && this.isFilledFields() &&
       this.isDeliveryConditionValid() &&
@@ -3211,11 +3187,8 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   private displayCustomerErrorFields() {
   //  this.acceptTermsError = !this.acceptTerms;
     var pattern = new RegExp('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}');
-   console.log("pattern.test(this.order.Email.toString().trim())",pattern.test(this.order.Email.toString().trim()));
-   console.log("this.sendInvoice",this.sendInvoice);
   /* if (this.displayCompanyCode) {
      this.orderErrors.Code = !this.trimField(this.order.Code);
-     console.log(" this.orderErrors.Code", this.orderErrors.Code);
    }*/
     this.orderErrors.FirstName = !this.trimField(this.order.FirstName);
     this.orderErrors.LastName = !this.trimField(this.order.LastName);
@@ -3248,19 +3221,15 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   private completeOrder(userWasNtSignedIn?) {
-    console.log("completeOrder(userWasNtSignedIn?)")
     const loginToken = this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
-      console.log("loginToken",loginToken);
     if (loginToken) {
       this.isLoaded.isValidationUserLoaded = false;
       this.signInOutService.verifyToken(loginToken).subscribe((response) => {
         this.isLoaded.isValidationUserLoaded = true;
         const result = response ? !!response.user : !!response;
-        console.log("result",result);
         if (result) {
           const completePayment = () => {
-            console.log("completePayment");
             if (this.order.IsFutureOrder) {
               if (this.order.FutureDate != null && 
                   this.order.FutureDate != undefined && 
@@ -3286,11 +3255,9 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
             }
             /// End of Workaround for Combo Items  ComboItemId
-            console.log("!!!!!this.paymentType",this.paymentType);
             if (this.paymentType) {
               if(this.paymentType == PaymentTypeEnum.multi){
                 this.paymentType = PaymentTypeEnum.card;
-                console.log("!!!!!this.paymentType",this.paymentType);
               }
               if (this.branch) {
                 let method = -1;
@@ -3305,7 +3272,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                 this.isLoaded.isBranchOpenLoaded = false;
 
                 if ( !this.order.IsFutureOrder) {
-                  console.log("this.order.IsFutureOrder",this.order.IsFutureOrder)
                     this.metadataService.isOpenForPickupMethod(this.order.BranchId, method).subscribe((response) => {
                       this.isLoaded.isBranchOpenLoaded = true;
                       this.branch.IsOpen = response;
@@ -3386,7 +3352,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                           if (closed ) {//&& !this.order.IsFutureOrder
                          
                             this.showLoader = false;
-                               console.log("closed", this.showLoader)
                             this.closedBranchMessage();
                           }  else {
                             switch (this.paymentType) {
@@ -3515,7 +3480,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     else{
        position = {} 
     }
-    console.log("loadSignInForm")
     const matDialogRef = this.matDialog.open(DialogSignInComponent, {
       data: {
         isFirst: false,
@@ -3529,12 +3493,10 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     });
     matDialogRef.componentInstance.isSignLoaded
       .subscribe((result) => {
-        console.log("matDialogRef.isSignLoaded()", result);
         this.isLoaded.isSignInLoaded = result;
       });
     matDialogRef.componentInstance.signInCompleted
       .subscribe((result) => {
-        console.log("matDialogRef.signInCompleted()", result);
         this.loadOrderUserDataToUser(this.order);
         this.isSignedUser = result;
         if (this.isSignedUser) {
@@ -3543,7 +3505,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         }
       });
     matDialogRef.afterClosed().subscribe((result: any) => {
-      console.log("matDialogRef.afterClosed()", result);
       if (result == undefined) {
         localStorage.removeItem(window.location.hash);
         this.router.navigate([`/${this.franchiseId}/menu`]);
@@ -3559,7 +3520,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     else{
        position = {} 
     }
-    console.log("loadSignInForm_new")
     const matDialogRef = this.matDialog.open(DialogSignInComponent, {
       data: {
 
@@ -3573,12 +3533,10 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     });
     matDialogRef.componentInstance.isSignLoaded
       .subscribe((result) => {
-        console.log("matDialogRef.isSignLoaded()", result);
         this.isLoaded.isSignInLoaded = result;
       });
     matDialogRef.componentInstance.signInCompleted
       .subscribe((result) => {
-        console.log("matDialogRef.signInCompleted()", result);
         this.loadOrderUserDataToUser(this.order);
         this.isSignedUser = result;
         if (this.isSignedUser) {
@@ -3587,7 +3545,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         }
       });
     matDialogRef.afterClosed().subscribe((result: any) => {
-      console.log("matDialogRef.afterClosed()", result);
       if (result == undefined) {
         localStorage.removeItem(window.location.hash);
         this.router.navigate([`/${this.franchiseId}/menu`]);
@@ -3597,19 +3554,15 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
   public updateUser() {
     this.signInOutService.updateUserDetails(this.user).subscribe((result) => {
-      console.log("Order: result - update user", result);
       if (result) {
-        console.log("result update user points", result);
       }
 
     }, (error) => {
-      console.log("error update user");
     });
   }
 
   public payment() {
 
-    console.log("this.acceptTerms",this.acceptTerms)
 
     //if(!this.acceptTerms) document.getElementById("terms-alert").classList.add("show");    
       
@@ -3633,7 +3586,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     if (this.paymentType == 'biteCredit'){
       if (this.resultSum(this.order.Sum) > this.user.BiteCredit) return
     }
-    console.log("payment2222");
     this.clearErrorFields();
     if (this.isAllValid()) {
      // console.log("payment this.isAllValid()",this.isAllValid());
@@ -3648,7 +3600,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         this.completeOrder();
       }
     } else {
-      console.log("payment !this.isAllValid()",this.isAllValid()); 
       if (this.multiPayment)  {
         this.showLoader = true;
         this.completeOrder();
@@ -3666,7 +3617,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
   public paymentMobile() {
 
-    console.log("PAYMENT MOBILE()")
 
    // console.log("this.acceptTerms",this.acceptTerms)
 
@@ -3690,7 +3640,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       });
       */
     
-    console.log("payment2222");
     this.clearErrorFields();
     if (this.isAllValid()) {
      // console.log("payment this.isAllValid()",this.isAllValid());
@@ -3705,7 +3654,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         this.completeOrder();
       }
     } else {
-      console.log("payment !this.isAllValid()",this.isAllValid()); 
       if (this.multiPayment)  {
         this.showLoader = true;
         this.completeOrder();
@@ -3765,7 +3713,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
   private prepareOrderForServer(order) {
 
-    console.log("!!!!!!!!!!!!!!order", order);
     const itemsToKeep = ['Amount', 'Price','CatalogNumber','Garnishes', 'ItemId','Items', 'ParentItemId','IsScratchCoupon', 'IsCombo', 'GroupItemId', 'Price',
       'ScratchCouponId', 'SpecialRequests', 'Comments','IsClubMemberItem','IsJoinBenefitItem','IsBDayBenefitItem','IsAnnBenefitItem','Name'];
     const pizzasToKeep = ['Amount', 'Price','PizzaId', 'SizeId', 'Toppings','FullPizza',
@@ -3787,7 +3734,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
             "item_name":orderCombo.Name,
             "price":this.itemComboPrice(orderCombo)
           }
-          console.log("dataLayerItem",dataLayerItem);          
           dataLayerItems.push(dataLayerItem);      
           content_ids.push(orderCombo.ComboId)  ;
           contents.push({id:orderCombo.ComboId,quantity:orderCombo.Amount}); 
@@ -3798,8 +3744,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
       if (order.OrderItems) {
         for (let i = 0; i < order.OrderItems.length; i++) {
-          console.log("order.OrderItems[i]",order.OrderItems[i]); 
-          console.log("order.OrderItems[i].Item",order.OrderItems[i].Item);
           if(this.currentBranch.UseInventory &&   order.OrderItems[i].Item)  
           order.OrderItems[i].CatalogNumber =  order.OrderItems[i].Item.CatalogNumber;
           const orderItem = order.OrderItems[i];
@@ -3808,7 +3752,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
             "item_name":orderItem.Name,
             "price":this.itemPrice(orderItem,false)
           }
-          console.log("dataLayerItem",dataLayerItem);          
           dataLayerItems.push(dataLayerItem);
           content_ids.push(orderItem.ItemId)  ;
           contents.push({id:orderItem.ItemId,quantity:orderItem.Amount}); 
@@ -3833,7 +3776,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
             "item_name":orderPizza.Name,
             "price":this.itemPrice(orderPizza,true)
           }
-          console.log("dataLayerItem",dataLayerItem);          
           dataLayerItems.push(dataLayerItem);
           content_ids.push(orderPizza.PizzaId)  ;
           contents.push({id:orderPizza.PizzaId,quantity:orderPizza.Amount}); 
@@ -3856,10 +3798,8 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           if (pizzaAmount != pizzaFullPizzaAmount) {
             orderPizza.Amount = pizzaFullPizzaAmount > pizzaAmount ? pizzaAmount : pizzaFullPizzaAmount;
           } else { }
-          console.log("preper for server - orderPizza",orderPizza);
         }
 
-        console.log("preper for server - order.OrderPizzas",order.OrderPizzas);
  
       }
 
@@ -3873,7 +3813,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         }
       }*/
       if (!order.Phone) {
-        console.log("!order.Phone this.user.Phone",this.user.Phone);
         if (this.user && this.user.Phone) {
           order.Phone = this.user.Phone;
         }
@@ -3908,7 +3847,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public cashPayment() {
-    console.log("cashPayment");
     if (this.order) {
       if (this.paymentType == PaymentTypeEnum.biteCredit){
         this.order.Payment = PaymentTypeEnum.biteCredit;
@@ -4105,7 +4043,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
 
   public MeshulamPayment( paymentMethod, confirmationNumber, numberOfPayments) {
-    console.log("MeshulamPayment");
     if (this.order) {
       this.order.Payment = PaymentTypeEnum.cash;
       const order = this.commonFunctionsService.deepCopy(this.order);
@@ -4184,7 +4121,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public TranzilaIframeSendOrder(confirmationNumber) {
-    console.log("TranzilaIframeSendOrder");
     if (this.order) {
       this.order.Payment = "prepaidCredit";
       const order = this.commonFunctionsService.deepCopy(this.order);
@@ -4245,7 +4181,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public PelecardIframeSendOrder(confirmationNumber, transactionId) {
-    console.log("PelecardIframeSendOrder");
     if (this.order) {
       this.order.Payment = "prepaidCredit";
       const order = this.commonFunctionsService.deepCopy(this.order);
@@ -4548,7 +4483,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       this.isLoaded.isCreditPaymentLoaded = true;
       this.isLoaded.isPayaPaymentLoaded = true;
      // if (this.lang === LanguageEnum.HE) {
-        console.log("this.cashRegister",this.cashRegister);
         if (this.cashRegister && this.cashRegister.isUseCashRegister) {
           if ((this.cashRegister.cashRegisterType == 'Tranzila' || this.cashRegister.isTranzila) &&
               this.multiPayers){
@@ -4588,7 +4522,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     //  this.prepareDataForOrderToPay(order);
       this.isLoaded.isCreditPaymentLoaded = true;
       this.isLoaded.isPayaPaymentLoaded = true;
-      console.log("this.cashRegister",this.cashRegister);
       if (this.cashRegister && this.cashRegister.isUseCashRegister) {
         if (this.notEnoughCibusBudget) {
           if ( this.cibusSplittedPaymentType == 'cash') {
@@ -4619,7 +4552,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
    
       this.isLoaded.isCreditPaymentLoaded = true;
       this.isLoaded.isPayaPaymentLoaded = true;
-      console.log("this.cashRegister",this.cashRegister);
       if (this.cashRegister && this.cashRegister.isUseCashRegister) {
        this.payWithTenbisCard(this.prepareOrderForServer(order))
        
@@ -4724,7 +4656,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
               this.cibusTenbisPayersArray.push(cibusOrderDetails);
               this.cibusPayersArray.push(cibusOrderDetails);
               this.order.PayedByCibus +=  Number(response.Data.price);
-              console.log("this.order.PayedByCibus",this.order.PayedByCibus);
             
              if (this.sumPayed > 0 && this.sumPayed < this.resultSum(this.order.Sum) ){
               this.addPaymentOptions = true;
@@ -4761,7 +4692,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     this.multiPaymentStarted = true;
     this.paymentService.PayWithTenbisCard(branchId, sum, tenbisCard)
           .subscribe((response) => {
-            console.log("PayWithTenbisCard response",response);
           /*  if (response.Data.success && response.Data.orderID !== 0) {
               let cibusOrderDetails = new CibusAppModel();
               cibusOrderDetails.CardNumber = tenbisCard;
@@ -4772,7 +4702,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
               this.sumPayed += sum;
               this.cibusTenbisPayersArray.push(cibusOrderDetails);
               this.order.PayedByTenbis +=  sum;
-              console.log("this.order.PayedByTenbis",this.order.PayedByTenbis);
               if (this.sumPayed > 0 && this.sumPayed < this.resultSum(this.order.Sum) ){
               this.addPaymentOptions = true;
               this.cibusSplittedSum = this.resultSum(this.order.Sum) - this.sumPayed;
@@ -4790,7 +4719,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
               this.cibusTenbisPayersArray.push(cibusOrderDetails);
               this.tenbisPayersArray.push(cibusOrderDetails);
               this.order.PayedByTenbis +=  Number(sum);
-              console.log("this.order.PayedByTenbis",this.order.PayedByTenbis);
               if (this.sumPayed > 0 && this.sumPayed < this.resultSum(this.order.Sum) ){
               this.addPaymentOptions = true;
               this.cibusSplittedSum = this.resultSum(this.order.Sum) - this.sumPayed;
@@ -4885,7 +4813,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       .dataEncryption(loginToken, JSON.stringify(this.tenbisCard))
       .subscribe((response) => {
         let encrypted = response;
-        console.log("order",order);
       
           this.paymentService
           .paymentRequestCashRegister(order, loginToken, encrypted)
@@ -5017,7 +4944,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         "price":this.itemPrice(item,true),
         "quantity" :1
       }
-      console.log("dataLayerItem",dataLayerItem);
       
       dataLayerItems.push(dataLayerItem);
       window['dataLayer'].push({
@@ -5052,7 +4978,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           "price":this.itemComboPrice(item), 
           "quantity" :1
         }
-        console.log("dataLayerItem",dataLayerItem);
         
         dataLayerItems.push(dataLayerItem);
     
@@ -5072,7 +4997,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           "price":this.itemPrice(item,false),
           "quantity" :1
         }
-        console.log("dataLayerItem",dataLayerItem);
         
         dataLayerItems.push(dataLayerItem);
         window['dataLayer'].push({
@@ -5100,11 +5024,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     const minForBonus = AppConfig.configSettings.minAmountForBonus;
     const firstMessage = this.translationsService.translate('BONUS_FIRST');
     const bonusMSG = AppConfig.configSettings.bonusMsg;
-    console.log(minForBonus);
-    console.log(firstMessage);
-    console.log("this.bonusItems",this.bonusItems);
     if (this.bonusItems && this.bonusItems.length > 0) {
-      console.log("if (this.bonusItems && this.bonusItems.length > 0)");
       const matDialogRef = this.matDialog.open(AdditionalItemsComponent, {
         data: {
           //header: message,
@@ -5123,7 +5043,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         panelClass: 'custom-mat-dialog-mobile-bonus'
       });
       matDialogRef.afterClosed().subscribe((result) => {
-        console.log("afterClosed()-->", result);
         if (result.isSaved && result.selectedItems) {
           result.selectedItems.forEach(orderAdditionalItem => {
             this.order.OrderItems.push(orderAdditionalItem);
@@ -5136,7 +5055,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public subAmount(item, isPizza?, isCombo?) {
-    console.log("subAmount");
      
     let header = this.translationsService.translate('ERROR');
     let icon = "../../../assets/images/items/important-message.svg";
@@ -5245,7 +5163,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     }
   }
  /* private checkRemoveBonusItems() {
-    console.log("checkRemoveBonusItems")
     if (AppConfig.configSettings.minAmountForBonus) {
       let bonusItemsSum = 0;
       const bonusItems = this.order.OrderItems.filter((i) => { return i.IsBonus });
@@ -5262,7 +5179,6 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         }
         bonusItemsSum += (bonusItem.Price + garnishesSum) * (bonusItem.Amount || 1);
       });
-console.log("bonusItemsSum",bonusItemsSum)
       if (bonusItemsSum > 0 && this.order.Sum - bonusItemsSum < AppConfig.configSettings.minAmountForBonus) {//bonusItemsSum > 0 && 
         bonusItems.forEach((bonusItem) => { this.remove(bonusItem, false) });
         this.order.hasBonusItems = false;
@@ -5308,7 +5224,6 @@ console.log("bonusItemsSum",bonusItemsSum)
 
   public remove(item, isPizza?) {
     // display warning msg
-    console.log("remove", item);
     this.notAllowedBenefitsAmount = false;
     let header = this.translationsService.translate('ERROR');
     let icon = "../../../assets/images/items/important-message.svg";
@@ -5340,7 +5255,6 @@ console.log("bonusItemsSum",bonusItemsSum)
         this.checkRemoveBonusItems();
       }
       if (item.Item.MealUpgrade) {
-        console.log("item.Item",item.Item)
         this.checkRemoveUpgrade();
       }
     }
@@ -5389,7 +5303,6 @@ console.log("bonusItemsSum",bonusItemsSum)
       this.order.OrderPizzas = [];
       this.order.OrderCombos = [];
       this.order.hasBonusItems = false;
-      console.log("this.order.hasBonusItems = false;");
     }
     this.orderService.recalculateSum();
   }
@@ -5500,22 +5413,16 @@ console.log("bonusItemsSum",bonusItemsSum)
 
   /*onValueChange(value: Date): void {
     if (value) {
-      console.log("value: Date1", value);
       this.cashRegisterCreditCard.expirationMonth = (value.getMonth() + 1).toString();
-      console.log("this.ccWithToken.expirationMonth1", this.cashRegisterCreditCard.expirationMonth);
       this.cashRegisterCreditCard.expirationYear = value.getFullYear().toString();
-      console.log("this.ccWithToken.expirationYear1", this.cashRegisterCreditCard.expirationYear);
     }
 
   }*/
 
   onCCValueChange(value: Date): void {
     if (value) {
-      console.log("value: Date1", value);
       this.ccWithToken.expirationMonth = (value.getMonth() + 1).toString();
-      console.log("this.ccWithToken.expirationMonth2", this.ccWithToken.expirationMonth);
       this.ccWithToken.expirationYear = value.getFullYear().toString();
-      console.log("this.ccWithToken.expirationYear2", this.ccWithToken.expirationYear);
     }
 
   }
@@ -5631,7 +5538,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   public getScratchCoupon = false;
 
   public displayScratchCoupon(scratchCoupon) {
-    console.log("displayScratchCoupon");
     if(this.isMobileMode()){
       var minWidth = '100%';
     }
@@ -5653,7 +5559,6 @@ console.log("bonusItemsSum",bonusItemsSum)
       });
       matDialogRef.afterClosed().subscribe((result) => {
        // this.displayDiscount();
-        console.log(result);
         if(!this.appStorageService.useScratchCoupon) {
           this.scratchCoupon =  undefined;
         }
@@ -5662,7 +5567,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   private preparePizzaForOrder(pizza: PizzaAppAdvancedModel, specialRequest: string) {
-    console.log("preparePizzaForOrder - pizza", pizza);
     const newPizza = new OrderPizzaAppAdvancedModel();
     newPizza.Amount = pizza.Amount;
     newPizza.PizzaId = pizza.Id;
@@ -5763,7 +5667,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
   
   private loadNewComboWithItems(comboItem, callback?) {
-    console.log("comboItem", comboItem);
     let cls = 'modal-new-combo';
     
     if (this.isMobileMode()) cls = 'modal-dialog-scrollable modal-xl';
@@ -5777,12 +5680,8 @@ console.log("bonusItemsSum",bonusItemsSum)
    
     this.modalService.onHide
       .pipe(take(1)).subscribe(() => {
-        console.log("this.bsModalRef.content", this.bsModalRef.content);
         if (this.bsModalRef.content.isSaved && this.bsModalRef.content.combo) {
-          console.log("this.bsModalRef.content.combo", this.bsModalRef.content.combo);
           const myBsModalContentCombo = this.commonFunctionsService.deepCopy(this.bsModalRef.content.combo);
-          console.log("loadNewComboWithItems() - myBsModalContentCombo", myBsModalContentCombo);
-          console.log("comboItem", comboItem);
           
 
           if (callback) {
@@ -5794,7 +5693,6 @@ console.log("bonusItemsSum",bonusItemsSum)
  
   }
   public editItem(item) {
-    console.log("editItem editItem", item);
     if(item.FullPizza){
       var myClass;
       if(this.isMobileMode()){
@@ -5811,20 +5709,14 @@ console.log("bonusItemsSum",bonusItemsSum)
       this.modalService.onHide
         .pipe(take(1)).subscribe(() => {
 
-          console.log("menu close modal item", this.bsModalRef.content)
           if (this.bsModalRef.content.isSaved && this.bsModalRef.content.pizza) {
             const orderPizza = this.preparePizzaForOrder(this.bsModalRef.content.pizza,this.bsModalRef.content.comments);
-            console.log("orderPizza",orderPizza);
             orderPizza.SpecialRequests = this.bsModalRef.content.comments;
-            console.log("orderPizza",orderPizza);
             //const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
             var index = this.order.OrderPizzas.indexOf(item);
-            console.log("index", index);
             this.order.OrderPizzas[index] = orderPizza;
-            console.log("this.order.OrderPizzas[index]",this.order.OrderPizzas[index]);
 
             this.orderService.recalculateSum();
-            console.log("this.order.Sum", this.order.Sum)
             //this.resetItem(item);
 
             if(orderPizza.FullPizza.SelectedGarnishes && orderPizza.FullPizza.SelectedGarnishes.length>0 && !this.isMobileMode()){
@@ -5919,21 +5811,16 @@ console.log("bonusItemsSum",bonusItemsSum)
       this.modalService.onHide
         .pipe(take(1)).subscribe(() => {
 
-          console.log("menu close modal item", this.bsModalRef.content)
           if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
             if(this.bsModalRef.content.item.ItemGroups && this.bsModalRef.content.item.ItemGroups.length>0){
               const tmpItem = this.bsModalRef.content.item;
-              console.log("tmpItem",tmpItem);
               let specialRequests = this.bsModalRef.content.itemComments;
               let itemName = this.bsModalRef.content.itemName;
              // const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
-              console.log("item.ItemGroups",this.bsModalRef.content.item.ItemGroups);
               //this.loadNewComboWithItems(item);
               this.loadNewComboWithItems(this.bsModalRef.content.item, (result) => {
-                console.log("result - after combo --> add to cart itemWithGroups", result);
                 if(result && result.isSaved ){//&& result.combo.SelectedItems
                   const orderItem = this.prepareItemWithItemGroupsForOrder(tmpItem, result.combo.SelectedItems);
-                  console.log("orderItem", orderItem);
                   orderItem.SpecialRequests = specialRequests;//this.bsModalRef.content.itemComments;
                   orderItem.ItemName = itemName;//this.bsModalRef.content.itemName;
                 //  const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
@@ -5951,16 +5838,12 @@ console.log("bonusItemsSum",bonusItemsSum)
               });
             } else {
               const orderItem = this.prepareEditedItemForOrder(this.bsModalRef.content.item);
-              console.log("orderItem", orderItem);
               orderItem.SpecialRequests = this.bsModalRef.content.comments;
               //const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
               var index = this.order.OrderItems.indexOf(item);
-              console.log("index", index);
               this.order.OrderItems[index] = orderItem;
-              console.log("this.order.OrderItems[index]", this.order.OrderItems[index]);
   
               this.orderService.recalculateSum();
-              console.log("this.order.Sum", this.order.Sum)
               this.resetItem(item);
             }
             
@@ -5990,8 +5873,6 @@ console.log("bonusItemsSum",bonusItemsSum)
       const minForBonus = AppConfig.configSettings.minAmountForBonus;
       const firstMessage = this.translationsService.translate('BONUS_FIRST');
       const bonusMSG = AppConfig.configSettings.bonusMsg;
-      console.log(minForBonus);
-      console.log(firstMessage);
       if (this.bonusItems && this.bonusItems.length > 0) {
         const matDialogRef = this.matDialog.open(AdditionalItemsComponent, {
           data: {
@@ -6011,7 +5892,6 @@ console.log("bonusItemsSum",bonusItemsSum)
           panelClass: 'custom-mat-dialog-mobile-bonus'
         });
         matDialogRef.afterClosed().subscribe((result) => {
-          console.log("afterClosed()-->", result);
           if (result.isSaved && result.selectedItems) {
             this.order.OrderItems.forEach(item => {
               if(item.IsBonus){
@@ -6034,7 +5914,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   
 
   private prepareItemWithItemGroupsForOrder(item : ItemAppAdvancedModel, items: any[]) {
-    console.log("prepareItemForOrder - item", item)
 
     const orderItem = new OrderItemAppModel();
     orderItem.IsUpgrade = item.IsUpgrade;
@@ -6056,7 +5935,6 @@ console.log("bonusItemsSum",bonusItemsSum)
       orderSubItem.ItemName = selectedItem.ItemName;
       orderSubItem.Price = selectedItem.Price;
       orderSubItem.IsItemsGroupItemKeptPrice = true;
-      console.log("orderItem",orderSubItem);
       orderSubItem.Amount = 1;
       orderSubItem.GroupItemId = selectedItem.GroupItemId;
       orderSubItem.ParentItemId = item.Id;
@@ -6120,7 +5998,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   private prepareSubItemForOrder(item : ItemAppAdvancedModel) {
-    console.log("prepareItemForOrder - item", item)
 
     const orderItem = new OrderItemAppModel();
     orderItem.IsUpgrade = item.IsUpgrade;
@@ -6190,15 +6067,11 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   public openItemPopup(item) {
-    console.log("openItemPopup()");
-    console.log("item",item);
     // let index = res.index;
 
     let itemToEdit = item;
-    console.log("itemToEdit", itemToEdit);
 
     if (!itemToEdit.IsBonus) {
-      console.log("ITEM IS NOT BONUS");
       const initialState = {
         item: item.FullPizza,
         isEdit: true
@@ -6208,12 +6081,9 @@ console.log("bonusItemsSum",bonusItemsSum)
       this.modalService.onHide
         .pipe(take(1)).subscribe(() => {
 
-          console.log("menu close modal item", this.bsModalRef.content)
           if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
             const orderPizza = this.prepareEditedGarnishesForPizza(this.bsModalRef.content.item , item);
             orderPizza.SpecialRequests = this.bsModalRef.content.comments;
-            console.log("orderPizza - AfterEditGarForPizza",orderPizza)
-            console.log("this.bsModalRef.content.comments", this.bsModalRef.content.comments)
             //const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
             var index = this.order.OrderPizzas.indexOf(item);
             this.order.OrderPizzas[index] = orderPizza;
@@ -6328,7 +6198,6 @@ console.log("bonusItemsSum",bonusItemsSum)
         }
       }
     });
-      console.log("garnishes",garnishes);
        
       orderItem.Garnishes = garnishes;
       //console.log("prepareItemForOrder garnishes", garnishes)
@@ -6341,7 +6210,6 @@ console.log("bonusItemsSum",bonusItemsSum)
       orderItem.ImageUrl = item.ImageUrl;
       orderItem.Name = item.Name;
 
-      console.log("orderItem",orderItem);
       
       return orderItem;
     }
@@ -6434,8 +6302,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   private loadUserDataToOrder(user, ccTokens, withAddress, cibusTokens,tenbisTokens) {
-    console.log("loadUserDataToOrder: ccTokens", ccTokens);
-    console.log("loadUserDataToOrder: cibusTokens", cibusTokens);
     if (user) {
       this.user = user;
       this.order.Code = user.CompanyCode || '';
@@ -6446,31 +6312,24 @@ console.log("bonusItemsSum",bonusItemsSum)
       if (ccTokens && ccTokens.length>0) {
         this.order.CCTokens = ccTokens;
         this.selectedCcId = this.order.CCTokens[0].Id; 
-        console.log("order",this.order);
       } else {
         this.order.CCTokens = [];
       }
       if(cibusTokens && cibusTokens != 'undefined' && cibusTokens != undefined){
         this.order.cibusTokens = cibusTokens;
         this.selectedCibus = cibusTokens;
-        console.log("this.order.cibusTokens", this.order.cibusTokens);
-        console.log("this.selectedCibus", this.selectedCibus);
         this.cibusEnd = cibusTokens.toString();
         this.cibusEnd = this.cibusEnd.substring(5,9);
 
-        console.log("cibusEnd", this.cibusEnd);
 
 
       }
       if(tenbisTokens && tenbisTokens != 'undefined' && tenbisTokens != undefined){
         this.order.tenBisTokens = tenbisTokens;
         this.selectedTenbis = tenbisTokens;
-        console.log("this.order.tenbisTokens", this.order.tenBisTokens);
-        console.log("this.selectedTenbis", this.selectedTenbis);
         this.tenbisEnd = cibusTokens.toString().slice(-4);
          
 
-        console.log("cibusEnd", this.cibusEnd);
         
 
       }
@@ -6552,7 +6411,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   private closedBranchMessage() {
-    console.log("closedBranchMessage");
     this.isLoaded.isFranchiseWithBranchesLoaded = false;
     this.metadataService.getFranchiseWithBranches(this.appStorageService.orderType)
       .subscribe((result) => {
@@ -6562,7 +6420,6 @@ console.log("bonusItemsSum",bonusItemsSum)
           });
           if (findBranch) {
             this.branch = this.commonFunctionsService.deepCopy(findBranch);
-            console.log(" this.branch = ", this.branch);
             this.branch.DeliveryBranchGroup = this.deliveryGroup;
           }
         }
@@ -6652,10 +6509,8 @@ console.log("bonusItemsSum",bonusItemsSum)
           s.onload = this.configureGrowSdk; //replace with your callback function
           var x = document.getElementsByTagName('script')[0];
           x.parentNode.insertBefore(s, x);
-          console.log("document.head", document.head);
     
           } else {
-            console.log("scriptElement", scriptElement);
           }
         }
       }
@@ -6726,19 +6581,16 @@ console.log("bonusItemsSum",bonusItemsSum)
           });
           if (exists) {
             this.deliveryGroup = group;
-            console.log(" this.deliveryGroup", this.deliveryGroup);
           }
         });
       } else {
         if (this.branch.DeliveryBranchGroup) {
           this.deliveryGroup = this.branch.DeliveryBranchGroup;
-          console.log(" this.deliveryGroup", this.deliveryGroup);
           this.order.deliveryGroup = this.branch.DeliveryBranchGroup;
           localStorage.setItem(window.location.hash, JSON.stringify(this.order));
         }
         else {
           this.deliveryGroup = this.order.deliveryGroup;
-          console.log(" this.deliveryGroup", this.deliveryGroup);
         }
       }
       // console.log('!!!', this.deliveryGroup);
@@ -6747,11 +6599,9 @@ console.log("bonusItemsSum",bonusItemsSum)
           this.displayPopupMessageIfNotFoundCityInfoForDelivery();
         }
         this.deliveryGroup = undefined;
-        console.log(" this.deliveryGroup", this.deliveryGroup);
       }
     } else {
       this.deliveryGroup = undefined;
-      console.log(" this.deliveryGroup", this.deliveryGroup);
     }
     if (!notDisplay && !this.isOrderOption) {
       if (this.deliveryGroup && this.order && this.deliveryGroup.MinSumForDelivery > this.resultSumWithoutDelivery(this.order.Sum)) {
@@ -6786,7 +6636,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   public openBiteCreditPopup(){
-    console.log("this.isMobileMode()",this.isMobileMode());
     var minWidth;
     var maxWidth;
     var maxHeight;
@@ -6802,7 +6651,6 @@ console.log("bonusItemsSum",bonusItemsSum)
       maxWidth = '50vw';
       cls = 'bite-credit-desktop'
     }
-    console.log("cls",cls)
     const matDialogRef = this.matDialog.open(BiteCreditComponent, {
       data: {
         isAddCredit:true,
@@ -6825,20 +6673,17 @@ console.log("bonusItemsSum",bonusItemsSum)
   
 
   private checkBranch(extraFunction?) {
-    console.log("checkBranch");
     this.isLoaded.isFranchiseWithBranchesLoaded = false;
     this.branch = this.appStorageService.branch;
    // console.log(" this.branch = ", this.branch);
     //  console.log('BRANCH:::', this.branch)
     if (this.branch.DeliveryBranchGroup) {
       this.deliveryGroup = this.branch.DeliveryBranchGroup;
-      console.log(" this.deliveryGroup", this.deliveryGroup);
       this.order.deliveryGroup = this.branch.DeliveryBranchGroup;
       localStorage.setItem(window.location.hash, JSON.stringify(this.order));
     }
     else { 
       this.deliveryGroup = this.order.deliveryGroup;
-      console.log(" this.deliveryGroup", this.deliveryGroup);
     }
     const completeIsOpenBranchChecking = () => {
       if (this.branch) {
@@ -6874,7 +6719,6 @@ console.log("bonusItemsSum",bonusItemsSum)
           });
           if (findBranch) {
             this.branch = this.commonFunctionsService.deepCopy(findBranch);
-            console.log(" this.branch = ", this.branch);
             this.branch.DeliveryBranchGroup = this.deliveryGroup;
           }
         }
@@ -6887,7 +6731,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   };
 
   public verifyToken(isFirstTime?) {
-    console.log("verifyToken");
     const token = this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
     if (token) {
@@ -6905,7 +6748,6 @@ console.log("bonusItemsSum",bonusItemsSum)
             }
             this.loadUserDataToOrder(response.user, response.ccTokens, false, response.cibus, response.tenbis);
             this.loadDiscountAndScratchCoupons();
-            console.log("after loadUserDataToOrder");
           } else {
             this.signInOutService.signOut();
             this.checkedUserSigning(result);
@@ -6932,7 +6774,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   private loadDiscountAndScratchCoupons() {
     this.checkDiscount();
     // Scratch coupon logic:
-    console.log("this.appStorageService.useScratchCoupon",this.appStorageService);
     if (this.appStorageService.useScratchCoupon) {
       this.getActiveCoupons();
     }
@@ -6941,13 +6782,10 @@ console.log("bonusItemsSum",bonusItemsSum)
         return items.concat(category.Items);
       }, []);
       const myAdditionalitems = this.commonFunctionsService.deepCopy(items);
-      console.log ("myAdditionalitems",myAdditionalitems)
       const filteredItems = myAdditionalitems.filter((item) => {
         return item.IsShowInKioskEndOrder 
            
       });
-      console.log ("myAdditionalitems",filteredItems)
-      console.log ("this.order",this.order)
       items = myAdditionalitems.filter((item) => {
         return item.IsShowInKioskEndOrder && this.order.OrderItems &&
           this.order.OrderItems.every((currentItem) => {
@@ -6955,7 +6793,6 @@ console.log("bonusItemsSum",bonusItemsSum)
           });
       });
       items = items.sort(function(a, b)  {return a.Order - b.Order});
-      console.log("Additional Items:", items);
       if (items && items.length > 0) {
         const matDialogRef = this.matDialog.open(AdditionalItemsComponent, {
           data: {
@@ -6994,11 +6831,9 @@ console.log("bonusItemsSum",bonusItemsSum)
   public isAllValidDataToContinue() {
     //console.log("this.acceptTerms",this.acceptTerms)
  /*   if (!this.isValidCountOfOrders()){
-      console.log("!isValidCountOfOrders")
      // this.displayPopupMessage("כמות פריטים לא תקינה");
     }
     if (!this.isOpenedBranchToday()){
-      console.log("!isOpenedBranchToday")
      // this.displayPopupMessage("לא נמצא סניף");
     }*/
     return this.isValidCountOfOrders() && this.isOpenedBranchToday() 
@@ -7006,8 +6841,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   public checkMinimumForClubBenefits(){
-    console.log("checkMinimumForClubBenefits(): this.order",this.order);
-    console.log("checkMinimumForClubBenefits(): this.appStorageService.franchise",this.appStorageService.franchise);
     const itemsFromCmShop = this.order.OrderItems.filter((item) => {
       return item.IsClubMemberItem;
     });
@@ -7027,7 +6860,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   public checkAmountBenefitsItems(){
-    console.log("checkAmountBenefitsItems(): this.order",this.order);
     const itemsFromCmShop = this.order.OrderItems.filter((item) => {
       return item.IsClubMemberItem;
     });
@@ -7063,8 +6895,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   public isAllValidUserData() {
-    console.log("this.isFilledCustomerFields()",this.isFilledCustomerFields());
-    console.log("this.this.isDeliveryConditionValid()",this.isDeliveryConditionValid() );
     return this.isFilledCustomerFields() && this.acceptTerms
     this.isDeliveryConditionValid()  ;
    
@@ -7075,9 +6905,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   public continueToPaymentMethod() {
-    console.log("this.order", this.order);
-    console.log("payment");
-    console.log("this.cashRegister", this.cashRegister);
 
     if (this.useMeshulamIframe) {
       //var orderSum  = this.order.Sum - this.order.dis
@@ -7086,11 +6913,9 @@ console.log("bonusItemsSum",bonusItemsSum)
       this.meshulamService
             .createMeshulamPaymentProcess(this.order, loginToken)
               .subscribe((response) => {
-                console.log("response", response);
                 
                  
                   if (response.status && growPayment) {
-                    console.log("response", response.data.authCode);
                     this.showLoader = true;
                     growPayment.renderPaymentOptions(response.data.authCode);
                    
@@ -7106,7 +6931,6 @@ console.log("bonusItemsSum",bonusItemsSum)
                     this.displayCustomer=false;                   
                    
                    // this.meshulamPaymentURL = this.meshulamPaymentURL.replace('\\','\\');
-                    console.log("meshulamPaymentURL", this.meshulamPaymentURL);
                     //this.displayMeshulamIframe = true;
                     
                   }*/
@@ -7128,7 +6952,6 @@ console.log("bonusItemsSum",bonusItemsSum)
         const loginToken = this.appStorageService
           .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
         if (!loginToken) {
-          console.log("NO TOKEN???");
           this.loadSignInForm();
         } else {
          // this.completeOrder();
@@ -7139,7 +6962,6 @@ console.log("bonusItemsSum",bonusItemsSum)
         if (!this.isMobileMode() && 
             this.cashRegister.cashRegisterType != "None" &&
             this.paymentType == PaymentTypeEnum.card){
-              console.log("this.selectCreditPaymentMethod()")
  this.selectCreditPaymentMethod();
             }
            
@@ -7150,7 +6972,6 @@ console.log("bonusItemsSum",bonusItemsSum)
            //   }
              
       } else {
-        console.log("payment !this.isAllValid()",this.isAllValidUserData());
         this.displayCustomerErrorFields();
         if (this.deliveryGroup && this.order &&
           this.deliveryGroup.MinSumForDelivery > this.resultSumWithoutDelivery(this.order.Sum)) {
@@ -7185,7 +7006,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   }
 
   payWithPelecardIframe(){
-    console.log("PelecardIframeSendOrder");
     if (this.order) {
       this.order.Payment = "prepaidCredit";
       const order = this.commonFunctionsService.deepCopy(this.order);
@@ -7230,7 +7050,6 @@ console.log("bonusItemsSum",bonusItemsSum)
              
                this.paymentService.GetPelecardIframeUrlNew(this.prepareOrderForServer(order), loginToken, this.configService.franchiseId, this.resultSum(this.order.Sum))
                 .subscribe((iframeRes) => {
-                  console.log("iframeRes", iframeRes);
                   if (iframeRes && iframeRes.URL && iframeRes.ConfirmationKey) {
                     this.pelecardIframeUrl =iframeRes.URL;
                     this.pelecardConfirmationKey =iframeRes.ConfirmationKey;
@@ -7255,8 +7074,6 @@ console.log("bonusItemsSum",bonusItemsSum)
 
 
   public selectCreditPaymentMethod(){
-    console.log("selectCreditPaymentMethod ")
-    console.log("this.order.pelecard_transactionId", this.order.pelecard_transactionId);
       this.paymentType = 'credit'; 
       this.clearErrorFields(); 
       this.multiPayers = false;
@@ -7280,7 +7097,6 @@ console.log("bonusItemsSum",bonusItemsSum)
           this.payWithPelecardIframe();
         /*  this.paymentService.GetPelecardIframeUrlWithInvoice(this.preparePelecardOrderForServer(this.order), loginToken, this.configService.franchiseId)
             .subscribe((iframeRes) => {
-              console.log("iframeRes", iframeRes);
               if (iframeRes && iframeRes.URL && iframeRes.ConfirmationKey) {
                 this.pelecardIframeUrl =iframeRes.URL;
                 this.pelecardConfirmationKey =iframeRes.ConfirmationKey;
@@ -7313,7 +7129,6 @@ console.log("bonusItemsSum",bonusItemsSum)
           '&trTextColor=000000&currency=1&cred_type=1&tranmode=AK&pdesc=' +
           this.configService.franchiseId + '&franchiseId=' +
           this.configService.franchiseId + '&userLoginToken=' + loginToken);
-          console.log("this.tranzilaIframeUrlSanitized ", this.tranzilaIframeUrlSanitized )
           if ( this.order.CCTokens.length == 0 || this.addCC) {
             this.displayTranzilaIframeUrl = true;
             setTimeout(() => this.tranzilaIframePayment(), 15000);
@@ -7328,8 +7143,6 @@ console.log("bonusItemsSum",bonusItemsSum)
   public displayPelecardIframe:boolean = false;
   public continueToSelectedPaymentMethod(paymentMethod){
 
-    console.log("continueToSelectedPaymentMethod:paymentMethod ",paymentMethod);
-    console.log("this.order.pelecard_transactionId", this.order.pelecard_transactionId);
     // workaround for pelecard iframe
     /*if ((this.cashRegister.cashRegisterType == 'Pelecard' ||
       this.cashRegister.isPelecard) &&
@@ -7371,7 +7184,6 @@ console.log("bonusItemsSum",bonusItemsSum)
            /* this.paymentService
             .GetPelecardIframeUrlWithInvoice(this.preparePelecardOrderForServer(this.order), loginToken, this.configService.franchiseId)                                                       
               .subscribe((iframeRes) => {
-                console.log("iframeRes", iframeRes);
                 if (iframeRes && iframeRes.URL && iframeRes.ConfirmationKey) {
                   this.pelecardIframeUrl =iframeRes.URL;
                   this.pelecardConfirmationKey =iframeRes.ConfirmationKey;
@@ -7453,13 +7265,7 @@ console.log("bonusItemsSum",bonusItemsSum)
         this.paymentType = PaymentTypeEnum.multi;
       }
     
-      console.log("continueToSelectedPaymentMethod");
-      console.log("this.cashRegister", this.cashRegister);
-      console.log("this.paymentType", this.paymentType);
-      console.log("this.multiPayers", this.multiPayers);
-      console.log("this.order", this.order);
   
-      console.log("this.acceptTerms",this.acceptTerms)
   
      
         this.displayPaymentOptions = false;
