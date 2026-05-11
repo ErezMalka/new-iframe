@@ -238,7 +238,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
     //this.getOrderInfo();
     this.getOrdersInfo();  
 
-    console.log("this.currentBranch",this.currentBranch);
   }
 
   public getLanguage() {
@@ -269,7 +268,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
    public allCombosArr = [];
 
    public signOut(){
-    console.log("signOUT()", this.isSignedUser);
     this.signInOutService.signOut();
     this.isSignedUser=false;
   }
@@ -293,13 +291,11 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
       .subscribe((result) => {
         if (result) {
           this.myOrders=result;
-          console.log("this.myOrders",this.myOrders);
           //console.log("getOrderInfo result",result);
           this.displayPizzaLogicForOrders();
 
           this.myOrders.forEach(order => {
             order.OrderItems.forEach(item => {
-              console.log("item",item);
               //var foundItem = this.allItemsArr.find(({ Name }) => Name === item.Name);
               //console.log("foundItem",foundItem);
               /*this.combos.forEach(combo => {
@@ -319,7 +315,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
           });
         }
       },(error) => {
-        console.log("getOrderInfo Error", error)
         this.messageService.displayServerErrorMessage();
       });
     }
@@ -370,7 +365,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
       orderPizza.quarter2 = [];
       orderPizza.quarter3 = [];
       orderPizza.quarter4 = [];
-      console.log("orderPizza",orderPizza);
  
       orderPizza.quarter1 = orderPizza.Toppings.filter((e) => { return e.Quarter1 == true; })
         .map((t) => { return t.Topping.Name });
@@ -435,7 +429,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
         orderPizza.quarter2 = [];
         orderPizza.quarter3 = [];
         orderPizza.quarter4 = [];
-        console.log("orderPizza",orderPizza);
    
         orderPizza.quarter1 = orderPizza.Toppings.filter((e) => { return e.Quarter1 == true; })
           .map((t) => { return t.Topping.Name });
@@ -567,7 +560,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
     if (this.cashRegisterCreditCard) {
       this.cashRegisterCreditCard.expirationMonth = (moment().month() + 1) + '';
       this.cashRegisterCreditCard.expirationYear = moment().year() + '';
-      console.log(this.cashRegisterCreditCard.expirationMonth, 'this.cashRegisterCreditCard.expirationMonth')
       
     }
   }
@@ -638,7 +630,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
 
   public isCVV(value:string) {
     const cvvStr = value.split('');
-    console.log("cvvStr",cvvStr);
     if (cvvStr.length == 3 && 
         Number.isInteger(parseInt(cvvStr[0])) &&
         Number.isInteger(parseInt(cvvStr[1])) &&
@@ -678,7 +669,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
    /*
     this.paymentService.getPaymentOptions().subscribe((result) => {*/
    const result = this.appStorageService.paymentOptions;
-   console.log("------checkPaymentOptions:result:",result);
       if (result) {
         this.paymentSettings.Cash = result.Cash;
         if (this.paymentSettings.Cash) {
@@ -707,7 +697,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
       this.menuService.getDiscount(this.order.BranchId, this.user && this.user.Id ? this.user.Id : undefined).subscribe((result) => {
         if (result) {
           this.discount = result;
-          console.log("this.discount",this.discount);
         }
         this.isLoaded.isDiscountLoaded = true;
       }, (error) => {
@@ -895,7 +884,6 @@ export class MyBenefitsComponent extends SizeMobileInitializationComponent imple
 
   public resultDeliverySum(price,  deliveryGroup) {
     let numericTotalPrice = parseFloat(price);
-    console.log("resultDeliverySum " + price, deliveryGroup);
     if (!deliveryGroup) {
       return numericTotalPrice;
     }
