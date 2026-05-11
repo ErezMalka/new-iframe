@@ -14,7 +14,6 @@ export class CommonFunctionsService {
 
   public restrictKeysExceptDigitsAndPlus(event, dontIncludePlus) {
     const k = event.charCode;  // k = event.keyCode;  (Both can be used)
-    console.log(k)
     if ((k > 64 && k < 91) || k == 8 || k == 32 || (k >= 48 && k <= 57) || k == 46) {
 
     } else {
