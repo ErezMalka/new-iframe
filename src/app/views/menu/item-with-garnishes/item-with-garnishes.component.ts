@@ -99,8 +99,6 @@ export class ItemWithGarnishesComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log("ISEDIT - ITEMCOMPONENT", this.isEdit);
-    console.log("item", this.item);
     /*this.item.GarnishGroups.forEach(gGroup => {
       if(gGroup.Max == 0) gGroup.Max = 20;
       /*gGroup.Garnishes.forEach(gar => {
@@ -252,19 +250,16 @@ export class ItemWithGarnishesComponent implements OnInit {
 
   private checkSelectedGarnishesFromGarnishGroupForSave(garnishGroup) {
     if (garnishGroup) {
-      console.log("checkSelectedGarnishesFromGarnishGroup - gGroup", garnishGroup);
       const selectedGarnishes =
         (garnishGroup.Garnishes || []).filter((garnish: GarnishAppAdvancedModel) => {
           return garnish.IsSelected;
         });
-      console.log("selectedGarnishes", selectedGarnishes);
 
       const selectedGarnishesSum = selectedGarnishes.reduce((sum, item) => {
         sum += item.SelectedAmount || 1;
         return sum;
       }, 0);
        
-      console.log("selectedGarnishesSum", selectedGarnishesSum);
 
       if (selectedGarnishesSum == garnishGroup.Max ) { //for g.max = 1 && g.min = 1
         console.log("NO-ERROR");
@@ -338,7 +333,6 @@ export class ItemWithGarnishesComponent implements OnInit {
   public save() {
 
     const modalElement = document.getElementsByClassName('modal-dialog-item-with-garnishes');
-    console.log("modalElement", modalElement);
     console.log("savee!!!!");
 
     var stop: boolean = false; // find first group with unselected garnishes, which should be selected
@@ -371,7 +365,6 @@ export class ItemWithGarnishesComponent implements OnInit {
 
         if(modalElement){
           modalElement[0].classList.add('animate__animated', 'animate__bounceOutLeft');
-          console.log("modalElement[0]",modalElement[0]);
         }
         this.bsModalRef.hide();
       }
@@ -406,7 +399,6 @@ export class ItemWithGarnishesComponent implements OnInit {
 
         if(modalElement){
           modalElement[0].classList.add('animate__animated', 'animate__bounceOutLeft');
-          console.log("modalElement[0]",modalElement[0]);
         }
         this.bsModalRef.hide();
       }
@@ -415,7 +407,6 @@ export class ItemWithGarnishesComponent implements OnInit {
 
       this.item.GarnishGroups.forEach(ggroup => {
         if (!stop) {
-          console.log("ggroup", ggroup);
           if (!this.checkSelectedGarnishesFromGarnishGroupForSave(ggroup)) {
             console.log("NO GARNISHES SELECTED - group");
             this.showErrorGarnishMessage = true;
@@ -453,7 +444,6 @@ export class ItemWithGarnishesComponent implements OnInit {
 
         if(modalElement){
           modalElement[0].classList.add('animate__animated', 'animate__bounceOutLeft');
-          console.log("modalElement[0]",modalElement[0]);
         }
         this.bsModalRef.hide();
       }
@@ -493,7 +483,6 @@ export class ItemWithGarnishesComponent implements OnInit {
 
         if(modalElement){
           modalElement[0].classList.add('animate__animated', 'animate__bounceOutLeft');
-          console.log("modalElement[0]",modalElement[0]);
         }
         this.bsModalRef.hide();
       }
@@ -526,8 +515,6 @@ export class ItemWithGarnishesComponent implements OnInit {
 
   private handleGarnishMultiSelect(gar: GarnishAppAdvancedModel, garnishGroup? : GarnishGroupAppModel) {
     console.log("handleGarnishMultiSelect");
-    console.log(garnishGroup,"garnishGroup");
-    console.log("gar",gar);
     
 
 
@@ -596,14 +583,9 @@ export class ItemWithGarnishesComponent implements OnInit {
   public selectGarnish(item: GarnishAppAdvancedModel, garnishGroup: GarnishGroupAppModel) {
     if (item) {
 
-      console.log("selectGarnish(): item", item);
-      console.log("item.isselected", item.IsSelected);
-      console.log("garnishGroup", garnishGroup);
       this.showErrorGarnishMessage = false;
       if (garnishGroup) {
         const selectedItemsLength = this.selectedItems(garnishGroup.Garnishes).length;
-        console.log(this.selectedItems(garnishGroup.Garnishes));
-        console.log("selectedItemsLength", selectedItemsLength);
 
         if (!item.IsSelected && (garnishGroup.Max === 1 &&
           garnishGroup.Min <= garnishGroup.Max) &&
