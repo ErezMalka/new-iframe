@@ -239,7 +239,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
     //this.getOrderInfo();
     this.getOrdersInfo();  
 
-    console.log("this.currentBranch",this.currentBranch);
   }
 
   public getLanguage() {
@@ -277,7 +276,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
    public allCombosArr = [];
 
    public signOut(){
-    console.log("signOUT()", this.isSignedUser);
     this.signInOutService.signOut();
     this.isSignedUser=false;
   }
@@ -303,14 +301,12 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
       .subscribe((result) => {
         if (result) {
           this.myOrders=result;
-          console.log("this.myOrders",this.myOrders);
           //console.log("getOrderInfo result",result);
           this.displayPizzaLogicForOrders();
 
           this.myOrders.forEach(order => {
             order.isCollapsed = true;
             order.OrderItems.forEach(item => {
-              console.log("item",item);
               //var foundItem = this.allItemsArr.find(({ Name }) => Name === item.Name);
               //console.log("foundItem",foundItem);
               /*this.combos.forEach(combo => {
@@ -330,7 +326,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
           });
         }
       },(error) => {
-        console.log("getOrderInfo Error", error)
         this.messageService.displayServerErrorMessage();
       });
     }
@@ -381,7 +376,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
       orderPizza.quarter2 = [];
       orderPizza.quarter3 = [];
       orderPizza.quarter4 = [];
-      console.log("orderPizza",orderPizza);
  
       orderPizza.quarter1 = orderPizza.Toppings.filter((e) => { return e.Quarter1 == true; })
         .map((t) => { return t.Topping.Name });
@@ -446,7 +440,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
         orderPizza.quarter2 = [];
         orderPizza.quarter3 = [];
         orderPizza.quarter4 = [];
-        console.log("orderPizza",orderPizza);
    
         orderPizza.quarter1 = orderPizza.Toppings.filter((e) => { return e.Quarter1 == true; })
           .map((t) => { return t.Topping.Name });
@@ -578,7 +571,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
     if (this.cashRegisterCreditCard) {
       this.cashRegisterCreditCard.expirationMonth = (moment().month() + 1) + '';
       this.cashRegisterCreditCard.expirationYear = moment().year() + '';
-      console.log(this.cashRegisterCreditCard.expirationMonth, 'this.cashRegisterCreditCard.expirationMonth')
       
     }
   }
@@ -649,7 +641,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
 
   public isCVV(value:string) {
     const cvvStr = value.split('');
-    console.log("cvvStr",cvvStr);
     if (cvvStr.length == 3 && 
         Number.isInteger(parseInt(cvvStr[0])) &&
         Number.isInteger(parseInt(cvvStr[1])) &&
@@ -689,7 +680,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
    /*
     this.paymentService.getPaymentOptions().subscribe((result) => {*/
    const result = this.appStorageService.paymentOptions;
-   console.log("------checkPaymentOptions:result:",result);
       if (result) {
         this.paymentSettings.Cash = result.Cash;
         if (this.paymentSettings.Cash) {
@@ -718,7 +708,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
       this.menuService.getDiscount(this.order.BranchId, this.user && this.user.Id ? this.user.Id : undefined).subscribe((result) => {
         if (result) {
           this.discount = result;
-          console.log("this.discount",this.discount);
         }
         this.isLoaded.isDiscountLoaded = true;
       }, (error) => {
@@ -738,7 +727,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
   }
 
   public checkAvailabilityDiscount() {
-    console.log(" this.discount", this.discount);
     // console.log("this.order.IsDiscount",this.order.IsDiscount);
       if( this.discount && this.discount.minSum != null && this.discount.minSum != undefined) {
        return this.discount && (this.discount.sum > 0) && (this.discount.active || this.discount.alwaysActive);
@@ -906,7 +894,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
 
   public resultDeliverySum(price,  deliveryGroup) {
     let numericTotalPrice = parseFloat(price);
-    console.log("resultDeliverySum " + price, deliveryGroup);
     if (!deliveryGroup) {
       return numericTotalPrice;
     }
