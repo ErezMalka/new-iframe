@@ -156,7 +156,6 @@ public phoneNumber:string;
     protected browserIdentificatorService: BrowserIdentificatorService,
     private previousRouteService: PreviousRouteService) {
      // this.routeActivate.canActivateHome = false;
-     console.log("this.selectedLang", this.selectedLang);
     //super(browserIdentificatorService);
     this.setNgSelectConfig();
   }
@@ -363,8 +362,6 @@ public phoneNumber:string;
 
   private getAppLanguages() {
     this.selectedLang = this.translationsService.language();
-    console.log("this.translationService.language",this.translationsService.language());
-    console.log(" this.selectedLang", this.selectedLang);AppConfig.configSettings
     this.languages =[];
     this.languages =this.languages.concat({Id:0, Name: "עברית", Code:"he"});
     this.signInOutService.getAppLanguages()
@@ -373,18 +370,14 @@ public phoneNumber:string;
           this.appStorageService.languages =response;
           this.languages = this.appStorageService.languages; //this.languages.concat(response);
           //this.selectedLang = "he";
-          console.log('getAppLanguages',this.languages);
           //this.selectedLang = "he"
-          console.log(this.selectedLang);
 
           if (AppConfig.configSettings.displayPopup == true) {
   
             this.displayPopupMessage((result) => {
     
               if (!result.isDigitalMenu) {
-                console.log("document", document);
                 const mySec = document.getElementsByClassName("btn-animate");
-                console.log("mySec", mySec);
     
                 for (let index = 0; index < mySec.length; index++) {
                   mySec[index].classList.add('animate__animated', 'animate__bounceInDown');
@@ -400,7 +393,6 @@ public phoneNumber:string;
     
           else {
             const mySec = document.getElementsByClassName("btn-animate");
-            console.log("mySec", mySec);
     
             for (let index = 0; index < mySec.length; index++) {
               mySec[index].classList.add('animate__animated', 'animate__bounceInDown');
@@ -426,7 +418,6 @@ public phoneNumber:string;
   }
 
   myCheck() : boolean {
-    console.log(" MY CHECK () this.deviceService.isTablet()",this.deviceService.isTablet());
     return this.deviceService.isTablet();
   }
 
@@ -777,11 +768,8 @@ public phoneNumber:string;
 }
   public changeLanguage(lang) {
 
-    console.log("lang-code", lang.Code);
-    console.log("this.translationService.language",this.translationsService.language());
     this.translationsService.setLanguage(lang.Code);
     this.selectedLang = this.translationsService.language();
-    console.log("this.translationService.language",this.translationsService.language());
     //document.getElementById("lang-selector").style.display = "none";
     this.openLangSelector = !this.openLangSelector;
      
@@ -846,7 +834,6 @@ public phoneNumber:string;
     let width : string = "";
     let maxWidth: string = "";
     if(this.isMobileMode()){
-      console.log("this.isMobileMode",this.isMobileMode())
       width="350px"
       maxWidth="350px"
     }
@@ -1125,7 +1112,6 @@ public phoneNumber:string;
     let maxWidth: string = "";
     let position: any;
     if(this.isMobileMode()){
-      console.log("this.isMobileMode",this.isMobileMode())
       width="350px";
       maxWidth="350px";
       position = {top: '10px'};
@@ -1284,7 +1270,6 @@ public phoneNumber:string;
                           let maxWidth: string = "";
                           let maxHeight: string = "";
                           if(this.isMobileMode()){
-                            console.log("this.isMobileMode",this.isMobileMode())
                             width="350px"
                             maxWidth="350px"
                             maxHeight = "90vh"
@@ -1353,7 +1338,6 @@ public phoneNumber:string;
                       let maxWidth: string = "";
                       let maxHeight: string = "";
                       if(this.isMobileMode()){
-                        console.log("this.isMobileMode",this.isMobileMode())
                         width="350px"
                         maxWidth="350px"
                         maxHeight = "90vh"
@@ -1423,7 +1407,6 @@ public phoneNumber:string;
                   let width : string = "";
                   let maxWidth: string = "";
                   if(this.isMobileMode()){
-                    console.log("this.isMobileMode",this.isMobileMode())
                     width="350px"
                     maxWidth="350px"
                   }
@@ -1501,7 +1484,6 @@ public phoneNumber:string;
                     let width: string = "";
                     let maxWidth: string = "";
                     if (this.isMobileMode()) {
-                      console.log("this.isMobileMode", this.isMobileMode())
                       width = "350px"
                       maxWidth = "350px"
                     }
@@ -1613,19 +1595,13 @@ public phoneNumber:string;
     let currHr = 0;
     let currMin = 0;
     if (isOpen) {
-       console.log("isOpen",isOpen);
       currHr =nowHr;
       currMin =nowMin;
     } else {
-       console.log("isOpen",isOpen);
       currHr =openingTimeArr[0];
       currMin =openingTimeArr[1];
     }
-     console.log("currHr",currHr);
-       console.log("currMin",currMin);
-    console.log("delayTimeMinutes",delayTimeMinutes);
     if (delayTimeMinutes <= 60) {
-      console.log("delayTimeMinutes < 60",delayTimeMinutes);
       if (currMin + delayTimeMinutes > 60) {
         minDtHr = currHr + 1;
         minDtMin = currMin + delayTimeMinutes - 60;
@@ -1633,10 +1609,8 @@ public phoneNumber:string;
         minDtHr = currHr;
         minDtMin = currMin + delayTimeMinutes;
       }
-      console.log(minDtHr,minDtMin);
 
     } else if (delayTimeMinutes > 120) {
-      console.log("delayTimeMinutes > 120",delayTimeMinutes);
       minDtHr = currHr + 2;
       delayTimeMinutes -= 120;
       if (currMin + delayTimeMinutes > 60) {
@@ -1648,7 +1622,6 @@ public phoneNumber:string;
       }
 
     } else {
-      console.log("else",delayTimeMinutes);
       minDtHr =currHr + 1;
       delayTimeMinutes -= 60;
       if (currMin + delayTimeMinutes > 60) {
@@ -1666,12 +1639,6 @@ public phoneNumber:string;
     // var isOpen = isBranchOpened(openingTime, closingTime);
    
     const dtOptions = [];
-    console.log("maxDtHr",maxDtHr);
-    console.log("minDtHr",minDtHr);
-    console.log("nowHr",nowHr);
-    console.log("nowMin",nowMin);
-    console.log("maxDtMin",maxDtMin);
-    console.log("minDtMin",minDtMin);
 
     if (maxDtHr < minDtHr) {
       console.log("(maxDtHr < minDtHr)");
@@ -1723,9 +1690,7 @@ public phoneNumber:string;
     const closingTimeArr = closingTime.split(":").map(function (v) { return Number.parseInt(v); });
     let minDtHr = 0;
     let minDtMin = 0;
-    console.log("delayTimeMinutes",delayTimeMinutes);
     if (delayTimeMinutes <= 60) {
-      console.log("delayTimeMinutes < 60",delayTimeMinutes);
       if (openingTimeArr[1] + delayTimeMinutes > 60) {
         minDtHr = openingTimeArr[0] + 1;
         minDtMin = openingTimeArr[1] + delayTimeMinutes - 60;
@@ -1733,10 +1698,8 @@ public phoneNumber:string;
         minDtHr = openingTimeArr[0];
         minDtMin = openingTimeArr[1] + delayTimeMinutes;
       }
-      console.log(minDtHr,minDtMin);
 
     } else if (delayTimeMinutes > 120) {
-      console.log("delayTimeMinutes > 120",delayTimeMinutes);
       minDtHr = openingTimeArr[0] + 2;
       delayTimeMinutes -= 120;
       if (openingTimeArr[1] + delayTimeMinutes > 60) {
@@ -1748,7 +1711,6 @@ public phoneNumber:string;
       }
 
     } else {
-      console.log("else",delayTimeMinutes);
       minDtHr = openingTimeArr[0] + 1;
       delayTimeMinutes -= 60;
       if (openingTimeArr[1] + delayTimeMinutes > 60) {
@@ -1855,9 +1817,7 @@ public phoneNumber:string;
 
     if (this.colors.mainButtonColor) {
       var color = this.colors.mainButtonColor// this can be any color
-      console.log("color", color);
       this.txtColor = this.pickTextColorBasedOnBgColorAdvanced(color, '#FFFFFF', '#000000');
-      console.log("this.txtColor", this.txtColor);
     }
     /*else if(AppConfig.settings.buttonColor && !this.colors.mainButtonColor){
       var color = AppConfig.settings.buttonColor// this can be any color
