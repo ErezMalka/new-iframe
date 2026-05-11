@@ -108,7 +108,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
       if(this.data.item){
       this.item = data.item;
       if (data.hideImage) this.hideImage = true;
-      console.log(" this.item", this.item);
       }     
       /*if(data.refresh){
         this.refreshItemSum = data.refresh;
@@ -121,9 +120,7 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
 
 
       //console.log("this.totalGarnishsSum=0", this.totalGarnishsSum);
-      console.log("this.data.garnishGroup", this.data.garnishGroup);
       this.garnishGroup = this.data.garnishGroup;
-      console.log("garnishGroup", this.garnishGroup);
       this.garnishes = this.data.garnishes;
       // console.log("garnishGroup.Max", this.garnishGroup.Max);
       if (this.garnishGroup != null && this.garnishGroup != undefined && this.garnishGroup.Max == 0) {
@@ -146,8 +143,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
         this.itemPriceWithNotFreeGarnishes = this.item.Price;
       }*/
 
-      console.log("this.selectedGarnishes",this.selectedGarnishes);
-      console.log("this.item",this.item);
 
       if(this.item.GarnishGroups){
         this.item.GarnishGroups.forEach(gGroup => {
@@ -168,19 +163,14 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
       //console.log("this.selectedGarnishes",this.selectedGarnishes);
 
       if(this.isPizza){
-        console.log("this.isPizza",this.isPizza);
         this.garnishGroup.Garnishes.forEach(gar => {
           this.selectedGarnishes.forEach(selGar => {
             if(gar.Id == selGar.Id){
               gar.IsSelected = true;
-              console.log("gar.IsSelected",gar.IsSelected);
-              console.log("gar",gar);
             }
           });
         });
-        console.log("this.garnishGroup",this.garnishGroup);
         var currentGarGroup = this.commonFunctionsService.deepCopy(this.garnishGroup);
-        console.log("currentGarGroup",currentGarGroup);
 
       }
       if(!this.isPizza){
@@ -202,8 +192,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
   }
 
   public generalCalc(){
-    console.log("generalCalc()",this.item.PizzaPrices);
-    console.log("this.item.SelectedPizzaPriceSize",this.item.SelectedPizzaPriceSize);
     var priceWithSelectedGarnishes:number;
     if (this.item.PizzaPrices && this.item.PizzaPrices.length > 0) {
      // console.log("this.item.PizzaPrices && this.item.PizzaPrices.length > 0",this.item.PizzaPrices);
@@ -241,7 +229,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
         grnNew.SelectedAmount = 1;
       });
     }
-    console.log("garnishes",garnishes);
     // Check if some garnish groups have free count of garnishes
     // Group of garnishes:
     const garnishesGroup = {};
@@ -249,7 +236,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
       if (garnish) {
         garnishesGroup[garnish.GarnishGroupId] = garnishesGroup[garnish.GarnishGroupId] || [];
         garnishesGroup[garnish.GarnishGroupId].push(garnish);
-        console.log("garnishesGroup",garnishesGroup);
       }
     });
     // Check free count of garnishGroup:
@@ -270,8 +256,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
         }
       }
     });
-    console.log("garnishes2", garnishes);
-    console.log("this.item", this.item);
 
     garnishes.forEach(gar => {
       priceWithSelectedGarnishes+=gar.Price;
@@ -337,7 +321,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
 
   logo(event) {
   
-    console.log("logo-function",AppConfig.settings.logo);
     event.target.src = AppConfig.settings.logo; 
     //this.imgSrc = AppConfig.settings.logo;
   }
@@ -572,13 +555,10 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
   public saveGarnishes(returnToPreviousPage?) {
 
     const modalElement = document.getElementsByClassName('mat-dialog-container');
-    console.log("modalElement", modalElement);
     console.log("savee!!!!");
 
 
     this.myGars = this.commonFunctionsService.deepCopy(this.selectedGarnishes);
-    console.log("myGars - selectedGarnishes", this.myGars);
-    console.log("SAVE GARNISHES - selectedGarnishes", this.selectedGarnishes);
     if (returnToPreviousPage) {
       this.dialogRef.close({
         returnToPreviousPage,
@@ -592,7 +572,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
     }
     if (this.garnishGroup) {
       if (!this.checkSelectedGarnishesFromGarnishGroup2()) {
-        console.log("showErrorGarnishMessage",  this.displayErrorGarnishMessage());
         this.showErrorGarnishMessage = true;
         this.displayErrorGarnishMessage();
         this.displayMessageByTime();
@@ -607,7 +586,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
         .filter((garnish: GarnishAppAdvancedModel) => {
           return garnish && garnish.IsSelected;
         });
-      console.log("save-gar -  var selectedGarnishes", selectedGarnishes);
     } /*else if (this.garnishes) {
       selectedGarnishes = this.garnishes.slice().filter((garnish) => {
         return garnish && garnish.IsSelected;
@@ -618,8 +596,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
     //console.log("selectedGarnishes",selectedGarnishes);
 
     this.removeUnavailableSelections(selectedGarnishes);
-    console.log("AFTER REMOVE this.selectedGarnishes",this.selectedGarnishes);
-    console.log("AFTER REMOVE selectedGarnishes", selectedGarnishes);
 
     if(modalElement && ((this.item.GarnishGroups && this.garnishGroup.Id == this.item.GarnishGroups[this.item.GarnishGroups.length-1]?.Id)||
     (this.item.GeneralGarnishGroups && this.garnishGroup.Id == this.item.GeneralGarnishGroups[this.item.GeneralGarnishGroups.length-1]?.Id)) ){
@@ -662,14 +638,11 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
 
   private removeUnavailableSelections(selectedGarnishesNew) {
 
-    console.log("selectedGarnishes",selectedGarnishesNew);
 
     selectedGarnishesNew.forEach(gar => {
       gar.GarnishGroupId = this.garnishGroup.Id;
     });
 
-    console.log("removeUnavailableSelections - myGars", this.myGars);
-    console.log("this.garnishGroup", this.garnishGroup);
 
     var selectedCurrentGarnishesToDelete;
 
@@ -694,19 +667,16 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
       });
     }
 
-    console.log("selectedCurrentGarnishes", selectedCurrentGarnishesToDelete);
 
 
     if (selectedCurrentGarnishesToDelete) {
       console.log("if (selectedCurrentGarnishes)");
       selectedCurrentGarnishesToDelete.forEach((selectedCurrGrn) => {
         this.selectedGarnishes.splice(this.selectedGarnishes.indexOf(selectedCurrGrn), 1);
-        console.log("this.selectedGarnishes", this.selectedGarnishes);
         
       })
     }
 
-    console.log("this.selectedGarnishes",this.selectedGarnishes);
     this.selectedGarnishes = this.selectedGarnishes.concat(selectedGarnishesNew.filter((selectedGarnish) => {
       return this.selectedGarnishes.every((selectGrn) => {
         return selectGrn ; //&& selectGrn.Id != selectedGarnish.Id
@@ -870,7 +840,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
   }
 
   public deselectGarnishAmount(garnish: GarnishAppAdvancedModel) {
-    console.log("deselectGarnishAmount", garnish);
     if (garnish) {
       //  console.log("deselectGarnishAmount",garnish);        
       garnish.SelectedAmount = garnish.SelectedAmount - 1;
@@ -897,19 +866,15 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
     if(this.wasOnCalc){
       console.log("if(this.wasOnCalc)");
       this.itemPriceWithNotFreeGarnishes = this.myPrice;
-      console.log("this.itemPriceWithNotFreeGarnishes",this.itemPriceWithNotFreeGarnishes);
     }
     else this.itemPriceWithNotFreeGarnishes = this.item.Price;
     var sumOFNotFreeGarnishes = 0;
     if (this.selectedGarnishesPerGroup && this.selectedGarnishesPerGroup.length > 0) {
       this.item.GarnishGroups.forEach(gGroup => {
-        console.log("gGroup", gGroup);
-        console.log("this.selectedGarnishesPerGroup", this.selectedGarnishesPerGroup)
 
         if (gGroup.Garnishes && this.selectedGarnishesPerGroup[0].GarnishGroupId == gGroup.Id) {
           gGroup.Garnishes.forEach(garnish => {
             var foundGar = this.selectedGarnishesPerGroup.find(({ Id }) => Id === garnish.Id);
-            console.log("foundGar",foundGar);
             if ( foundGar) {
               console.log("if (foundGar)")
               garnish.IsSelected = true;
@@ -925,11 +890,8 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
           });
         }
         if (gGroup.FreeCount  && this.selectedGarnishesPerGroup[0].GarnishGroupId == gGroup.Id) {
-          console.log("gGroup.FreeCount", gGroup.FreeCount);
           var startFromMaxFreeIndex = gGroup.FreeCount;
-          console.log("startFromMaxFreeIndex", startFromMaxFreeIndex);
           this.selectedGarnishesPerGroup.sort((a, b) => a.Price - b.Price);
-          console.log("selectedGarnishesPerGroup- After- Sort", this.selectedGarnishesPerGroup);
 
           var totalSumNotFreeGarnishesFreeCount = 0;
           var sumOfSelectedGarnishesPerGroup = 0;
@@ -944,8 +906,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
 
           var mySelectedGars = [];
           var myGar;
-          console.log("mySelectedGars",mySelectedGars);
-          console.log("this.selectedGarnishesPerGroup",this.selectedGarnishesPerGroup);
 
           this.selectedGarnishesPerGroup.forEach(gar => {
             if(gar.SelectedAmount){
@@ -959,18 +919,12 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
             }
             
           });
-          console.log("mySelectedGars - after push",mySelectedGars);
         
-          console.log("this.selectedGarnishesPerGroup",this.selectedGarnishesPerGroup);
-          console.log("sumOfSelectedGarnishesPerGroup", sumOfSelectedGarnishesPerGroup);
           for (let index = startFromMaxFreeIndex ; index < sumOfSelectedGarnishesPerGroup ; index++) {
             totalSumNotFreeGarnishesFreeCount += mySelectedGars[index].Price;
-            console.log("totalSumNotFreeGarnishes", totalSumNotFreeGarnishesFreeCount);
           }
-          console.log("this.itemPriceWithNotFreeGarnishes", this.itemPriceWithNotFreeGarnishes);
           if(beenhere == true) sumOFNotFreeGarnishes = 0;
           this.itemPriceWithNotFreeGarnishes += (totalSumNotFreeGarnishesFreeCount + sumOFNotFreeGarnishes);
-          console.log("this.itemPriceWithNotFreeGarnishes", this.itemPriceWithNotFreeGarnishes);
         }
         
 
@@ -984,7 +938,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
       this.calcPriceNotSelectedYet();
     }
 
-    console.log("this.item", this.item);
 
   }
 
@@ -999,13 +952,10 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
 
       this.item.GarnishGroups.forEach(gGroup => {
         var selectedGarnishesPerGroup = [];
-        console.log("gGroup", gGroup);
-        console.log("this.selectedGarnishes", this.selectedGarnishesPerGroup);
   
         if (gGroup.Garnishes) {
           gGroup.Garnishes.forEach(garnish => {
             var foundGar = this.selectedGarnishesPerGroup.find(({ Id }) => Id === garnish.Id);
-            console.log(foundGar);
             if (foundGar) {
               garnish.IsSelected = true;
               if (!gGroup.FreeCount) {
@@ -1023,8 +973,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
           });
         }
         if (gGroup.FreeCount) {
-          console.log("selectedGarnishesPerGroup",selectedGarnishesPerGroup);
-          console.log("gGroup.FreeCount", gGroup.FreeCount);
           var startFromMaxFreeIndex = gGroup.FreeCount;
           //console.log("startFromMaxFreeIndex", startFromMaxFreeIndex);
           selectedGarnishesPerGroup.sort((a, b) => a.Price - b.Price);
@@ -1040,15 +988,11 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
               sumOfSelectedGarnishesPerGroup += 1;
             }
           });
-          console.log("sumOfSelectedGarnishesPerGroup", sumOfSelectedGarnishesPerGroup);
           for (let index = startFromMaxFreeIndex - 1; index < sumOfSelectedGarnishesPerGroup - 1; index++) {
             totalSumNotFreeGarnishesFreeCount += selectedGarnishesPerGroup[index].Price;
-            console.log("totalSumNotFreeGarnishes", totalSumNotFreeGarnishesFreeCount);
           }
-          console.log("this.itemPriceWithNotFreeGarnishes", this.itemPriceWithNotFreeGarnishes);
           if(beenhere == true) sumOFNotFreeGarnishes = 0;
           this.itemPriceWithNotFreeGarnishes += (totalSumNotFreeGarnishesFreeCount + sumOFNotFreeGarnishes);
-          console.log("this.itemPriceWithNotFreeGarnishes", this.itemPriceWithNotFreeGarnishes);
           this.myPrice = this.itemPriceWithNotFreeGarnishes;
           this.wasOnCalc = true;
         }
@@ -1063,13 +1007,10 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
 
     this.item.GarnishGroups.forEach(gGroup => {
       var selectedGarnishesPerGroup = [];
-      console.log("gGroup", gGroup);
-      console.log("this.selectedGarnishes", this.selectedGarnishes);
 
       if (gGroup.Garnishes) {
         gGroup.Garnishes.forEach(garnish => {
           var foundGar = this.selectedGarnishes.find(({ Id }) => Id === garnish.Id);
-          console.log(foundGar);
           if (foundGar) {
             garnish.IsSelected = true;
             if (!gGroup.FreeCount) {
@@ -1087,8 +1028,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
         });
       }
       if (gGroup.FreeCount) {
-        console.log("selectedGarnishesPerGroup",selectedGarnishesPerGroup);
-        console.log("gGroup.FreeCount", gGroup.FreeCount);
         var startFromMaxFreeIndex = gGroup.FreeCount;
         //console.log("startFromMaxFreeIndex", startFromMaxFreeIndex);
         selectedGarnishesPerGroup.sort((a, b) => a.Price - b.Price);
@@ -1104,15 +1043,11 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
             sumOfSelectedGarnishesPerGroup += 1;
           }
         });
-        console.log("sumOfSelectedGarnishesPerGroup", sumOfSelectedGarnishesPerGroup);
         for (let index = startFromMaxFreeIndex - 1; index < sumOfSelectedGarnishesPerGroup - 1; index++) {
           totalSumNotFreeGarnishesFreeCount += selectedGarnishesPerGroup[index].Price;
-          console.log("totalSumNotFreeGarnishes", totalSumNotFreeGarnishesFreeCount);
         }
-        console.log("this.itemPriceWithNotFreeGarnishes", this.itemPriceWithNotFreeGarnishes);
         if(beenhere == true) sumOFNotFreeGarnishes = 0;
         this.itemPriceWithNotFreeGarnishes += (totalSumNotFreeGarnishesFreeCount + sumOFNotFreeGarnishes);
-        console.log("this.itemPriceWithNotFreeGarnishes", this.itemPriceWithNotFreeGarnishes);
         this.myPrice = this.itemPriceWithNotFreeGarnishes;
         this.wasOnCalc = true;
       }
@@ -1167,15 +1102,12 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
         
         
         this.handleGarnishMultiSelect(item);
-        console.log("AFTER HANDLE - this.selectedGarnishes", this.selectedGarnishes);
-        console.log("AFTER HANDLE - this.item", this.item);
         this.myNewCalc();
 
         //this.prepareSelectedGarnishes();
         //this.prepareGarnishesToUse();
         if (
           !this.checkSelectedGarnishesFromGarnishGroup()) {
-          console.log("showErrorGarnishMessage", this.displayErrorGarnishMessage());
           this.showErrorGarnishMessage = true;
           this.displayErrorGarnishMessage();
           this.displayMessageByTime();
@@ -1203,7 +1135,6 @@ export class GarnishesComponent extends SizeMobileInitializationComponent implem
         .filter((garnish: GarnishAppAdvancedModel) => {
           return garnish && garnish.IsSelected;
         });
-      console.log("var selectedGarnishes", selectedGarnishes);
     }
 
   }
