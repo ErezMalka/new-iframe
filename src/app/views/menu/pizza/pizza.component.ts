@@ -121,7 +121,6 @@ public showToppings: boolean = true;
   }
 
   public checkFreeToppingsStep(topping) {
-    console.log(topping)
     //console.log(topping);
     if (this.maxToppings > 0 &&
       //this.toppingGroupId > 0 &&
@@ -138,7 +137,6 @@ public showToppings: boolean = true;
     
     // Deep cloning to avoid select multiple items
     this.pizza = this.commonFunctionService.deepCopy(this.pizza);
-    console.log("preparePizza this.pizza", this.pizza);
    // 
    /* this.toppings = this.commonFunctionService.deepCopy(this.appStorageService.pizzaToppings)|| [];
     this.toppings.forEach((t,index)=>{
@@ -158,10 +156,6 @@ public showToppings: boolean = true;
 
   ngOnInit() {
     //console.log("pizza.PizzaPrices",this.pizza.PizzaPrices);
-    console.log("ISEDIT - ITEMCOMPONENT", this.isEdit);
-    console.log("this.pizza", this.pizza);
-    console.log("this.toppings",this.toppings);
-    console.log("this.maxToppings", this.maxToppings);
 
     this.selectedQuartersCounter = 0;
     if (this.pizza.PizzaToppings.length == this.appStorageService.pizzaToppings.length)
@@ -173,7 +167,6 @@ public showToppings: boolean = true;
    // 
     if (this.maxToppings < 1 || this.maxToppings == undefined) {     
       this.selectFreeTop = false;
-      console.log(" this.selectFreeTop", this.selectFreeTop);
       this.notSelectedToppingsArr = this.appStorageService.pizzaToppings || [];
     } else {
       this.selectFreeTop = true;
@@ -183,8 +176,6 @@ public showToppings: boolean = true;
       if (this.pizza.FullPizza.PizzaPrices.length > 0){
          this.saveEdit = true;
          this.sizeSelection = true;
-         console.log("this.sizeSelection",this.sizeSelection);
-         console.log("this.toppings",this.toppings);
 
          this.pizzaFromOrder = this.commonFunctionService.deepCopy(this.pizza);
          this.pizza = this.commonFunctionService.deepCopy(this.pizza.FullPizza);
@@ -195,21 +186,15 @@ public showToppings: boolean = true;
            if(top.QuarterNums.includes(3)) top.ThirdQuarter = true;
            if(top.QuarterNums.includes(4)) top.ForthQuarter = true;
          });
-         console.log("pizzaFromOrder",this.pizzaFromOrder);
-         console.log("this.pizza",this.pizza);
          this.pizzaId = this.pizza.Id;
          this.pizzas = this.appStorageService.pizzas;
-         console.log("this.pizzas", this.pizzas);
          this.pizzas.forEach(pizza => {
            if(pizza.Id == this.pizzaId){
              this.foundPizza = pizza;
-             console.log("this.foundPizza",this.foundPizza);
-             console.log("this.toppings",this.toppings);
            }
            
          });
       }
-      console.log("thisisCOmbo", this.isCombo);
       this.initializeSettings();
     }
 
@@ -234,10 +219,7 @@ public showToppings: boolean = true;
         this.checkIfSelectedToppingsExist();
       }
 
-      console.log("this.pizza", this.pizza);
       if(this.isEdit && !this.isMobileMode()){
-        console.log("this.toppings", this.toppings);
-        console.log("this.pizza.SelectedToppings", this.pizza.SelectedToppings);
         this.toppings.forEach(top => {
           this.pizza.SelectedToppings.forEach(seltop => {
             if(seltop.ToppingId == top.Id){
@@ -265,16 +247,13 @@ public showToppings: boolean = true;
 
   public continueToSelectNotFreeTops(){
     console.log("continueToSelectNotFreeTops()");
-    console.log("continueToSelectNotFreeTops() - this.pizza", this.pizza);
     const myPizza = this.commonFunctionService.deepCopy(this.pizza);
-    console.log("continueToSelectNotFreeTops() - myPizza", myPizza);
     this.selectFreeTop = false;
 
     this.pizza.SelectedToppings.forEach(selTop => {
       selTop.TotalPrice = 0;
     });
 
-    console.log("continueToSelectNotFreeTops() - this.pizza", this.pizza);
 
   }
 
@@ -323,9 +302,7 @@ public showToppings: boolean = true;
 
   public buildNotSelectedArray(){
     console.log("buildNotSelectedArray()");
-    console.log("buildNotSelectedArray() - this.pizza", this.pizza);
     const myPizza = this.commonFunctionService.deepCopy(this.pizza);
-    console.log("buildNotSelectedArray() - myPizza", myPizza);
 
     this.pizza.SelectedToppings.forEach(selTop => {
       selTop.TotalPrice = 0;
@@ -334,7 +311,6 @@ public showToppings: boolean = true;
     this.notSelectedToppingsArr = this.toppings.filter((top) => {
       return !top.IsSelect
     });
-    console.log("this.notSelectedToppingsArr",this.notSelectedToppingsArr);
 
     this.selectFreeTop=false; 
   }
@@ -367,21 +343,17 @@ public showToppings: boolean = true;
 
   logo(event) {
   
-    console.log("logo-function",AppConfig.settings.logo);
     event.target.src = AppConfig.settings.logo; 
     //this.imgSrc = AppConfig.settings.logo;
   }
 
   public findGarnishGroupToOpenForEdit(garnish, cancellation?, adding?) {
     console.log("findGarnishGroupToOpenForEdit()");
-    console.log("garnish",garnish);
-    console.log("this.pizza", this.pizza);
     if (this.pizza.GeneralGarnishGroups && this.pizza.GeneralGarnishGroups.length > 0) {
       this.pizza.GeneralGarnishGroups.forEach(gGroup => {
         if (garnish.GarnishGroupId == gGroup.Id) {
           console.log("foundGroup");
           var foundGroup = gGroup;
-          console.log("foundGroup", foundGroup);
           this.loadingGarnishesPopup(this.pizza, null, foundGroup, '', this.pizza.SelectedGarnishes, true, cancellation, adding)
         }
 
@@ -408,7 +380,6 @@ public showToppings: boolean = true;
       panelClass: 'custom-mat-dialog-mobile'
     });
     matDialogRef.afterClosed().subscribe((result: GarnishesDialog) => {
-      console.log("masha-result", result)
       if (result.isSaved) {
         if (result && result.allGettingGarnishes && item && !result.returnToPreviousPage) {
           item.SelectedGarnishes = result.allGettingGarnishes.slice();
@@ -444,7 +415,6 @@ public showToppings: boolean = true;
         } else if (!result.returnToPreviousPage) {
           // If everything was added to list of garnishes - add to card
           console.log("addToCartItemWithGarnishes");
-          console.log("this.pizza",this.pizza);
           //this.addToCartItemWithGarnishes(item, result, adding);
 
         } else {
@@ -499,12 +469,10 @@ public showToppings: boolean = true;
     this.isEdit = true;
     this.sizeSelection = true;
     this.saveEdit = true;
-         console.log("this.sizeSelection",this.sizeSelection);
          this.pizza.SelectedToppings.forEach(top => {
            top.IsSelect = true;
          });
 
-    console.log("this.pizza", this.pizza);
   }
 
   private clearSelectedPizzaToppings() {
@@ -565,7 +533,6 @@ public showToppings: boolean = true;
   }
 
   private checkToppingDefaultSelectedInPizza(topping) {
-    console.log("checkToppingDefaultSelectedInPizza",this.pizza.PizzaToppings, topping);
     if (this.pizza && topping) {
       return this.pizza.PizzaToppings.some((pizzaTopping) => {
         return pizzaTopping && pizzaTopping.Id && 
@@ -717,7 +684,6 @@ public showToppings: boolean = true;
 
 public selectToppingMobile (topping) {
   //this.currentTopping = topping;
-  console.log("PIZZA COMP _ isEdit", this.editTopps);
   const matDialogRefPizzaBuilder = this.matDialog.open(PizzaBuilderComponent, {
     data: {
       topping,
@@ -736,19 +702,15 @@ public selectToppingMobile (topping) {
     if (result.isSaved && result.selectedQuarters && result.selectedQuarters.length > 0) {
       this.selectedQuartersCounter = 0;
       let counter = 0;
-      console.log("result - after builder", result);
       result.selectedQuarters.forEach(i => {
         counter += 1;
         this.selectQuarter(i, topping);
-        console.log("this.pizza",this.pizza);
         if (counter == result.selectedQuarters.length && this.selectFreeTop) {
           this.pizza.SelectedToppings.forEach((t) => {
             if (!this.checkSelectedToppingDefaultSelectedInPizza(t.ToppingId)){
               this.selectedQuartersCounter += t.QuarterNums.length;
-              console.log("this.selectedQuartersCounter", this.selectedQuartersCounter);
               if (this.selectedQuartersCounter == this.maxToppings * 4) {
                 //this.selectFreeTop = false;
-                console.log("this.selectFreeTop", this.selectFreeTop);
                 this.continueToSelectNotFreeTops();
               }
             }
@@ -807,7 +769,6 @@ public selectToppingMobile (topping) {
   }
 
   public selectPizzaSize(pizzaPrice) {
-    console.log("pizzaPrice",pizzaPrice);
     // Default or the first selected pizza; the next time just selected pizza
     this.pizza.SelectedPizzaPriceSize = pizzaPrice;
     if (this.toppings) {
@@ -815,15 +776,12 @@ public selectToppingMobile (topping) {
         let quarterPrice: number = 0;
         let toppingPrice: ToppingPriceAppModel;// = new ToppingPriceAppModel();
         //toppingPrice.Price = 0;
-        console.log("toppingPrice",toppingPrice);
-        console.log("this.pizza",this.pizza);
         if (this.pizza.PizzaToppings && this.pizza.PizzaToppings.find((e) => {
           return e.Id === topping.Id;//  && !e.ExcludedFromPizza;
         }) === undefined) {
           toppingPrice = topping.ToppingPrices.find((e) => {
             return e.PizzaSizeId == pizzaPrice.PizzaSizeId
           });
-          console.log("toppingPrice",toppingPrice);
           topping.CurrentPrice = toppingPrice.Price;
         } else {
           
@@ -903,7 +861,6 @@ public selectToppingMobile (topping) {
       } else {
         return 0;
       }
-      console.log("this.pizza",this.pizza);
       return topping.TotalPrice;
       
     }
@@ -921,7 +878,6 @@ public selectToppingMobile (topping) {
       panelClass: 'custom-mat-dialog-comments'
     }).afterClosed().subscribe((comments) => {
       this.comments = comments || '';
-      console.log("this.comments",this.comments);
     })
   }
 
@@ -939,10 +895,7 @@ public selectToppingMobile (topping) {
 
   private selectQuarterToppings (quarterNum, topping) {
 
-    console.log("quarterNum", quarterNum);
-    console.log("topping", topping);
     this.currentTopping = topping;
-    console.log("this.currentTopping", this.currentTopping);
     if (!topping) {
       return;
     }
@@ -993,8 +946,6 @@ public selectToppingMobile (topping) {
       default:
     }
     //if (this.selectFreeTop) topping.TotalPrice = 0;
-    console.log("this.selectFreeTop", this.selectFreeTop);
-    console.log("this.topping", topping);
     if (topping && !topping.FirstQuarter && !topping.ForthQuarter &&
       !topping.SecondQuarter && !topping.ThirdQuarter) {
       topping.IsSelect = false;
@@ -1131,9 +1082,7 @@ public selectToppingMobile (topping) {
         const pizzaPrice = this.pizza.PizzaPrices.find((price) => {
           return price.IsDefault;
         });
-        console.log("pizzaPrice",pizzaPrice);
         if (pizzaPrice) {
-          console.log("pizzaPrice",pizzaPrice);
           this.selectedPrice = pizzaPrice;
         } else {
           this.selectedPrice = this.pizza.PizzaPrices[0];
@@ -1178,27 +1127,18 @@ public selectToppingMobile (topping) {
   public selectedQuarters(result) {
     let selectedQuartersCounter = 0;
     console.log("selectedQuarters()");
-    console.log("result",result);
     this.currentTopping = result.topping;
- console.log("this.selectFreeTop", this.selectFreeTop)
     if (this.selectFreeTop){
       const myPizzaBeforeTop = this.commonFunctionService.deepCopy(this.pizza);
       const myTopping2 = this.commonFunctionService.deepCopy(result.topping);
-      console.log("myTopping2", myTopping2);
-      console.log("myPizzaBeforeTop", myPizzaBeforeTop);
-      console.log("this.pizza", this.pizza);
       if (myPizzaBeforeTop.SelectedToppings.length > 0) {
 
         myPizzaBeforeTop.SelectedToppings.forEach((t) => {
-          console.log("t", t);
-          console.log("this.checkToppingDefaultSelectedInPizza(t)", this.checkToppingDefaultSelectedInPizza(t));
           if (!this.checkSelectedToppingDefaultSelectedInPizza(t.ToppingId))
            selectedQuartersCounter += t.QuarterNums.length;
-          console.log("selectedQuartersCounter", selectedQuartersCounter);
         });
 
         let wantToBeSelectedCounter = selectedQuartersCounter + 1;
-        console.log("wantToBeSelectedCounter", wantToBeSelectedCounter);
 
         if (wantToBeSelectedCounter > this.maxToppings * 4) {
           //this.selectFreeTop = false;
@@ -1206,7 +1146,6 @@ public selectToppingMobile (topping) {
           const foundTopOnPizza = this.pizza.SelectedToppings.find((top) => {
             return top.ToppingId == this.currentTopping.Id;
           })
-          console.log("foundTopOnPizza", foundTopOnPizza);
           if (foundTopOnPizza) {
             foundTopOnPizza.QuarterNums.forEach(quarterNum => {
               if (quarterNum == result.selectedQuarter) {
