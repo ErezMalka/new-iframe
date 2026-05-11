@@ -138,10 +138,8 @@ export class NewComboComponent implements OnInit {
         this.combo.NewItemCombos[0].IsSelected = true;
     }
     else{
-      console.log("item with item groups : this.combo",this.combo);
       this.combo.Description = this.combo.Information;
       this.isItemWithItemGroups = true;
-      console.log("isItemWithItemGroups",this.isItemWithItemGroups);
       this.loadItemWithItems(this.combo);
      // this.displayShortDescription();
       this.addPropertyForItemWithGroups();
@@ -236,14 +234,11 @@ export class NewComboComponent implements OnInit {
   }
 
   public includeGarnishes(item: ItemAppAdvancedModel, cancellation?, adding?) {
-    console.log("adding", adding);
     console.log("includeGarnishes");
-    console.log("item", item);
     if (item) {
       if ((item.GarnishGroups && item.GarnishGroups.length > 0) || (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0)) {
         if (item.GarnishGroups && item.GarnishGroups.length > 0) {
           var garnishGrp = item.GarnishGroups[0];
-          console.log("garnishGrp", garnishGrp);
         }
         /*else if(item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0){
           var garnishGrp = item.GarnishGroups[0];
@@ -252,7 +247,6 @@ export class NewComboComponent implements OnInit {
         else if (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0 && (!item.GarnishGroups || item.GarnishGroups.length == 0)) {
           console.log("NO GARNISHGROUPS");
           garnishGrp = item.GeneralGarnishGroups[0];
-          console.log("garnishGrp", garnishGrp);
         }
         if (this.isMobileMode()) {
           console.log("This is mobile mode");
@@ -271,17 +265,13 @@ export class NewComboComponent implements OnInit {
   }
 
   public includePizzaGarnishes(item: PizzaAppAdvancedModel, isBeforePizza:boolean, cancellation?, adding?) {
-    console.log("cancellation",cancellation);
-    console.log("adding",adding);
     if (item && (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0 )) {
       if (!this.isMobileMode()) {
-        console.log("this.loadItemPopupDesktop(item);",item);
         this.loadPizzaGarnishesPopupDesktop(item, isBeforePizza, cancellation, adding);        
       } else {
         var garnishGrp:GarnishGroupAppModel;
         if (isBeforePizza) garnishGrp = item.GarnishGroupsBeforePizza[0];
         else  garnishGrp = item.GarnishGroupsAfterPizza[0];
-        console.log("garnishGrp",garnishGrp);
         
         this.loadingGarnishesPopupForPizza(item, isBeforePizza, garnishGrp, 
                                            item.SelectedGarnishes, true, 0, cancellation, adding);
@@ -292,9 +282,7 @@ export class NewComboComponent implements OnInit {
   
 
   private loadPizzaGarnishesPopupDesktop(item, isBeforePizza,  cancellation?, adding?) {
-    console.log("isBeforePizza",isBeforePizza);
     console.log("loadItemPopupDesktop(item)");
-    console.log("item", item);
     const matDialogRef = this.matDialog.open(ItemForComboComponent, {
       data: {
         item: item,
@@ -304,7 +292,6 @@ export class NewComboComponent implements OnInit {
       panelClass: 'modal-dialog-item-with-garnishes-mat-dialog'
     });
     matDialogRef.afterClosed().subscribe((result) => {
-      console.log("result-afterLoadItem", result);
       if (result.isSaved) {
         console.log("item-with-garnishes-saved");
         item.SelectedGarnishes =  result.item.SelectedGarnishes;
@@ -315,7 +302,6 @@ export class NewComboComponent implements OnInit {
           this.addToCartItemWithGarnishes(result.item, result, adding);         
           if (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0 && (!item.GarnishGroups || item.GarnishGroups.length == 0)) {
             item.GeneralGarnishGroups.forEach(gGroup => {
-              console.log("gGroup", gGroup);
               gGroup.Garnishes.forEach(gar => {
                 result.item.SelectedGarnishes.forEach(selGar => {
                   if (selGar.Id == gar.Id) {
@@ -325,12 +311,10 @@ export class NewComboComponent implements OnInit {
               });
             });
           //}
-          console.log("!!!! item", item);
           item.IsSelected=true;
           // Tanya 29.05.23
           if (this.combo.NewPizzaCombos.length > 0) {
             const itemGroupFound = this.combo.NewPizzaCombos.find(({ Id }) => Id === item.ComboPizzaId);
-            console.log("itemGroupFound", itemGroupFound);
             if (itemGroupFound) {
 
               itemGroupFound.ItemIsSelected = true;
@@ -338,7 +322,6 @@ export class NewComboComponent implements OnInit {
           //  adding(pizza);
           } else {
             const itemGroupFound = this.combo.PizzaCombos.find(({ Id }) => Id === item.ComboPizzaId);
-            console.log("itemGroupFound", itemGroupFound);
             if (itemGroupFound) {
 
               itemGroupFound.ItemIsSelected = true;
@@ -355,7 +338,6 @@ export class NewComboComponent implements OnInit {
 
   private loadItemPopupDesktop(item, cancellation?, adding?) {
     console.log("loadItemPopupDesktop(item)");
-    console.log("item", item);
     const matDialogRef = this.matDialog.open(ItemForComboComponent, {
       data: {
         item: item
@@ -364,14 +346,12 @@ export class NewComboComponent implements OnInit {
       panelClass: 'modal-dialog-item-with-garnishes-mat-dialog'
     });
     matDialogRef.afterClosed().subscribe((result) => {
-      console.log("result-afterLoadItem", result);
       if (result.isSaved) {
         console.log("item-with-garnishes-saved");
         this.addToCartItemWithGarnishes(result.item, result, adding);
 
         if (item.GarnishGroups && item.GarnishGroups.length > 0) {
           item.GarnishGroups.forEach(gGroup => {
-            console.log("gGroup", gGroup);
             gGroup.Garnishes.forEach(gar => {
               result.item.SelectedGarnishes.forEach(selGar => {
                 if (selGar.Id == gar.Id) {
@@ -383,7 +363,6 @@ export class NewComboComponent implements OnInit {
         }
         if (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0 && (!item.GarnishGroups || item.GarnishGroups.length == 0)) {
           item.GeneralGarnishGroups.forEach(gGroup => {
-            console.log("gGroup", gGroup);
             gGroup.Garnishes.forEach(gar => {
               result.item.SelectedGarnishes.forEach(selGar => {
                 if (selGar.Id == gar.Id) {
@@ -393,8 +372,6 @@ export class NewComboComponent implements OnInit {
             });
           });
         }
-        console.log("!!!! item", item);
-        console.log("!!!! result.item.", result.item);
         item.SpecialRequests = result.item.SpecialRequests;
         item.IsSelected=true;
       }
@@ -404,9 +381,6 @@ export class NewComboComponent implements OnInit {
 
 
   public selectComboItem(comboItem) {
-    console.log("selectComboItem(): comboItem", comboItem);
-     console.log("this.selectedItems", this.selectedItems);
-       console.log("this.selectedItems[comboItem.Id]", this.selectedItems[comboItem.Id]);
        if (this.selectedItems[comboItem.Id] != undefined)
      this.selectedItems[comboItem.Id].forEach(si => {
           
@@ -454,11 +428,6 @@ export class NewComboComponent implements OnInit {
     garnishGroup: GarnishGroupAppModel,
     selectedGarnishes, isFirstPage,
     selectedGarnishesPrice?, cancellation?, adding?) {
-    console.log("loadingGarnishesPopupForPizza - ITEM", item);
-    console.log("loadingGarnishesPopupForPizza - SELECTED-GAR", selectedGarnishes);
-    console.log("loadingGarnishesPopupForPizza - SELECTED-GAR", selectedGarnishes);
-    console.log("cancellation", cancellation);
-    console.log("adding", adding);
     const matDialogRef = this.matDialog.open(GarnishesComponent, {
       data: {
         garnishGroup: garnishGroup,
@@ -477,16 +446,13 @@ export class NewComboComponent implements OnInit {
       panelClass: 'custom-mat-dialog-mobile-garnishes-with-item'
     });
     matDialogRef.afterClosed().subscribe((result: GarnishesDialog) => {
-      console.log("result - AFTER GARNISHES COMPONENT", result);
 
 
       if (result.isSaved) {
 
         if (result && result.allGettingGarnishes && item && !result.returnToPreviousPage) {
           //console.log("IDK- item.selectedGarnishes", item.SelectedGarnishes);
-          console.log("result.allGettingGarnishes", result.allGettingGarnishes);
           item.SelectedGarnishes = result.allGettingGarnishes.slice();
-          console.log("item.selectedGarnishes", item.SelectedGarnishes);
         }
         if (isBeforePizza) {
 
@@ -496,10 +462,8 @@ export class NewComboComponent implements OnInit {
             item.GarnishGroupsBeforePizza.indexOf(garnishGroup) + 1 <
             item.GarnishGroupsBeforePizza.length) {
             grnGrp = item.GarnishGroupsBeforePizza[item.GarnishGroupsBeforePizza.indexOf(garnishGroup) + 1];
-            console.log("grnGrp", grnGrp);
 
             if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-              console.log("item1", item);
               this.loadingGarnishesPopupForPizza(item, isBeforePizza,
                 grnGrp, item.SelectedGarnishes,
                 false, result.selectedGarnishesPrice, cancellation, adding);
@@ -511,14 +475,12 @@ export class NewComboComponent implements OnInit {
             var grnGrp = item.GarnishGroupsBeforePizza[item.GarnishGroupsBeforePizza.indexOf(garnishGroup) - 1];
 
             if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-              console.log("item2", item);
               this.loadingGarnishesPopupForPizza(item, isBeforePizza,
                 grnGrp, item.SelectedGarnishes,
                 item.GarnishGroupsBeforePizza.indexOf(grnGrp) === 0,
                 result.selectedGarnishesPrice, cancellation, adding);
             }
           } else if (!result.returnToPreviousPage) {
-            console.log("item3", item);
             this.addToCartPizzaWithGarnishes(item, isBeforePizza, result, adding);
           }
         } else {
@@ -529,10 +491,8 @@ export class NewComboComponent implements OnInit {
             item.GarnishGroupsAfterPizza.indexOf(garnishGroup) + 1 <
             item.GarnishGroupsAfterPizza.length) {
             grnGrp = item.GarnishGroupsAfterPizza[item.GarnishGroupsAfterPizza.indexOf(garnishGroup) + 1];
-            console.log("grnGrp", grnGrp);
 
             if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-              console.log("item1", item);
               this.loadingGarnishesPopupForPizza(item, isBeforePizza,
                 grnGrp, item.SelectedGarnishes,
                 false, result.selectedGarnishesPrice, cancellation, adding);
@@ -544,14 +504,12 @@ export class NewComboComponent implements OnInit {
             var grnGrp = item.GarnishGroupsAfterPizza[item.GarnishGroupsAfterPizza.indexOf(garnishGroup) - 1];
 
             if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-              console.log("item2", item);
               this.loadingGarnishesPopupForPizza(item, isBeforePizza,
                 grnGrp, item.SelectedGarnishes,
                 item.GarnishGroupsAfterPizza.indexOf(grnGrp) === 0,
                 result.selectedGarnishesPrice, cancellation, adding);
             }
           } else if (!result.returnToPreviousPage) {
-            console.log("item3", item);
             this.addToCartPizzaWithGarnishes(item, isBeforePizza, result, adding);
           }
 
@@ -569,10 +527,6 @@ export class NewComboComponent implements OnInit {
   }
 
   private addToCartPizzaWithGarnishes(item, isBeforePizza, data?, adding?) {
-    console.log("addToCartPizzaWithGarnishes", item);
-    console.log("data", data);
-    console.log("isBeforePizza", isBeforePizza);
-    console.log("adding", adding);
     if (isBeforePizza){
       this.pizzaBaseLoaded = true;
     } else {
@@ -587,8 +541,6 @@ export class NewComboComponent implements OnInit {
 
   private loadingGarnishesPopup(item, garnishes: GarnishAppModel[], garnishGroup: GarnishGroupAppModel,
     comments: string, selectedGarnishes, isFirstPage?, cancellation?, adding?) {
-    console.log("loadingGarnishesPopup - ITEM", item);
-    console.log("loadingGarnishesPopup - SELECTED-GAR", selectedGarnishes);
     const matDialogRef = this.matDialog.open(GarnishesComponent, {
       data: {
         garnishGroup: garnishGroup,
@@ -606,16 +558,13 @@ export class NewComboComponent implements OnInit {
       panelClass: 'custom-mat-dialog-mobile-garnishes-with-item'
     });
     matDialogRef.afterClosed().subscribe((result: GarnishesDialog) => {
-      console.log("result - AFTER GARNISHES COMPONENT", result);
 
 
       if (result.isSaved) {
         console.log("IDK");
         if (result && result.allGettingGarnishes && item && !result.returnToPreviousPage) {
           //console.log("IDK- item.selectedGarnishes", item.SelectedGarnishes);
-          console.log("result.allGettingGarnishes", result.allGettingGarnishes);
           item.SelectedGarnishes = result.allGettingGarnishes.slice();
-          console.log("item.selectedGarnishes", item.SelectedGarnishes);
         }
         if ((!result.returnToPreviousPage && item && item.GarnishGroups && item.GarnishGroups.indexOf(garnishGroup) != -1 &&
           item.GarnishGroups.indexOf(garnishGroup) + 1 < item.GarnishGroups.length) ||
@@ -628,10 +577,8 @@ export class NewComboComponent implements OnInit {
           else {
             console.log(" else");
             grnGrp = item.GeneralGarnishGroups[item.GeneralGarnishGroups.indexOf(garnishGroup) + 1];
-            console.log("grnGrp", grnGrp);
           }
           if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-            console.log("item1", item);
             this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
               item.SelectedGarnishes, false, cancellation, adding);
           }
@@ -652,7 +599,6 @@ export class NewComboComponent implements OnInit {
             grnGrp = item.GeneralGarnishGroups[item.GeneralGarnishGroups.indexOf(garnishGroup) - 1];
           }
           if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
-            console.log("item2", item);
             this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
               item.SelectedGarnishes, item.GarnishGroups.indexOf(grnGrp) === 0, cancellation, adding);
           }
@@ -661,7 +607,6 @@ export class NewComboComponent implements OnInit {
           if (item.Garnishes) {
             const grnGrp = item.GarnishGroups[item.GarnishGroups.length - 1];
             if (grnGrp) {
-              console.log("item5", item);
               this.loadingGarnishesPopup(item, null, grnGrp, result.comments,
                 item.SelectedGarnishes, item.GarnishGroups.indexOf(grnGrp) === 0, cancellation, adding);
             }
@@ -669,7 +614,6 @@ export class NewComboComponent implements OnInit {
         } else if (!result.returnToPreviousPage) {
           // If everything was added to list of garnishes - add to card
           // console.log("---item",item);
-          console.log("item3", item);
           this.addToCartItemWithGarnishes(item, result, adding);
         } else {
 
@@ -684,16 +628,12 @@ export class NewComboComponent implements OnInit {
   }
 
   private addToCartItemWithGarnishes(item, data?, adding?) {
-    console.log("addToCartItemWithGarnishes", item, adding);
-    console.log("adding", adding);
     if (item) { //if(!this.isNotFilledAllRequiredGarnishesOfGarnishGroup(item))
       console.log("continue adding");
       if (data && data.comments) {
-        console.log("data.comments", data.comments);
         item.SpecialRequests = data.comments || '';
       }
       if (data) {
-        console.log("data", data);
       }
       if (adding) {
         if (!this.isMobileMode() && !item.PizzaPrices) this.selectItem(this.selectedItemTemp);
@@ -707,7 +647,6 @@ export class NewComboComponent implements OnInit {
     this.combo.ItemCombos.forEach(group => {
       group.Items.forEach(item => {
         item.ComboItemId = group.Id;
-        console.log("item", item);
       });
 
     });
@@ -717,7 +656,6 @@ export class NewComboComponent implements OnInit {
     this.combo.ItemGroups.forEach(group => {
       group.GroupItems.forEach(item => {
         item.ComboItemId = group.Id;
-        console.log("item", item);
         item.ShortInfo = "";
         if (item.Information && item.Information.length > 0) {
           var txtArr = item.Information.split(' ');
@@ -740,12 +678,10 @@ export class NewComboComponent implements OnInit {
 
   public selectItem(item) {
     console.log("selectItem()");
-    console.log("item", item);
     item.IsSelected = true;
     if (!this.isItemWithItemGroups) {
       const itemGroupFound = this.combo.ItemCombos.find(({ Id }) => Id === item.ComboItemId)
         || this.combo.NewItemCombos.find(({ Id }) => Id === item.ComboItemId);
-      console.log("itemGroupFound", itemGroupFound);
       itemGroupFound.Items.forEach(otherItem => {
         if (otherItem.Id != item.Id)
           otherItem.IsSelected = false;
@@ -755,12 +691,10 @@ export class NewComboComponent implements OnInit {
     }
     else if (this.isItemWithItemGroups) {
       const itemGroupFound = this.combo.ItemGroups.find(({ Id }) => Id === item.ComboItemId);
-      console.log("itemGroupFound", itemGroupFound);
     
       if (itemGroupFound.Max != undefined && itemGroupFound.Max > 1){
         if (!item.Amount) item.Amount=0;
         item.Amount +=1;
-        console.log("tem",item);
       } else {
           if (!item.Amount) item.Amount=1;
         itemGroupFound.GroupItems.forEach(otherItem => {
@@ -779,12 +713,9 @@ export class NewComboComponent implements OnInit {
   }
 
    public subAmountItem(item, currentItem) {
-    console.log("subAmountItem()",currentItem);
-    console.log("item", item);
     item.IsSelected = true;
     if (this.isItemWithItemGroups) {
       const itemGroupFound = this.combo.ItemGroups.find(({ Id }) => Id === item.ComboItemId);
-      console.log("itemGroupFound", itemGroupFound);
       if (itemGroupFound.Max != undefined && itemGroupFound.Max > 1){
         if (!item.Amount) item.Amount=0;
         if (item.Amount > 0) 
@@ -792,8 +723,6 @@ export class NewComboComponent implements OnInit {
         if (item.Amount == 0) {
           item.IsSelected = false;
           const i = currentItem.findIndex(x => x.Id === item.Id); 
-           console.log("currentItem",currentItem);
-            console.log("i",i);
             currentItem.splice(i, 1);
         } else{
            const selectedItemFound = currentItem.find(({ Id }) => Id === item.Id);
@@ -819,10 +748,8 @@ export class NewComboComponent implements OnInit {
 
   public selectPizza(item, pizzaComboId) {
     console.log("selectPizza()");
-    console.log("item", item);
     item.IsSelected = true;
     const pizzaComboFound = this.combo.NewPizzaCombos.find(({ Id }) => Id === pizzaComboId);
-      console.log("pizzaComboFound", pizzaComboFound);
       pizzaComboFound.Pizzas.forEach(otherItem => {
         if (otherItem.Id != item.Id)
           otherItem.IsSelected = false;
@@ -840,7 +767,6 @@ export class NewComboComponent implements OnInit {
 
   private isNotFilledAllRequiredGarnishesOfGarnishGroup(item: ItemAppAdvancedModel) {
     console.log("isNotFilledAllRequiredGarnishesOfGarnishGroup");
-    console.log("item.SelectedGarnishes", item.SelectedGarnishes);
     let requireMinMaxOptions = false;
     if (item && item.GarnishGroups) {
       const countOfGarnishes = (arr: any[]) => {
@@ -858,7 +784,6 @@ export class NewComboComponent implements OnInit {
             return garnish.IsSelected && garnishGroup.Garnishes && garnishGroup.Garnishes[0] &&
               garnish.GarnishGroupId === garnishGroup.Garnishes[0].GarnishGroupId;
           });
-          console.log("countOfGarnishesArray", countOfGarnishesArray);
           return ((garnishGroup.Min == garnishGroup.Max && garnishGroup.Max != 0) || (garnishGroup.Min != garnishGroup.Max)) ?
             ((countOfGarnishes(countOfGarnishesArray) >= garnishGroup.Min && countOfGarnishes(countOfGarnishesArray) <= garnishGroup.Max)
               || (countOfGarnishes(countOfGarnishesArray) >= garnishGroup.Min &&
@@ -880,11 +805,6 @@ export class NewComboComponent implements OnInit {
   addItem(selectedItem, comboItemId, currentItem, index, comboItem) {
      if (this.isItemWithItemGroups && comboItem.Max && comboItem.Max > 1) return;
     console.log(" addItem()");
-    console.log("selectedItem", selectedItem);
-    console.log("comboItemId", comboItemId);
-    console.log("currentItem", currentItem);
-    console.log("index", index);
-    console.log("comboItem", comboItem);
     this.showErrorComboMessage = false;
     if (!selectedItem) {
       return;
@@ -898,15 +818,11 @@ export class NewComboComponent implements OnInit {
       this.includeGarnishes(selectedItem, () => {
         currentItem[index] = { ComboItemId: comboItemId };
       }, (item) => {
-        console.log("434 item", item);
          if (!item.Amount) item.Amount=1;
         Object.keys(item).forEach(k => currentItem[index][k] = item[k]);
-          console.log("currentItem[index]", currentItem[index]);
       });
     } else {
-      console.log("else selectedItems", this.selectedItems);
       this.selectItem(selectedItem);
-      console.log("440 item", selectedItem);
       Object.keys(selectedItem).forEach(k => currentItem[index][k] = selectedItem[k]);
     }
     // currentItem[index].IsItem = true;
@@ -922,11 +838,8 @@ export class NewComboComponent implements OnInit {
   addGroupItem(selectedItem, currentItem, comboItem) {
    
     console.log(" addGroupItem()");
-    console.log("selectedItem", selectedItem);
    
-    console.log("currentItem", currentItem);
   
-    console.log("comboItem", comboItem);
     this.showErrorComboMessage = false;
     if (!selectedItem) {
       return;
@@ -940,13 +853,10 @@ export class NewComboComponent implements OnInit {
       this.includeGarnishes(selectedItem, () => {
         currentItem[0] = { ComboItemId: comboItem.Id };
       }, (item) => {
-        console.log("434 item", item);
         Object.keys(item).forEach(k => currentItem[0][k] = item[k]);
       });
     } else {
-      console.log("else selectedItems", this.selectedItems);
       this.selectItem(selectedItem);
-      console.log("440 item", selectedItem);
       //currentItem.push(selectedItem);
       if (currentItem.length == 0){
   currentItem.push(selectedItem);
@@ -991,7 +901,6 @@ export class NewComboComponent implements OnInit {
 
   private displayPizza(pizza, ToppingGroupId, MaxToppings, cancellation, adding) {
     const pizzaSize = pizza.SelectedPizzaPriceSize;
-    console.log("cancellation:" + cancellation, " adding" + adding);
     this.loadToppings(pizza, ToppingGroupId, MaxToppings, pizzaSize, pizza.specialRequests, cancellation, adding);
   }
 
@@ -1001,8 +910,6 @@ export class NewComboComponent implements OnInit {
     specialRequests: string, cancellation, adding) {
       console.log("open pizza from combo");
 
-    console.log("cancellation",cancellation);
-    console.log("adding",adding);
     if (pizza.GarnishGroupsBeforePizza && pizza.GarnishGroupsBeforePizza.length > 0) { //(this.pizzaAdditionItems && this.pizzaAdditionItems.length > 0)
       this.pizzaBaseLoaded = false;
       this.includePizzaGarnishes(pizza, true, cancellation, adding);
@@ -1041,9 +948,7 @@ export class NewComboComponent implements OnInit {
         matDialogRefPizza.afterClosed().subscribe((result: PizzaDialog) => {
           if (result && result.isSaved) {
             if (adding) {
-              console.log("new-combo- RESUlt", result);
               const pizza = this.commonFunctionsService.deepCopy(result.pizza);
-              console.log("new-combo - after save - copyed pizza", pizza);
               pizza.specialRequests = result.specialRequests;
 
              /* if (pizza.GeneralGarnishGroups && pizza.GeneralGarnishGroups.length > 0 && !this.isMobileMode()) {
@@ -1057,11 +962,8 @@ export class NewComboComponent implements OnInit {
                 this.includePizzaGarnishes(pizza, false, cancellation, adding);
               }
               else {
-                console.log("this.combo", this.combo);
-                console.log("pizza", pizza);
                 if (this.combo.NewPizzaCombos.length > 0) {
                   const itemGroupFound = this.combo.NewPizzaCombos.find(({ Id }) => Id === pizza.ComboPizzaId);
-                  console.log("itemGroupFound", itemGroupFound);
                   if (itemGroupFound) {
 
                     itemGroupFound.ItemIsSelected = true;
@@ -1069,7 +971,6 @@ export class NewComboComponent implements OnInit {
                   adding(pizza);
                 } else {
                   const itemGroupFound = this.combo.PizzaCombos.find(({ Id }) => Id === pizza.ComboPizzaId);
-                  console.log("itemGroupFound", itemGroupFound);
                   if (itemGroupFound) {
 
                     itemGroupFound.ItemIsSelected = true;
@@ -1126,9 +1027,7 @@ export class NewComboComponent implements OnInit {
     matDialogRefPizza.afterClosed().subscribe((result: PizzaDialog) => {
       if (result && result.isSaved) {
         if (adding) {
-          console.log("new-combo- RESUlt", result);
           const pizza = this.commonFunctionsService.deepCopy(result.pizza);
-          console.log("new-combo - after save - copyed pizza", pizza);
           pizza.specialRequests = result.specialRequests;
           if (pizza.GeneralGarnishGroups && pizza.GeneralGarnishGroups.length > 0 && !this.isMobileMode()) {
             this.loadItemPopupDesktop(pizza, cancellation, adding);
@@ -1138,11 +1037,8 @@ export class NewComboComponent implements OnInit {
             this.includeGarnishes(pizza, cancellation, adding);
           }
           else {
-            console.log("this.combo", this.combo);
-            console.log("pizza", pizza);
             if (this.combo.NewPizzaCombos.length > 0) {
               const itemGroupFound = this.combo.NewPizzaCombos.find(({ Id }) => Id === pizza.ComboPizzaId);
-              console.log("itemGroupFound", itemGroupFound);
               if (itemGroupFound) {
   
                 itemGroupFound.ItemIsSelected = true;
@@ -1150,7 +1046,6 @@ export class NewComboComponent implements OnInit {
               adding(pizza);
             } else {
               const itemGroupFound = this.combo.PizzaCombos.find(({ Id }) => Id === pizza.ComboPizzaId);
-              console.log("itemGroupFound", itemGroupFound);
               if (itemGroupFound) {
   
                 itemGroupFound.ItemIsSelected = true;
@@ -1168,7 +1063,6 @@ export class NewComboComponent implements OnInit {
 
 
   public printItem(selectedItem) {
-    console.log("selectedItem", selectedItem);
 
   }
 
@@ -1178,14 +1072,6 @@ export class NewComboComponent implements OnInit {
 
 
   addPizzaToppings(pizza, ToppingGroupId, MaxToppings, comboPizzaId, sizeId, currentItem, index) {
-   console.log("pizza",pizza);
-   console.log("ToppingGroupId",ToppingGroupId);
-   console.log("MaxToppings",MaxToppings);
-   console.log("comboPizzaId",comboPizzaId);
-   console.log("pizzaComboPizzaId",pizza.PizzaComboPizzaId);
-   console.log("sizeId",sizeId);
-   console.log("currentItem",currentItem);
-   console.log("index",index);
     pizza = this.commonFunctionsService.deepCopy(pizza);
     pizza.IsItem = false;
     pizza.Amount = 1;
@@ -1209,14 +1095,6 @@ export class NewComboComponent implements OnInit {
   }
 
   addPizzaToppingsNew(pizza, pizzaCombo, sizeId, currentItem, index) {
-    console.log("pizza",pizza);
-    console.log("ToppingGroupId",pizzaCombo.ToppingGroupId);
-    console.log("MaxToppings",pizzaCombo.MaxToppings);
-    console.log("comboPizzaId",pizzaCombo.Id);
-    console.log("pizzaComboPizzaId",pizza.PizzaComboPizzaId);
-    console.log("sizeId",sizeId);
-    console.log("currentItem",currentItem);
-    console.log("index",index);
      pizza = this.commonFunctionsService.deepCopy(pizza);
      pizza.IsItem = false;
      pizza.Amount = 1;
@@ -1234,7 +1112,6 @@ export class NewComboComponent implements OnInit {
        currentItem[index] = { comboPizzaId: pizzaCombo.Id };
      }, (item) => {
        this.selectPizza(item, pizzaCombo.Id);
-       console.log("542 item", item);
        Object.keys(item).forEach(k => currentItem[index][k] = item[k]);
        pizza.IsSelected = true;
        item.IsSelected = true;
@@ -1259,7 +1136,6 @@ export class NewComboComponent implements OnInit {
 
   private loadItemWithItems(combo) {
     console.log("loadItemWithItems(combo)");
-    console.log("combo", combo);
     this.combo = this.commonFunctionsService.deepCopy(combo);
     if (!this.combo) {
       return;
@@ -1267,7 +1143,6 @@ export class NewComboComponent implements OnInit {
     this.combo.IsNotComboIsItem = true;
     let counter = 0;
     (this.combo.ItemGroups || []).forEach((groupOfItems, index) => {
-      console.log("groupOfItems", groupOfItems);
       groupOfItems.GroupItems.forEach(item => {
         item.IsItemNewCombo = false;
       });
@@ -1277,7 +1152,6 @@ export class NewComboComponent implements OnInit {
       for (let i = 0; i < +1; i++) {
         itemsToPush.push({});
       }
-      console.log("itemsToPush",itemsToPush);
       itemsToPush.forEach((item) => {
         item.ComboItemId = groupOfItems.Id;
         item.IsCollapsed = true;
@@ -1287,19 +1161,16 @@ export class NewComboComponent implements OnInit {
     });
 
 
-    console.log("this.selectedItems", this.selectedItems);
 
   }
 
   private loadComboWithItems(combo) {
     console.log("loadComboWithItems(combo)");
-    console.log("combo", combo);
     this.combo = this.commonFunctionsService.deepCopy(combo);
     if (!this.combo) {
       return;
     }
     (this.combo.ItemCombos || []).forEach((comboItem, index) => {
-      console.log("comboItem", comboItem);
       comboItem.Items.forEach(item => {
         item.IsItemNewCombo = false;
       });
@@ -1308,7 +1179,6 @@ export class NewComboComponent implements OnInit {
       for (let i = 0; i < +comboItem.Quantity; i++) {
         itemsToPush.push({});
       }
-      console.log("itemsToPush",itemsToPush);
       itemsToPush.forEach((item) => {
         item.ComboItemId = comboItem.Id;
         item.IsCollapsed = true;
@@ -1317,7 +1187,6 @@ export class NewComboComponent implements OnInit {
     });
 
     (this.combo.NewItemCombos || []).forEach((comboItem, index) => {
-      console.log("comboItem", comboItem);
 
       comboItem.Items.forEach(item => {
         item.IsItemNewCombo = true;
@@ -1335,8 +1204,6 @@ export class NewComboComponent implements OnInit {
       this.selectedItems[comboItem.Id] = itemsToPush;
     });
 
-    console.log("this.selectedItemsNew", this.selectedItems);
-    console.log("this.combo.NewItemCombos", this.combo.NewItemCombos);
     if (this.combo.ItemCombos.length > 0){
       this.selectedItems[this.combo.ItemCombos[0].Id][0].IsSelected = true;
     } else if (this.combo.NewItemCombos.length > 0){
@@ -1346,7 +1213,6 @@ export class NewComboComponent implements OnInit {
 
     if (this.combo.NewPizzaCombos.length > 0){
       this.combo.NewPizzaCombos.forEach((comboPizza, index) => {
-        console.log("comboPizza", comboPizza);
         const itemsToPush = [];
         for (let i = 0; i < +comboPizza.Quantity; i++) {
           itemsToPush.push({});
@@ -1367,10 +1233,8 @@ export class NewComboComponent implements OnInit {
         });*/
         this.selectedPizzas[comboPizza.Id] = itemsToPush;
       });
-      console.log("this.selectedPizzas", this.selectedPizzas);
     } else {
       (this.combo.PizzaCombos || []).forEach((comboPizza, index) => {
-        console.log("comboPizza", comboPizza);
         const itemsToPush = [];
         for (let i = 0; i < +comboPizza.Quantity; i++) {
           const currentPizza = this.commonFunctionsService.deepCopy(comboPizza.Pizza);
@@ -1396,7 +1260,6 @@ export class NewComboComponent implements OnInit {
   }
 
   private isAllDataFilled() {
-    console.log("this.selectedItems",this.selectedItems)
     if (this.isItemWithItemGroups ) {
       const allItemFilled = Object.keys(this.selectedItems).every((key) => {
         console.log("605 item");
@@ -1434,8 +1297,6 @@ export class NewComboComponent implements OnInit {
       combosItems[p.Id] = p;
     });
     const myselectedPizzas = this.commonFunctionService.deepCopy(this.selectedPizzas);
-    console.log("preparePizzaSize() - myselectedPizzas", myselectedPizzas);
-    console.log("preparePizzaSize() - this.selectedPizzas", this.selectedPizzas);
 
     Object.keys(this.selectedPizzas).forEach((pizzaCombo) => {
       console.log("608 item");
@@ -1451,20 +1312,14 @@ export class NewComboComponent implements OnInit {
         }
       });
     });
-    console.log("2 - this.selectedPizzas", this.selectedPizzas);
     const myselectedPizzas22 = this.commonFunctionService.deepCopy(this.selectedPizzas);
-    console.log("preparePizzaSize() - myselectedPizzas22", myselectedPizzas22);
   }
 
   private getSelectedItemsFromCombo(selectedItems) {
-    console.log("selectedItems", selectedItems);
     return Object.keys(selectedItems).reduce((sumItems, items) => {
-      console.log("selectedItems[items]",selectedItems[items]);
-      console.log("items",items);
       if (items) {
         sumItems = sumItems.concat(selectedItems[items] || []);
       }
-      console.log("sumItems", sumItems);
       return sumItems;
     }, []);//.filter(item => item.Id !== undefined);;
   }
@@ -1472,7 +1327,6 @@ export class NewComboComponent implements OnInit {
   public save(isPrevious?) {
     this.showErrorComboMessage = false;
     console.log("SAVE COMBO");
-    console.log(" isAllDataFilled", this.isAllDataFilled());
     if (this.isAllDataFilled()) {
 
       this.preparePizzaSize();
@@ -1481,13 +1335,9 @@ export class NewComboComponent implements OnInit {
       this.combo.SelectedItems = this.getSelectedItemsFromCombo(this.selectedItems);
 
 
-      console.log("this.combo.SelectedItems", this.combo.SelectedItems);
 
-      console.log("back to save() - this.selectedPizzas", this.selectedPizzas);
       this.combo.SelectedPizzas = this.getSelectedItemsFromCombo(this.selectedPizzas);
-      console.log(" this.combo.SelectedPizzas", this.combo.SelectedPizzas);
       const thisComboSelectedPizzas = this.commonFunctionService.deepCopy(this.combo.SelectedPizzas);
-      console.log("preparePizzaSize() - thisComboSelectedPizzas", thisComboSelectedPizzas);
       this.combo.SelectedPizzas =thisComboSelectedPizzas;
       this.isSaved = true;
       this.bsModalRef.hide();//{ //this.dialogRef.close({
@@ -1516,38 +1366,27 @@ export class NewComboComponent implements OnInit {
 
   private displayNotificationMessage() {
     this.showErrorComboMessage = true;
-    console.log("displayNotificationMessage()",this.selectedItems);
     var selectedItemsTemp = this.getSelectedItemsFromCombo(this.selectedItems);
-    console.log("selectedItemsTemp", selectedItemsTemp);
-    console.log("this.combo", this.combo);
     var isNotFilled = true;
     for (let i = 0; i < selectedItemsTemp.length; i++) {
       if (!selectedItemsTemp[i].Name && selectedItemsTemp[i].Min > 0) {
         var questionId = selectedItemsTemp[i].ComboItemId;
-        console.log("questionId", questionId);
         var isNotFilled = false;
         break;
       }
     }
     if (!isNotFilled && !this.isItemWithItemGroups) {
-      console.log ("questionId",questionId)
       var notFilledQuestion = this.combo.ItemCombos.find(({ Id }) => Id === questionId);
       if (notFilledQuestion == undefined) {
         notFilledQuestion = this.combo.NewItemCombos.find(({ Id }) => Id === questionId);
-        console.log("notFilledQuestion", notFilledQuestion);
-        console.log("notFilledQuestion.Name", notFilledQuestion.Name);
         this.message = "נא לבחור מוצר ב-" + notFilledQuestion.Name;
       } else {
-        console.log("notFilledQuestion", notFilledQuestion);
-        console.log("notFilledQuestion.Name", notFilledQuestion.Name);
         this.message = "נא לבחור מוצר ב-" + notFilledQuestion.Name;
       }
       
     }
     else if (!isNotFilled && this.isItemWithItemGroups) {
       var notFilledQuestion2 = this.combo.ItemGroups.find(({ Id }) => Id === questionId);
-      console.log("notFilledQuestion2", notFilledQuestion2);
-      console.log("notFilledQuestion2.Name", notFilledQuestion2.Name);
       this.message = "נא לבחור מוצר ב-" + notFilledQuestion2.Name;
     } else if (this.isItemWithItemGroups ) {
       const allItemFilled = Object.keys(this.selectedItems).every((key) => {
@@ -1578,7 +1417,6 @@ export class NewComboComponent implements OnInit {
   }
 
   focusElement(comboItemId) {
-    console.log("focusElement",comboItemId);
     document.getElementById(comboItemId).scrollIntoView();
   }
 
