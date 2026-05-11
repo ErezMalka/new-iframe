@@ -92,8 +92,6 @@ export class SelectBranchComponent implements OnInit {
     this.ClickedRow = function(index){  
       this.HighlightRow = index;  
 
-      console.log("orderReceipt",this.orderReceipt);
-      console.log("order",this.order);
   }  
   }
 
@@ -119,9 +117,7 @@ export class SelectBranchComponent implements OnInit {
   }
 
   public disable(){
-    console.log("this.disabled",this.disabled);
     this.disabled=false;
-    console.log("this.disabled",this.disabled);
   }
 
   public myFunction() {
@@ -131,16 +127,12 @@ export class SelectBranchComponent implements OnInit {
     filter = input.value;
     table = document.getElementById("myTable");
     tr = table.getElementsByTagName("tr");
-    console.log("tr.length",tr.length);
   
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
-      console.log("tr[i]",tr[i]);
       td = tr[i].getElementsByTagName("td");
-      console.log("td",td,"td.innerText",td[0].innerText);
       if (td[0]) {
         txtValue = td[0].textContent || td[0].innerText;
-        console.log("txtValue",txtValue);
         if (txtValue.indexOf(filter) > -1) {
           tr[i].style.display = "";
         } else {
@@ -176,8 +168,6 @@ export class SelectBranchComponent implements OnInit {
     this.orderReceipt = this.data.orderReceipt || new OrderReceiptModel();
     this.order = this.data.order || new OrderAppModel();
 
-    console.log("orderReceipt",this.orderReceipt);
-    console.log("order",this.order);
   }
 
   //public pickupPoints:boolean = true;
@@ -192,10 +182,8 @@ export class SelectBranchComponent implements OnInit {
       if (AppConfig.configSettings.pickupPoints) {
         this.metaDataService.getDeliveryCitiesInformation(branch.Id)
               .subscribe((citiesResult) => {
-                 console.log("citiesResult",citiesResult)
                 if (citiesResult && citiesResult.length > 0) {
                   citiesResult.forEach((city) => {
-                     console.log("city",city)
                     this.pickUpPointsList.push(city);
                   });
                   this.displayPickupPoints = true;
@@ -203,7 +191,6 @@ export class SelectBranchComponent implements OnInit {
                    if(this.isAvailableContinue()) this.continueOrder();
                 }
               }, (error) => {
-                console.log("error",error)
             });
             
         
@@ -240,7 +227,6 @@ export class SelectBranchComponent implements OnInit {
       }
     });
 
-    console.log("this.filteredBranches",this.filteredBranches);
     //this.filteredBranches.sort((a,b) => Number(b.IsOpenForDelivery) - Number(a.IsOpenForDelivery));
     this.filteredBranches = this.filteredBranches.pipe(map((data) => {
       data.sort((a, b) => {
