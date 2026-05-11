@@ -252,8 +252,6 @@ export class MyOrderComponent extends SizeMobileInitializationComponent implemen
 
    getOrderInfo() {
     const orderID = this.appStorageService.getItemFromLocalStorage("OrderId");
-    console.log ("this.appStorageService.getItemFromLocalStorage(OrderId)",
-      this.appStorageService.getItemFromLocalStorage("OrderId"));
     this.orderService.GetOrderInfo(orderID.Id)
     .subscribe((result) => {
       if (result) {
