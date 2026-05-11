@@ -91,7 +91,6 @@ export class AppConfig {
       this.http.get('./assets/config/' + env + '.json')
         .subscribe((data) => {
           AppConfig.config = data;
-          console.log("!!!!!!!!!!!!!!!!AppConfig.config", AppConfig.config);
           this.configService.imagePath = AppConfig.config.imagePath;
           this.configService.serverUrl = AppConfig.config.serverUrl;
           this.configService.useTranzilaIframe = AppConfig.config.useTranzilaIframe;
@@ -107,9 +106,7 @@ export class AppConfig {
           // AppConfig.configSettings = AppConfig.config.configSettings;
 
           let pathArr: string[] = window.location.hash.split('/');
-          console.log("window.location.hash", window.location.hash);
           this.configService.currentUrl =window.location.hash;
-          console.log("pathArr", pathArr);
           let franchiseId: string;
           let numericFranchiseId: number;
           if (pathArr.length >1){
@@ -127,7 +124,6 @@ export class AppConfig {
               const decodedData = decodeURIComponent(dataPart);
               // Parse the JSON string
               const jsonObject = JSON.parse(decodedData);
-              console.log(jsonObject);
               localStorage.setItem(this.configService.currentUrl, decodedData);
             } else {
               let branchId: string = pathArr[2];
@@ -145,8 +141,6 @@ export class AppConfig {
                      this.configService.isMenu = true;   
                   else if (pathArr[3] == 'tv' || pathArr[3]=="TV"){
                     this.configService.isTVMenu = true;   
-                    console.log("this.configService.isTVMenu",  this.configService.isTVMenu);
-                    console.log("this.configService.branchId", this.configService.branchId);
                   }
                   if (pathArr.length > 4 ){
                     if (pathArr[4].startsWith("order#")){
@@ -155,7 +149,6 @@ export class AppConfig {
                       const decodedData = decodeURIComponent(dataPart);
                       // Parse the JSON string
                       const jsonObject = JSON.parse(decodedData);
-                      console.log(jsonObject);
                       localStorage.setItem(this.configService.currentUrl, decodedData);
                     }
                   }
@@ -179,7 +172,6 @@ export class AppConfig {
                   this.configService.configSettings = data.iFrameConfigSettings;//data.configSettings;//JSON.parse(data.configSettings);
                   AppConfig.configSettings = data.iFrameConfigSettings;//data.configSettings;//JSON.parse(data.configSettings);
                   environment.gtm = AppConfig.configSettings.googleTagManager;
-                  console.log("AppConfig.configSettings",AppConfig.configSettings);
                   resolve();
                 }, (error) => {
                   reject(error);
@@ -187,17 +179,14 @@ export class AppConfig {
               });
           } else {
             AppConfig.franchiseId = numericFranchiseId;
-            console.log("AppConfig.franchiseId",AppConfig.franchiseId, numericFranchiseId);
             this.configService.franchiseId = numericFranchiseId;
             this.transtationService.use();
             console.log("AFTER this.transtationService.use();");
             this.metaDataService.getFranchiseGraphics().subscribe((data) => {
               AppConfig.settings = data || {};
-          console.log("data",data)
               this.configService.configSettings = data.iFrameConfigSettings;// data.configSettings;//JSON.parse(data.configSettings);
               AppConfig.configSettings = data.iFrameConfigSettings;//data.configSettings;//JSON.parse(data.configSettings);
               environment.gtm = AppConfig.configSettings.googleTagManager;
-              console.log(" AppConfig.configSettings", AppConfig.configSettings);
               resolve();
             }, (error) => {
               reject(error);
