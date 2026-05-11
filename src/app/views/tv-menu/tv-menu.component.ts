@@ -379,10 +379,6 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
     this.numRows = this.configService.tvRows
     this.tvTimer = AppConfig.config.tvTimer * 1000;
     this.itemsPerPage = this.numRows * this.numColumns;
-    console.log("tvTimer", AppConfig.config.tvTimer);
-    console.log("tvTimer", this.tvTimer);
-    console.log("tvColumns", AppConfig.config.tvColumns);
-    console.log("tvRows", AppConfig.config.tvRows);
      
     if (this.timerId) {
      
@@ -394,14 +390,12 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
   //  this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
     
     this.route.params.subscribe(params => {
-      console.log("params",params);
       if (params && params["franchiseId"]  && params["branchId"] ) {
         this.branchId = params["branchId"];
         this.franchiseId = params["franchiseId"];
         this.videoPath = `${AppConfig.config.tvImagePath}${this.franchiseId}/${this.branchId}/video1.mp4`;
         this.imagesPath = `${AppConfig.config.tvImagePath}${this.franchiseId}/${this.branchId}/`;
         this.images = [];
-        console.log("videoPath", this.videoPath);
         if (this.doesFileExist(this.videoPath)) {
           this.playVideo = true;
         } else {
@@ -413,7 +407,6 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
               this.images.push(img);
             }          
           }
-          console.log("this.images", this.images);
         
        
        
@@ -425,7 +418,6 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
           this.selectedLang = "he";
           this.translationService.setLanguage(this.selectedLang);
         }
-        console.log("logo", AppConfig.settings.logo);
         this.imgSrc = AppConfig.settings.logo;
         this.initializeGraphics();
         this.menuService
@@ -459,7 +451,6 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
           if (result) {
             this.appStorageService.categories = result.categories;
             this.appStorageService.clubMembershipCategories = result.clubMembershipCategories;
-            console.log("this.appStorageService.clubMembershipCategories",this.appStorageService.clubMembershipCategories)
             this.appStorageService.pizzas = result.pizzas;           
             this.appStorageService.pizzaToppings = result.pizzaToppings;
             this.appStorageService.startingPage = result.startingPage;
@@ -497,7 +488,6 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
                   currentCatCounter = 0;
                   if (counter < items.length) {
                     currentColumn.push({ CategoryName: categoryName + " - המשך"});
-                    console.log("currentColumn", currentColumn);
                     currentCatCounter++;
                   }
                 }
@@ -519,9 +509,6 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
             if (currentPage.length > 0) {
               this.pages.push(currentPage);
             }
-            console.log("this.currentPage", this.currentPage);
-            console.log("this.pages", this.pages);
-            console.log("this.currentPageIndex", this.currentPageIndex);
 
            this.timerId= setInterval(()=> {this.rotatePage()},  this.tvTimer);
           }
@@ -547,7 +534,6 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
     var xhr = new XMLHttpRequest();
     xhr.open('HEAD', urlToFile, false);
     xhr.send();
-    console.log("xhr.status", xhr.status);
     if (xhr.status == 404) {
       return false;
     } else {
@@ -564,18 +550,13 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
 
 private getAppLanguages() {
   this.selectedLang = this.translationService.language();  
-  console.log('this.translationService.language()',  this.translationService.language());
-  console.log('selectedLang',  this.selectedLang);
   this.languages =[];  
   this.signInOutService.getAppLanguages()
     .subscribe((response) => {
-      console.log('getAppLanguages',response);
       if (response) {
         this.appStorageService.languages =response;
         this.languages = this.appStorageService.languages; //this.languages.concat(response);
         
-        console.log('getAppLanguages',this.languages);        
-        console.log(this.selectedLang);  
       }
   }, (error) => {
     //this.messageService.displayServerErrorMessage();
@@ -590,7 +571,6 @@ private getAppLanguages() {
   dateIsValid(date) {
     if( date instanceof Date) return true;
     else{
-      console.log("not instance of date: date", date);
       return false;
 
     }
@@ -616,7 +596,6 @@ private getAppLanguages() {
 
       if (this.user.BirthDateStr != null) {
         birthStrToDate = new Date(this.user.BirthDateStr);
-        console.log("birthStrToDate", birthStrToDate);
       }
       if (this.dateIsValid(this.user.BirthDate)) {
         availableMonthBDay = this.user.BirthDate?.getMonth();
@@ -624,12 +603,9 @@ private getAppLanguages() {
       else if (this.user.BirthDateStr != null) {
         availableMonthBDay = birthStrToDate?.getMonth();
       }
-      console.log("availableMonthBDay", availableMonthBDay);
-      console.log("currentMonth", currentMonth);
 
       if(this.user.AnniversaryStr != null){
         annStrToDate = new Date(this.user.AnniversaryStr);
-        console.log("annStrToDate", annStrToDate);
       }
       if(this.dateIsValid(this.user.Anniversary)){
         availableMonthAnn = this.user.Anniversary?.getMonth();
@@ -638,8 +614,6 @@ private getAppLanguages() {
         availableMonthAnn =  annStrToDate?.getMonth();
        }
     
-      console.log("availableMonthAnn", availableMonthAnn);
-      console.log("currentMonth", currentMonth);
 
       const bdayCategory = this.clubMemberCategories.filter((cat) => {
         return cat.Name == this.translationService.translate('CM_BIRTHDAY') || cat.Name == 'CM_BIRTHDAY'
@@ -650,8 +624,6 @@ private getAppLanguages() {
       });
 
       
-      console.log("bdayCategory", bdayCategory);
-      console.log("annCategory", annCategory);
 
       if((availableMonthAnn == availableMonthBDay) && (availableMonthAnn == currentMonth)
           && !this.user.UsedAnniversaryVoucher && !this.user.UsedBirthdayVoucher
@@ -719,8 +691,6 @@ public loadSuccessRegistrationMessage() {
    
 
   private initializeMenuForBranch(continueCallBack?) {
-    console.log("initializeMenuForBranch",this.appStorageService.orderType);
-    console.log("this.translationService.language()", this.translationService.language());
     // if (!this.appStorageService.isMenuWasLoaded) {
     let hasPizzas: boolean = false;
     let hascCombos: boolean = false;
@@ -755,7 +725,6 @@ public loadSuccessRegistrationMessage() {
           
         });
 
-        console.log("this.appStorageService.clubMembershipCategories",this.appStorageService.clubMembershipCategories);
 
         this.appStorageService.pizzas = result.pizzas;
         if (result.pizzas && result.pizzas.length > 0) {
@@ -838,19 +807,15 @@ public loadSuccessRegistrationMessage() {
   }
 
   public signOut() {
-    console.log("signOUT()", this.isSignedUser);
     this.signInOutService.signOut();
     this.isSignedUser = false;
   }
 
   public changeLanguage() {
-    console.log("this.translationService.language", this.translationService.language());
     this.translationService.setLanguage(this.selectedLang, ()=>{
       //this.selectedLang = this.translationService.language();
-      console.log("this.translationService.language", this.translationService.language());
       this.initializeMenuForBranch(() => {
         console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
-        console.log("---this.order",this.order);
 
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload'
@@ -886,7 +851,6 @@ public loadSuccessRegistrationMessage() {
         });
   
         matDialogRef.afterClosed().subscribe((result) => {
-          console.log("my-result", result);
           /*if (callback) {
             //this.isFirst=false;
             callback(result);
@@ -920,7 +884,6 @@ public loadSuccessRegistrationMessage() {
     });
 
     matDialogRef.afterClosed().subscribe((result) => {
-      console.log("my-result", result);
       /*if (callback) {
         //this.isFirst=false;
         callback(result);
@@ -933,10 +896,8 @@ public loadSuccessRegistrationMessage() {
    
   public doSomething() {
     localStorage.removeItem(window.location.hash);
-    console.log("this.inLinks", this.inLinks);
     this.appStorageService.inLinks = true;
     this.inLinks = true;
-    console.log("this.inLinks", this.inLinks);
     document.getElementById("mySidebar").style.display = "none";
     const body = document.getElementsByTagName('body')[0];
     body.classList.remove('sidebar-show');
@@ -978,10 +939,8 @@ public loadSuccessRegistrationMessage() {
 
   scrollTo(section) {
     const element = document.getElementById('cat' + section);
-    console.log("element-section", element);
 
     const mySec = document.getElementById('cat11' + section).getElementsByClassName("my-items");
-    console.log("mySec", mySec);
 
     for (let index = 0; index < mySec.length; index++) {
       mySec[index].classList.add('animate__animated', 'animate__zoomIn');
@@ -1006,11 +965,7 @@ public loadSuccessRegistrationMessage() {
       topOffset = 120;
     }
 
-    console.log("scroll to: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + section, topOffset);
-    console.log("scroll to: element.getBoundingClientRect().top", element.getBoundingClientRect().top);
-    console.log("scroll to: window.pageYOffset", window.pageYOffset);
     const y = element.getBoundingClientRect().top + window.pageYOffset - topOffset;
-    console.log("scroll to: y", y);
     //document.querySelector('#cat' + section).scrollIntoView();
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
@@ -1100,7 +1055,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   public checkedUserSigning(isSignedUser?) {
-    console.log("checkedUserSigning", isSignedUser);
     this.isLoaded.isDiscountLoaded = true;
     this.isSignedUser = !!isSignedUser;
   }
@@ -1208,7 +1162,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   public selectCategory(category, isNotPizza, isCombo, includedScroll = true) {
-    console.log("------------------selectCategory", includedScroll);
     this.notCheckScrolling = true;
     const selectCategoryHandler = () => {
       this.isNotPizza = !!isNotPizza;
@@ -1374,7 +1327,6 @@ public loadSuccessRegistrationMessage() {
     console.log("prepareItemsToDisplayInMenu()");
     if (this.order) {
       console.log("if (this.order)");
-      console.log("combos", this.combos);
       // ITEM SHORT INFO//
       this.categories.forEach(category => {
 
@@ -1383,7 +1335,6 @@ public loadSuccessRegistrationMessage() {
         category.Items.forEach(item => {
           if(category.Name=="שידרוגים"){
             item.IsUpgrade = true;
-            console.log("itemmealUpgrade",item);
           }
           if(item.IsCombo && this.appStorageService.addNameOnce){
             item.Name += '\n' +this.translationService.translate('COMBO_SALE');
@@ -1453,15 +1404,12 @@ public loadSuccessRegistrationMessage() {
        // console.log("item.Description", item.Information);
        // console.log("item.Description.len", item.Information.length);
         if (item.Information && item.Information.length > 0) {
-          console.log("item.Description", item.Information, item.Information.length);
           var txtArr = item.Information.split(' ');
-          console.log("txtArr", txtArr, txtArr.length);
 
           if (txtArr.length > 6) {
             for (let index = 0; index < 7; index++) {
               if (txtArr[index])
                 item.ShortInfo = item.ShortInfo + txtArr[index] + " ";
-              console.log("item.ShortInfo", item.ShortInfo);
             }
             item.ShortInfo += "..."
           }
@@ -1469,7 +1417,6 @@ public loadSuccessRegistrationMessage() {
             item.ShortInfo = item.Information;
             if(item.ShortInfo == 'undefined' || item.ShortInfo == undefined){
               item.ShortInfo = '';
-              console.log("if udefined - item.ShortInfo", item.ShortInfo);
             }
           }
         }
@@ -1511,21 +1458,17 @@ public loadSuccessRegistrationMessage() {
       if (up) {
         const nextCategory = this.categories[this.categories.indexOf(this.currentCategory) + 1];
         if (nextCategory) {
-          console.log("nextCategory1",nextCategory);
           this.selectCategory(nextCategory, true, false);
         }
       } else {
         const nextCategory = this.categories[this.categories.indexOf(this.currentCategory) - 1];
         if (nextCategory) {
           this.selectCategory(nextCategory, true, false);
-          console.log("nextCategory2",nextCategory);
         } else {
           if (this.isShowedComboInMenu) {
             this.selectCategory(undefined, false, true);
-            console.log("nextCategory3",nextCategory);
           } else if (this.isShowedPizzaInMenu) {
             this.selectCategory(undefined, false, false);
-            console.log("nextCategory4",nextCategory);
           }
         }
       }
@@ -1625,8 +1568,6 @@ public loadSuccessRegistrationMessage() {
     this.pizzaToppings = this.appStorageService.pizzaToppings || [];
     this.pizzas = this.appStorageService.pizzas || [];
 
-    console.log("this.clubMemberCategories", this.clubMemberCategories);
-    console.log("this.pizzas", this.pizzas);
 
     this.combos = this.appStorageService.combos || [];
 
@@ -1689,7 +1630,6 @@ public loadSuccessRegistrationMessage() {
         this.upgradeItems.forEach(item => {
             item.Amount = 1;
         });
-        console.log("upgradesCategory: ", upgradesCategory);
         this.categories = this.categories.filter
           (it => it.Items && it.Items.length > 0 && it.Name != this.translationService.translate('UPGRADE_CATEGORY'));
       }
@@ -1750,7 +1690,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   private prepareItemForOrder(item : ItemAppAdvancedModel) {
-    console.log("prepareItemForOrder - item", item)
 
     const orderItem = new OrderItemAppModel();
     orderItem.IsUpgrade = item.IsUpgrade;
@@ -1858,7 +1797,6 @@ public loadSuccessRegistrationMessage() {
 
   private prepareComboForOrder(item, comboItem) {
 
-    console.log("prepareComboForOrder(): COMBO - item", item);
 
     const orderItem = new OrderComboAppModel();
 
@@ -1922,12 +1860,9 @@ public loadSuccessRegistrationMessage() {
           });
           // Check free count of garnishGroup:
 
-          console.log("garnishesGroup",garnishesGroup);
           
           Object.keys(garnishesGroup).forEach((key) => {
-            console.log("key",key);
             if (combo.GarnishGroups && combo.GarnishGroups.length>0) {
-              console.log("combo",combo);
               for (let i = 0; i < combo.GarnishGroups.length; i++) {
                 if (combo.GarnishGroups[i].Garnishes && combo.GarnishGroups[i].Garnishes[0]
                   && combo.GarnishGroups[i].Garnishes[0].GarnishGroupId === +key && combo.GarnishGroups[i].FreeCount) {
@@ -1942,7 +1877,6 @@ public loadSuccessRegistrationMessage() {
               }
             }
             if (combo.GeneralGarnishGroups && combo.GeneralGarnishGroups.length>0  && (!combo.GarnishGroups || combo.GarnishGroups.length == 0)) {
-              console.log("combo",combo);
               for (let i = 0; i < combo.GeneralGarnishGroups.length; i++) {
                 if (combo.GeneralGarnishGroups[i].Garnishes && combo.GeneralGarnishGroups[i].Garnishes[0]
                   && combo.GeneralGarnishGroups[i].Garnishes[0].GarnishGroupId === +key && combo.GeneralGarnishGroups[i].FreeCount) {
@@ -1984,7 +1918,6 @@ public loadSuccessRegistrationMessage() {
     orderItem.Pizzas = [];
     if (item.SelectedPizzas) {
       const itemSelectedPizzas = this.commonFunctionsService.deepCopy(item.SelectedPizzas);
-      console.log("prepareComboForOrder() - itemSelectedPizzas", itemSelectedPizzas);
 
       item.SelectedPizzas.forEach((selectedPizza, index) => {
         const newPizza = new OrderPizzaAppAdvancedModel();
@@ -2025,8 +1958,6 @@ public loadSuccessRegistrationMessage() {
           }*/
 
           if (selectedPizza.ComboPizza && selectedPizza.ComboPizza.MaxToppings && (!selectedPizza.ComboPizza.ToppingGroupId || selectedPizza.ComboPizza.ToppingGroupId == null)) {
-            console.log("prepareComboForOrder - selectedPizza", selectedPizza);
-            console.log("prepareComboForOrder - this.order ", this.order);
 
             if (selectedPizza.ComboPizza.ToppingGroupId && selectedPizza.ComboPizza.ToppingGroupId > 0) {
               let toppingsTotalCount = 0;
@@ -2111,11 +2042,9 @@ public loadSuccessRegistrationMessage() {
         newPizza.FullPizza.SelectedGarnishes = garnishes;
         newPizza.SelectedGarnishes = garnishes;
 
-        console.log("newPizza", newPizza);
 
         orderItem.Pizzas.push(newPizza);
 
-        console.log("pizzaCombo", selectedPizza);
       });
 
     }
@@ -2129,7 +2058,6 @@ public loadSuccessRegistrationMessage() {
 
     const myorderitems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
 
-    console.log("myorderitems",myorderitems);
 
     //this.categories = this.appStorageService.categories || [];
 
@@ -2139,7 +2067,6 @@ public loadSuccessRegistrationMessage() {
         this.order.OrderItems.forEach(orderItem => {
           if(originalItem.Id == orderItem.ItemId ){
             orderItem.Price = originalItem.Price;
-            console.log("rderItem",orderItem);
           }
         });
       });
@@ -2176,32 +2103,24 @@ public loadSuccessRegistrationMessage() {
         }else itemsInCombos.push(orderItem);
       }
     });
-    console.log("itemsInCombos",itemsInCombos);
 
     const sortedItemsCombos = itemsInCombos.sort(
       (i1, i2) =>
       +i2.CategoryId - +i1.CategoryId ||
       +i2.Price - +i1.Price
     )
-    console.log("sortedItemsCombos", sortedItemsCombos);
     const mySorted = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted", mySorted);
 
 
     for (let index = 1; index < sortedItemsCombos.length; index+=2) {
-      console.log("sortedItemsCombos[index]",sortedItemsCombos[index]);
       sortedItemsCombos[index].Price = 0;
     }
     const mySorted2 = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted2", mySorted2);
-    console.log("this.order.OrderItems",this.order.OrderItems);
 
     this.order.OrderItems.forEach(orderItem => {
       if(orderItem.Amount>1 && orderItem.IsCombo){
         this.order.OrderItems.splice(this.order.OrderItems.indexOf(orderItem), 1);
-        console.log("this.order.OrderItems4",this.order.OrderItems)
         for (let i = 0; i < orderItem.Amount; i++) {
-          console.log("this.order.OrderItems5",this.order.OrderItems)
           this.order.OrderItems.push(sortedItemsCombos[i]);
         }
       }
@@ -2209,16 +2128,13 @@ public loadSuccessRegistrationMessage() {
     });
 
     const mySorted3 = this.commonFunctionsService.deepCopy( this.order.OrderItems);
-    console.log("mySorted3", mySorted3);
   }
 
   public checkForCombo(){
     const myorderitems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("myorderitems", myorderitems);
 
     //this.categories = this.appStorageService.categories || [];
 
-    console.log("this.categories", this.categories);
 
 
     this.categories.forEach(category => {
@@ -2226,7 +2142,6 @@ public loadSuccessRegistrationMessage() {
         this.order.OrderItems.forEach(orderItem => {
           if(originalItem.Id == orderItem.Item.Id && !orderItem.IsItemsGroupItemKeptPrice){
             orderItem.Price = originalItem.Price;
-            console.log("rderItem",orderItem);
           }
         });
       });
@@ -2252,11 +2167,9 @@ public loadSuccessRegistrationMessage() {
         }
       }
     });
-    console.log("itemsInCombos", itemsInCombos);
 
     itemsInCombos = itemsInCombos.filter(item => (item.CategoryId));
 
-    console.log("itemsInCombos", itemsInCombos);
 
 
 
@@ -2265,12 +2178,9 @@ public loadSuccessRegistrationMessage() {
         +i2.Item.CategoryId - +i1.Item.CategoryId ||
         +i2.Item.Price - +i1.Item.Price
     )
-    console.log("sortedItemsCombos", sortedItemsCombos);
     const mySorted = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted", mySorted);
 
     var listOfLists : [][];
-    console.log("listOfLists",listOfLists);
 
     /*for (let index = 0; index < sortedItemsCombos.length; index++) {
       if(sortedItemsCombos[index].CategoryId != sortedItemsCombos[index+1]?.CategoryId){
@@ -2279,7 +2189,6 @@ public loadSuccessRegistrationMessage() {
 
 
     for (let index = 0; index < sortedItemsCombos.length; index ++) {
-     console.log("sortedItemsCombos[index]", sortedItemsCombos[index]);
 
       if(sortedItemsCombos[index].CategoryId == sortedItemsCombos[index+1]?.CategoryId
         && sortedItemsCombos[index]?.Price == 0){
@@ -2306,15 +2215,12 @@ public loadSuccessRegistrationMessage() {
 
 
     const myselectedItems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("myselectedItems", myselectedItems);
 
     this.order.OrderItems = this.order.OrderItems.filter(item => !(item.IsCombo));
 
     const mySorted4 = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("mySorted4 - after delete all combo", mySorted4);
 
     sortedItemsCombos.forEach(itemWithRightPrice => {
-      console.log("itemWithRightPrice",itemWithRightPrice);
       this.order.OrderItems.push(itemWithRightPrice);
     });
 
@@ -2476,7 +2382,6 @@ public loadSuccessRegistrationMessage() {
   private prepareOrder() {
     this.order = this.orderService.getOrder();
 
-    console.log("prepareOrder: this.order", this.order);
     if (this.order.OrderItems === undefined || this.order.OrderItems === null) {
       this.order.OrderItems = [];
     }
@@ -2486,7 +2391,6 @@ public loadSuccessRegistrationMessage() {
     if (this.order.OrderCombos === undefined || this.order.OrderCombos === null) {
       this.order.OrderCombos = [];
     }
-    console.log("TANYAAAAA", window.location.hash);
     this.appStorageService.setItemInLocalStorage(window.location.hash, this.order);
   }
 
@@ -2542,7 +2446,6 @@ public loadSuccessRegistrationMessage() {
  
 
   public resetPizza(item) {
-    console.log("resetPizza", item);
    
       if (item) {
         item.Amount = 1;
@@ -2657,10 +2560,8 @@ public loadSuccessRegistrationMessage() {
   
 
   public displayPopupMessage(message, messageText, imgIcon,  callback?) {
-    console.log("AppConfig.configSettings.displayPopup",AppConfig.configSettings.displayPopup);
    // if (AppConfig.configSettings.displayPopup == true) {
       let myMessageText = messageText;
-      console.log("messageText",messageText);
       let header = this.translationService.translate('IMPORTANT_MESSAGE');
       let icon = imgIcon ; //"../../../assets/images/items/important-message.svg"
       //const message = this.currentBranch;
@@ -2678,7 +2579,6 @@ public loadSuccessRegistrationMessage() {
       });
 
       matDialogRef.afterClosed().subscribe((result) => {
-        console.log("my-result", result);
         if (callback) {
           //this.isFirst=false;
           callback(result);
