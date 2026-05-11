@@ -185,7 +185,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("ngOnInit: franchiseId", this.configService.franchiseId);
     this.appStorageService.getItemFromLocalStorage(this.configService.franchiseId);
     this.franchiseId = this.configService.franchiseId;
     this.name = AppConfig.settings.name;
@@ -200,11 +199,9 @@ export class AppComponent implements OnInit {
     }
     //const myMeta =  document.getElementById('meta-icon').setAttribute("href", AppConfig.settings.icon);
 
-    console.log("myMeta",  document.getElementById('meta-icon'));
 
   
 
-    console.log("AppConfig.settings.icon", AppConfig.settings.icon);
 
     
      document.documentElement.style.setProperty(`--orange`, AppConfig.settings.buttonColor);
