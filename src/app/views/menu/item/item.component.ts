@@ -101,13 +101,9 @@ export class ItemComponent implements OnInit {
   };
 
   ngOnInit() {
-    console.log("ISEDIT - ITEMCOMPONENT", this.isEdit);
-    console.log("logo",AppConfig.settings.logo)
     this.initializeSettings();
     this.item = this.commonFunctionService.deepCopy(this.item);
     this.isCmItem = this.commonFunctionService.deepCopy(this.isCmItem);
-    console.log("this.item",this.item);
-    console.log("this.isCmItem",this.isCmItem);
     if (this.isCmItem)  this.item.IsClubMemberItem = true;
     this.price = this.item.Price;
     this.comments = "";
@@ -125,9 +121,7 @@ export class ItemComponent implements OnInit {
       if(garnish.GarnishGroupId == gGroup.Id ){
         console.log("foundGroup");
         var foundGroup = gGroup;
-        console.log("foundGroup", foundGroup);
         var refresh = this.isEdit;
-        console.log("refresh",refresh);
         this.loadingGarnishesPopup(this.item, refresh, null, foundGroup,'',this.item.SelectedGarnishes, true, cancellation, adding)
       }
       
@@ -164,12 +158,9 @@ export class ItemComponent implements OnInit {
   public includeGarnishes(item: ItemAppAdvancedModel, cancellation?, adding?) {
     if (item) {
       if (item.GarnishGroups && item.GarnishGroups.length > 0) {
-        console.log("item.GarnishGroups", item.GarnishGroups)
-        console.log(item.GarnishGroups[0],"garnishes",item.Garnishes)
         const garnishGrp = item.GarnishGroups[0];
         const garnishGroups = item.GarnishGroups;
         var refresh = this.isEdit;
-        console.log("includeGarnishes() - refreshItemSum", refresh);
         this.loadingGarnishesPopup(item, refresh, null, garnishGrp, '', item.SelectedGarnishes, true, cancellation, adding);
       } else if (item.Garnishes && item.Garnishes.length > 0) {
         this.loadingGarnishesPopup(item, refresh, item.Garnishes, null, '', item.SelectedGarnishes, true, cancellation, adding);
@@ -197,7 +188,6 @@ export class ItemComponent implements OnInit {
       panelClass: 'custom-mat-dialog-mobile'
     });
     matDialogRef.afterClosed().subscribe((result: GarnishesDialog) => {
-      console.log("masha-result", result)
       if (result.isSaved) {
         if (result && result.allGettingGarnishes && item && !result.returnToPreviousPage) {
           item.SelectedGarnishes = result.allGettingGarnishes.slice();
@@ -256,12 +246,10 @@ export class ItemComponent implements OnInit {
       panelClass: 'custom-mat-dialog-comments'
     }).afterClosed().subscribe((comments) => {
       this.comments = comments || '';
-      console.log("this.comments",this.comments);
     })
   }
 
   private addToCartItemWithGarnishes(item, data?, adding?) {
-    console.log ("addToCartItemWithGarnishes" ,item);
     if (!this.isNotFilledAllRequiredGarnishesOfGarnishGroup(item)) {
       if (data && data.comments) {
         item.SpecialRequests = data.comments || '';
@@ -287,7 +275,6 @@ export class ItemComponent implements OnInit {
       };
       const isSelectedAllNeededGarnishesByGroup = (garnishGroup, item) => {
         if (garnishGroup) {
-          console.log("item.SelectedGarnishes",item.SelectedGarnishes);
           const countOfGarnishesArray = item.SelectedGarnishes.filter((garnish) => {
             return garnish.IsSelected && garnishGroup.Garnishes && garnishGroup.Garnishes[0] &&
               garnish.GarnishGroupId === garnishGroup.Garnishes[0].GarnishGroupId;
@@ -311,10 +298,6 @@ export class ItemComponent implements OnInit {
 
   addItem(selectedItem, comboItemId, currentItem, index, comboItem) {
     this.showErrorComboMessage = false;
-    console.log("addItem:selectedItem",selectedItem);
-    console.log("addItem:comboItemId",comboItemId);
-    console.log("addItem:currentItem",currentItem);
-    console.log("addItem:index",index);   
     if (!selectedItem) {
       return;
     }
@@ -358,8 +341,6 @@ export class ItemComponent implements OnInit {
     const allPizzaFilled = Object.keys(this.selectedPizzas).every((key) => {
       return this.selectedPizzas[key] && this.selectedPizzas[key].every(item => item.Id);
     });
-    console.log("allPizzaFilled",allPizzaFilled);
-    console.log("allItemFilled",allItemFilled);
     return allItemFilled && allPizzaFilled;
   }
 
@@ -451,7 +432,6 @@ export class ItemComponent implements OnInit {
                 console.log("index ! item.GarnishGroups[i].FreeCount " + index, 
                 item.GarnishGroups[i].FreeCount);
                 garnish.Price =  garnish.Price;
-                console.log(garnish, index);
               }
             });
           }
