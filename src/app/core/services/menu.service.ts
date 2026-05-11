@@ -44,9 +44,6 @@ export class MenuService {
   }
 
   public getMenuForBranch(branchId, method, checkHours, lang?): Observable<any> {
-    console.log("lang", lang);
-    console.log("this.translationService.language()", this.translationService.language());
-    console.log("this.translationService.getDefaultLanguage()", this.translationService.getDefaultLanguage());
     if (lang != 
         this.translationService.getDefaultLanguage()){
           return this.http.get<any>(this.configService.serverUrl +
