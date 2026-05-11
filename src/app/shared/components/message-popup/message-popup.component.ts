@@ -65,9 +65,7 @@ export class MessagePopupComponent implements OnInit {
     if (data) {
       this.isGoback = data.isGoback;
       this.fullMessage = data.message;
-      console.log("this.fullMessage",this.fullMessage);
       this.messageText = data.myMessageText || this.fullMessage;
-      console.log("this.messageText",this.messageText);
       this.withoutTimeout = data.withoutTimeout;
       this.isUsedPre = data.isUsedPre;
       this.timeOut = data.timeOut || this.defaultTimeOut;
@@ -79,14 +77,9 @@ export class MessagePopupComponent implements OnInit {
         this.address = data.address;
         this.isContact = data.isContact;
 
-        console.log("this.isContact",this.isContact);
-        console.log("this.phoneNumber",this.phoneNumber);
-        console.log("this.address",this.address);
       }
       if(data.isAbout){
         this.desc = data.desc;
-        console.log("this.desc",this.desc);
-        console.log("data.isAbout",data.isAbout);
         this.isAbout = true;
       }
 
@@ -95,15 +88,12 @@ export class MessagePopupComponent implements OnInit {
       this.isBranchClose = data.isBranchClose;
       if(this.fullMessage && this.fullMessage?.ImageGuid && this.fullMessage?.ImageGuid != null){
       this.icon = data.icon;
-      console.log("this.icon", this.icon);
       }
       else {
         this.icon = "../../../assets/images/items/important-message.svg";
-        console.log("this.icon", this.icon);
       }
 
       if(data.workingHours){
-        console.log("workingHours", data.workingHours);
         this.sun = this.translationsService.translate('SUNDAY');
         this.mon = this.translationsService.translate('MONDAY');
         this.tue = this.translationsService.translate('TUESDAY');
@@ -111,7 +101,6 @@ export class MessagePopupComponent implements OnInit {
         this.thu = this.translationsService.translate('THIRSDAY');
         this.fri = this.translationsService.translate('FRIDAY');
         this.sat = this.translationsService.translate('SATURDAY');
-        console.log(data.workingHoursArr[this.sun]);
         this.workingHoursArr.push(
           {
             day: this.sun,
@@ -148,7 +137,6 @@ export class MessagePopupComponent implements OnInit {
             hours: data.workingHoursArr[this.sat],
           });
 
-          console.log(this.workingHoursArr);
 
         this.workingHours = data.workingHours;
        // this.workingHoursArr = data.workingHoursArr;
