@@ -206,7 +206,6 @@ export class MyOrderStatusComponent extends SizeMobileInitializationComponent im
     this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
     this.route.params.subscribe(params => {
       //this.idParam= params[`id`];
-      console.log("params",params);
       if (params  && params["orderId"]) {
         this.orderId = params["orderId"];
         this.getOrderInfo();
@@ -230,16 +229,13 @@ export class MyOrderStatusComponent extends SizeMobileInitializationComponent im
       .subscribe((result) => {
         if (result) {
           this.myOrder = result;
-          console.log(result);
           this.isActiveOrder = true;
         }
 
 
       }, (error) => {
-        console.log("getOrderInfo Error", error)
         // this.isLoaded.isFranchiseWithBranchesLoaded = true;
         this.messageService.displayNoActiveOrderMessage((result) => {
-          console.log("result", result);
           if (!result.isDigitalMenu) {
             this.router.navigateByUrl(`/${this.franchiseId}/menu`);
           }
@@ -298,7 +294,6 @@ export class MyOrderStatusComponent extends SizeMobileInitializationComponent im
     if (this.cashRegisterCreditCard) {
       this.cashRegisterCreditCard.expirationMonth = (moment().month() + 1) + '';
       this.cashRegisterCreditCard.expirationYear = moment().year() + '';
-      console.log(this.cashRegisterCreditCard.expirationMonth, 'this.cashRegisterCreditCard.expirationMonth')
       
     }
   }
@@ -369,7 +364,6 @@ export class MyOrderStatusComponent extends SizeMobileInitializationComponent im
 
   public isCVV(value:string) {
     const cvvStr = value.split('');
-    console.log("cvvStr",cvvStr);
     if (cvvStr.length == 3 && 
         Number.isInteger(parseInt(cvvStr[0])) &&
         Number.isInteger(parseInt(cvvStr[1])) &&
@@ -408,7 +402,6 @@ export class MyOrderStatusComponent extends SizeMobileInitializationComponent im
    /*
     this.paymentService.getPaymentOptions().subscribe((result) => {*/
    const result = this.appStorageService.paymentOptions;
-   console.log("------checkPaymentOptions:result:",result);
       if (result) {
         this.paymentSettings.Cash = result.Cash;
         if (this.paymentSettings.Cash) {
@@ -624,7 +617,6 @@ export class MyOrderStatusComponent extends SizeMobileInitializationComponent im
 
   public resultDeliverySum(price,  deliveryGroup) {
     let numericTotalPrice = parseFloat(price);
-    console.log("resultDeliverySum " + price, deliveryGroup);
     if (!deliveryGroup) {
       return numericTotalPrice;
     }
