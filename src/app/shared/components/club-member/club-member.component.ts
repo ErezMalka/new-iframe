@@ -152,27 +152,19 @@ export class ClubMemberComponent implements OnInit {
                @Inject(MAT_DIALOG_DATA) public data: any ) {
 
     this.memberClubPolicy = this.appStorageService.memberClubPolicy;
-    console.log("this.memberClubPolicy",this.memberClubPolicy);
 
     if (data) {
-      console.log("ClubMemberComp: data", data);
       this.userJoinedClub = data.userJoinedClub;
       this.userBirthDay = data.userBirthDay;
       this.userAnniversary = data.userAnniversary;
       this.userAnniversaryAndBDay = data.userAnniversaryAndBDay;
       this.isAlreadyClubMember = this.data.isClubMember;
-      console.log("this.isAlreadyClubMember",this.isAlreadyClubMember);
-      console.log("this.userJoinedClub",this.userJoinedClub);
-      console.log("this.userBirthDay",this.userBirthDay);
-      console.log("this.userAnniversary",this.userAnniversary);
-      console.log("this.userAnniversaryAndBDay",this.userAnniversaryAndBDay);
 
       if(!this.isAlreadyClubMember){
         this.entryScreenNotMember = true;
 
       }
         this.appUser = data.appUser;
-        console.log("appUser", this.appUser);
         this.currentUserPoints = this.appUser.MemberPoints;
         this.clubMemberCategories = this.appStorageService.clubMembershipCategories;
         this.joinCategory = this.clubMemberCategories.filter((cat) => {
@@ -190,17 +182,11 @@ export class ClubMemberComponent implements OnInit {
 
         if(this.bdayCategory && this.annCategory) this.annAndBDayCategory = this.bdayCategory[0]?.Items.concat(this.annCategory[0]?.Items);
 
-        console.log("this.joinCategory",this.joinCategory);
-        console.log("this.bdayCategory",this.bdayCategory);
-        console.log("this.annCategory",this.annCategory);
-        console.log("this.annAndBDayCategory",this.annAndBDayCategory);
 
         this.minSumForVauchers = this.appStorageService.franchise.MinSumForVouchers;
 
         this.currentDate = new Date();
 
-        console.log("this.minSumForVauchers",this.minSumForVauchers);
-        console.log("this.clubMemberCategories",this.clubMemberCategories);
         this.appUser.DontDisplayAnymore = false;
         //this.appUser.AllowAdvertisement = false;
       
@@ -220,13 +206,11 @@ export class ClubMemberComponent implements OnInit {
     
     //console.log("this.isback", this.isGoback);
     this.franchiseId = this.configService.franchiseId;
-    console.log("this.franchiseId",this.franchiseId);
     this.initializeOrder();
     this.initializeGraphics();
 
     this.acceptTerms = false;
 
-    console.log("this.appStorageService.franchise", this.appStorageService.franchise);
     //console.log("this.myScrollContainer",this.myScrollContainer);
 
     this.prepareActiveBenefits();
@@ -260,7 +244,6 @@ export class ClubMemberComponent implements OnInit {
     if(this.appStorageService.franchise.AnniversaryVoucherActive) 
     this.activeBenefits.push(this.createBenefit(this.translationsService.translate("ANN_BENEFIT_TEXT"), "ann"));
 
-    console.log("this.activeBenefits",this.activeBenefits);
   }
 
   public createBenefit(translatedName, benefitName){
@@ -280,8 +263,6 @@ export class ClubMemberComponent implements OnInit {
   }
 
   public selectItem(item) {
-    console.log("SELECTITEM(item): item", item);
-    console.log("SELECTITEM(item): this.joinCategory[0].Items", this.joinCategory[0].Items);
     if ((item.Garnishes && item.Garnishes.length > 0) ||
       (item.GarnishGroups && item.GarnishGroups.length) > 0) {
       //this.addToCart(item)
@@ -300,7 +281,6 @@ export class ClubMemberComponent implements OnInit {
 
         }
         else { this.selected = null }
-        console.log("this.selected - after prepare item for order", this.selected);
         this.someOption = true;
       }
 
@@ -315,7 +295,6 @@ export class ClubMemberComponent implements OnInit {
 
         }
         else { this.selected = null }
-        console.log("this.selected - after prepare item for order", this.selected);
         this.someOption = true;
       }
 
@@ -330,7 +309,6 @@ export class ClubMemberComponent implements OnInit {
 
         }
         else { this.selected = null }
-        console.log("this.selected - after prepare item for order", this.selected);
         this.someOption = true;
       }
       else if(this.userAnniversaryAndBDay){
@@ -344,7 +322,6 @@ export class ClubMemberComponent implements OnInit {
 
         }
         else { this.selected = null }
-        console.log("this.selected - after prepare item for order", this.selected);
         this.someOption = true;
       }
     }
@@ -354,7 +331,6 @@ export class ClubMemberComponent implements OnInit {
     //console.log("this.selectedItemsEndKiosk",this.selectedItemsEndKiosk)
       console.log("addToCart()");
       this.order.OrderItems.push(this.selected);
-      console.log("this.order", this.order);
 
       this.dialogRef.close({addToCart:true }); 
 
@@ -486,21 +462,15 @@ export class ClubMemberComponent implements OnInit {
 
 
   public scrollToBottom(): void {
-    console.log("this.myScrollContainer.nativeElement",this.myScrollContainer.nativeElement);
-    console.log("this.myScrollContainer.nativeElement.scrollTop",this.myScrollContainer.nativeElement.scrollTop);
     try {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) { 
-      console.log("error", err);
     }                 
   }
 
 
   public continueToSuccesfullyAdded(){
 
-    console.log("this.acceptTerms",this.acceptTerms);
-    console.log("document",document);
-    console.log('document.getElementById("terms-alert11")',document.getElementById("terms-alert11"));
 
     if(!this.acceptTerms){
        document.getElementById("terms-alert11").classList.add("show");   
@@ -518,7 +488,6 @@ export class ClubMemberComponent implements OnInit {
         //this.continueToSignUp = false;
       }
       else {
-        console.log("payment !this.isAllValid()", this.isAllValidUserData());
         //this.displayCustomerErrorFields();
       }
     }
@@ -531,11 +500,6 @@ export class ClubMemberComponent implements OnInit {
 
   public isFilledCustomerFields() {
     var pattern = new RegExp('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}'); 
-    console.log("this.appUser",this.appUser);
-    console.log("BirthDate", this.appUser.BirthDate?._d);  
-    console.log("Anniversary", this.appUser.Anniversary?._d);  
-    console.log("Email", this.appUser.Email);  
-    console.log(" pattern.test", pattern.test(this.appUser.Email?.toString().trim())); 
     if(this.appUser.CanceledMembership){
       return true;
     }
@@ -563,14 +527,12 @@ export class ClubMemberComponent implements OnInit {
     else if(!this.dateIsValid(this.appUser.BirthDate?._d)){
       console.log("date is not valid");
       this.orderErrors.BirthDate = true;
-      console.log("this.orderErrors.BirthDate", this.orderErrors.BirthDate);
       return false;
     }
 
     else if(this.appUser.Anniversary != undefined && !this.dateIsValid(this.appUser.Anniversary?._d)){
       console.log("ann is excist and not valid");
       this.orderErrors.Anniversary = true;
-      console.log("this.orderErrors.BirthDate", this.orderErrors.BirthDate);
       return false;
 
     }
@@ -586,7 +548,6 @@ export class ClubMemberComponent implements OnInit {
   dateIsValid(date) {
     if( date instanceof Date) return true;
     else{
-      console.log("not instance of date: date", date);
       return false;
 
     }
@@ -624,11 +585,9 @@ export class ClubMemberComponent implements OnInit {
     console.log("close membership"); 
 
 
-    console.log("close membership : this.appUser",this.appUser); 
 
     if(updateUser){
       this.signInOutService.updateUserDetails(this.appUser).subscribe((result) => {
-        console.log("result - update user(dont show anyMore)", result);
       }, (error) => {
         console.log("error update user");
   
@@ -641,7 +600,6 @@ export class ClubMemberComponent implements OnInit {
 
   public signIn() {
     console.log("SIGNIN()"); 
-    console.log("appUser", this.appUser); 
     //this.dialogRef.close({signIn: true }); 
 
 
