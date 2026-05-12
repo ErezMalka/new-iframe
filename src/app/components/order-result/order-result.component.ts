@@ -101,22 +101,15 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
 
   ngOnInit() {
      this.displayPickupPoints=AppConfig.configSettings.pickupPoints;
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ORDER", this.order);
-    console.log("currentBranch  !", this.currentBranch);
-    console.log(" AppConfig.configSettings.displayBranchPhoneLink", AppConfig.configSettings.displayBranchPhoneLink);
      
-    console.log("order", this.order);
     this.isFutureDatesOrderAvailable = this.appStorageService.franchise.IsFutureDatesOrderAvailable;
-    console.log("IsFutureDatesOrderAvailable", this.appStorageService.franchise.IsFutureDatesOrderAvailable);
     if (this.order.IsFutureOrder) {
       if (this.appStorageService.franchise.IsFutureDatesOrderAvailable){
-        console.log("futurefutureDateTATime", this.order.FutureDate);
         this.futureTATime = this.order.FutureTime;
         this.futureDate = this.order.FutureDate;
       } else {
         if (this.order.FutureDateTime && this.order.FutureDateTime instanceof Date) {
           this.futureTATime = this.order.FutureDateTime.toLocaleTimeString();
-          console.log("futureTATime", this.futureTATime);
         }
         else {
           this.futureTATime = this.order.FutureDateTime;
@@ -134,7 +127,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
       console.log("if (AppConfig.configSettings.bonusCategory && AppConfig.configSettings.bonusCategory != '')");
       const bonusItemsCategory = this.categories.find
         (it => it.Name === AppConfig.configSettings.bonusCategory);
-        console.log("bonusItemsCategory",bonusItemsCategory);
       if (bonusItemsCategory && bonusItemsCategory.Items
         && bonusItemsCategory.Items.length > 0) {
         this.bonusItems = bonusItemsCategory.Items;
@@ -189,8 +181,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
 
     const myorderitems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
 
-    console.log("myorderitems",myorderitems);
-    console.log("myorderitems",this.order.OrderCombos);
 
    // this.categories = this.appStorageService.categories || [];
 
@@ -200,7 +190,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
         this.order.OrderItems.forEach(orderItem => {
           if(originalItem.Id == orderItem.Item.Id && !orderItem.IsItemsGroupItemKeptPrice){
             orderItem.Price = originalItem.Price;
-            console.log("rderItem",orderItem);
           }
         });
       });
@@ -237,18 +226,14 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
         }else itemsInCombos.push(orderItem);
       }
     });
-    console.log("itemsInCombos",itemsInCombos);
 
     const sortedItemsCombos = itemsInCombos.sort(
       (i1, i2) =>
       +i2.CategoryId - +i1.CategoryId ||
       +i2.Price - +i1.Price
     )
-    console.log("sortedItemsCombos", sortedItemsCombos);
     const mySorted = this.commonFunctionsService.deepCopy(sortedItemsCombos);
-    console.log("mySorted", mySorted);
     for (let index = 0; index < sortedItemsCombos.length; index++) {
-      console.log("sortedItemsCombos[index]", sortedItemsCombos[index]);
 
       if (sortedItemsCombos[index].CategoryId == sortedItemsCombos[index + 1]?.CategoryId
         && sortedItemsCombos[index]?.Price == 0) {
@@ -270,15 +255,12 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
 
     }
     const myselectedItems = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("myselectedItems", myselectedItems);
 
     this.order.OrderItems = this.order.OrderItems.filter(item => !(item.IsCombo));
 
     const mySorted4 = this.commonFunctionsService.deepCopy(this.order.OrderItems);
-    console.log("mySorted4 - after delete all combo", mySorted4);
 
     sortedItemsCombos.forEach(itemWithRightPrice => {
-      console.log("itemWithRightPrice",itemWithRightPrice);
       this.order.OrderItems.push(itemWithRightPrice);
     });
   }
@@ -294,8 +276,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
         console.log("HEIGHT > 700");
         var resultBTN = document.getElementById("result-btn");
         var perfectScroll = document.getElementById("my-scroll");
-        console.log("resultBTN", resultBTN);
-        console.log("perfectScroll", perfectScroll);
         resultBTN.classList.add("greater-height");
         perfectScroll.classList.add("greater-scroll-height");
         return true;
@@ -313,14 +293,12 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
     console.log("!!!!!!!!!!myFunccClose()")
     //var resultHeight = document.getElementById("myOrderResult").style.height;
     var height = this.otherIdentifier.nativeElement.offsetHeight;
-    console.log("height-Close",height);
     
     if(height>730){
       console.log("HEIGHT > 730");
       var resultBTN = document.getElementById("result-btn");
       var perfectScroll = document.getElementById("my-scroll");
       perfectScroll.classList.remove("greater-scroll-height");
-      console.log("resultBTN", resultBTN);
       resultBTN.classList.remove("greater-height");
       
     }
@@ -427,7 +405,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
   }
 
   public editItem(item, index) {
-    console.log("editItem editItem",item.ItemId);
     this.openItemPopup.emit({item, index});
   }
 
@@ -435,7 +412,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
 
   public addAmount(item, isPizza?, isCombo?) {
 
-    console.log("addAmount",item)
     
     if (isPizza) {
       if (!item.FullPizza.Amount) {
@@ -455,7 +431,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
         "price":this.itemPrice(item,true),
         "quantity" :1
       }
-      console.log("dataLayerItem",dataLayerItem);
       dataLayerItems=[];
       dataLayerItems.push(dataLayerItem);
       window['dataLayer'].push({
@@ -534,7 +509,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
           "price":this.itemComboPrice(item) ,
           "quantity" :1
         }
-        console.log("dataLayerItem",dataLayerItem);
         
         dataLayerItems.push(dataLayerItem);
     
@@ -554,7 +528,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
           "price":this.itemPrice(item,false),
           "quantity" :1
         }
-        console.log("dataLayerItem",dataLayerItem);
         dataLayerItems=[];
         dataLayerItems.push(dataLayerItem);
         window['dataLayer'].push({
@@ -611,9 +584,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
     const minForBonus = AppConfig.configSettings.minAmountForBonus;
     const firstMessage = this.translationService.translate('BONUS_FIRST');
     const bonusMSG = AppConfig.configSettings.bonusMsg;
-    console.log(minForBonus);
-    console.log(firstMessage);
-    console.log("this.bonusItems",this.bonusItems);
     if (this.bonusItems && this.bonusItems.length > 0) {
       console.log("if (this.bonusItems && this.bonusItems.length > 0)");
       const matDialogRef = this.matDialog.open(AdditionalItemsComponent, {
@@ -634,7 +604,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
         panelClass: 'custom-mat-dialog-mobile-bonus'
       });
       matDialogRef.afterClosed().subscribe((result) => {
-        console.log("afterClosed()-->", result);
         if (result.isSaved && result.selectedItems) {
           result.selectedItems.forEach(orderAdditionalItem => {
             this.order.OrderItems.push(orderAdditionalItem);
@@ -831,7 +800,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
       this.categories.forEach((cat)=> {
         cat.Items.forEach((i)=> {
           if (i.CatalogNumber == item.Item.CatalogNumber){
-            console.log(i)
             i.Quantity += item.Amount;   
           }
                   
@@ -864,7 +832,6 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
   const hasUpgrageItems = this.order.OrderItems.filter((i) => { return i.Item.MealUpgrade });
   const upgrageItems = this.order.OrderItems.filter((i) => { return i.IsUpgrade });
   if (upgrageItems.length > hasUpgrageItems.length){
-    console.log("upgrageItems",upgrageItems)
     var item = upgrageItems[0];
     if (item.Amount > 1) {
       item.Amount--;
@@ -887,14 +854,12 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
   console.log("!!!!!!!!!!checkOrderResultHeight()")
   //var resultHeight = document.getElementById("myOrderResult").style.height;
   var height = this.otherIdentifier.nativeElement.offsetHeight;
-  console.log("height",height);
 
   if(height<930){
     console.log("HEIGHT < 1000");
     var resultBTN = document.getElementById("result-btn");
     var perfectScroll = document.getElementById("my-scroll");
     perfectScroll.classList.remove("greater-scroll-height");
-    console.log("resultBTN", resultBTN);
     resultBTN.classList.remove("greater-height");
   }
 }
