@@ -529,8 +529,6 @@ public displayPhone: boolean;
 
 private getAppLanguages() {
   this.selectedLang = this.translationService.language();  
-  console.log('this.translationService.language()',  this.translationService.language());
-  console.log('selectedLang',  this.selectedLang);
   this.languages =[];  
   this.signInOutService.getAppLanguages()
     .subscribe((response) => {
@@ -538,8 +536,6 @@ private getAppLanguages() {
         this.appStorageService.languages =response;
         this.languages = this.appStorageService.languages; //this.languages.concat(response);
         
-        console.log('getAppLanguages',this.languages);        
-        console.log(this.selectedLang);  
       }
   }, (error) => {
     //this.messageService.displayServerErrorMessage();
@@ -1040,7 +1036,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   private initializeMenuForBranch(continueCallBack?) {
-    console.log("this.translationService.language()", this.translationService.language());
     // if (!this.appStorageService.isMenuWasLoaded) {
     let hasPizzas: boolean = false;
     let hascCombos: boolean = false;
@@ -1162,10 +1157,8 @@ public loadSuccessRegistrationMessage() {
   }
 
   public changeLanguage() {
-    console.log("this.translationService.language", this.translationService.language());
     this.translationService.setLanguage(this.selectedLang, ()=>{
       //this.selectedLang = this.translationService.language();
-      console.log("this.translationService.language", this.translationService.language());
       this.initializeMenuForBranch(() => {
 
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -1413,7 +1406,6 @@ public loadSuccessRegistrationMessage() {
     }
 
     const y = element.getBoundingClientRect().top + window.pageYOffset - topOffset;
-    console.log("scroll to: y", y);
     //document.querySelector('#cat' + section).scrollIntoView();
     window.scrollTo({ top: y, behavior: 'smooth' });
    /* const el = document.getElementById('nav-' + section);
@@ -1507,7 +1499,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   public checkedUserSigning(isSignedUser?) {
-    console.log("checkedUserSigning", isSignedUser);
     this.isLoaded.isDiscountLoaded = true;
     this.isSignedUser = !!isSignedUser;
   }
@@ -1644,7 +1635,6 @@ public loadSuccessRegistrationMessage() {
   }
 
   public selectCategory(category, isNotPizza, isCombo, includedScroll = true) {
-    console.log("------------------selectCategory", includedScroll);
     this.notCheckScrolling = true;
     const selectCategoryHandler = () => {
       this.isNotPizza = !!isNotPizza;
@@ -3790,7 +3780,6 @@ public cmShopCategory:any;
     console.log("!!!!!!!!!!checkOrderResultHeight()")
     if(!this.isMobileMode()){
     //var resultHeight = document.getElementById("myOrderResult").style.height;
-    console.log("this.myIdentifier",this.myIdentifier);
     var height = this.myIdentifier.nativeElement.offsetHeight;
 
     if(height>650){
@@ -3898,7 +3887,6 @@ public cmShopCategory:any;
             //const index = this.getIndexIfNotHavingGarnishes(this.bsModalRef.content.item);
 
             var index = this.order.OrderPizzas.indexOf(res.item);
-            console.log("index", index);
             this.order.OrderPizzas[index] = orderPizza;
 
             this.orderService.recalculateSum();
