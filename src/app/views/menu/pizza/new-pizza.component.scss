@@ -3137,3 +3137,158 @@ ng-scrollbar {
   margin: 0.25rem;
 }
 
+
+
+/* === Wave 4.1: pizza premium shell === */
+/* Scope: new-pizza popup outer shell + header + product info only.
+   In scope: .popup-wrapper outer shell, .modal-header, .modal-title, .product-name, .product-desc, .product-price, .product-image (if present), .modal-header .close.
+   Explicitly out of scope: .pizza-sizes, .item-size, .item-elem, .item.selected, .pizza-list, .pizza-quarter, .top-layer, .topping-image, .topping-name, .topping-price, .mat-dialog-actions, .btn-custom, .error-container, .quarters, .pizza-builder.
+   Rules: SCSS additive only, specificity-based, zero forced overrides, no textual pseudo-content, no universal selectors, no @keyframes, no deletion of existing rules. */
+:host {
+  .popup-wrapper {
+    border-radius: 20px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+
+    /* Premium modal header */
+    .modal-header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 18px 24px;
+      background: #ffffff;
+      position: relative;
+
+      .modal-title {
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a1a;
+        letter-spacing: -0.01em;
+        line-height: 1.3;
+        margin: 0;
+      }
+
+      /* Scoped close button — only inside .popup-wrapper .modal-header.
+         Specificity (0,3,0) is high enough to overlay bootstrap .close defaults
+         without forcing !important. */
+      .close {
+        position: absolute;
+        top: 12px;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+        background: rgba(255, 255, 255, 0.92);
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+        border-radius: 50%;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+        cursor: pointer;
+        transition: transform 0.18s ease, background 0.18s ease;
+        z-index: 5;
+        opacity: 1;
+
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+        }
+        &:active {
+          transform: scale(0.95);
+        }
+        &:focus-visible {
+          outline: 2px solid var(--orange, #ff7a00);
+          outline-offset: 2px;
+        }
+      }
+    }
+
+    /* Premium product info — typography and price pill only.
+       Layout, image dimensions, and aspect ratios are left untouched
+       because the existing pizza layout already relies on them. */
+    .product-image {
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1);
+
+      @media (hover: hover) {
+        &:hover img,
+        &:hover .img-fluid {
+          transform: scale(1.02);
+        }
+      }
+    }
+
+    .product-details {
+      padding: 18px 22px 6px;
+    }
+
+    .product-name {
+      font-family: Arial, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+
+    .product-desc {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: #6b6b6b;
+      line-height: 1.5;
+      margin-top: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-price {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    }
+
+    /* Mobile refinements — shell + header + product info only */
+    @media (max-width: 480px) {
+      .modal-header {
+        padding: 14px 16px;
+
+        .modal-title {
+          font-size: 18px;
+        }
+        .close {
+          top: max(10px, env(safe-area-inset-top));
+        }
+      }
+      .product-details {
+        padding: 14px 14px 6px;
+      }
+      .product-name {
+        font-size: 20px;
+      }
+    }
+
+    /* Reduced motion — scoped to W4.1 selectors only */
+    @media (prefers-reduced-motion: reduce) {
+      .modal-header .close {
+        transition: none;
+        transform: none;
+      }
+      .product-image {
+        transition: none;
+      }
+      .product-image img,
+      .product-image .img-fluid {
+        transition: none;
+        transform: none;
+      }
+    }
+  }
+
+  /* Mobile outer shell adjustments */
+  @media (max-width: 480px) {
+    .popup-wrapper {
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+}
+/* === End Wave 4.1 === */
