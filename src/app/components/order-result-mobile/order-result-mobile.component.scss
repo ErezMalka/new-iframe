@@ -36,7 +36,7 @@
         padding-right: 5px;
         padding-left: 5px;
         text-align: center;
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         font-size: $font-default-size * 1.15;
         color:white
     }
@@ -51,7 +51,7 @@
       justify-content: space-between;
       color: #030303;
       font-size: $font-normal-size;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       .items-count{
         padding-top: 10px;
       }
@@ -68,7 +68,7 @@
       padding-right: 5px;
       padding-left: 5px;
      // padding: 0 $padding-normal-size;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       justify-content: space-between;
     }
 
@@ -88,7 +88,7 @@
         color: $main-color;
         font-weight: bold;
         font-size: $font-normal-size;
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         text-align: initial;
         cursor: pointer;
       }
@@ -101,7 +101,7 @@
           box-sizing: border-box;
           background: $main-color;
           color:white;
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           width: 100%;
           border: 0;
           height: 100%;
@@ -135,7 +135,7 @@
      // color: $main-color;
      // font-weight: bold;
      // font-size: $font-normal-size;
-     // font-family: 'Alef-Regular', sans-serif;
+     // font-family: Arial, sans-serif;
      // cursor: pointer;
     //}
     .count {
@@ -145,7 +145,7 @@
       align-items: center;
       color: #030303;
       font-size: $font-normal-size;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       img {
         margin: 0.5 * $font-normal-size;
       }
@@ -162,7 +162,7 @@
     align-items: center;
     justify-content: center;
     font-size: $font-normal-size;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     //.order-btn {
     //  flex: 1 1 30%;
      // button {
@@ -171,7 +171,7 @@
      //   box-sizing: border-box;
       //  background: $main-color;
       //  color: #030303;
-      //  font-family: 'Alef-Regular', sans-serif;
+      //  font-family: Arial, sans-serif;
       //  width: 100%;
       //  border: 0;
        // height: 100%;
@@ -190,15 +190,15 @@
     //.total-payment {
     //  flex: 1 1 70%;
     //  padding: 0 $padding-normal-size;
-    //  font-family: 'Alef-Regular', sans-serif;
+    //  font-family: Arial, sans-serif;
     //  .total-payment-price, .total-payment {
     //    color: $main-color;
     //    font-size: $font-normal-size;
-    //    font-family: 'Alef-Regular', sans-serif;
+    //    font-family: Arial, sans-serif;
     //  }
      // .total-payment-price {
     //    font-size: 1.75 * $font-default-size;
-     //   font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+     //   font-family: Arial, sans-serif;
      // }
     //}
 
@@ -207,7 +207,7 @@
   .total-payment-price, .total-payment {
     color: $main-color;
     font-size: $font-normal-size;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
   }
   .total-payment {
     
@@ -215,12 +215,12 @@
    // padding-right: 1rem;
    // padding-left: 1rem;
     //padding: 0 $padding-normal-size;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     
   }
   .total-payment-price {
     font-size: 1.75 * $font-default-size;
-    //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    //font-family: Arial, sans-serif;
   }
 }
 @media only screen and (min-width: 992px) {
@@ -240,7 +240,7 @@
       box-sizing: border-box;
       background: $main-color;
       color:white;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       width: 100%;
       border: 0;
       height: 100%;
@@ -260,7 +260,7 @@
   .total-payment {
     flex: 1 1 70%;
     padding: 0 $padding-normal-size;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     
   }
   .order-sum-option {
