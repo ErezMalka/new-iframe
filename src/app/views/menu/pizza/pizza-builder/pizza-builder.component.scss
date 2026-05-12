@@ -74,9 +74,9 @@
   background: #ffffff;
   border-radius: 20px;
   margin-bottom: 40px;
-  font-family: 'Open Sans Hebrew';
+  font-family: Arial, sans-serif;
   .header {
-   // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+   // font-family: Arial, sans-serif;
     font-size:1rem;// 2 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -88,7 +88,7 @@
     padding: $padding-normal-size;
     box-sizing: border-box;
     margin-bottom: 0;
-    font-family: 'Open Sans Hebrew';
+    font-family: Arial, sans-serif;
   }
   .header.direction {
     text-align: left;
