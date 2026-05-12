@@ -17,7 +17,7 @@ ng-scrollbar {
   overflow-y: hidden;
 
   .header {
-    font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 2 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -71,7 +71,7 @@ ng-scrollbar {
           // padding-top: 2rem;
          // text-align: center;
           .item-price-number {
-            //font-family: 'Helvetica Neue', sans-serif;
+            //font-family: Arial, sans-serif;
            // font-size: 2.9rem;  
            }
           .item-currency {
@@ -231,7 +231,7 @@ ng-scrollbar {
         display: inline-block;
         width: 100%;
         .name {
-          font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+          font-family: Arial, sans-serif;
           font-size: 1 * $font-default-size;
           font-weight: bold;
           font-style: normal;
@@ -242,7 +242,7 @@ ng-scrollbar {
           color: #000000;
         }
         .price {
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           font-size: 1 * $font-default-size;
           font-weight: normal;
           font-style: normal;
@@ -305,7 +305,7 @@ ng-scrollbar {
           .icon-content {
             color: #ffffff;
             text-align: center;
-            font-family: 'Alef-Regular', sans-serif;
+            font-family: Arial, sans-serif;
           }
         }
       }
@@ -339,7 +339,7 @@ ng-scrollbar {
     padding: $padding-normal-size * 0.75;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -351,7 +351,7 @@ ng-scrollbar {
     margin: 4px;
 
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -369,7 +369,7 @@ ng-scrollbar {
     padding: $padding-normal-size * 0.75;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -381,7 +381,7 @@ ng-scrollbar {
     margin: 4px;
 
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -410,7 +410,7 @@ ng-scrollbar {
   }
 
   .comments::-webkit-input-placeholder {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.35 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -420,7 +420,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }
   .comments::-moz-placeholder          {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.2 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -430,7 +430,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }/* Firefox 19+ */
   .comments:-moz-placeholder           {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.25 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -440,7 +440,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }/* Firefox 18- */
   .comments:-ms-input-placeholder      {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.25 * $font-default-size;
     font-weight: normal;
     font-style: normal;
