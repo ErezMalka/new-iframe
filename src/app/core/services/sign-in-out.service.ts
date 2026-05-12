@@ -105,7 +105,6 @@ export class SignInOutService {
   }
 
   public updateUserDetails (user): Observable<any> {
-    console.log("sign-in-out-service: user", user);
 
     if(!this.dateIsValid(user.Anniversary) && user.AnniversaryStr != null){
       user.Anniversary = new Date(user.AnniversaryStr);
@@ -133,7 +132,6 @@ export class SignInOutService {
   dateIsValid(date) {
     if( date instanceof Date) return true;
     else{
-      console.log("not instance of date: date", date);
       return false;
 
     }
