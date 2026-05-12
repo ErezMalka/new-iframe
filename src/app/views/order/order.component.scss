@@ -89,7 +89,7 @@
   //height: 800px;
 
   .add-credit{
-    font-family: "Open Sans Hebrew";
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 2.1vh;
@@ -105,7 +105,7 @@
   }
 
   .terms-label{
-    font-family: "Open Sans Hebrew";
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 2vh;
@@ -176,7 +176,7 @@
   }
 
   .customer-info-text{
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 1rem;
@@ -195,7 +195,7 @@
     //padding-right: 2.5rem;
     border-radius: 0px !important;
 
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -220,7 +220,7 @@
     //padding-right: 2.5rem;
     border-radius: 0px !important;
 
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -250,7 +250,7 @@
     //padding-right: 2.5rem;
     border-radius: 0px !important;
 
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -279,7 +279,7 @@
       
       height: 35px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.31);
-      font-family: "Open Sans Hebrew";
+      font-family: Arial, sans-serif;
       font-style: normal;
       font-weight: normal;
       font-size: 16px;
@@ -306,7 +306,7 @@
     text-align: right;
     color: #4D4D4D;
     /* padding-right: 21px; */
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
 
@@ -325,7 +325,7 @@
 
   .coupon-text{
     
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
@@ -372,7 +372,7 @@
 
   .itemPrice{
 
-    font-family: "Open Sans Hebrew";
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 15.2381px;
@@ -418,7 +418,7 @@
     background-position: 87px 9px;
     background-color: #F8F8F8;
 
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -447,7 +447,7 @@
   }
 
   .info-text{
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13.2381px;
@@ -460,7 +460,7 @@
 
   .order-prime-header
   {
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 5.5vw;
@@ -470,7 +470,7 @@
   }
   .order-prime-header-desktop
   {
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 2.5vw;
@@ -491,7 +491,7 @@
 
     .add-more-dishes-text
     {
-      font-family: Open Sans Hebrew;
+      font-family: Arial, sans-serif;
       font-style: normal;
       font-weight: 7px;
       font-weight: 400;
@@ -518,7 +518,7 @@
 
     /*.add-more-dishes-text
     {
-      font-family: Open Sans Hebrew;
+      font-family: Arial, sans-serif;
       font-style: normal;
       font-weight: 7px;
       font-weight: 400;
@@ -584,7 +584,7 @@
 .branch-information {
   background: white;
   text-align: right;
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-weight: bold;
   padding: 0.1rem 0.5rem;
   font-size: 1.2rem;
@@ -622,7 +622,7 @@
     .title {
       width: 60%;
         height: 16px;
-       // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+       // font-family: Arial, sans-serif;
         font-size: 30px;
         font-weight: normal;
         font-style: normal;
@@ -733,7 +733,7 @@
     padding-bottom: 0;
     margin-bottom: 0;
     .order-header {
-     // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+     // font-family: Arial, sans-serif;
       font-size: 1.85 * $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -799,7 +799,7 @@
             text-align: center;
             color: #fc5009;
             font-size: $font-default-size * 1.5;
-            //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+            //font-family: Arial, sans-serif;
             display: flex;
             flex-direction: row-reverse;
             justify-content: center;
@@ -822,7 +822,7 @@
           }
 
           .description {
-           // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+           // font-family: Arial, sans-serif;
             font-size: $font-default-size * 1.65;
             font-weight: bold;
             font-style: normal;
@@ -842,7 +842,7 @@
             text-align: left;
             color: #fc5009;
             font-size: $font-default-size * 1.15;
-           // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+           // font-family: Arial, sans-serif;
 
             .sum-type-discount {
               .sum-value {
@@ -893,7 +893,7 @@
               flex: 1 1 23%;
             }
             .order-price {
-              font-family: 'Alef-Regular', sans-serif;
+              font-family: Arial, sans-serif;
               font-size: 1.2 * $font-default-size;
               font-weight: normal;
               font-style: normal;
@@ -913,7 +913,7 @@
             .order-name {
               flex: 1 1 70%;
               width: 70%;
-              font-family: 'Alef-Regular', sans-serif;
+              font-family: Arial, sans-serif;
               font-size: 1.1 * $font-default-size;
               font-weight: normal;
               font-style: normal;
@@ -973,7 +973,7 @@
             height: $font-default-size * 1.75;
           }
           color: #ff0909;
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           font-size: $font-default-size;
         }
       }
@@ -1022,7 +1022,7 @@
           align-items: center;
           justify-content: space-around;
           .items {
-            font-family: 'Alef-Regular', sans-serif;
+            font-family: Arial, sans-serif;
             font-size: 1.25 * $font-default-size;
             font-weight: normal;
             font-style: normal;
@@ -1049,7 +1049,7 @@
 
           .description, .price {
             display: inline-block;
-            font-family: 'Alef-Regular', sans-serif;
+            font-family: Arial, sans-serif;
             font-size: 1.2 * $font-default-size;
             font-weight: normal;
             font-style: normal;
@@ -1063,11 +1063,11 @@
           }
           .price {
             .sum {
-            //  font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+            //  font-family: Arial, sans-serif;
             }
             .sum-total {
               font-size: 1.75 * $font-normal-size;
-             // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+             // font-family: Arial, sans-serif;
             }
           }
         }
@@ -1091,7 +1091,7 @@
       border-radius: 24px;
       border: 2px solid #d7d7d7;
       background-color: #ffffff;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -1116,10 +1116,10 @@
       height: 1 * $font-default-size;
     }
 
-    .input-field::-webkit-input-placeholder {font-family: 'Alef-Regular', sans-serif; text-align: right;}
-    .input-field::-moz-placeholder          {font-family: 'Alef-Regular', sans-serif; text-align: right;}
+    .input-field::-webkit-input-placeholder {font-family: Arial, sans-serif; text-align: right;}
+    .input-field::-moz-placeholder          {font-family: Arial, sans-serif; text-align: right;}
     .input-field:-moz-placeholder           {ftype-paymentont-family: 'Alef-Regular', sans-serif; text-align: right;}
-    .input-field:-ms-input-placeholder      {font-family: 'Alef-Regular', sans-serif; text-align: right;}
+    .input-field:-ms-input-placeholder      {font-family: Arial, sans-serif; text-align: right;}
 
 
     .input-field.small-round-border {
@@ -1212,14 +1212,14 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       color: #666666;
     }
     .order-count-scratch-coupon {
       flex: 1 1 23%;
     }
     .order-price {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 1.2 * $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -1239,7 +1239,7 @@
     .order-name {
       flex: 1 1 70%;
       width: 70%;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -1327,7 +1327,7 @@
     .count {
       text-align: center;
       background: #ffffff;
-      font-family: 'Alef-Bold', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 0.75 * $font-normal-size;
       font-weight: 700;
       font-style: normal;
@@ -1349,7 +1349,7 @@
     display: flex;
     .minus, .plus,  .count {
       text-align: center;
-      font-family: 'Alef-Bold', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: $font-default-size;
       font-weight: 700;
       font-style: normal;
@@ -1379,7 +1379,7 @@
 
 .remove-item {
   object-fit: contain;
-  font-family: 'Alef-Bold', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1.15 * $font-default-size;
   font-weight: normal;
   font-style: normal;
@@ -1502,7 +1502,7 @@
   background-color: #ffffff;
   padding: $padding-normal-size;
   box-sizing: border-box;
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: $font-normal-size;
   font-weight: normal;
   font-style: normal;
@@ -1538,7 +1538,7 @@
         display: flex;
         align-items: center;
         .value {
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           font-size: 1.75 * $font-default-size;
           font-weight: normal;
           font-style: normal;
@@ -1549,7 +1549,7 @@
         }
         .description {
           margin: 0 4px;
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           font-size: $font-normal-size;
           font-weight: normal;
           font-style: normal;
@@ -1602,7 +1602,7 @@
   .type-card, .type-cash {
     .text {
       flex: 0 0 80%;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: $font-default-size * 1.2;
       font-weight: normal;
       font-style: normal;
@@ -1641,7 +1641,7 @@
     border-radius: 10px;
     box-shadow: 0px 1px 2px 0 rgba(1, 2, 2, 0.15);
     background-color: $main-color;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.25 * $font-normal-size;
     font-weight: normal;
     font-style: normal;
@@ -1710,7 +1710,7 @@
 
   .item-header.item-header-discount {
     font-weight: 300;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
   }
 
   .garnish-item {
@@ -1788,7 +1788,7 @@ ng-scrollbar {
 }
 
 ::ng-deep .mat-select-placeholder {
-  font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;
+  font-family: Arial, sans-serif; text-align: center; color: $text-color;
 }
 
 .close-branch {
@@ -1802,7 +1802,7 @@ ng-scrollbar {
 
 .card-error {
   color: $error-text;
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: $font-default-size;
   font-weight: normal;
   font-style: normal;
@@ -2019,7 +2019,7 @@ label.error-field-label::before {
       text-align: right;
       width: 100%;
       .value {
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         font-size: 1.35 * $font-default-size!important;
       }
     }
@@ -2144,7 +2144,7 @@ label.error-field-label::before {
 .branch-information {
   background: white;
   text-align: right;
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-weight: bold;
   padding: 0.1rem 0.5rem;
   font-size: 1.2rem;
