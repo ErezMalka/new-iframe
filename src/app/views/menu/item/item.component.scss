@@ -180,7 +180,7 @@
   margin: 0.5 * $margin-normal-size 0.15 * $margin-normal-size;
   text-align: center;
   cursor: pointer;
-  font-family: 'Open Sans Hebrew';
+  font-family: Arial, sans-serif;
  // margin-top: 1.5rem;
   .garnish-image {
     display: inline-block;
@@ -201,7 +201,7 @@
     align-items: center;
     justify-content: space-between;
     .name {
-     // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+     // font-family: Arial, sans-serif;
       font-size: 1 * $font-default-size;
      // font-weight: bold;
       font-style: normal;
@@ -214,7 +214,7 @@
     }
      
     .price {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 1 * $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -236,7 +236,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 1 * $font-default-size;
       text-align: center;
     }
@@ -295,7 +295,7 @@
       .icon-content {
         color: #ffffff;
         text-align: center;
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
       }
     }
   }
