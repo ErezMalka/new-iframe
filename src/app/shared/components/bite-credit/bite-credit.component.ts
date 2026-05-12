@@ -236,10 +236,8 @@ public cashRegister: any;
                @Inject(MAT_DIALOG_DATA) public data: any ) {
 
     this.memberClubPolicy = this.appStorageService.memberClubPolicy;
-    console.log("this.memberClubPolicy",this.memberClubPolicy);
 
     if (data) {
-      console.log("ClubMemberComp: data", data);
       this.creditName = data.creditName;
       this.isAddCredit = data.isAddCredit;
       if (this.isAddCredit) this.step =1;
@@ -247,14 +245,8 @@ public cashRegister: any;
       this.creditOptions = data.creditOptions;
       this.creditAddedValuePercent = data.creditAddedValuePercent;
       this.creditOptionsArr = this.creditOptions.split(",");
-      console.log("this.creditName",this.creditName);
-      console.log("this.allowCustomCreditSum",this.allowCustomCreditSum);
-      console.log("this.creditOptions",this.creditOptions);
-      console.log("this.creditAddedValuePercent",this.creditAddedValuePercent);
-      console.log("this.creditOptionsArr",this.creditOptionsArr);
  
         this.appUser = data.appUser;
-        console.log("appUser", this.appUser);
         this.currentUserCredit = this.appUser.BiteCredit;
         this.initializeOrder();
       
@@ -280,7 +272,6 @@ public cashRegister: any;
   selectSum(sum){
     this.selectedSum =Number(sum);
     this.customSum = undefined;
-    console.log("selectSum",this.selectedSum,this.customSum)
     this.order.Sum = this.selectedSum;
   }
 
@@ -315,16 +306,13 @@ public cashRegister: any;
      
     //console.log("this.isback", this.isGoback);
     this.franchiseId = this.configService.franchiseId;
-    console.log("this.franchiseId",this.franchiseId);
     this.getCashRegister();
     
     this.initializeGraphics();
     const loginToken = this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
-      console.log("loginToken",loginToken);
     if (loginToken) {
       this.signInOutService.verifyToken(loginToken).subscribe((response) => {
-        console.log("verifyToken",response);
         this.ccTokens = response.ccTokens;
       });
     }
@@ -333,7 +321,6 @@ public cashRegister: any;
 
     this.acceptTerms = false;
 
-    console.log("this.appStorageService.franchise", this.appStorageService.franchise);
     //console.log("this.myScrollContainer",this.myScrollContainer);
 
      
@@ -446,7 +433,6 @@ public cashRegister: any;
 
      // } else {
         if(this.selectedCibus){
-          console.log("this.selectedCibus", this.selectedCibus);
           this.cibusCard.number = this.selectedCibus;
         }
         if (this.cibusCard.number.length == 9 || 
@@ -503,18 +489,14 @@ public cashRegister: any;
            console.log("isCreditValidData: else");
            if (!this.legalTz(this.cashRegisterCreditCard.ownerId)) {
               
-              console.log("this.cashRegisterCreditCard",this.cashRegisterCreditCard);
-              console.log("this.errorsCashRegister",this.errorsCashRegister);
 
              return false;
            }
            if (!this.legalCC_Short(this.cashRegisterCreditCard.number) &&
              !this.legalCC(this.cashRegisterCreditCard.number) && !this.verifyAE_CC(this.cashRegisterCreditCard.number)) {
-              console.log("this.cashRegisterCreditCard",this.cashRegisterCreditCard);
              return false;
            }
            if (!this.isCVV(this.cashRegisterCreditCard.cvv)) {
-            console.log("this.cashRegisterCreditCard",this.cashRegisterCreditCard);
              return false;
            }
            return true;
@@ -526,16 +508,12 @@ public cashRegister: any;
   }
 
   private legalTz(num) {
-    console.log("legalTz: num", num);
     let tot = 0;
     let tz = new String(num);
-    console.log("legalTz: tz", tz);
     if (Number.isInteger(parseInt(num))) {
-      console.log("Number.isInteger",num);
       for (let index = 0; index < tz.length; index++) {
         tot++;
         var myChar = tz[index];
-        console.log("myChar", myChar);
 
       }
       if(tot == 8 || tot ==9){
@@ -592,7 +570,6 @@ public cashRegister: any;
   }
 
   public isCVV(value:string) {
-    console.log("isCVV",value);
     const cvvStr = value.toString().split('');
     if (cvvStr.length == 3 && 
         Number.isInteger(parseInt(cvvStr[0])) &&
@@ -608,28 +585,23 @@ public cashRegister: any;
 
   public isSplittedCreditValidData() {
     console.log("isSplittedCreditValidData");
-    console.log("this.ccWithToken.expirationMonth",this.ccWithToken.expirationMonth);
     if (Number(this.ccWithToken.sum) == 0 || 
         Number(this.ccWithToken.sum) > this.selectedSum) {
           return false;
         }
         if (this.ccWithToken.expirationMonth =='') {
-          console.log("this.ccWithToken.expirationMonth1",this.ccWithToken.expirationMonth)
           this.ccWithToken.expirationMonth = (this.date.getMonth() + 1).toString();
           this.ccWithToken.expirationYear = this.date.getFullYear().toString();
         }
          
         if ( !this.legalTz(this.ccWithToken.ownerId)) {
-            console.log("this.ccWithToken.expirationMonth2",this.ccWithToken.expirationMonth);
             return false;
         }
         if (!this.legalCC_Short(this.ccWithToken.number) &&
           !this.legalCC(this.ccWithToken.number) && !this.verifyAE_CC(this.ccWithToken.number)) {
-            console.log("this.ccWithToken.expirationMonth3",this.ccWithToken.expirationMonth);
           return false;
         }
         if (!this.isCVV(this.ccWithToken.cvv)) {
-          console.log("this.ccWithToken.expirationMonth4",this.ccWithToken.expirationMonth);
           return false;
         }
         return true;
@@ -667,7 +639,6 @@ public cashRegister: any;
       this.showLoader = false;
       return;
     }
-    console.log("cashRegisterCreditCard",this.cashRegisterCreditCard);
     const loginToken = this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
    // this.isLoaded.isCreditPaymentLoaded = false;
@@ -877,7 +848,6 @@ public cashRegister: any;
       .dataEncryption(loginToken, JSON.stringify(this.tenbisCard))
       .subscribe((response) => {
         let encrypted = response;
-        console.log("order",order);
       
           this.paymentService
           .biteCreditPaymentRequest(order, loginToken, encrypted)
@@ -981,7 +951,6 @@ public cashRegister: any;
       this.order.Email = this.appUser.Email;
       this.order.SaveCredit = false;
     }
-    console.log("order",this.order);
   }
 
 
@@ -989,19 +958,16 @@ public cashRegister: any;
     console.log("completeOrder(userWasNtSignedIn?)")
     const loginToken = this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
-      console.log("loginToken",loginToken);
     if (loginToken) {
     //  this.isLoaded.isValidationUserLoaded = false;
       this.signInOutService.verifyToken(loginToken).subscribe((response) => {
       //  this.isLoaded.isValidationUserLoaded = true;
         const result = response ? !!response.user : !!response;
-        console.log("result",result);
         if (result) {
           const completePayment = () => {
             console.log("completePayment");
           
             /// End of Workaround for Combo Items  ComboItemId
-            console.log("!!!!!this.paymentType",this.paymentType);
             switch (this.paymentType) {
               case PaymentTypeEnum.card: {
                 this.cardPayment();
@@ -1087,7 +1053,6 @@ public cashRegister: any;
         this.completeOrder();
       }
     } else {
-      console.log("payment !this.isAllValid()",this.isCreditValidData()); 
        
       this.displayErrorFields();
       
@@ -1106,21 +1071,15 @@ public cashRegister: any;
 
 
   public scrollToBottom(): void {
-    console.log("this.myScrollContainer.nativeElement",this.myScrollContainer.nativeElement);
-    console.log("this.myScrollContainer.nativeElement.scrollTop",this.myScrollContainer.nativeElement.scrollTop);
     try {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) { 
-      console.log("error", err);
     }                 
   }
 
 
   public continueToSuccesfullyAdded(){
 
-    console.log("this.acceptTerms",this.acceptTerms);
-    console.log("document",document);
-    console.log('document.getElementById("terms-alert11")',document.getElementById("terms-alert11"));
 
     if(!this.acceptTerms){
        document.getElementById("terms-alert11").classList.add("show");   
@@ -1138,7 +1097,6 @@ public cashRegister: any;
         //this.continueToSignUp = false;
       }
       else {
-        console.log("payment !this.isAllValid()", this.isAllValidUserData());
         //this.displayCustomerErrorFields();
       }
     }
@@ -1151,11 +1109,6 @@ public cashRegister: any;
 
   public isFilledCustomerFields() {
     var pattern = new RegExp('[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}'); 
-    console.log("this.appUser",this.appUser);
-    console.log("BirthDate", this.appUser.BirthDate?._d);  
-    console.log("Anniversary", this.appUser.Anniversary?._d);  
-    console.log("Email", this.appUser.Email);  
-    console.log(" pattern.test", pattern.test(this.appUser.Email?.toString().trim())); 
     if(this.appUser.CanceledMembership){
       return true;
     }
@@ -1183,14 +1136,12 @@ public cashRegister: any;
     else if(!this.dateIsValid(this.appUser.BirthDate?._d)){
       console.log("date is not valid");
       this.orderErrors.BirthDate = true;
-      console.log("this.orderErrors.BirthDate", this.orderErrors.BirthDate);
       return false;
     }
 
     else if(this.appUser.Anniversary != undefined && !this.dateIsValid(this.appUser.Anniversary?._d)){
       console.log("ann is excist and not valid");
       this.orderErrors.Anniversary = true;
-      console.log("this.orderErrors.BirthDate", this.orderErrors.BirthDate);
       return false;
 
     }
@@ -1206,7 +1157,6 @@ public cashRegister: any;
   dateIsValid(date) {
     if( date instanceof Date) return true;
     else{
-      console.log("not instance of date: date", date);
       return false;
 
     }
@@ -1248,7 +1198,6 @@ if (this.timerId) clearInterval(this.timerId);
 
   public signIn() {
     console.log("SIGNIN()"); 
-    console.log("appUser", this.appUser); 
     //this.dialogRef.close({signIn: true }); 
 
 
@@ -1317,10 +1266,8 @@ if (this.timerId) clearInterval(this.timerId);
       const loginToken = this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.franchiseId);
       if (loginToken) {
         this.signInOutService.verifyToken(loginToken).subscribe((response) => {
-          console.log("verifyToken",response);
           this.paymentService.GetPelecardIframeUrlForBiteCredit(this.order, loginToken, this.configService.franchiseId, this.order.Sum)
                 .subscribe((iframeRes) => {
-                  console.log("iframeRes", iframeRes);
                   if (iframeRes && iframeRes.URL && iframeRes.ConfirmationKey) {
                     this.pelecardIframeUrl =iframeRes.URL;
                     this.pelecardConfirmationKey =iframeRes.ConfirmationKey;
@@ -1389,14 +1336,11 @@ if (this.timerId) clearInterval(this.timerId);
                                                   loginToken,
                                                   this.order.Sum)
                 .subscribe((response) => {
-                  console.log("CheckTransactionStatusBiteCredit response", response);
                   if (response && response.Data && response.Data.success) {// && !this.pelecardOrderSent
                     this.pelecardOrderSent = true; // ✅ Prevent future calls
                     this.hidePelecardIframe = true;
                   //  this.showLoader = true;
-                    console.log("response.Data", response.Data);
                     if (this.timerId) {                  
-                      console.log("this.timerId", this.timerId);
                       clearInterval(this.timerId);     
                                     
                     }
