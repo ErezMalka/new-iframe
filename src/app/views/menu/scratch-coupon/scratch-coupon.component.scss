@@ -60,7 +60,7 @@
   position: relative;
 
   .textlabel-header{
-    font-family: "Open Sans Hebrew" !important;
+    font-family: Arial, sans-serif !important;
     font-style: normal !important;
     font-size: 21px !important;
     line-height: 21px !important;
@@ -92,12 +92,12 @@
       border: 0;
       margin: 8px 4px 0;
       font-size: 1.1 * $font-default-size;
-      //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+      //font-family: Arial, sans-serif;
       position: relative;
     }
     .button-cancel {
       outline: none;
-      //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+      //font-family: Arial, sans-serif;
       font-size: 1.1 * $font-default-size;
       box-shadow: 0 0 5px 0 rgba(0, 8, 5, 0.22);
       background-color: #2b2b2b;
@@ -124,7 +124,7 @@
   position: relative;
 
   .textlabel-header{
-    font-family: "Open Sans Hebrew" !important;
+    font-family: Arial, sans-serif !important;
     font-style: normal !important;
     font-size: 21px !important;
     line-height: 21px !important;
@@ -137,7 +137,7 @@
     //max-height: 280px;
   }
   .item-name {
-    //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    //font-family: Arial, sans-serif;
     font-size: 1.2 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -148,7 +148,7 @@
     color: var(--orange);//#ff6600;
   }
   .item-price {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.1 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -159,7 +159,7 @@
     color: #2b2b2b;
   }
   .item-date {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.1 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -189,12 +189,12 @@
     margin-left: -25%;
     width: 50%;
     top: 50%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
   }
 }
 
 .header {
-  font-family: "Open Sans Hebrew";
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-size: 18px;
   line-height: 21px;
