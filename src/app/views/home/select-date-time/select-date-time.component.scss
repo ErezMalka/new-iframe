@@ -70,7 +70,7 @@
   text-align: center;
   margin-right: 13px;
   margin-top: -15px;
-  font-family: Open Sans Hebrew;
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
@@ -182,7 +182,7 @@ overflow-x: hidden;
     background-color: var(--orange);
     padding: 0.5rem;
     box-sizing: border-box;
-    font-family: "Open Sans Hebrew", arial, sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.1rem;
     font-weight: normal;
     font-style: normal;
@@ -198,7 +198,7 @@ overflow-x: hidden;
     margin-bottom: 12px;
     }
   .text-label{
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
 font-style: normal;
 font-weight: normal;
 font-size: 16px;
@@ -213,7 +213,7 @@ color: #505050;
   }
   .header {
     object-fit: contain;
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
@@ -225,7 +225,7 @@ color: #505050;
   .text-label-h2{
 
     object-fit: contain;
-    font-family: "Open Sans Hebrew";
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
@@ -235,7 +235,7 @@ color: #505050;
   }
   .description {
     object-fit: contain;
-    font-family: 'Open Sans Hebrew',arial, sans-serif;//'FtJimborySquared 1.0 Bold', sans-serif;
+    font-family: Arial, sans-serif;//'FtJimborySquared 1.0 Bold', sans-serif;
     font-size: $font-default-size * 1;
    // font-weight: bold;
     font-style: normal;
@@ -264,14 +264,14 @@ color: #505050;
 
     .item {
       cursor: pointer;
-      font-family: 'Open Sans Hebrew';
+      font-family: Arial, sans-serif;
       height: 44px;
       border-bottom: 1px solid #EBEBEB;
       font-size: 21px;
     }
     .item-mobile {
       cursor: pointer;
-      font-family: 'Open Sans Hebrew';
+      font-family: Arial, sans-serif;
       height: 68px;
       border-bottom: 1px solid #EBEBEB;
       font-size: 18px;
@@ -299,7 +299,7 @@ color: #505050;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        //font-family: 'Nachlieli CLM', sans-serif;
+        //font-family: Arial, sans-serif;
         font-size: 1.15 * $font-default-size;
         font-weight: 300;
         font-style: normal;
@@ -384,7 +384,7 @@ color: #505050;
     box-shadow: 0 0 5px 0 rgba(0, 8, 5, 0.22);
     background-color: $main-color;
     padding: 0;
-    //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    //font-family: Arial, sans-serif;
     -moz-transition: all 1s ease-out;
     -o-transition: all 1s ease-out;
     -webkit-transition: all 1s ease-out;
@@ -406,7 +406,7 @@ color: #505050;
         }
       }
       .content {
-        //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+        //font-family: Arial, sans-serif;
         font-size: $font-default-size * 1.5;
         font-weight: bold;
         font-style: normal;
@@ -559,7 +559,7 @@ color: #505050;
   }
 
   .branch-name{
-  font-family: "Open Sans Hebrew";
+  font-family: Arial, sans-serif;
   font-size: 17px;
   font-weight: normal;
   font-style: normal;
@@ -597,7 +597,7 @@ color: #505050;
     }
 
     .branch-name{
-    font-family: "Open Sans Hebrew";
+    font-family: Arial, sans-serif;
     font-size: 17px;
     font-weight: normal;
     font-style: normal;
@@ -686,7 +686,7 @@ color: #505050;
       background-color: var(--orange);
       padding: $padding-normal-size * 0.5;
       box-sizing: border-box;
-      font-family: 'Open Sans Hebrew',arial, sans-serif;//'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;//'Alef-Regular', sans-serif;
       font-size: 1.1 * $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -701,7 +701,7 @@ color: #505050;
       margin-bottom: -11px;
   
       span {
-        font-family:'Open Sans Hebrew',arial, sans-serif;// 'Alef-Regular', sans-serif;
+        font-family:Arial, sans-serif;// 'Alef-Regular', sans-serif;
       }
   
     
@@ -718,7 +718,7 @@ color: #505050;
       //padding-bottom: 14px;
       box-sizing: border-box;
       flex: 0 0 15%;
-      font-family: 'Open Sans Hebrew',arial, sans-serif;//'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;//'Alef-Regular', sans-serif;
       font-size: 1.1 * $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -730,7 +730,7 @@ color: #505050;
       margin: 4px;
   
       span {
-        font-family: 'Open Sans Hebrew',arial, sans-serif;//'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;//'Alef-Regular', sans-serif;
       }
   
       img {
