@@ -58,7 +58,6 @@ export class SignInPageComponent extends SharedSignInComponent implements OnInit
 
   ngOnInit() {
     this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
-    console.log("sign-in: ngOnInit", this.franchiseId);
     this.defaultLanguage = this.translationService.getDefaultLanguage();
     this.verifyToken();
     this.initializeGraphics();
@@ -71,7 +70,6 @@ export class SignInPageComponent extends SharedSignInComponent implements OnInit
   private getAppLanguages() {
     this.signInOutService.getAppLanguages()
       .subscribe((response) => {
-        console.log('getAppLanguages',response);
         if (response) {
           this.languages = response;
         }
@@ -83,7 +81,6 @@ export class SignInPageComponent extends SharedSignInComponent implements OnInit
   public changeLanguage(event: any) {
 
     this.translationService.setLanguage(event.target.value);
-    console.log("this.translationService.language",this.translationService.language())
      
   }
 
@@ -94,13 +91,8 @@ export class SignInPageComponent extends SharedSignInComponent implements OnInit
       console.log("signInPage component verifyToken");
       this.signInOutService.verifyToken(token)
         .subscribe((response) => {
-          console.log("sign-in: verifyToken", response);
-          console.log("sign-in: verifyToken", response.user);
-          console.log("sign-in: response.user.FranchiseId", response.user.FranchiseId);
-          console.log("sign-in: this.franchiseId", this.franchiseId);
           if (response && response.user && response.user != null) {
             if (response.user.FranchiseId != this.franchiseId) {
-              console.log("response.user.FranchiseId != this.franchiseId", this.franchiseId);
               this.signInOutService.signOut();
             //  this.router.navigate([`${this.franchiseId}/sign-in`]);                                            
             } else {
@@ -118,7 +110,6 @@ export class SignInPageComponent extends SharedSignInComponent implements OnInit
         });
     } else {
       this.signInOutService.signOut();
-      console.log("sign-in: else", this.franchiseId);
       this.router.navigate([`${this.franchiseId}/sign-in`]);
     }
   }
