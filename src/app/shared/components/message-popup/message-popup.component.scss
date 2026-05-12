@@ -86,7 +86,7 @@
   border-radius: 14px;
 
   .text-style{
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 17px;
@@ -116,7 +116,7 @@
 }
 
     .text-message-popup{
-      font-family: "Open Sans Hebrew";
+      font-family: Arial, sans-serif;
       font-style: normal;
       font-weight: normal;
       font-size: 18px;
@@ -145,7 +145,7 @@
   -ms-flex-align: center;
   align-items: center;
   align-items: center;
-  font-family: Open Sans Hebrew;
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 22px;
@@ -171,7 +171,7 @@
   -ms-flex-align: center;
   align-items: center;
   align-items: center;
-  font-family: Open Sans Hebrew;
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 22px;
@@ -227,7 +227,7 @@
     margin-left: -25%;
     width: 50%;
     top: 50%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
   }
 }
 
@@ -250,7 +250,7 @@
   -ms-flex-align: center;
   align-items: center;
   align-items: center;
-  font-family: "Open Sans Hebrew";
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 22px;
@@ -276,7 +276,7 @@
   -ms-flex-align: center;
   align-items: center;
   align-items: center;
-  font-family: Open Sans Hebrew;
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 22px;
@@ -285,7 +285,7 @@
 }
 
 .description {
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
@@ -293,7 +293,7 @@
   text-align: right;
   pre {
     font-size: $font-default-size;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
   }
 }
