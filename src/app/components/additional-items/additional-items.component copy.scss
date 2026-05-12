@@ -15,7 +15,7 @@ ng-scrollbar {
   border-radius: 20px;
   margin-bottom: 40px;
   .header {
-    font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.5 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -81,7 +81,7 @@ ng-scrollbar {
         .info {
         
           padding:8px;
-          font-family: 'Open Sans Hebrew',arial, sans-serif;
+          font-family: Arial, sans-serif;
           font-size: 1 * $font-default-size;
           
           font-style: normal;
@@ -94,7 +94,7 @@ ng-scrollbar {
         }
         .name {
           font-weight: bold;
-          font-family: 'Open Sans Hebrew',arial, sans-serif;
+          font-family: Arial, sans-serif;
           font-size: 1 * $font-default-size;          
           font-style: normal;
           font-stretch: normal;
@@ -105,7 +105,7 @@ ng-scrollbar {
           flex: 1 1 60%;
         }
         .price {
-          font-family: 'Open Sans Hebrew',arial, sans-serif;
+          font-family: Arial, sans-serif;
           font-size: 1 * $font-default-size;
           font-weight: bold;
           font-style: normal;
@@ -169,7 +169,7 @@ ng-scrollbar {
           .icon-content {
             color: #ffffff;
             text-align: center;
-            font-family: 'Alef-Regular', sans-serif;
+            font-family: Arial, sans-serif;
           }
         }
       }
@@ -200,7 +200,7 @@ ng-scrollbar {
     padding: $padding-normal-size * 0.75;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -212,7 +212,7 @@ ng-scrollbar {
     margin: 4px;
 
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -230,7 +230,7 @@ ng-scrollbar {
     padding: $padding-normal-size * 0.75;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -242,7 +242,7 @@ ng-scrollbar {
     margin: 4px;
 
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -262,7 +262,7 @@ ng-scrollbar {
     resize: none;
     text-align: right;
     outline: none;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     display: flex;
     align-content: center;
     justify-content: center;
@@ -278,7 +278,7 @@ ng-scrollbar {
     resize: none;
     text-align: right;
     outline: none;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -299,7 +299,7 @@ ng-scrollbar {
   }
 
   .comments::-webkit-input-placeholder {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.35 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -309,7 +309,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }
   .comments::-moz-placeholder          {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.2 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -319,7 +319,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }/* Firefox 19+ */
   .comments:-moz-placeholder           {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.25 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -329,7 +329,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }/* Firefox 18- */
   .comments:-ms-input-placeholder      {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.25 * $font-default-size;
     font-weight: normal;
     font-style: normal;
