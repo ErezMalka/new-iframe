@@ -186,7 +186,7 @@ ng-scrollbar {
   background: #ffffff;
   border-radius:  20px;
   .header {
-    //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    //font-family: Arial, sans-serif;
     font-size: 2 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -199,7 +199,7 @@ ng-scrollbar {
     box-sizing: border-box;
     margin-bottom: 0;
     .description {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 1.5 * $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -258,7 +258,7 @@ ng-scrollbar {
     .pizza-ingredients {
 
       .pizza-description {
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         font-size: 1.5 * $font-default-size;
         font-weight: normal;
         font-style: normal;
@@ -340,7 +340,7 @@ ng-scrollbar {
   align-items: center;
 
   .topping-price {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -361,7 +361,7 @@ ng-scrollbar {
   }
 
   .topping-name {
-    //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    //font-family: Arial, sans-serif;
     font-size: 1.15 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -418,7 +418,7 @@ ng-scrollbar {
       .icon-content {
         color: #ffffff;
         text-align: center;
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
       }
     }
 
@@ -447,7 +447,7 @@ ng-scrollbar {
     padding: $padding-normal-size * 0.75;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -459,7 +459,7 @@ ng-scrollbar {
     margin: 4px;
 
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -477,7 +477,7 @@ ng-scrollbar {
     padding-bottom: 14px;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -489,7 +489,7 @@ ng-scrollbar {
     margin: 4px;
 
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -518,7 +518,7 @@ ng-scrollbar {
   }
 
   .comments::-webkit-input-placeholder {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.35 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -528,7 +528,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }
   .comments::-moz-placeholder          {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.35 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -538,7 +538,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }/* Firefox 19+ */
   .comments:-moz-placeholder           {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.35 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -548,7 +548,7 @@ ng-scrollbar {
     color: rgba(102, 102, 102, 0.72);
   }/* Firefox 18- */
   .comments:-ms-input-placeholder      {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.35 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -778,7 +778,7 @@ ng-scrollbar {
   resize: none;
   text-align: right;
   outline: none;
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -795,7 +795,7 @@ ng-scrollbar {
 }
 
 .combo-header {
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 
@@ -805,7 +805,7 @@ ng-scrollbar {
   border-radius: 24px;
   border: 2px solid #d7d7d7;
   background-color: #ffffff;
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: $font-default-size;
   font-weight: normal;
   font-style: normal;
@@ -829,10 +829,10 @@ ng-scrollbar {
   height: 1 * $font-default-size;
 }
 
-.input-field::-webkit-input-placeholder {font-family: 'Alef-Regular', sans-serif; text-align: right;}
-.input-field::-moz-placeholder          {font-family: 'Alef-Regular', sans-serif; text-align: right;}/* Firefox 19+ */
+.input-field::-webkit-input-placeholder {font-family: Arial, sans-serif; text-align: right;}
+.input-field::-moz-placeholder          {font-family: Arial, sans-serif; text-align: right;}/* Firefox 19+ */
 .input-field:-moz-placeholder           {ftype-paymentont-family: 'Alef-Regular', sans-serif; text-align: right;}/* Firefox 18- */
-.input-field:-ms-input-placeholder      {font-family: 'Alef-Regular', sans-serif; text-align: right;}
+.input-field:-ms-input-placeholder      {font-family: Arial, sans-serif; text-align: right;}
 
 
 .input-field.small-round-border {
@@ -870,7 +870,7 @@ ng-scrollbar {
     box-shadow: 0px 4px 30px rgba(194, 194, 194, 0.25);
   width: 100%;
   display: flex;
- // font-family: 'Alef-Regular', sans-serif;
+ // font-family: Arial, sans-serif;
   justify-content: center;
   align-items: center;
   .name {
