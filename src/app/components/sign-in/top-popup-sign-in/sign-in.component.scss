@@ -22,7 +22,7 @@
     justify-content: center;
 
     .sign-in-header, .button-display-sign-in-form {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 0.85 * $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -70,7 +70,7 @@
           bottom: 0;
           display: flex;
           align-items: center;
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           padding: 0 4px;
         }
 
@@ -81,7 +81,7 @@
           bottom: 0;
           display: flex;
           align-items: center;
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           padding: 0 4px;
         }
 
@@ -90,7 +90,7 @@
           border: 1px solid #a2a2a2;
           padding: 0.5 * $padding-normal-size 2 * $padding-normal-size;
           box-sizing: border-box;
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           font-size: $font-default-size * 0.8;
           font-weight: normal;
           font-style: normal;
@@ -114,10 +114,10 @@
           border-bottom-right-radius: $margin-normal-size;
           border-top-right-radius: $margin-normal-size;
         }*/
-        .input-field::-webkit-input-placeholder {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}
-        .input-field::-moz-placeholder          {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}/* Firefox 19+ */
-        .input-field:-moz-placeholder           {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}/* Firefox 18- */
-        .input-field:-ms-input-placeholder      {font-family: 'Alef-Regular', sans-serif; text-align: center; color: $text-color;}
+        .input-field::-webkit-input-placeholder {font-family: Arial, sans-serif; text-align: center; color: $text-color;}
+        .input-field::-moz-placeholder          {font-family: Arial, sans-serif; text-align: center; color: $text-color;}/* Firefox 19+ */
+        .input-field:-moz-placeholder           {font-family: Arial, sans-serif; text-align: center; color: $text-color;}/* Firefox 18- */
+        .input-field:-ms-input-placeholder      {font-family: Arial, sans-serif; text-align: center; color: $text-color;}
       }
 
     }
@@ -130,7 +130,7 @@
         box-sizing: border-box;
         padding: $padding-normal-size * 0.75;
         color: #ffffff;
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         font-size: $font-default-size;
         font-weight: normal;
         font-style: normal;
@@ -145,7 +145,7 @@
 
   .phone-error {
     color: $error-text;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: $font-default-size;
     font-weight: normal;
     font-style: normal;
