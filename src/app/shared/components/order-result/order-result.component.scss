@@ -24,7 +24,7 @@
       color: $main-color;
       font-weight: bold;
       font-size: $font-normal-size * 1.25;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       cursor: pointer;
     }
     .count {
@@ -34,7 +34,7 @@
       align-items: center;
       color: #030303;
       font-size: $font-normal-size * 1.25;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       img {
         margin: 0.5 * $font-normal-size;
       }
@@ -50,7 +50,7 @@
     align-items: center;
     justify-content: center;
     font-size: $font-normal-size * 1.25;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     .order-btn {
       flex: 1 1 50%;
       button {
@@ -59,7 +59,7 @@
         box-sizing: border-box;
         background: $main-color;
         color: #030303;
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         width: 100%;
         border: 0;
         height: 100%;
@@ -76,11 +76,11 @@
     .total-payment {
       flex: 1 1 50%;
       padding: 0 $padding-normal-size;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       .total-payment-price, .total-payment {
         color: $main-color;
         font-size: $font-normal-size * 1.5;
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
       }
     }
 
