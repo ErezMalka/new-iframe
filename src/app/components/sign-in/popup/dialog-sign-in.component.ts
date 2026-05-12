@@ -48,7 +48,6 @@ export class DialogSignInComponent extends SharedSignInComponent implements OnIn
                  
     super(translationService, configService, signInOutService, appStorageService, browserService);
     this.isFirst = data.isFirst
-    console.log("isFirst???",this.isFirst);
   }
 
   ngOnInit() {
@@ -82,7 +81,6 @@ export class DialogSignInComponent extends SharedSignInComponent implements OnIn
   public sendLoginCode(){
     this.wasClicked = true;
     this.sendCode((result) => {
-      console.log("result", result)
       if (result.success) {
         this.appStorageService.setItemInLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.franchiseId, result.token);
         //this.appStorageService.removeItemInStorage(StorageValueEnum.CODE_SENT_DATE);
