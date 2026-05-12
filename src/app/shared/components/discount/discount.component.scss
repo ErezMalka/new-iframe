@@ -18,7 +18,7 @@
   margin: 0 30%;
   .description {
     display: inline-block;
-   // font-family: 'Arial Rounded MT Bold', sans-serif;
+   // font-family: Arial, sans-serif;
     font-size: $font-normal-size;
     font-weight: bold;
     font-style: normal;
@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
     .discount-price {
-     // font-family: 'Arial Rounded MT Bold', sans-serif;
+     // font-family: Arial, sans-serif;
       font-size: 1.75 * $font-normal-size;
       font-weight: bold;
       font-style: normal;
