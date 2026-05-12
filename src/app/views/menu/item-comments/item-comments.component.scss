@@ -107,12 +107,12 @@
     border: 0;
     margin: 8px 4px 0;
     font-size: 1.1 * $font-default-size;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     position: relative;
   }
   .button-cancel {
     outline: none;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.1 * $font-default-size;
     box-shadow: 0 0 5px 0 rgba(0, 8, 5, 0.22);
     background-color: #2b2b2b;
@@ -139,7 +139,7 @@
   box-sizing: border-box;
   //margin-bottom:  $margin-normal-size;
   color: #2b2b2b;
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
@@ -195,7 +195,7 @@
 .description {
   text-align: center;
   display: inline-block;
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: $font-default-size;
   font-weight: bold;
   font-style: normal;
@@ -210,7 +210,7 @@
   display: flex;
   align-items: baseline;
   .discount-price {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: bold;
     font-style: normal;
     font-stretch: normal;
@@ -232,14 +232,14 @@
 
   .sum {
     font-size: 1.55 * $font-default-size;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
   }
 
   .discount-price.type {
     font-size: $font-default-size * 0.8;
     padding: 4px;
     box-sizing: content-box;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
   }
   .discount-price.type.direction {
     font-size: $font-default-size * 0.8;
@@ -267,7 +267,7 @@
 }
 
 .comments::-webkit-input-placeholder {
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1.35 * $font-default-size;
   font-weight: normal;
   font-style: normal;
@@ -277,7 +277,7 @@
   color: rgba(102, 102, 102, 0.72);
 }
 .comments::-moz-placeholder          {
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1.2 * $font-default-size;
   font-weight: normal;
   font-style: normal;
@@ -287,7 +287,7 @@
   color: rgba(102, 102, 102, 0.72);
 }/* Firefox 19+ */
 .comments:-moz-placeholder           {
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1.25 * $font-default-size;
   font-weight: normal;
   font-style: normal;
@@ -297,7 +297,7 @@
   color: rgba(102, 102, 102, 0.72);
 }/* Firefox 18- */
 .comments:-ms-input-placeholder      {
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1.25 * $font-default-size;
   font-weight: normal;
   font-style: normal;
