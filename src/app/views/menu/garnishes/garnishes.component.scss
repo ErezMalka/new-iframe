@@ -113,7 +113,7 @@ ng-scrollbar {
 
 }
 .header {
-  // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+  // font-family: Arial, sans-serif;
    font-size:1rem!important;// 2 * $font-default-size;
    font-weight: bold;
    font-style: normal;
@@ -125,7 +125,7 @@ ng-scrollbar {
    padding: 0.5rem;// $padding-normal-size;
    box-sizing: border-box;
    margin-bottom: 0;
-   font-family: 'Open Sans Hebrew';
+   font-family: Arial, sans-serif;
  }
 
  .content {
@@ -152,7 +152,7 @@ ng-scrollbar {
     margin: 0.75 * $margin-normal-size 0.15 * $margin-normal-size;
     //text-align: center;
     cursor: pointer;
-    font-family: 'Open Sans Hebrew';
+    font-family: Arial, sans-serif;
     .garnish-image {
       display: inline-block;
       width: 100%;
@@ -171,7 +171,7 @@ ng-scrollbar {
       width: 100%;
       align-items: center;
       .name {
-       // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+       // font-family: Arial, sans-serif;
         font-size: 1 * $font-default-size;
        // font-weight: bold;
         font-style: normal;
@@ -183,7 +183,7 @@ ng-scrollbar {
         flex: 1 1 35%;
       }
       .price {
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         font-size: 1 * $font-default-size;
         font-weight: normal;
         font-style: normal;
@@ -205,7 +205,7 @@ ng-scrollbar {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         font-size: 1 * $font-default-size;
         text-align: center;
       }
@@ -261,7 +261,7 @@ ng-scrollbar {
         .icon-content {
           color: #ffffff;
           text-align: center;
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
         }
       }
     }
@@ -389,7 +389,7 @@ text-align: right;
   background: #ffffff;
   border-radius: 20px;
   margin-bottom: 40px;
-  font-family: 'Open Sans Hebrew';
+  font-family: Arial, sans-serif;
 
   
   
@@ -589,7 +589,7 @@ text-align: right;
 
 
   .header {
-   // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+   // font-family: Arial, sans-serif;
     font-size:1rem;// 2 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -601,7 +601,7 @@ text-align: right;
     padding: 0.5rem;//$padding-normal-size;
     box-sizing: border-box;
     margin-bottom: 0;
-    font-family: 'Open Sans Hebrew';
+    font-family: Arial, sans-serif;
   }
   .header.direction {
     text-align: left;
@@ -637,7 +637,7 @@ text-align: right;
       margin: 0.75 * $margin-normal-size 0.15 * $margin-normal-size;
       //text-align: center;
       cursor: pointer;
-      font-family: 'Open Sans Hebrew';
+      font-family: Arial, sans-serif;
       .garnish-image {
         display: inline-block;
         width: 100%;
@@ -656,7 +656,7 @@ text-align: right;
         width: 100%;
         align-items: center;
         .name {
-         // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+         // font-family: Arial, sans-serif;
           font-size: 1 * $font-default-size;
          // font-weight: bold;
           font-style: normal;
@@ -668,7 +668,7 @@ text-align: right;
           flex: 1 1 35%;
         }
         .price {
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           font-size: 1 * $font-default-size;
           font-weight: normal;
           font-style: normal;
@@ -690,7 +690,7 @@ text-align: right;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          font-family: 'Alef-Regular', sans-serif;
+          font-family: Arial, sans-serif;
           font-size: 1 * $font-default-size;
           text-align: center;
         }
@@ -746,7 +746,7 @@ text-align: right;
           .icon-content {
             color: #ffffff;
             text-align: center;
-            font-family: 'Alef-Regular', sans-serif;
+            font-family: Arial, sans-serif;
           }
         }
       }
@@ -777,7 +777,7 @@ text-align: right;
     padding: $padding-normal-size * 0.75;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -789,7 +789,7 @@ text-align: right;
     margin: 4px;
 
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -807,7 +807,7 @@ text-align: right;
     padding: $padding-normal-size * 0.75;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size:1rem;// 1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -819,7 +819,7 @@ text-align: right;
     margin: 4px;
 
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -839,7 +839,7 @@ text-align: right;
     resize: none;
     text-align: right;
     outline: none;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     display: flex;
     align-content: center;
     justify-content: center;
@@ -855,7 +855,7 @@ text-align: right;
     resize: none;
     text-align: right;
     outline: none;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -876,7 +876,7 @@ text-align: right;
   }
 
   .comments::-webkit-input-placeholder {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size:1rem;//1.35 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -886,7 +886,7 @@ text-align: right;
     color: rgba(102, 102, 102, 0.72);
   }
   .comments::-moz-placeholder          {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.2 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -896,7 +896,7 @@ text-align: right;
     color: rgba(102, 102, 102, 0.72);
   }/* Firefox 19+ */
   .comments:-moz-placeholder           {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size:1rem;// 1.25 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -906,7 +906,7 @@ text-align: right;
     color: rgba(102, 102, 102, 0.72);
   }/* Firefox 18- */
   .comments:-ms-input-placeholder      {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1rem;//1.25 * $font-default-size;
     font-weight: normal;
     font-style: normal;
