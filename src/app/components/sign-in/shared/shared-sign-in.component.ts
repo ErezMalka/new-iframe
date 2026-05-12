@@ -65,7 +65,6 @@ export class SharedSignInComponent extends SizeMobileInitializationComponent{
     }
     this.isSignLoaded.emit(false); // Loading progress
     this.signInOutService.signOut();
-    console.log("AppConfig.configSettings.cancelPhoneVerification", AppConfig.configSettings.cancelPhoneVerification);
     if(!AppConfig.configSettings.cancelPhoneVerification){
       console.log("Regular verification");
      this.signInOutService.createUserAndGetCode(cleanPhone, false)
@@ -92,7 +91,6 @@ export class SharedSignInComponent extends SizeMobileInitializationComponent{
       console.log("No verification");
       this.signInOutService.createUserAndGetCode(cleanPhone, true)
       .subscribe((response) => {
-        console.log("response", response);
         if (response.success) {
           this.appStorageService.setItemInLocalStorage(StorageValueEnum.CODE_SENT_DATE, new Date());
           this.appStorageService.setItemInLocalStorage(StorageValueEnum.PHONE, cleanPhone);
