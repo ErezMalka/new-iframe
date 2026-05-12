@@ -238,7 +238,6 @@ export class MyCreditCardsComponent extends SizeMobileInitializationComponent im
     //this.getOrderInfo();
     //this.getOrdersInfo();  
 
-    console.log("this.currentBranch", this.currentBranch);
   }
 
   ngAfterViewInit() {
@@ -254,7 +253,6 @@ export class MyCreditCardsComponent extends SizeMobileInitializationComponent im
     this.isSignedUser = !!result;
     this.isSignedUser = !!this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
-    console.log("checkSigning(): this.isSignedUser", this.isSignedUser);
     if (this.isSignedUser) {
       //this.checkDiscount(true);
       this.verifyToken(true);
@@ -272,10 +270,8 @@ export class MyCreditCardsComponent extends SizeMobileInitializationComponent im
     const token = this.appStorageService
       .getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
     if (token) {
-      console.log("token", token);
       this.isLoaded.isValidationUserLoaded = false;
       this.signInOutService.verifyToken(token).subscribe((response) => {
-        console.log("response", response);
         if (response && response.ccTokens && response.ccTokens.length > 0) {
           if(AppConfig.configSettings.cancelPhoneVerification){
             this.usableOrder.CCTokens = null;
@@ -377,13 +373,11 @@ export class MyCreditCardsComponent extends SizeMobileInitializationComponent im
         .subscribe((result) => {
           if (result) {
             this.myOrders = result;
-            console.log("this.myOrders", this.myOrders);
             //console.log("getOrderInfo result",result);
             //this.displayPizzaLogicForOrders();
 
             this.myOrders.forEach(order => {
               order.OrderItems.forEach(item => {
-                console.log("item", item);
                 //var foundItem = this.allItemsArr.find(({ Name }) => Name === item.Name);
                 //console.log("foundItem",foundItem);
                 /*this.combos.forEach(combo => {
@@ -403,7 +397,6 @@ export class MyCreditCardsComponent extends SizeMobileInitializationComponent im
             });
           }
         }, (error) => {
-          console.log("getOrderInfo Error", error)
           this.messageService.displayServerErrorMessage();
         });
     }
@@ -416,7 +409,6 @@ export class MyCreditCardsComponent extends SizeMobileInitializationComponent im
   private initializeOrder() {
     this.order = this.orderService.getOrder();
     this.usableOrder = this.orderService.getOrder();
-    console.log("this.usableOrder", this.usableOrder);
     if (this.appStorageService.branch) {
       this.currentBranch = this.appStorageService.branch;
     }
