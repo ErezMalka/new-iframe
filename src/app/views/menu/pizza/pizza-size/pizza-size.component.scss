@@ -17,7 +17,7 @@ ng-scrollbar {
   box-sizing: border-box;
 
   .header {
-    font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 2 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -31,7 +31,7 @@ ng-scrollbar {
     margin-bottom: 0;
     padding-bottom: 0;
     .description {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 1.25 * $font-default-size;
       font-weight: normal;
       font-style: normal;
@@ -86,7 +86,7 @@ ng-scrollbar {
     }
     .pizza-ingredients {
       .pizza-description {
-        font-family: 'Alef-Regular', sans-serif;
+        font-family: Arial, sans-serif;
         font-size: 1.5 * $font-default-size;
         font-weight: normal;
         font-style: normal;
@@ -143,7 +143,7 @@ ng-scrollbar {
     padding: $padding-normal-size * 0.5 $padding-normal-size * 1.25;
     box-sizing: border-box;
     flex: 0 0 15%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.5 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -156,7 +156,7 @@ ng-scrollbar {
     padding: 0.75rem;
     width: 150px;
     span {
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     img {
@@ -349,7 +349,7 @@ ng-scrollbar {
   width: 50px;
   margin: auto;
   border-top-right-radius: 50%;
-  font-family: 'Alef-Bold', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: $font-default-size * 0.75;
   font-weight: normal;
   font-style: normal;
@@ -365,7 +365,7 @@ ng-scrollbar {
   display: flex;
   flex-direction: column;
   div {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
   }
   img {
     position: absolute;
@@ -400,7 +400,7 @@ ng-scrollbar {
 }
 
 .description {
-  font-family: 'Alef-Regular', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 1.25 * $font-default-size;
   margin-top: 0.5 * $font-normal-size;
   font-weight: normal;
@@ -476,7 +476,7 @@ ng-scrollbar {
     margin-bottom: 2rem;
     .pizza-size-item {
       position: relative;
-      font-family: 'Alef-Regular', sans-serif;
+      font-family: Arial, sans-serif;
       font-size: 1.25 * $font-default-size;
       margin-top: 0.5 * $font-normal-size;
       font-weight: normal;
