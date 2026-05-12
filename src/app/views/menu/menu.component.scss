@@ -72,7 +72,7 @@
   }
 
   .item-name{
-    font-family: 'Open Sans Hebrew';
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 25px;
@@ -83,7 +83,7 @@
   }
 
   .item-info{
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 17px;
@@ -110,7 +110,7 @@
       border: none;
 
       .text-btn{
-        font-family: 'Open Sans Hebrew';
+        font-family: Arial, sans-serif;
         font-style: normal;
         font-weight: bold;
         font-size: 14px;
@@ -165,7 +165,7 @@ align-items: center; /* align vertical */
   .category-text {
     color: black;
     font-weight: normal;
-    font-family: 'Open Sans Hebrew';
+    font-family: Arial, sans-serif;
     font-size: 1rem;
   }
   .category-text.selected {
@@ -183,7 +183,7 @@ align-items: center; /* align vertical */
   .category-header-new {
     color: #4F4F4F;
     font-weight: 700;
-    font-family: 'Open Sans Hebrew';
+    font-family: Arial, sans-serif;
     margin-left: 15px;
     margin-right: 15px;
     margin-bottom: 15px;
@@ -1075,7 +1075,7 @@ align-items: center; /* align vertical */
 .intro-app .en {
   color: transparent;
   direction: rtl;
-  //font-family: var(--font-family-open_sans_hebrew-regular);
+  //font-family: Arial, sans-serif;
   font-size: var(--font-size-xl);
   left: 321px;
   letter-spacing: 0;
@@ -1106,7 +1106,7 @@ align-items: center; /* align vertical */
 .intro-app .x76 {
   color: var(--white);
   direction: rtl;
-  //font-family: var(--font-family-open_sans_hebrew-bold);
+  //font-family: Arial, sans-serif;
   font-size: var(--font-size-l);
   font-weight: 700;
   left: 162px;
