@@ -84,7 +84,7 @@
     
   
   .textlabel{
-    font-family: "Open Sans Hebrew";
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-size: 18px;
     line-height: 21px;
@@ -92,7 +92,7 @@
 
   .textlabel-header{
 
-    font-family: "Open Sans Hebrew" !important;
+    font-family: Arial, sans-serif !important;
     font-style: normal !important;
     font-size: 21px !important;
     line-height: 21px !important;
@@ -107,7 +107,7 @@
     margin-top: 10px;
     width: 309px;
 
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 24px;
@@ -119,7 +119,7 @@
   
 
   .content{
-    font-family: Open Sans Hebrew;
+    font-family: Arial, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 24px;
@@ -131,7 +131,7 @@
     
   }
   .item-name {
-   // font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+   // font-family: Arial, sans-serif;
     font-size: 1.2 * $font-default-size;
     font-weight: bold;
     font-style: normal;
@@ -142,7 +142,7 @@
     color:var(--orange);//#ff6600;
   }
   .item-price {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.1 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -153,7 +153,7 @@
     color: #2b2b2b;
   }
   .item-date {
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1.1 * $font-default-size;
     font-weight: normal;
     font-style: normal;
@@ -195,7 +195,7 @@
     margin: 8px 4px 0;
     margin-top: 0;
     font-size: 1.1 * $font-default-size;
-    //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+    //font-family: Arial, sans-serif;
     position: relative;
   }
 
@@ -226,12 +226,12 @@
     margin-left: -25%;
     width: 50%;
     top: 50%;
-    font-family: 'Alef-Regular', sans-serif;
+    font-family: Arial, sans-serif;
   }
 }
 
 .header-payment {
-  //font-family: 'Arial Rounded MT Bold', sans-serif;
+  //font-family: Arial, sans-serif;
   font-size: 1.75 * $font-default-size;
   font-weight: bold;
   font-style: normal;
