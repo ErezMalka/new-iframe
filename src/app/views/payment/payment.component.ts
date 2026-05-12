@@ -175,7 +175,6 @@ export class PaymentComponent implements OnInit {
 
       this.pointsPerOrder = this.appStorageService.pointsPerOrder;
 
-      console.log("hidePickUpTime",this.hidePickUpTime());
       this.loadScratchCoupon();
       this.branchAddress = this.appStorageService.branch.Address;
       //console.log(this.branchAddress);
@@ -194,14 +193,6 @@ export class PaymentComponent implements OnInit {
       this.takeAwayTimeInMinutes = this.appStorageService.branch.TakeawayTimeInMinutes;
       this.estimatedTakeAwayTime = moment(d).add(this.takeAwayTimeInMinutes, 'm').toDate();
       this.estdeliveryTimeInMinutes = moment(d).add(this.deliveryTimeInMinutes, 'm').toDate();
-      console.log("this.estdeliveryTimeInMinutes",this.estdeliveryTimeInMinutes);
-      console.log("deliveryTimeInMinutes",this.deliveryTimeInMinutes);
-      console.log("estimatedTakeAwayTime",this.estimatedTakeAwayTime);
-      console.log("d-date",d);
-      console.log("takeAwayTimeInMinutes",this.takeAwayTimeInMinutes);
-      console.log("this.isTa", this.isTa);
-      console.log("this.isFutureOrder", this.isFutureOrder);
-      console.log("this.futureDateTime", this.futureDateTime);
       this.orderNumber = this.paymentResult.Data?.orderId || "";
       this.appStorageService.setItemInLocalStorage("OrderId",this.orderNumber);
       this.orderService.getOrder().OrderPizzas = [];
@@ -231,7 +222,6 @@ export class PaymentComponent implements OnInit {
               .subscribe((response) => {
                 if (response && response.Data && response.Data.success) {
                   if (this.timerId) {
-                    console.log("this.timerId", this.timerId);
                     clearInterval(this.timerId);
                   }
                 }
