@@ -53,7 +53,7 @@
   min-height: 43px;
   text-align: center;
   width: 159px;
-  font-family: "Open Sans Hebrew";
+  font-family: Arial, sans-serif;
   align-self: end;
   font-size: 20px;
 }
@@ -208,7 +208,7 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        //font-family: 'Nachlieli CLM', sans-serif;
+        //font-family: Arial, sans-serif;
         font-size: 1.15 * $font-default-size;
         font-weight: 300;
         font-style: normal;
@@ -350,7 +350,7 @@
         }
       }
       .content {
-        //font-family: 'FtJimborySquared 1.0 Bold', sans-serif;
+        //font-family: Arial, sans-serif;
         font-size: $font-default-size * 1.5;
         font-weight: bold;
         font-style: normal;
