@@ -143,7 +143,6 @@ export class AddressSelectionComponent implements OnInit {
     else{
        position = {} 
     }
-    console.log("position",position);
     const matDialogRef = this.matDialog.open(DialogSignInComponent, {
       data: {
         isFirst: true,
@@ -232,21 +231,18 @@ export class AddressSelectionComponent implements OnInit {
     if (this.isFilledRequiredFields()) {
 
       if(this.dummyDeliveryGroups) {
-        console.log("getFranchiseWithBranches(this.appStorageService.orderType)",this.appStorageService.orderType);
         this.metadataService.getFranchiseWithBranches(this.appStorageService.orderType)
         .subscribe((franchiseRes) => {
           if (franchiseRes && franchiseRes.branches) {
             franchiseRes.branches.forEach((brn) => {
               if (brn.IsDelivery) {
                 brn.DeliveryGroups.forEach((group) => {
-                  console.log(group,this.order.UserCity);
 
                   var currentGroup = group.Cities.find(c=> c.Name == this.order.UserCity);
                   if (currentGroup) {
                     this.availableGroups.push(
                       { branchID: brn.Id , branchName: brn.Name ,  group  }
                       );
-                      console.log(this.availableGroups);
                     this.isLoaded.isDeliveryDataLoaded = true;
                     this.dialogRef.close({
                       isSaved: true,
@@ -293,10 +289,6 @@ export class AddressSelectionComponent implements OnInit {
 
   public isFilledRequiredFields() {
     if (this.order && this.order.IsDelivery) {
-      console.log("this.order.UserCity",this.order.UserCity);
-      console.log("this.order.Street",this.order.Street);
-      console.log("this.order.Lat",this.order.Lat);
-      console.log("this.order.Lng",this.order.Lng);
       if (AppConfig.configSettings.allowIncompletAddress)  return this.trimField(this.order.UserCity);
       else
       return this.trimField(this.order.UserCity) && this.trimField(this.order.Street) && 
@@ -485,7 +477,6 @@ export class AddressSelectionComponent implements OnInit {
   private initializeCitiesForDummyDeliveryGroups() {
     this.isLoaded.isDeliveryDataLoaded = false;
     this.dummyCities= [];
-    console.log("getFranchiseWithBranches(this.appStorageService.orderType)",this.appStorageService.orderType);
     this.metadataService.getFranchiseWithBranches(this.appStorageService.orderType)
       .subscribe((result) => {
         if (result && Array.isArray(result.branches)) {
@@ -613,7 +604,6 @@ export class AddressSelectionComponent implements OnInit {
     if (token) {
       this.isLoaded.isValidationUserLoaded = false;
       this.signInOutService.verifyToken(token).subscribe((response) => {
-        console.log("address-selection: verifyToken", response);
         if (response && response.addresses) {
           if (AppConfig.configSettings.cancelPhoneVerification) {
             this.addresses = [];
@@ -666,10 +656,8 @@ export class AddressSelectionComponent implements OnInit {
   }
 
   public checkSigning(result?) {
-    console.log("checkSigning-result", result);
     //this.isSignedUser = !!result;
     this.isSignedUser = !!this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.configService.franchiseId);
-    console.log("this.isSignedUser",this.isSignedUser)
       
     if (this.isSignedUser) {
       this.verifyToken(true);
@@ -684,14 +672,11 @@ export class AddressSelectionComponent implements OnInit {
   }
   
   public changeSelectedAddress(userAddress, isContinue){
-    console.log("changeSelectedAddress",userAddress);
-    console.log("isContinue",isContinue);
     this.order.StreetNum = userAddress.StreetNum;
     this.order.Lat = userAddress.Lat;
     this.order.Lng =  userAddress.Lng;
     this.metadataService.getDeliveryGroup(this.order.Lat, this.order.Lng)
           .subscribe((result) => {
-           console.log("result",result);
             this.order.UserCity = userAddress.City;
             this.order.Street = userAddress.Street;
             this.order.ApartmentNum = userAddress.ApartmentNum;
@@ -700,7 +685,6 @@ export class AddressSelectionComponent implements OnInit {
                            ", " + userAddress.City;  
             this.order.UserAddressId = userAddress.Id;
 
-                           console.log("this.address", this.address);
                                      
             this.displayAddress = true;
             const avilableGroups = result;
@@ -722,16 +706,12 @@ export class AddressSelectionComponent implements OnInit {
    public handleAddressChange(address: any) {
     this.isLoaded.isDeliveryDataLoaded = false;
     this.googlePlaceAddress = address;
-    console.log("address",address);
-    console.log("this.addressInput.nativeElement.value", this.addressInput.nativeElement.value);
     var addressData = this.getDataFromGooglePlaceObject(address);
-    console.log("addressData",addressData); 
     if (AppConfig.configSettings.allowIncompletAddress){
 
     } else {
 
     }
-    console.log("AppConfig.configSettings.allowIncompletAddress",AppConfig.configSettings.allowIncompletAddress)
     if (addressData.Street == '' && !AppConfig.configSettings.allowIncompletAddress){
       this.orderErrors.Street = true;    
       this.isLoaded.isDeliveryDataLoaded = true;
@@ -746,18 +726,15 @@ export class AddressSelectionComponent implements OnInit {
       this.order.Lng =  addressData.Longitude;
       this.metadataService.getDeliveryGroup(this.order.Lat, this.order.Lng)
             .subscribe((result) => {
-             console.log("result",result);
               this.order.UserCity = addressData.City;
               this.order.Street = addressData.Street;
               this.order.Address = addressData.Address
               this.order.Premise = addressData.Premise
               this.address = addressData.Address;  
-              console.log("this.address", this.address);
               if (addressData.StreetNum == '')
               {
                 this.order.Street = this.addressInput.nativeElement.value.split(",")[0];
               //  this.address = this.addressInput.nativeElement.value
-                console.log("this.address", this.address);
               }                        
               this.displayAddress = true;
               const avilableGroups = result;
@@ -780,13 +757,11 @@ export class AddressSelectionComponent implements OnInit {
 
   getDataFromGooglePlaceObject(place): any {
     if (place == undefined || place.geometry == undefined) return {};
-    console.log("getDataFromGooglePlaceObject",place)
     let streetNum = "";
     let street = "";//""
     let premise="";
     
     place.address_components.forEach((element) => {
-      console.log("element",element);
       switch (element.types[0]) {
         case "street_number":
           streetNum = element.long_name;
@@ -807,8 +782,6 @@ export class AddressSelectionComponent implements OnInit {
     if (street == "" && AppConfig.configSettings.allowIncompletAddress)
       street = place.name;
     
-      console.log(" place.name",place.name);
-      console.log("street",street);
        const city =
         place.address_components.find(c =>
           c.types.includes("locality")
@@ -828,7 +801,6 @@ export class AddressSelectionComponent implements OnInit {
         StreetNum: streetNum,
         Premise:premise
       }
-      console.log ("data",data);
       return {
         Longitude: place.geometry.location.lng(),
         Latitude: place.geometry.location.lat(),
@@ -872,7 +844,6 @@ export class AddressSelectionComponent implements OnInit {
   }
 
   noHouseNrChanged(){
-    console.log("noHouseNrChanged",this.order.GooglePlaceAddress)
     if (this.noHouseNr) {
       this.orderErrors.StreetNum = false;
      this.handleAddressChange(this.googlePlaceAddress);
