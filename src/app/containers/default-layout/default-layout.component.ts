@@ -91,7 +91,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     private translationsService: TranslationsService,
     public appStorageService: AppStorageService) 
     {
-      console.log("Default Layout constructor(",this.franchiseId);
       this.lang = environment.language;
       this.franchiseId = this.configService.franchiseId;
       this.navItems = [];//navItems;
@@ -109,8 +108,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit(): void {
-    console.log("Default Layout ngOnInit",this.franchiseId);
-    console.log("inLinks- DL", this.inLinks );
     this.terms = this.appStorageService.Terms || "";
     this.privacyPolicy = this.appStorageService.privacyPolicy || "";
     this.name = AppConfig.settings.name;
@@ -118,7 +115,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     
     this.clubMemberCategories = this.appStorageService.clubMembershipCategories;
     const body = document.getElementsByTagName('body')[0];
-    console.log("body",body);
     if (body.classList.contains('sidebar-show')) {
        body.classList.remove('sidebar-show');
     }
@@ -133,7 +129,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
      
       this.user = this.appStorageService.appUser;
       if (token){
-        console.log("this.appStorageService.appUser",this.appStorageService.appUser);
         if ( this.appStorageService.appUser &&  
              this.appStorageService.appUser.LoginToken == token){
               this.user = this.appStorageService.appUser
@@ -149,7 +144,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
               this.ccTokens = response.ccTokens;
               this.addresses = response.addresses;
               console.log("ngOnInit -defaultLayaout");
-              console.log("this.user", this.user);
               if(AppConfig.configSettings.cancelPhoneVerification){
                 this.user.Address = null;
                 this.user.IsClubMember = null;
@@ -162,7 +156,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
               this.isSignedUser=false;
             }
           }, (error) => {
-            console.log("error", error);
           });
         }
       }
@@ -173,7 +166,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.navItems =[];// navItems;
     this.logo = this.appStorageService.logo;
     this.currentBranch = this.appStorageService.branch;
-    console.log("this.currentBranch",this.currentBranch);
     if (AppConfig.configSettings.orderStatus 
       && AppConfig.configSettings.orderStatus == true) {
       this.navItems.push (
@@ -206,7 +198,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
       if (result) {
         if(result.active)
         this.discount = result;
-        console.log("this.discount",this.discount);
       }
     },(error) => {
         this.discount = undefined;
@@ -237,7 +228,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     });
 
     matDialogRef.afterClosed().subscribe((result) => {
-      console.log("my-result", result);
     
     });
 }
@@ -261,7 +251,6 @@ const matDialogRef = this.matDialog.open(MessagePopupComponent, {
 });
 
 matDialogRef.afterClosed().subscribe((result) => {
-  console.log("my-result", result);
  
 });
 
@@ -287,11 +276,8 @@ matDialogRef.afterClosed().subscribe((result) => {
             this.appStorageService.appUser.Address = null;
             this.appStorageService.appUser.IsClubMember = null;
           }
-          console.log("this.user", this.user);
 
-          console.log("isClubMember", isClubMember);
 
-          console.log("this.checkUserBirthDay", this.checkUserEvents());
           var minWidth;
           var maxWidth;
           var maxHeight;
@@ -330,8 +316,6 @@ matDialogRef.afterClosed().subscribe((result) => {
             });
 
             matDialogRef.afterClosed().subscribe((result) => {
-              console.log("CLUB_MEMBER-RESULT", result);
-              console.log("this.user", this.user);
               if (result) {
                 this.appStorageService.showClubMember = false;
 
@@ -364,17 +348,13 @@ matDialogRef.afterClosed().subscribe((result) => {
                   if (!this.dateIsValid(this.user.JoinedToClub) && this.user.JoinedToClubStr != null) {
                     this.user.JoinedToClub = new Date(this.user.JoinedToClubStr);
                   }*/
-                  console.log("defaultLayaout - ClubMemberSignIn: this.user", this.user);
-                  console.log(" this.user.JoinedToClub ", this.user.JoinedToClub);
 
 
 
                   this.signInOutService.updateUserDetails(this.user).subscribe((result) => {
-                    console.log("result - update user", result);
                     const joinCategory = this.clubMemberCategories.filter((cat) => {
                       return cat.Name == this.translationsService.translate('CM_JOIN') || cat.Name == 'CM_JOIN'
                     });
-                    console.log("joinCategory", joinCategory);
                     if (result && !this.user.UsedJoinVoucher && joinCategory && joinCategory[0] && joinCategory[0].Items && joinCategory[0].Items.length>0) {
                       this.userJoinedClub = true;
                       this.openCustomerClub()
@@ -403,7 +383,6 @@ matDialogRef.afterClosed().subscribe((result) => {
           this.isSignedUser=false;
         }
       }, (error) => {
-        console.log("error", error);
       });
 
     }
@@ -434,7 +413,6 @@ matDialogRef.afterClosed().subscribe((result) => {
     
     matDialogRef.componentInstance.signInCompleted
       .subscribe((result) => {
-        console.log("result", result);
         //this.loadOrderUserDataToUser(this.order);
         this.isSignedUser = result;
         console.log("defaultLayout component verifyToken");
@@ -453,17 +431,12 @@ matDialogRef.afterClosed().subscribe((result) => {
               this.appStorageService.appUser.Address = null;
               this.appStorageService.appUser.IsClubMember = null;
             }
-            console.log("this.user", this.user);
 
             if (this.isSignedUser && this.user) {
-              console.log("this.appStorageService.franchise", this.appStorageService.franchise);
-              console.log("this.user", this.user);
-              console.log("this.appStorageService", this.appStorageService);
               if( this.user.BiteCredit > 0){
                 this.router.navigateByUrl(`/${this.franchiseId}/my-credit`);
               }
               else{
-                console.log("this.isMobileMode()",this.isMobileMode());
                 var minWidth;
                 var maxWidth;
                 var maxHeight;
@@ -479,7 +452,6 @@ matDialogRef.afterClosed().subscribe((result) => {
                   maxWidth = '50vw';
                   cls = 'bite-credit-desktop'
                 }
-                console.log("cls",cls)
                 const matDialogRef = this.matDialog.open(BiteCreditComponent, {
                   data: {
                     creditOptions: this.appStorageService.franchise.CreditOptions,
@@ -505,7 +477,6 @@ matDialogRef.afterClosed().subscribe((result) => {
             this.isSignedUser=false;
           }
         }, (error) => {
-          console.log("error", error);
         });
 
 
@@ -514,7 +485,6 @@ matDialogRef.afterClosed().subscribe((result) => {
       if (this.appStorageService.appUser?.BiteCredit > 0) {
         this.router.navigateByUrl(`/${this.franchiseId}/my-credit`);
       }else{
-        console.log("this.isMobileMode()",this.isMobileMode());
         var minWidth;
         var maxWidth;
         var maxHeight;
@@ -530,7 +500,6 @@ matDialogRef.afterClosed().subscribe((result) => {
           maxWidth = '50vw';
           cls = 'bite-credit-desktop'
         }
-        console.log("cls",cls)
         const matDialogRef = this.matDialog.open(BiteCreditComponent, {
           data: {
             creditOptions: this.appStorageService.franchise.CreditOptions,
@@ -565,7 +534,6 @@ matDialogRef.afterClosed().subscribe((result) => {
 
       if (this.user.BirthDateStr != null) {
         birthStrToDate = new Date(this.user.BirthDateStr);
-        console.log("birthStrToDate", birthStrToDate);
       }
       if (this.dateIsValid(this.user.BirthDate)) {
         availableMonthBDay = this.user.BirthDate?.getMonth();
@@ -573,12 +541,9 @@ matDialogRef.afterClosed().subscribe((result) => {
       else if (this.user.BirthDateStr != null) {
         availableMonthBDay = birthStrToDate?.getMonth();
       }
-      console.log("availableMonthBDay", availableMonthBDay);
-      console.log("currentMonth", currentMonth);
 
       if(this.user.AnniversaryStr != null){
         annStrToDate = new Date(this.user.AnniversaryStr);
-        console.log("annStrToDate", annStrToDate);
       }
       if(this.dateIsValid(this.user.Anniversary)){
         availableMonthAnn = this.user.Anniversary?.getMonth();
@@ -587,8 +552,6 @@ matDialogRef.afterClosed().subscribe((result) => {
         availableMonthAnn =  annStrToDate?.getMonth();
        }
     
-      console.log("availableMonthAnn", availableMonthAnn);
-      console.log("currentMonth", currentMonth);
 
 
       if((availableMonthAnn == availableMonthBDay) && (availableMonthAnn == currentMonth)
@@ -624,7 +587,6 @@ matDialogRef.afterClosed().subscribe((result) => {
   dateIsValid(date) {
     if( date instanceof Date) return true;
     else{
-      console.log("not instance of date: date", date);
       return false;
 
     }
@@ -643,12 +605,8 @@ matDialogRef.afterClosed().subscribe((result) => {
   public cancelMembership(){
     const token = this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.franchiseId);
     
-        console.log("cancelMembership :franchise", this.appStorageService.franchise);
-        console.log("cancelMembership :showClubMember", this.appStorageService.showClubMember);
-        console.log("this.user", this.appStorageService.appUser);
 
         if (this.appStorageService.appUser && this.appStorageService.appUser) {
-          console.log("if (this.user && this.user.IsClubMember): user", this.appStorageService.appUser);
           this.appStorageService.appUser.IsClubMember = false;
           this.appStorageService.appUser.MemberPoints = 0;
 
@@ -663,7 +621,6 @@ matDialogRef.afterClosed().subscribe((result) => {
           this.appStorageService.showClubMember = false;
     
           this.signInOutService.updateUserDetails(this.appStorageService.appUser).subscribe((reslt) => {
-            console.log("result - update user", reslt);
           }, (error) => {
             console.log("error update user");
     
@@ -678,19 +635,14 @@ matDialogRef.afterClosed().subscribe((result) => {
   
   private getAppLanguages() {
     this.selectedLang = this.translationsService.language();
-    console.log("this.translationService.language",this.translationsService.language());
-    console.log(" this.selectedLang", this.selectedLang);
     this.languages =[];
     this.languages =this.languages.concat({Id:0, Name: "עברית", Code:"he"});
     this.signInOutService.getAppLanguages()
       .subscribe((response) => {
-        console.log('getAppLanguages',response);
         if (response) {
           this.languages =response;
           //this.selectedLang = "he";
-          console.log('getAppLanguages-2',this.languages)
           //this.selectedLang = "he"
-          console.log(this.selectedLang)
           this.selectedLanguage = this.translationsService.language();
 
         }
@@ -706,14 +658,10 @@ matDialogRef.afterClosed().subscribe((result) => {
   }*/
 
   public changeLanguage() {
-    console.log("selectedLang", this.selectedLang);
-    console.log("this.translationService.language", this.translationsService.language());
     this.translationsService.setLanguage(this.selectedLang, ()=>{
       //this.selectedLang = this.translationService.language();
-      console.log("this.translationService.language", this.translationsService.language());
       this.initializeMenuForBranch(() => {
         console.log("this.router.navigateByUrl(`/${this.franchiseId}/menu`)");
-        console.log("---this.order",this.order);
 
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload'
@@ -725,8 +673,6 @@ matDialogRef.afterClosed().subscribe((result) => {
   }
 
   private initializeMenuForBranch(continueCallBack?) {
-    console.log("initializeMenuForBranch",this.appStorageService.orderType);
-    console.log("this.translationService.language()", this.translationsService.language());
     // if (!this.appStorageService.isMenuWasLoaded) {
     let hasPizzas: boolean = false;
     let hascCombos: boolean = false;
@@ -761,7 +707,6 @@ matDialogRef.afterClosed().subscribe((result) => {
           
         });
 
-        console.log("this.appStorageService.clubMembershipCategories",this.appStorageService.clubMembershipCategories);
 
         this.appStorageService.pizzas = result.pizzas;
         if (result.pizzas && result.pizzas.length > 0) {
@@ -803,10 +748,8 @@ matDialogRef.afterClosed().subscribe((result) => {
   }
 
   public checkSigning(result?) {
-    console.log("checkSigning-result", result);
     //this.isSignedUser = !!result;
     this.isSignedUser = !!this.appStorageService.getItemFromLocalStorage(StorageValueEnum.LOGIN_TOKEN + "_" + this.franchiseId);
-    console.log("this.isSignedUser",this.isSignedUser)
       
     if (this.isSignedUser) {
       this.verifyToken();
@@ -837,7 +780,6 @@ matDialogRef.afterClosed().subscribe((result) => {
     
     matDialogRef.componentInstance.signInCompleted
       .subscribe((result) => {
-        console.log("result", result);
         //this.loadOrderUserDataToUser(this.order);
         this.isSignedUser = result;
         console.log("defaultLayout component verifyToken");
@@ -856,12 +798,8 @@ matDialogRef.afterClosed().subscribe((result) => {
               this.appStorageService.appUser.Address = null;
               this.appStorageService.appUser.IsClubMember = null;
             }
-            console.log("this.user", this.user);
 
             if (this.isSignedUser && this.user) {
-              console.log("this.appStorageService.franchise", this.appStorageService.franchise);
-              console.log("this.user", this.user);
-              console.log("this.appStorageService", this.appStorageService);
               if( this.appStorageService.showClubMember && !this.user.IsClubMember && !this.user.DontDisplayAnymore && this.appStorageService.franchise.UseMembersClub ) //this.appStorageService.franchise.UseMembersClub &&
               this.openCustomerClub(false);
               else if(this.appStorageService.showClubMember && this.user.IsClubMember && this.appStorageService.franchise.UseMembersClub)
@@ -874,7 +812,6 @@ matDialogRef.afterClosed().subscribe((result) => {
             this.isSignedUser=false;
           }
         }, (error) => {
-          console.log("error", error);
         });
 
 
@@ -901,7 +838,6 @@ matDialogRef.afterClosed().subscribe((result) => {
          //console.log(result)
         }
       },(error) => {
-        console.log("getOrderInfo Error", error)
        // this.messageService.displayServerErrorMessage();
       });
     }
@@ -916,7 +852,6 @@ matDialogRef.afterClosed().subscribe((result) => {
   }
 
   public checkAvailabilityDiscount() {
-    console.log(" this.discount", this.discount);
     // console.log("this.order.IsDiscount",this.order.IsDiscount);
       if( this.discount && this.discount.minSum != null && this.discount.minSum != undefined) {
        return this.discount && (this.discount.sum > 0) && (this.discount.active || this.discount.alwaysActive);
@@ -925,7 +860,6 @@ matDialogRef.afterClosed().subscribe((result) => {
    }
   
    public returnToPrevPage() {
-     console.log("!!!!!!!!!!!!!!!!!!!!window.location.hash", window.location.hash);
     localStorage.removeItem(window.location.hash);
     this.closeNav();
     this.router.navigate([`/${this.franchiseId}/home`]);
@@ -933,7 +867,6 @@ matDialogRef.afterClosed().subscribe((result) => {
 
     closeNav(isPopUp?, isAbout?) {
       this.inLinks = true;
-      console.log("this.inLinks",this.inLinks);
       document.getElementById("mySidebar").style.display = "none";
       const body = document.getElementsByTagName('body')[0];
       body.classList.remove('sidebar-show');
@@ -958,7 +891,6 @@ matDialogRef.afterClosed().subscribe((result) => {
           });
     
           matDialogRef.afterClosed().subscribe((result) => {
-            console.log("my-result", result);
           });
     
         
@@ -967,7 +899,6 @@ matDialogRef.afterClosed().subscribe((result) => {
       if(isPopUp && isAbout){
         let header = this.translationsService.translate("ABOUT");
         const desc = this.appStorageService.franchise.Description;
-        console.log("desc!!!!!",desc)
         const matDialogRef = this.matDialog.open(MessagePopupComponent, {
           data: {
             header,
@@ -985,7 +916,6 @@ matDialogRef.afterClosed().subscribe((result) => {
         });
 
         matDialogRef.afterClosed().subscribe((result) => {
-          console.log("my-result", result);
         });
 
       
@@ -1097,7 +1027,6 @@ matDialogRef.afterClosed().subscribe((result) => {
    // this.toggleCart();
   }
 public signOut(){
-  console.log("signOUT()", this.isSignedUser);
   this.signInOutService.signOut();
   this.isSignedUser=false;
   this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -1106,7 +1035,6 @@ public signOut(){
 }
 
 public deleteAccount(){
-  console.log("deleteAccount()", this.isSignedUser);
  
   this.signInOutService.DeleteAppUsersAccount().subscribe(result => {
     this.signInOutService.signOut();
@@ -1119,7 +1047,6 @@ public deleteAccount(){
 }
 
   public openItemPopup(res :any){
-    console.log("openItemPopup",res);
    // let index = res.index;
      const initialState = {
        item: res.item.Item,
@@ -1130,7 +1057,6 @@ public deleteAccount(){
       this.modalService.onHide
      .pipe(take(1)).subscribe(() => {
  
-         console.log("menu close modal item",this.bsModalRef.content)
          if (this.bsModalRef.content.isSaved && this.bsModalRef.content.item) {
            const orderItem = this.prepareEditedItemForOrder(this.bsModalRef.content.item);
            this.order.OrderItems[res.index] = orderItem;              
