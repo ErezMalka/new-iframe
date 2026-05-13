@@ -1,4 +1,4 @@
-<div *ngIf="!isMobileMode()">
+<div *ngIf="!isMobileMode()" class="popup-wrapper">
   <div class="modal-header" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" style="text-align:right; font-style: normal; font-size: 25px;line-height: 21px;color: #636363;">
     <span class="modal-title d-none d-lg-block" style="margin: 0;">
       <b>{{pizza.Name}}</b> <span *ngIf="pizza.Information!=undefined && pizza.Information!='undefined'  && pizza.Information != 'null'"> - {{pizza.Information}}</span>
@@ -417,7 +417,7 @@
 
 <ng-container *ngIf="isMobileMode()">
 
-  <div class="garnishes-container" style="overflow-y: hidden; max-height: 90vh;">
+  <div class="garnishes-container popup-wrapper" style="overflow-y: hidden; max-height: 90vh;">
     <mat-dialog-content class="mat-dialog-content-custom" style="overflow: hidden; background: white; height: 98vh; max-height: none !important;">
       <div class="item-card">
         <div *ngIf="sizeSelection && !isCombo" class="product-image">
