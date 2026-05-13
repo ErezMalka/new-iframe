@@ -3561,3 +3561,76 @@ ng-scrollbar {
   }
 }
 /* === End Wave 4.3 === */
+
+
+/* === Wave 4.4A: pizza footer and error polish === */
+:host .popup-wrapper mat-dialog-actions {
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.03);
+}
+
+:host .popup-wrapper mat-dialog-actions .btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 16px;
+  width: 100%;
+  align-items: center;
+  justify-content: stretch;
+}
+
+:host .popup-wrapper mat-dialog-actions .btn-group .btn-cancel {
+  border: 1.5px solid rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #1c1c1e;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  padding: 10px 16px;
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 220ms ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :host .popup-wrapper mat-dialog-actions .btn-group .btn-cancel:hover {
+    border-color: rgba(0, 0, 0, 0.30);
+    background: #fafafa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+}
+
+:host .popup-wrapper .error-container {
+  background: #fff5f5;
+  border-left: 3px solid #d93025;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 8px 14px;
+  color: #5a1d1a;
+  font-weight: 500;
+  line-height: 1.4;
+  box-shadow: 0 1px 2px rgba(217, 48, 37, 0.06);
+}
+
+@media (max-width: 600px) {
+  :host .popup-wrapper mat-dialog-actions .btn-group {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  :host .popup-wrapper mat-dialog-actions .btn-group .btn-cancel {
+    padding: 9px 12px;
+    border-radius: 10px;
+  }
+  :host .popup-wrapper .error-container {
+    margin: 6px 10px;
+    padding: 9px 12px;
+    border-radius: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host .popup-wrapper mat-dialog-actions .btn-group .btn-cancel {
+    transition: none;
+  }
+}
+/* === End Wave 4.4A === */
