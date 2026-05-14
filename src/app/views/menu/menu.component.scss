@@ -1257,9 +1257,9 @@ align-items: center; /* align vertical */
 }
 
 
-/* === Wave 1: Premium item card redesign — additive overrides === */
+/* === Wave 1: Premium item card redesign â additive overrides === */
 @media (min-width: 601px) {
-/* Scope: regular item card (.item-card.my-items) — does NOT affect business logic */
+/* Scope: regular item card (.item-card.my-items) â does NOT affect business logic */
 /* No change to (click) handlers, no change to .ts files */
 
 .main-menu-container,
@@ -1340,7 +1340,7 @@ align-items: center; /* align vertical */
     }
   }
 
-  /* Combo variant — preserve orange accent but adopt new vertical layout */
+  /* Combo variant â preserve orange accent but adopt new vertical layout */
   .item-card.combo.my-items {
     border-bottom: 3px solid var(--orange);
 
@@ -1350,7 +1350,7 @@ align-items: center; /* align vertical */
     }
   }
 
-  /* Unavailable state — visual only, click logic unchanged */
+  /* Unavailable state â visual only, click logic unchanged */
   .item-card.my-items:has(.row[style*="opacity"]),
   .item-card.my-items.item-card--unavailable {
     opacity: 0.85;
@@ -1369,7 +1369,7 @@ align-items: center; /* align vertical */
     }
   }
 
-  /* Responsive grid context — applies wherever cards live in a column container */
+  /* Responsive grid context â applies wherever cards live in a column container */
   @media (min-width: 481px) and (max-width: 1024px) {
     .item-card.my-items {
       max-width: 100%;
@@ -1385,92 +1385,3 @@ align-items: center; /* align vertical */
 }
 /* === End Wave 1 === */
 
-
-
-/* === mobile-card-v3: Apple/SaaS clean ordering UI (Concept C) === */
-/* v3.1 warm editorial — value-only swap on top of v3 structure.
-   Goal: shift mood from SaaS dashboard to premium restaurant menu.
-   Hard guarantees: image 92x92 / 80x80 preserved, flex structure preserved,
-   selectors preserved, !important count = 6 (all in .product-price),
-   no DOM/HTML/TS changes, no keyframes, no universal selectors,
-   no textual pseudo-content, var(--orange) used only on dot + combo. */
-@media (max-width: 600px) {
-  .new-menu-container {
-    background-color: #fbf7f1;
-  }
-  .new-menu-container .item-card.my-items {
-    background: #ffffff;
-    border: 1px solid #ead9c4;
-    border-radius: 14px;
-    box-shadow: 0 1px 0 rgba(120, 80, 40, 0.04);
-    padding: 14px 14px 14px 12px;
-    margin-bottom: 10px;
-  }
-  .new-menu-container .item-card.my-items .product-image {
-    width: 92px;
-    height: 92px;
-    border-radius: 10px;
-    overflow: hidden;
-    flex: 0 0 92px;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
-  }
-  .new-menu-container .item-card.my-items .product-image .p-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .new-menu-container .item-card.my-items .product-name {
-    font-size: 17px;
-    font-weight: 700;
-    color: #1c1917;
-    line-height: 1.3;
-    margin: 0;
-  }
-  .new-menu-container .item-card.my-items .product-desc {
-    font-size: 13px;
-    font-weight: 400;
-    color: #78716c;
-    line-height: 1.55;
-    margin-top: 6px;
-  }
-  .new-menu-container .item-card.my-items .product-price {
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    color: #1c1917 !important;
-    background: transparent !important;
-    padding: 0 !important;
-    display: inline-flex !important;
-    align-items: center;
-    gap: 6px;
-    margin-top: 8px;
-    font-variant-numeric: tabular-nums;
-  }
-  .new-menu-container .item-card.my-items .product-price::before {
-    content: "";
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--orange, #e79115);
-    margin-inline-end: 3px;
-    box-shadow: 0 0 0 2px rgba(231, 145, 21, 0.12);
-  }
-  .new-menu-container .item-card.combo.my-items {
-    border-color: var(--orange, #e79115);
-    box-shadow: 0 0 0 3px rgba(231, 145, 21, 0.08);
-  }
-  .new-menu-container .item-card.my-items.unavailable,
-  .new-menu-container .item-card.my-items[disabled] {
-    opacity: 0.42;
-    cursor: not-allowed;
-    filter: saturate(0.6);
-  }
-}
-@media (max-width: 360px) {
-  .new-menu-container .item-card.my-items .product-image {
-    width: 80px;
-    height: 80px;
-    flex: 0 0 80px;
-  }
-}
-/* === End mobile-card-v3 === */
