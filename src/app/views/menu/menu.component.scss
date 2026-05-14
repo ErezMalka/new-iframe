@@ -1388,144 +1388,89 @@ align-items: center; /* align vertical */
 
 
 /* === mobile-card-v3: Apple/SaaS clean ordering UI (Concept C) === */
-/* Scope: mobile (<=600px) only. Inside .new-menu-container.
-   White-label safe: var(--orange) used ONLY as 4x4 dot before price + combo border.
-   Apple/Linear/Vercel-clean aesthetic. No shadow, hairline border, off-white wash. */
+/* v3.1 warm editorial — value-only swap on top of v3 structure.
+   Goal: shift mood from SaaS dashboard to premium restaurant menu.
+   Hard guarantees: image 92x92 / 80x80 preserved, flex structure preserved,
+   selectors preserved, !important count = 6 (all in .product-price),
+   no DOM/HTML/TS changes, no keyframes, no universal selectors,
+   no textual pseudo-content, var(--orange) used only on dot + combo. */
 @media (max-width: 600px) {
   .new-menu-container {
-    background-color: #f7f7f8;
-
-    /* --- Card frame: hairline border, no shadow --- */
-    .item-card.my-items {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 14px;
-      padding: 14px;
-      margin-block-end: 12px;
-      background: #ffffff;
-      border: 1px solid #e4e4e7;
-      border-radius: 16px;
-      box-shadow: none;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* --- Image: 92x92 square --- */
-    .item-card.my-items .product-image {
-      flex: 0 0 92px;
-      width: 92px;
-      height: 92px;
-      border-radius: 12px;
-      overflow: hidden;
-      position: static;
-    }
-    .item-card.my-items .product-image .p-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* --- Text block --- */
-    .item-card.my-items .product-details {
-      flex: 1 1 auto;
-      min-width: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    /* Reset Bootstrap .row negative margins */
-    .item-card.my-items .product-details .row {
-      margin: 0;
-    }
-    .item-card.my-items .product-details .col,
-    .item-card.my-items .product-details [class*="col-"] {
-      padding: 0;
-    }
-
-    /* --- Name: 16 / 600 / near-black --- */
-    .item-card.my-items .product-name {
-      font-size: 16px;
-      font-weight: 600;
-      color: #0a0a0a;
-      line-height: 1.4;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* --- Description: 13 / 400 / slate-500 --- */
-    .item-card.my-items .product-desc {
-      font-size: 13px;
-      font-weight: 400;
-      color: #71717a;
-      line-height: 1.5;
-      padding: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* --- Price: black inline, NO badge (6 !important to defeat baseline + [ngStyle]) --- */
-    .item-card.my-items .product-price {
-      position: static !important;
-      inset: auto !important;
-      width: auto !important;
-      height: auto !important;
-      background-color: transparent !important;
-      border-radius: 0 !important;
-      color: #0a0a0a;
-      padding: 0;
-      font-size: 15px;
-      font-weight: 600;
-      text-align: inherit;
-      overflow: visible;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* --- Price accent dot: the ONLY brand-color moment (empty shape, not text) --- */
-    .item-card.my-items .product-price::before {
-      content: "";
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background-color: var(--orange, #e79115);
-      flex-shrink: 0;
-    }
-
-    /* --- Combo state: orange hairline border replaces gray --- */
-    .item-card.combo.my-items {
-      border-color: var(--orange, #e79115);
-    }
-    .item-card.combo.my-items .product-image.combo {
-      height: 92px;
-    }
-
-    /* --- Unavailable state: subtle opacity, no grayscale (Apple HIG) --- */
-    .item-card.my-items:has(.row[style*="opacity"]),
-    .item-card.my-items.item-card--unavailable {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
+    background-color: #fbf7f1;
   }
-
-  /* Smaller screens: shrink image to 80x80 */
-  @media (max-width: 360px) {
-    .new-menu-container .item-card.my-items .product-image {
-      flex-basis: 80px;
-      width: 80px;
-      height: 80px;
-    }
-    .new-menu-container .item-card.combo.my-items .product-image.combo {
-      height: 80px;
-    }
+  .new-menu-container .item-card.my-items {
+    background: #ffffff;
+    border: 1px solid #ead9c4;
+    border-radius: 14px;
+    box-shadow: 0 1px 0 rgba(120, 80, 40, 0.04);
+    padding: 14px 14px 14px 12px;
+    margin-bottom: 10px;
+  }
+  .new-menu-container .item-card.my-items .product-image {
+    width: 92px;
+    height: 92px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex: 0 0 92px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  }
+  .new-menu-container .item-card.my-items .product-image .p-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .new-menu-container .item-card.my-items .product-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1c1917;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .new-menu-container .item-card.my-items .product-desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: #78716c;
+    line-height: 1.55;
+    margin-top: 6px;
+  }
+  .new-menu-container .item-card.my-items .product-price {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #1c1917 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .new-menu-container .item-card.my-items .product-price::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--orange, #e79115);
+    margin-inline-end: 3px;
+    box-shadow: 0 0 0 2px rgba(231, 145, 21, 0.12);
+  }
+  .new-menu-container .item-card.combo.my-items {
+    border-color: var(--orange, #e79115);
+    box-shadow: 0 0 0 3px rgba(231, 145, 21, 0.08);
+  }
+  .new-menu-container .item-card.my-items.unavailable,
+  .new-menu-container .item-card.my-items[disabled] {
+    opacity: 0.42;
+    cursor: not-allowed;
+    filter: saturate(0.6);
+  }
+}
+@media (max-width: 360px) {
+  .new-menu-container .item-card.my-items .product-image {
+    width: 80px;
+    height: 80px;
+    flex: 0 0 80px;
   }
 }
 /* === End mobile-card-v3 === */
