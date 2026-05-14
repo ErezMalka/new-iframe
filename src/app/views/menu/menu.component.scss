@@ -1708,3 +1708,247 @@ align-items: center; /* align vertical */
   }
 }
 /* === End Wave 1.M.3 === */
+
+
+
+/* === Wave 1.M.FINAL: premium mobile restaurant card === */
+/* Inspired by clean restaurant cards (Arale visual language) - white-label safe.
+   - Uses var(--orange, #e79115) for brand-driven price color.
+   - Mobile only: max-width 600px and max-width 360px breakpoints.
+   - Wrapper-x4 specificity pattern to beat W1 and supersede W1.M.2/W1.M.3 via source order.
+   - !important is used ONLY where strictly necessary to override W1/W1.M.2/W1.M.3
+     pre-existing !important declarations.
+   - No HTML/TS changes. No keyframes. No universal selectors. No textual pseudo-content.
+   - Logical properties (padding-inline) used where safe for RTL/LTR. */
+
+@media (max-width: 600px) {
+
+  .main-menu-container .item-card.my-items,
+  .mobile-menu-container .item-card.my-items,
+  .mobile-menu-container-new .item-card.my-items,
+  .new-menu-container .item-card.my-items {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 12px !important;
+    padding: 8px 14px !important;
+    margin: 0 0 12px 0 !important;
+    background: #ffffff !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.12) !important;
+    overflow: visible !important;
+    transition: box-shadow 0.18s ease;
+  }
+
+  .main-menu-container .item-card.my-items:active,
+  .mobile-menu-container .item-card.my-items:active,
+  .mobile-menu-container-new .item-card.my-items:active,
+  .new-menu-container .item-card.my-items:active {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .main-menu-container .item-card.my-items.combo .product-image.combo,
+  .mobile-menu-container .item-card.my-items.combo .product-image.combo,
+  .mobile-menu-container-new .item-card.my-items.combo .product-image.combo,
+  .new-menu-container .item-card.my-items.combo .product-image.combo {
+    height: 96px !important;
+    max-height: 96px !important;
+  }
+
+  .main-menu-container .item-card.my-items .product-image,
+  .mobile-menu-container .item-card.my-items .product-image,
+  .mobile-menu-container-new .item-card.my-items .product-image,
+  .new-menu-container .item-card.my-items .product-image {
+    flex: 0 0 96px !important;
+    width: 96px !important;
+    min-width: 96px !important;
+    max-width: 96px !important;
+    height: 96px !important;
+    min-height: 96px !important;
+    max-height: 96px !important;
+    aspect-ratio: 1 / 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    float: none !important;
+    position: relative !important;
+  }
+
+  .main-menu-container .item-card.my-items .p-img,
+  .mobile-menu-container .item-card.my-items .p-img,
+  .mobile-menu-container-new .item-card.my-items .p-img,
+  .new-menu-container .item-card.my-items .p-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    border-radius: 12px !important;
+  }
+
+  .main-menu-container .item-card.my-items.unavailable .product-image,
+  .mobile-menu-container .item-card.my-items.unavailable .product-image,
+  .mobile-menu-container-new .item-card.my-items.unavailable .product-image,
+  .new-menu-container .item-card.my-items.unavailable .product-image,
+  .main-menu-container .item-card.my-items.out-of-stock .product-image,
+  .mobile-menu-container .item-card.my-items.out-of-stock .product-image,
+  .mobile-menu-container-new .item-card.my-items.out-of-stock .product-image,
+  .new-menu-container .item-card.my-items.out-of-stock .product-image {
+    opacity: 0.55 !important;
+  }
+
+  .main-menu-container .item-card.my-items .product-details,
+  .mobile-menu-container .item-card.my-items .product-details,
+  .mobile-menu-container-new .item-card.my-items .product-details,
+  .new-menu-container .item-card.my-items .product-details {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    padding-inline: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-self: stretch !important;
+  }
+
+  .main-menu-container .item-card.my-items .product-details > .row,
+  .mobile-menu-container .item-card.my-items .product-details > .row,
+  .mobile-menu-container-new .item-card.my-items .product-details > .row,
+  .new-menu-container .item-card.my-items .product-details > .row {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  .main-menu-container .item-card.my-items .product-details .row > [class*="col"],
+  .mobile-menu-container .item-card.my-items .product-details .row > [class*="col"],
+  .mobile-menu-container-new .item-card.my-items .product-details .row > [class*="col"],
+  .new-menu-container .item-card.my-items .product-details .row > [class*="col"] {
+    padding: 0 !important;
+    margin: 0 !important;
+    flex: initial !important;
+    max-width: 100% !important;
+  }
+
+  .main-menu-container .item-card.my-items .product-name,
+  .mobile-menu-container .item-card.my-items .product-name,
+  .mobile-menu-container-new .item-card.my-items .product-name,
+  .new-menu-container .item-card.my-items .product-name {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    color: #212529 !important;
+    letter-spacing: normal !important;
+    margin: 0 0 2px 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .main-menu-container .item-card.my-items .product-name b,
+  .mobile-menu-container .item-card.my-items .product-name b,
+  .mobile-menu-container-new .item-card.my-items .product-name b,
+  .new-menu-container .item-card.my-items .product-name b {
+    font-weight: 700 !important;
+    color: inherit !important;
+  }
+
+  .main-menu-container .item-card.my-items .product-desc,
+  .mobile-menu-container .item-card.my-items .product-desc,
+  .mobile-menu-container-new .item-card.my-items .product-desc,
+  .new-menu-container .item-card.my-items .product-desc {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #212529 !important;
+    margin: 0 0 4px 0 !important;
+    padding: 0 !important;
+    padding-bottom: 0 !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    overflow: hidden !important;
+  }
+
+  .main-menu-container .item-card.my-items .product-price,
+  .mobile-menu-container .item-card.my-items .product-price,
+  .mobile-menu-container-new .item-card.my-items .product-price,
+  .new-menu-container .item-card.my-items .product-price {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    color: var(--orange, #e79115) !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    font-variant-numeric: tabular-nums;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative !important;
+  }
+  .main-menu-container .item-card.my-items .product-price span,
+  .mobile-menu-container .item-card.my-items .product-price span,
+  .mobile-menu-container-new .item-card.my-items .product-price span,
+  .new-menu-container .item-card.my-items .product-price span {
+    color: inherit !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 360px) {
+
+  .main-menu-container .item-card.my-items,
+  .mobile-menu-container .item-card.my-items,
+  .mobile-menu-container-new .item-card.my-items,
+  .new-menu-container .item-card.my-items {
+    gap: 10px !important;
+    padding: 6px 12px !important;
+    margin: 0 0 10px 0 !important;
+  }
+
+  .main-menu-container .item-card.my-items .product-image,
+  .mobile-menu-container .item-card.my-items .product-image,
+  .mobile-menu-container-new .item-card.my-items .product-image,
+  .new-menu-container .item-card.my-items .product-image {
+    flex: 0 0 88px !important;
+    width: 88px !important;
+    min-width: 88px !important;
+    max-width: 88px !important;
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+  }
+  .main-menu-container .item-card.my-items.combo .product-image.combo,
+  .mobile-menu-container .item-card.my-items.combo .product-image.combo,
+  .mobile-menu-container-new .item-card.my-items.combo .product-image.combo,
+  .new-menu-container .item-card.my-items.combo .product-image.combo {
+    height: 88px !important;
+    max-height: 88px !important;
+  }
+
+  .main-menu-container .item-card.my-items .product-name,
+  .mobile-menu-container .item-card.my-items .product-name,
+  .mobile-menu-container-new .item-card.my-items .product-name,
+  .new-menu-container .item-card.my-items .product-name {
+    font-size: 14px !important;
+  }
+  .main-menu-container .item-card.my-items .product-desc,
+  .mobile-menu-container .item-card.my-items .product-desc,
+  .mobile-menu-container-new .item-card.my-items .product-desc,
+  .new-menu-container .item-card.my-items .product-desc {
+    font-size: 12px !important;
+  }
+  .main-menu-container .item-card.my-items .product-price,
+  .mobile-menu-container .item-card.my-items .product-price,
+  .mobile-menu-container-new .item-card.my-items .product-price,
+  .new-menu-container .item-card.my-items .product-price {
+    font-size: 13px !important;
+  }
+}
+
+/* === End Wave 1.M.FINAL === */
