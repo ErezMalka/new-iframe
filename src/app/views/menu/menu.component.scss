@@ -1387,35 +1387,35 @@ align-items: center; /* align vertical */
 
 
 
-/* === mobile-card-v2: Wolt/Algora-inspired horizontal item card === */
-/* Scope: mobile (<=600px) only. Applies inside .new-menu-container.
-   White-label safe: var(--orange) used only for price + combo accent.
-   Designed to work on top of original baseline (W1 is desktop-only). */
+/* === mobile-card-v3: Apple/SaaS clean ordering UI (Concept C) === */
+/* Scope: mobile (<=600px) only. Inside .new-menu-container.
+   White-label safe: var(--orange) used ONLY as 4x4 dot before price + combo border.
+   Apple/Linear/Vercel-clean aesthetic. No shadow, hairline border, off-white wash. */
 @media (max-width: 600px) {
   .new-menu-container {
+    background-color: #f7f7f8;
 
-    /* --- Card frame --- */
+    /* --- Card frame: hairline border, no shadow --- */
     .item-card.my-items {
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 14px;
-      padding: 10px 14px;
+      padding: 14px;
       margin-block-end: 12px;
       background: #ffffff;
-      border-radius: 14px;
-      box-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.06),
-        0 1px 2px rgba(0, 0, 0, 0.04);
+      border: 1px solid #e4e4e7;
+      border-radius: 16px;
+      box-shadow: none;
       position: relative;
       overflow: hidden;
     }
 
-    /* --- Image: square 104x104 --- */
+    /* --- Image: 92x92 square --- */
     .item-card.my-items .product-image {
-      flex: 0 0 104px;
-      width: 104px;
-      height: 104px;
+      flex: 0 0 92px;
+      width: 92px;
+      height: 92px;
       border-radius: 12px;
       overflow: hidden;
       position: static;
@@ -1434,10 +1434,10 @@ align-items: center; /* align vertical */
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
 
-    /* Reset Bootstrap .row negative margins inside details */
+    /* Reset Bootstrap .row negative margins */
     .item-card.my-items .product-details .row {
       margin: 0;
     }
@@ -1446,24 +1446,24 @@ align-items: center; /* align vertical */
       padding: 0;
     }
 
-    /* --- Title --- */
+    /* --- Name: 16 / 600 / near-black --- */
     .item-card.my-items .product-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: #212529;
-      line-height: 1.3;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0a0a0a;
+      line-height: 1.4;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
-    /* --- Description --- */
+    /* --- Description: 13 / 400 / slate-500 --- */
     .item-card.my-items .product-desc {
       font-size: 13px;
       font-weight: 400;
-      color: #6b7280;
-      line-height: 1.4;
+      color: #71717a;
+      line-height: 1.5;
       padding: 0;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -1471,7 +1471,7 @@ align-items: center; /* align vertical */
       overflow: hidden;
     }
 
-    /* --- Price: inline orange text (override baseline badge + inline [ngStyle]) --- */
+    /* --- Price: black inline, NO badge (6 !important to defeat baseline + [ngStyle]) --- */
     .item-card.my-items .product-price {
       position: static !important;
       inset: auto !important;
@@ -1479,44 +1479,53 @@ align-items: center; /* align vertical */
       height: auto !important;
       background-color: transparent !important;
       border-radius: 0 !important;
-      color: var(--orange, #e79115);
+      color: #0a0a0a;
       padding: 0;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 600;
       text-align: inherit;
       overflow: visible;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* --- Combo accent: subtle orange stripe on inline-start edge --- */
+    /* --- Price accent dot: the ONLY brand-color moment (empty shape, not text) --- */
+    .item-card.my-items .product-price::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--orange, #e79115);
+      flex-shrink: 0;
+    }
+
+    /* --- Combo state: orange hairline border replaces gray --- */
     .item-card.combo.my-items {
-      border-inline-start: 3px solid var(--orange, #e79115);
+      border-color: var(--orange, #e79115);
     }
     .item-card.combo.my-items .product-image.combo {
-      height: 104px;
+      height: 92px;
     }
 
-    /* --- Unavailable state (re-introduced after W1.M.FINAL deletion) --- */
+    /* --- Unavailable state: subtle opacity, no grayscale (Apple HIG) --- */
     .item-card.my-items:has(.row[style*="opacity"]),
     .item-card.my-items.item-card--unavailable {
-      opacity: 0.55;
-      pointer-events: none;
-    }
-    .item-card.my-items:has(.row[style*="opacity"]) .product-image .p-img,
-    .item-card.my-items.item-card--unavailable .product-image .p-img {
-      filter: grayscale(0.7);
+      opacity: 0.45;
+      cursor: not-allowed;
     }
   }
 
-  /* Smaller screens: shrink image to 88x88 */
+  /* Smaller screens: shrink image to 80x80 */
   @media (max-width: 360px) {
     .new-menu-container .item-card.my-items .product-image {
-      flex-basis: 88px;
-      width: 88px;
-      height: 88px;
+      flex-basis: 80px;
+      width: 80px;
+      height: 80px;
     }
     .new-menu-container .item-card.combo.my-items .product-image.combo {
-      height: 88px;
+      height: 80px;
     }
   }
 }
-/* === End mobile-card-v2 === */
+/* === End mobile-card-v3 === */
