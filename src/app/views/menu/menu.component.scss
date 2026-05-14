@@ -1258,6 +1258,7 @@ align-items: center; /* align vertical */
 
 
 /* === Wave 1: Premium item card redesign — additive overrides === */
+@media (min-width: 601px) {
 /* Scope: regular item card (.item-card.my-items) — does NOT affect business logic */
 /* No change to (click) handlers, no change to .ts files */
 
@@ -1380,6 +1381,7 @@ align-items: center; /* align vertical */
   .item-card.my-items[dir="ltr"] .product-details {
     text-align: left;
   }
+}
 }
 /* === End Wave 1 === */
 
