@@ -1502,3 +1502,53 @@ button.btn.btn-custom:active {
   box-shadow: 0 2px 6px rgba(175, 35, 35, 0.22) !important;
 }
 /* === End W5-cta-modern === */
+
+/* === W6-sidebar-modern: desktop category sidebar polish === */
+/* Targets:
+   - .my-item.row : individual category item (already has bg #f4f4f4, radius 20px from baseline)
+   - .current-category-item : active category state
+   Scope: desktop only @media (min-width: 601px) */
+
+@media (min-width: 601px) {
+  .my-item.row {
+    transition: background-color 200ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    cursor: pointer;
+    position: relative;
+  }
+}
+
+@media (min-width: 601px) and (hover: hover) {
+  .my-item.row:hover {
+    background-color: #ECECEC !important;
+    transform: translateX(-3px) !important;
+    box-shadow: 0 4px 12px rgba(20, 20, 40, 0.08) !important;
+  }
+  .my-item.row:hover .menu-category-name {
+    color: var(--orange, #e79115) !important;
+  }
+}
+
+@media (min-width: 601px) {
+  .my-item.row.current-category-item {
+    background-color: #FFF5E6 !important;
+    box-shadow: 0 3px 10px rgba(231, 145, 21, 0.18) !important;
+  }
+  .my-item.row.current-category-item .menu-category-name {
+    color: var(--orange, #e79115) !important;
+    font-weight: 700 !important;
+  }
+  .my-item.row.current-category-item::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 14%;
+    bottom: 14%;
+    width: 3px;
+    background: var(--orange, #e79115);
+    border-radius: 3px 0 0 3px;
+  }
+  .menu-category-name {
+    transition: color 200ms ease !important;
+  }
+}
+/* === End W6-sidebar-modern === */
