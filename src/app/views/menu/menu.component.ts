@@ -1678,11 +1678,13 @@ public loadSuccessRegistrationMessage() {
   public onSearchInput(value: string): void {
     const q = (value || '').trim().toLowerCase();
     this.searchQuery = q;
+    console.log('[W13] onSearchInput', q, 'categories:', this.categories ? this.categories.length : 'NONE');
     if (!q) { return; }
     if (!this.categories || !this.categories.length) { return; }
     const match = this.categories.find((c: any) => c && c.Name && String(c.Name).toLowerCase().indexOf(q) !== -1);
+    console.log('[W13] match:', match ? { Id: match.Id, Name: match.Name } : 'NO_MATCH');
     if (match) {
-      try { this.scrollTo(match.Id); } catch (e) {}
+      try { this.scrollTo(match.Id); console.log('[W13] scrollTo called'); } catch (e) { console.log('[W13] scrollTo error', e); }
     }
   }
 
