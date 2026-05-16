@@ -1810,6 +1810,7 @@ body .menu-category-name {
 body .menu-category-name.current-category-item {
   background: var(--orange, #e79115) !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   font-weight: 700 !important;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18) !important;
 }
