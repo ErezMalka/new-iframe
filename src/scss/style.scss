@@ -1901,3 +1901,93 @@ body .my-dish.is-loading .item-price {
   opacity: 0 !important;
 }
 /* === End W18-loading-shimmer === */
+
+
+/* === W20-sidebar-refinement: improved category sidebar spacing & flow === */
+body ul.my-scroll.list-group {
+  scroll-behavior: smooth !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent !important;
+}
+body ul.my-scroll.list-group li.my-item {
+  margin-bottom: 4px !important;
+  border-radius: 999px !important;
+  transition: background 0.2s ease !important;
+}
+@media (max-width: 600px) {
+  body ul.my-scroll.list-group li.my-item {
+    margin-bottom: 2px !important;
+  }
+}
+/* === End W20-sidebar-refinement === */
+
+/* === W21-image-polish: rounded & properly fitted dish images === */
+body .my-dish .my-img,
+body .my-dish img.my-img {
+  border-radius: 12px !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease !important;
+}
+@media (min-width: 601px) and (hover: hover) {
+  body .my-dish:hover .my-img,
+  body .my-dish:hover img.my-img {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  }
+}
+/* === End W21-image-polish === */
+
+/* === W22-cart-summary: refined cart totals area === */
+body .side-cart .total-price,
+body .side-cart .cart-total,
+body .side-cart [class*="total"] {
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+body .side-cart perfect-scrollbar {
+  border-radius: 14px !important;
+}
+/* === End W22-cart-summary === */
+
+/* === W24-a11y-focus: visible focus rings for keyboard navigation === */
+body button:focus-visible,
+body a:focus-visible,
+body input:focus-visible,
+body select:focus-visible,
+body textarea:focus-visible,
+body [tabindex]:focus-visible,
+body .menu-category-name:focus-visible,
+body .my-dish:focus-visible {
+  outline: 2px solid var(--orange, #e79115) !important;
+  outline-offset: 2px !important;
+  border-radius: 6px !important;
+}
+body .btn.btn-continue-payment:focus-visible,
+body button.btn-continue-payment:focus-visible {
+  outline-offset: 4px !important;
+  border-radius: 14px !important;
+}
+/* === End W24-a11y-focus === */
+
+/* === W25-print-stylesheet: clean printable menu === */
+@media print {
+  body .app-header-new,
+  body .side-cart,
+  body .my-scroll.list-group,
+  body .nagishli-overlay-wrapper,
+  body .modal-backdrop,
+  body .modal {
+    display: none !important;
+  }
+  body .my-dish {
+    page-break-inside: avoid !important;
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+    margin-bottom: 12px !important;
+  }
+  body .my-dish .item-price {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+  }
+}
+/* === End W25-print-stylesheet === */
