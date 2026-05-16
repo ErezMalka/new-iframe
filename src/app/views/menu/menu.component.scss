@@ -1552,3 +1552,26 @@ button.btn.btn-custom:active {
   }
 }
 /* === End W6-sidebar-modern === */
+
+/* === W7-stagger-entrance: staggered fade-in delay for first N cards in each row === */
+/* Adds increasing animation-delay to first 8 .my-items children per parent.
+   Uses existing w4-card-reveal keyframes (no new keyframes).
+   Items past the 8th use default 0ms delay (animate immediately when in viewport). */
+
+  .main-menu-container .my-items:nth-of-type(1) .my-dish { animation-delay: 0ms !important; }
+  .main-menu-container .my-items:nth-of-type(2) .my-dish { animation-delay: 60ms !important; }
+  .main-menu-container .my-items:nth-of-type(3) .my-dish { animation-delay: 120ms !important; }
+  .main-menu-container .my-items:nth-of-type(4) .my-dish { animation-delay: 180ms !important; }
+  .main-menu-container .my-items:nth-of-type(5) .my-dish { animation-delay: 240ms !important; }
+  .main-menu-container .my-items:nth-of-type(6) .my-dish { animation-delay: 300ms !important; }
+  .main-menu-container .my-items:nth-of-type(7) .my-dish { animation-delay: 360ms !important; }
+  .main-menu-container .my-items:nth-of-type(8) .my-dish { animation-delay: 420ms !important; }
+  @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(1).item-card { animation-delay: 0ms !important; } }
+  @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(2).item-card { animation-delay: 42ms !important; } }
+  @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(3).item-card { animation-delay: 84ms !important; } }
+  @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(4).item-card { animation-delay: 126ms !important; } }
+  @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(5).item-card { animation-delay: 168ms !important; } }
+  @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(6).item-card { animation-delay: 210ms !important; } }
+  @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(7).item-card { animation-delay: 252ms !important; } }
+  @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(8).item-card { animation-delay: 294ms !important; } }
+/* === End W7-stagger-entrance === */
