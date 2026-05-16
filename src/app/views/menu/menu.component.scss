@@ -1404,8 +1404,7 @@ align-items: center; /* align vertical */
 
 /* === W3-reveal: scroll-driven card entrance === */
 /* Scope: all viewports. Progressive enhancement via @supports.
-   Browsers without scroll-timeline support see static cards (graceful fallback).
-   Respects prefers-reduced-motion. */
+   Browsers without scroll-timeline support see static cards (graceful fallback). */
 @supports (animation-timeline: view()) {
   .new-menu-container .item-card.my-items {
     animation: w3-card-reveal linear both;
@@ -1421,11 +1420,6 @@ align-items: center; /* align vertical */
       opacity: 1;
       transform: translateY(0);
     }
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .new-menu-container .item-card.my-items {
-    animation: none;
   }
 }
 /* === End W3-reveal === */
