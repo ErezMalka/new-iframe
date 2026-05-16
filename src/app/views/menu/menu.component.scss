@@ -1632,3 +1632,16 @@ button.btn.btn-custom:active {
   }
 }
 /* === End W9-typography === */
+
+/* === W10-header-polish: subtle elevation + frost on top header === */
+/* Targets .app-header-new (existing header element, used on both layouts) */
+
+.app-header-new {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  box-shadow: 0 1px 0 rgba(20, 20, 40, 0.06), 0 4px 16px rgba(20, 20, 40, 0.04) !important;
+  transition: box-shadow 280ms ease, background-color 280ms ease !important;
+  z-index: 50;
+}
+/* === End W10-header-polish === */
