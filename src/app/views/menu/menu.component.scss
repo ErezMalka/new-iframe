@@ -1575,3 +1575,20 @@ button.btn.btn-custom:active {
   @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(7).item-card { animation-delay: 252ms !important; } }
   @media (max-width: 600px) { .new-menu-container .my-items:nth-of-type(8).item-card { animation-delay: 294ms !important; } }
 /* === End W7-stagger-entrance === */
+
+/* === W8-image-zoom: gentle Ken Burns zoom on hover (desktop only) === */
+/* Image scales 1.08 inside its overflow:hidden container.
+   Slow, smooth ease so it feels premium not flashy. */
+
+.main-menu-container .my-items .my-dish .item-img-container .my-img,
+.new-menu-container .item-card.my-items .product-image .p-img {
+  transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  transform-origin: center center;
+}
+
+@media (min-width: 601px) and (hover: hover) {
+  .main-menu-container .my-items .my-dish:hover .item-img-container .my-img {
+    transform: scale(1.08) !important;
+  }
+}
+/* === End W8-image-zoom === */
