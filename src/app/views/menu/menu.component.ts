@@ -155,6 +155,8 @@ export class MenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewInit,
 stop:any;
   public cancelVerification: boolean = false;
   public userJoinedClub: boolean = false;
+  // W13-search: query text bound to category search input
+  public searchQuery: string = '';
   currentDate: Date;
   displayBDayAndAnnScreen: boolean;
   displayBDayScreen: boolean;
@@ -1669,6 +1671,18 @@ public loadSuccessRegistrationMessage() {
       this.currentSection = "PIZZA";
     } else {
       this.currentSection = this.currentCategory.Id.toString();
+    }
+  }
+
+  // W13-search: find category whose name contains the query and scroll to it
+  public onSearchInput(value: string): void {
+    const q = (value || '').trim().toLowerCase();
+    this.searchQuery = q;
+    if (!q) { return; }
+    if (!this.categories || !this.categories.length) { return; }
+    const match = this.categories.find((c: any) => c && c.Name && String(c.Name).toLowerCase().indexOf(q) !== -1);
+    if (match) {
+      try { this.selectCategory(match, true, false, true); } catch (e) {}
     }
   }
 
