@@ -1991,3 +1991,78 @@ body button.btn-continue-payment:focus-visible {
   }
 }
 /* === End W25-print-stylesheet === */
+
+
+/* === W13-search-box: refined search input styling === */
+body .w13-search-box {
+  position: relative !important;
+  margin: 0 0 12px 0 !important;
+  width: 100% !important;
+}
+body .w13-search-input {
+  width: 100% !important;
+  padding: 10px 36px 10px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  background: #ffffff !important;
+  font-size: 14px !important;
+  font-family: inherit !important;
+  color: #23282c !important;
+  -webkit-text-fill-color: #23282c !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+  outline: none !important;
+  direction: rtl !important;
+  text-align: right !important;
+  box-sizing: border-box !important;
+}
+body .w13-search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4) !important;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.4) !important;
+  font-size: 13px !important;
+}
+body .w13-search-input:hover {
+  border-color: rgba(0, 0, 0, 0.22) !important;
+}
+body .w13-search-input:focus {
+  border-color: var(--orange, #e79115) !important;
+  box-shadow: 0 0 0 3px rgba(231, 145, 21, 0.15) !important;
+  background: #ffffff !important;
+}
+body .w13-search-icon {
+  position: absolute !important;
+  top: 50% !important;
+  right: 12px !important;
+  transform: translateY(-50%) !important;
+  color: rgba(0, 0, 0, 0.4) !important;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0.4) !important;
+  font-size: 16px !important;
+  pointer-events: none !important;
+  line-height: 1 !important;
+}
+body .w13-search-input:focus + .w13-search-icon {
+  color: var(--orange, #e79115) !important;
+  -webkit-text-fill-color: var(--orange, #e79115) !important;
+}
+/* Desktop placement: visible only on lg+ */
+body .w13-search-desktop {
+  display: block !important;
+}
+body .w13-search-mobile {
+  display: none !important;
+}
+@media (max-width: 991px) {
+  body .w13-search-desktop {
+    display: none !important;
+  }
+  body .w13-search-mobile {
+    display: block !important;
+    padding: 10px 14px 6px 14px !important;
+    background: transparent !important;
+  }
+  body .w13-search-mobile .w13-search-input {
+    font-size: 15px !important;
+    padding: 12px 38px 12px 14px !important;
+  }
+}
+/* === End W13-search-box === */
