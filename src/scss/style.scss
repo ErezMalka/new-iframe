@@ -1804,15 +1804,14 @@ body .menu-category-name {
 }
 @media (min-width: 601px) and (hover: hover) {
   body .menu-category-name:hover:not(.current-category-item) {
-    background: rgba(231, 145, 21, 0.08) !important;
-    color: var(--orange, #e79115) !important;
+    background: rgba(0, 0, 0, 0.05) !important;
   }
 }
 body .menu-category-name.current-category-item {
   background: var(--orange, #e79115) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
-  box-shadow: 0 3px 10px rgba(231, 145, 21, 0.32) !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18) !important;
 }
 body li.my-item.current-category-item {
   background: transparent !important;
@@ -1853,9 +1852,8 @@ body button.remove-qty:active {
 /* === W16-price-tag: emphasis on item price === */
 body .my-dish .row.item-price,
 body .my-dish .item-price {
-  font-weight: 700 !important;
-  font-size: 17px !important;
-  color: var(--orange, #e79115) !important;
+  font-weight: 800 !important;
+  font-size: 18px !important;
   letter-spacing: 0 !important;
 }
 @media (max-width: 600px) {
