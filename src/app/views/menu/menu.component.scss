@@ -1451,3 +1451,54 @@ align-items: center; /* align vertical */
   }
 }
 /* === End W4-M-mobile === */
+
+/* === W5-cta-modern: rounded CTA buttons + hover lift === */
+/* Targets:
+   - .btn.btn-custom : main "add to order" CTA (red)
+   - .item-btn       : price button inside .my-dish / .item-card
+   Scope: all viewports. */
+
+.main-menu-container .my-items .my-dish .item-btn,
+.new-menu-container .item-card.my-items .item-btn {
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 200ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 200ms ease !important;
+  box-shadow: 0 2px 6px rgba(175, 35, 35, 0.18) !important;
+}
+
+@media (min-width: 601px) and (hover: hover) {
+  .main-menu-container .my-items .my-dish .item-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 5px 14px rgba(175, 35, 35, 0.30) !important;
+    filter: brightness(1.06) !important;
+  }
+}
+
+.main-menu-container .my-items .my-dish .item-btn:active,
+.new-menu-container .item-card.my-items .item-btn:active {
+  transform: scale(0.96) !important;
+  box-shadow: 0 1px 3px rgba(175, 35, 35, 0.20) !important;
+}
+
+button.btn.btn-custom {
+  border-radius: 12px !important;
+  padding: 12px 22px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 220ms ease !important;
+  box-shadow: 0 3px 10px rgba(175, 35, 35, 0.22) !important;
+}
+
+@media (min-width: 601px) and (hover: hover) {
+  button.btn.btn-custom:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(175, 35, 35, 0.32) !important;
+    filter: brightness(1.05) !important;
+  }
+}
+
+button.btn.btn-custom:active {
+  transform: scale(0.97) !important;
+  box-shadow: 0 2px 6px rgba(175, 35, 35, 0.22) !important;
+}
+/* === End W5-cta-modern === */
