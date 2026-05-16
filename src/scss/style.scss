@@ -1793,3 +1793,112 @@ body button.btn-continue-payment:active {
   transform: translateY(0) !important;
 }
 /* === End W11-cart-modern === */
+
+
+/* === W12-category-tabs: pill-shaped active category indicator === */
+body .menu-category-name {
+  padding: 8px 14px !important;
+  border-radius: 999px !important;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease !important;
+  cursor: pointer !important;
+}
+@media (min-width: 601px) and (hover: hover) {
+  body .menu-category-name:hover:not(.current-category-item) {
+    background: rgba(231, 145, 21, 0.08) !important;
+    color: var(--orange, #e79115) !important;
+  }
+}
+body .menu-category-name.current-category-item {
+  background: var(--orange, #e79115) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 3px 10px rgba(231, 145, 21, 0.32) !important;
+}
+body li.my-item.current-category-item {
+  background: transparent !important;
+}
+/* === End W12-category-tabs === */
+
+/* === W14-empty-cart: graceful empty cart spacing === */
+body .side-cart {
+  min-height: 180px !important;
+}
+/* === End W14-empty-cart === */
+
+/* === W15-quantity-controls: refined +/- buttons (when present) === */
+body .qty-plus,
+body .qty-minus,
+body button.add-qty,
+body button.remove-qty {
+  border-radius: 999px !important;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease !important;
+}
+@media (min-width: 601px) and (hover: hover) {
+  body .qty-plus:hover,
+  body .qty-minus:hover,
+  body button.add-qty:hover,
+  body button.remove-qty:hover {
+    transform: scale(1.08) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+body .qty-plus:active,
+body .qty-minus:active,
+body button.add-qty:active,
+body button.remove-qty:active {
+  transform: scale(0.92) !important;
+}
+/* === End W15-quantity-controls === */
+
+/* === W16-price-tag: emphasis on item price === */
+body .my-dish .row.item-price,
+body .my-dish .item-price {
+  font-weight: 700 !important;
+  font-size: 17px !important;
+  color: var(--orange, #e79115) !important;
+  letter-spacing: 0 !important;
+}
+@media (max-width: 600px) {
+  body .my-dish .row.item-price,
+  body .my-dish .item-price {
+    font-size: 16px !important;
+  }
+}
+/* === End W16-price-tag === */
+
+/* === W17-mobile-bottom-bar: refined cart and CTA for mobile === */
+@media (max-width: 600px) {
+  body .side-cart {
+    border-radius: 18px 18px 0 0 !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08) !important;
+    margin-top: 0 !important;
+  }
+  body .btn.btn-continue-payment,
+  body button.btn-continue-payment {
+    width: 100% !important;
+    padding: 16px 22px !important;
+    font-size: 16px !important;
+    border-radius: 14px !important;
+  }
+}
+/* === End W17-mobile-bottom-bar === */
+
+/* === W18-loading-shimmer: shimmer effect for loading skeletons (opt-in) === */
+@keyframes w18-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+body .my-dish.is-loading,
+body .my-dish[data-loading="true"] {
+  background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%) !important;
+  background-size: 200% 100% !important;
+  animation: w18-shimmer 1.4s ease-in-out infinite !important;
+  pointer-events: none !important;
+}
+body .my-dish.is-loading .my-img,
+body .my-dish.is-loading .item-name,
+body .my-dish.is-loading .item-info,
+body .my-dish.is-loading .item-price {
+  opacity: 0 !important;
+}
+/* === End W18-loading-shimmer === */
