@@ -1400,3 +1400,32 @@ align-items: center; /* align vertical */
   }
 }
 /* === End W2-radius === */
+
+
+/* === W3-reveal: scroll-driven card entrance === */
+/* Scope: all viewports. Progressive enhancement via @supports.
+   Browsers without scroll-timeline support see static cards (graceful fallback).
+   Respects prefers-reduced-motion. */
+@supports (animation-timeline: view()) {
+  .new-menu-container .item-card.my-items {
+    animation: w3-card-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+  @keyframes w3-card-reveal {
+    from {
+      opacity: 0.001;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .new-menu-container .item-card.my-items {
+    animation: none;
+  }
+}
+/* === End W3-reveal === */
