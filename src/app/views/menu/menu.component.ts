@@ -1674,17 +1674,15 @@ public loadSuccessRegistrationMessage() {
     }
   }
 
-  // W13-search: find category whose name contains the query and scroll to it
+  // W13-search: find category whose name contains the query and select+scroll to it
   public onSearchInput(value: string): void {
     const q = (value || '').trim().toLowerCase();
     this.searchQuery = q;
-    console.log('[W13] onSearchInput', q, 'categories:', this.categories ? this.categories.length : 'NONE');
     if (!q) { return; }
     if (!this.categories || !this.categories.length) { return; }
     const match = this.categories.find((c: any) => c && c.Name && String(c.Name).toLowerCase().indexOf(q) !== -1);
-    console.log('[W13] match:', match ? { Id: match.Id, Name: match.Name } : 'NO_MATCH');
     if (match) {
-      try { this.scrollTo(match.Id); console.log('[W13] scrollTo called'); } catch (e) { console.log('[W13] scrollTo error', e); }
+      try { this.selectCategory(match, true, false, true); } catch (e) {}
     }
   }
 
