@@ -1385,3 +1385,18 @@ align-items: center; /* align vertical */
 }
 /* === End Wave 1 === */
 
+
+
+/* === W2-radius: rounded corners only (mobile) === */
+/* Scope: mobile (<=600px). Affects only border-radius on item card + image.
+   No colors, no shadows, no typography, no layout changes. */
+@media (max-width: 600px) {
+  .new-menu-container .item-card.my-items {
+    border-radius: 14px;
+  }
+  .new-menu-container .item-card.my-items .product-image {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}
+/* === End W2-radius === */
