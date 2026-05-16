@@ -1682,7 +1682,7 @@ public loadSuccessRegistrationMessage() {
     if (!this.categories || !this.categories.length) { return; }
     const match = this.categories.find((c: any) => c && c.Name && String(c.Name).toLowerCase().indexOf(q) !== -1);
     if (match) {
-      try { this.selectCategory(match, true, false, true); } catch (e) {}
+      try { this.scrollTo(match.Id); } catch (e) {}
     }
   }
 
