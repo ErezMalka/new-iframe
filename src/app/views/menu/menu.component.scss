@@ -1390,39 +1390,38 @@ align-items: center; /* align vertical */
 
 
 
-/* === W2-radius-v2: rounded corners on actual DOM (.my-dish + .item-img-container) === */
-/* Scope: all viewports. Targets the real card element .my-dish and the image wrapper. */
-.main-menu-container .my-items .my-dish {
-  border-radius: 14px !important;
-  overflow: hidden;
-}
-.main-menu-container .my-items .my-dish .item-img-container {
-  border-radius: 10px;
-  overflow: hidden;
-}
-.main-menu-container .my-items .my-dish .item-img-container .my-img {
-  border-radius: 10px;
-}
-/* === End W2-radius-v2 === */
+/* === W4-card-modern: rounded card + clean shadow + desktop hover lift === */
+/* Scope: all viewports for base radius/shadow. Hover lift only on desktop with hover-capable input. */
+/* Targets actual rendered DOM: .main-menu-container .my-items .my-dish */
 
-/* === W3-reveal-v2: scroll-driven entrance on actual DOM === */
-/* Scope: all viewports. Progressive enhancement via @supports.
-   Browsers without scroll-timeline support see static cards. */
-@supports (animation-timeline: view()) {
-  .main-menu-container .my-items .my-dish {
-    animation: w3-card-reveal-v2 linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 50%;
-  }
-  @keyframes w3-card-reveal-v2 {
-    from {
-      opacity: 0.001;
-      transform: translateY(20px) scale(0.98);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+@keyframes w4-card-reveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.main-menu-container .my-items .my-dish {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  border-top: 0 !important;
+  box-shadow: 0 4px 16px rgba(20, 20, 40, 0.08), 0 1px 3px rgba(20, 20, 40, 0.04) !important;
+  transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 280ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  animation: w4-card-reveal 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+  will-change: transform;
+}
+
+.main-menu-container .my-items .my-dish .item-img-container {
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+
+.main-menu-container .my-items .my-dish .item-img-container .my-img {
+  border-radius: 0;
+}
+
+@media (min-width: 601px) and (hover: hover) {
+  .main-menu-container .my-items .my-dish:hover {
+    transform: translateY(-4px) scale(1.015) !important;
+    box-shadow: 0 14px 32px rgba(20, 20, 40, 0.14), 0 4px 10px rgba(20, 20, 40, 0.06) !important;
   }
 }
-/* === End W3-reveal-v2 === */
+/* === End W4-card-modern === */
