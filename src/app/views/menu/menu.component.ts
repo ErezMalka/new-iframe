@@ -89,6 +89,7 @@ import { BiteCreditComponent } from '../../shared/components/bite-credit/bite-cr
 import { ClubMemberComponent } from '../../shared/components/club-member/club-member.component';
 import { ConfigService } from '../../core/services/common-settings/config.service';
 import { browserRefresh } from '../../app.component';
+import { FlyToCartService } from '../../shared/fly-to-cart/fly-to-cart.service';
 
 
 function createLoadedData(isBranchLoaded: boolean, isMenuLoaded: boolean, isOpenBranchLoaded: boolean) {
@@ -344,7 +345,9 @@ public displayPhone: boolean;
     private routeActivate: RouteActivateService,
     private imageVersionService: VersionImageService,
 
-    private previousRouteService: PreviousRouteService) {
+    private previousRouteService: PreviousRouteService,
+    private flyToCart: FlyToCartService
+  ) {
     //super(browserIdentificatorService);
   }
 
@@ -496,7 +499,7 @@ public displayPhone: boolean;
             0
           ) || 0;
 
-          // If total quantity does NOT reach Min → item not in stock
+          // If total quantity does NOT reach Min â item not in stock
           if (totalQty < grp.Min) {
             return false;
           }
@@ -522,7 +525,7 @@ public displayPhone: boolean;
 
           ) || 0;
 
-          // If total quantity does NOT reach Min → item not in stock
+          // If total quantity does NOT reach Min â item not in stock
           if (totalQty < grp.Quantity) {
             return false;
           }
@@ -1334,7 +1337,7 @@ public loadSuccessRegistrationMessage() {
    
     const img = event.target as HTMLImageElement;
 
-    // If we already tried the logo → remove the image entirely
+    // If we already tried the logo â remove the image entirely
     if (img.src.includes(AppConfig.settings.logo)) {
       img.style.display = 'none';
       return;
@@ -1592,7 +1595,7 @@ public loadSuccessRegistrationMessage() {
                   if (result.firstTimeCupon && result.firstTimeCupon.active
                     && result.firstTimeCupon.sum > result.cupon.sum) {
                     this.discount = result.firstTimeCupon;
-                    this.discount.name = "הטבת התקנה ( " + result.firstTimeCupon.name + " )";
+                    this.discount.name = "××××ª ××ª×§× × ( " + result.firstTimeCupon.name + " )";
                     this.appStorageService.franchiseDiscount = this.discount;
 
                   } else {
@@ -1601,7 +1604,7 @@ public loadSuccessRegistrationMessage() {
                   }
                 } else if (result.firstTimeCupon && result.firstTimeCupon.active) {
                   this.discount = result.firstTimeCupon;
-                  this.discount.name = "הטבת התקנה ( " + result.firstTimeCupon.name + " )";
+                  this.discount.name = "××××ª ××ª×§× × ( " + result.firstTimeCupon.name + " )";
                   this.appStorageService.franchiseDiscount = this.discount;
                 }
                 // this.discount = result;
@@ -1906,7 +1909,7 @@ gi.Item.Quantity = item.Quantity;
        // console.log("category",category);
 
         category.Items.forEach(item => {
-          if(category.Name=="שידרוגים"){
+          if(category.Name=="×©×××¨××××"){
             item.IsUpgrade = true;
           }
           if(item.IsCombo && this.appStorageService.addNameOnce){
@@ -3216,6 +3219,16 @@ public cmShopCategory:any;
     }
   }
   public addToCart(item, isNotPizza, isCombo, event?, callback?, comment?) { //combo,false,true,event
+    // Fly-to-cart animation (no-op if card or cart not found)
+    try {
+      if (event && event.target) {
+        const card = (event.target as HTMLElement).closest('.col-3, .my-items, .item-img-container') as HTMLElement | null;
+        if (card) {
+          this.flyToCart.fly(card, '.side-cart', item && item.ImageUrl);
+        }
+      }
+    } catch (e) { /* never block addToCart */ }
+
     if (!this.isDigitalMenu() && this.currentBranch.UseInventory && !this.isInStock(item)) return;
     if (isCombo && !this.isDigitalMenu() && this.currentBranch.UseInventory && !this.isInStockCombo(item)) return;
     if (isNotPizza ) {//||  (!isCombo )&& item.PizzaToppings.length == this.appStorageService.pizzaToppings.length
