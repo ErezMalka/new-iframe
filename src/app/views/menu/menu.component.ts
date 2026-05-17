@@ -157,6 +157,9 @@ stop:any;
   public userJoinedClub: boolean = false;
   // W13-search: query text bound to category search input
   public searchQuery: string = '';
+  // W13-search: dropdown state for item search results
+  public searchResults: any[] = [];
+  public showSearchResults: boolean = false;
   currentDate: Date;
   displayBDayAndAnnScreen: boolean;
   displayBDayScreen: boolean;
@@ -1674,16 +1677,78 @@ public loadSuccessRegistrationMessage() {
     }
   }
 
-  // W13-search: find category whose name contains the query and select+scroll to it
+  // W13-search: collect items from all categories and filter by name/info
   public onSearchInput(value: string): void {
     const q = (value || '').trim().toLowerCase();
     this.searchQuery = q;
-    if (!q) { return; }
-    if (!this.categories || !this.categories.length) { return; }
-    const match = this.categories.find((c: any) => c && c.Name && String(c.Name).toLowerCase().indexOf(q) !== -1);
-    if (match) {
-      try { this.selectCategory(match, true, false, true); } catch (e) {}
+    if (!q) {
+      this.searchResults = [];
+      this.showSearchResults = false;
+      return;
     }
+    const all: any[] = [];
+    try {
+      if (this.categories && this.categories.length) {
+        this.categories.forEach((c: any) => {
+          if (c && c.Items && c.Items.length) {
+            c.Items.forEach((it: any) => { if (it && it.Name) { all.push({ item: it, cat: c }); } });
+          }
+          if (c && c.Pizzas && c.Pizzas.length) {
+            c.Pizzas.forEach((it: any) => { if (it && it.Name) { all.push({ item: it, cat: c }); } });
+          }
+        });
+      }
+      if ((this as any).combos && (this as any).combos.length) {
+        (this as any).combos.forEach((it: any) => { if (it && it.Name) { all.push({ item: it, cat: null }); } });
+      }
+      if ((this as any).pizzas && (this as any).pizzas.length) {
+        (this as any).pizzas.forEach((it: any) => { if (it && it.Name) { all.push({ item: it, cat: null }); } });
+      }
+    } catch (e) { }
+    const seen: any = {};
+    const filtered = all.filter((entry: any) => {
+      const it = entry.item;
+      const name = String(it.Name || '').toLowerCase();
+      const info = String(it.ShortInfo || '').toLowerCase();
+      if (name.indexOf(q) === -1 && info.indexOf(q) === -1) { return false; }
+      const key = it.Id || it.CatalogNumber || it.Name;
+      if (seen[key]) { return false; }
+      seen[key] = true;
+      return true;
+    });
+    this.searchResults = filtered.slice(0, 8).map((entry: any) => {
+      return { Id: entry.item.Id, Name: entry.item.Name, Price: entry.item.Price, ImageUrl: entry.item.ImageUrl, CatalogNumber: entry.item.CatalogNumber, ShortInfo: entry.item.ShortInfo, _cat: entry.cat };
+    });
+    this.showSearchResults = true;
+  }
+  // W13-search: focus opens dropdown if there are results
+  public onSearchFocus(): void {
+    if (this.searchQuery && this.searchResults && this.searchResults.length) { this.showSearchResults = true; }
+  }
+  // W13-search: blur closes dropdown after a delay so mousedown handlers can fire
+  public onSearchBlur(): void {
+    setTimeout(() => { this.showSearchResults = false; }, 200);
+  }
+  // W13-search: user selected a result - scroll to its category and clear search
+  public selectSearchResult(result: any): void {
+    try {
+      if (result && result._cat) {
+        try { this.selectCategory(result._cat, true, false, true); } catch (e) { }
+      }
+      const key = result && (result.Id || result.CatalogNumber);
+      const targetId = 'cat11' + (key !== undefined && key !== null ? key : '');
+      setTimeout(() => {
+        try {
+          const el = document.getElementById(targetId);
+          if (el && (el as any).scrollIntoView) {
+            (el as any).scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } catch (e) { }
+      }, 100);
+    } catch (e) { }
+    this.showSearchResults = false;
+    this.searchResults = [];
+    this.searchQuery = '';
   }
 
   @HostListener('scroll', ['$event'])
