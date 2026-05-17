@@ -55,6 +55,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TranslationsModule } from '../../shared/translations/translations.module';
 import { TranslationsService} from '../../shared/translations/translations.service';
+import { InfoMenuModule } from '../../shared/info-menu/info-menu/info-menu.module';
 
 @NgModule({
   imports: [
@@ -90,6 +91,7 @@ import { TranslationsService} from '../../shared/translations/translations.servi
     NgxPageScrollCoreModule,
     ModalModule.forRoot(),
     NgxPageScrollModule
+    , InfoMenuModule
   ],
   entryComponents: [
     MessagePopupComponent,
