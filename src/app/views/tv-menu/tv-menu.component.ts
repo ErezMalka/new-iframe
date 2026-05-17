@@ -396,7 +396,7 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
         this.videoPath = `${AppConfig.config.tvImagePath}${this.franchiseId}/${this.branchId}/video1.mp4`;
         this.imagesPath = `${AppConfig.config.tvImagePath}${this.franchiseId}/${this.branchId}/`;
         this.images = [];
-        if (this.doesFileExist(this.videoPath)) {
+       /* if (this.doesFileExist(this.videoPath)) {
           this.playVideo = true;
         } else {
           this.playVideo = false;
@@ -406,8 +406,9 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
               let img =  this.imagesPath + i +".png?v=" +  this.currentDate;
               this.images.push(img);
             }          
-          }
-        
+          }*/
+            this.loadMediaForBranch();   // <-- fire and forget; updates playVideo and images when ready
+
        
        
         
@@ -509,7 +510,7 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
             if (currentPage.length > 0) {
               this.pages.push(currentPage);
             }
-
+           
            this.timerId= setInterval(()=> {this.rotatePage()},  this.tvTimer);
           }
           
@@ -530,15 +531,45 @@ export class TVMenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewIni
   }
 
  
-  private doesFileExist(urlToFile): boolean {
-    var xhr = new XMLHttpRequest();
-    xhr.open('HEAD', urlToFile, false);
-    xhr.send();
-    if (xhr.status == 404) {
-      return false;
-    } else {
-      return true;
+  private doesFileExist(url: string): Promise<boolean> {
+    return fetch(url, { method: 'HEAD' })
+      .then(res => res.ok)
+      .catch(() => false);
+  }
+  
+  private checkImage(url: string): Promise<boolean> {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
+    });
+  }
+
+  private async loadMediaForBranch(): Promise<void> {
+    this.images = [];
+  
+    // Video check
+    this.doesFileExist(this.videoPath).then(exists => {
+      this.playVideo = exists;
+    });
+  
+    // Image checks, run in parallel, kept in order
+    const checks = [];
+    for (let i = 1; i <= 20; i++) {
+      const url = `${this.imagesPath}${i}.png`;
+      checks.push(
+        this.checkImage(url).then(exists =>
+          exists ? { i, src: `${url}?v=${this.currentDate}` } : null
+        )
+      );
     }
+  
+    const results = await Promise.all(checks);
+    this.images = results
+      .filter(r => r !== null)
+      .sort((a, b) => a.i - b.i)
+      .map(r => r.src);
   }
 
    rotatePage() {
@@ -920,12 +951,27 @@ public loadSuccessRegistrationMessage() {
   ngAfterViewChecked(): void {
      }
 
-  logo(event) {
-
-    //console.log("logo-function",AppConfig.settings.logo);
-    event.target.src = AppConfig.settings.logo;
-    //this.imgSrc = AppConfig.settings.logo;
-  }
+     logo(event) {
+      /* if (this.doesFileExist(AppConfig.settings.logo)) {
+         event.target.src = AppConfig.settings.logo;
+       }  else {
+         event.target.style.display = "none";
+       }*/
+      
+       const img = event.target as HTMLImageElement;
+   
+       // If we already tried the logo → remove the image entirely
+       if (img.src.includes(AppConfig.settings.logo)) {
+         img.style.display = 'none';
+         return;
+       }
+   
+       // Try logo fallback
+       img.src = AppConfig.settings.logo;
+      // img.style.height = 'fit-content'
+        img.style.width = '60%'
+      
+     }
 
 
   moveTo(index) {
