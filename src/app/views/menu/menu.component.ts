@@ -1677,100 +1677,62 @@ public loadSuccessRegistrationMessage() {
     }
   }
 
-  // W13-search: collect items from all categories and filter by name/info
+  // W13-search: filter items in-place by setting data-w13-match on DOM and toggling body.w13-filtering
   public onSearchInput(value: string): void {
     const q = (value || '').trim().toLowerCase();
     this.searchQuery = q;
+    try { this.applyW13Filter(q); } catch (e) { }
+  }
+  // W13-search: walk the DOM and mark each item card + category section as match/no-match
+  private applyW13Filter(q: string): void {
+    const body = document.body;
+    if (!body) { return; }
+    // No query - clear everything
     if (!q) {
-      this.searchResults = [];
-      this.showSearchResults = false;
+      body.classList.remove('w13-filtering');
+      const cards = document.querySelectorAll('[data-w13-match]');
+      cards.forEach((el: any) => { el.removeAttribute('data-w13-match'); });
+      const cats = document.querySelectorAll('[data-w13-cat-match]');
+      cats.forEach((el: any) => { el.removeAttribute('data-w13-cat-match'); });
+      const sep = document.querySelectorAll('[data-w13-sep-match]');
+      sep.forEach((el: any) => { el.removeAttribute('data-w13-sep-match'); });
       return;
     }
-    const all: any[] = [];
-    try {
-      if (this.categories && this.categories.length) {
-        this.categories.forEach((c: any) => {
-          if (c && c.Items && c.Items.length) {
-            c.Items.forEach((it: any) => { if (it && it.Name) { all.push({ item: it, cat: c }); } });
-          }
-          if (c && c.Pizzas && c.Pizzas.length) {
-            c.Pizzas.forEach((it: any) => { if (it && it.Name) { all.push({ item: it, cat: c }); } });
-          }
-        });
-      }
-      if ((this as any).combos && (this as any).combos.length) {
-        (this as any).combos.forEach((it: any) => { if (it && it.Name) { all.push({ item: it, cat: null }); } });
-      }
-      if ((this as any).pizzas && (this as any).pizzas.length) {
-        (this as any).pizzas.forEach((it: any) => { if (it && it.Name) { all.push({ item: it, cat: null }); } });
-      }
-    } catch (e) { }
-    const seen: any = {};
-    const filtered = all.filter((entry: any) => {
-      const it = entry.item;
-      const name = String(it.Name || '').toLowerCase();
-      const info = String(it.ShortInfo || '').toLowerCase();
-      if (name.indexOf(q) === -1 && info.indexOf(q) === -1) { return false; }
-      const key = it.Id || it.CatalogNumber || it.Name;
-      if (seen[key]) { return false; }
-      seen[key] = true;
-      return true;
+    body.classList.add('w13-filtering');
+    // Iterate item cards
+    const cards = document.querySelectorAll('.my-items, .item-card');
+    cards.forEach((card: any) => {
+      const nameEl = card.querySelector('.item-name, .product-name');
+      const descEl = card.querySelector('.item-desc, .product-desc');
+      const name = nameEl ? String(nameEl.textContent || '').trim().toLowerCase() : '';
+      const desc = descEl ? String(descEl.textContent || '').trim().toLowerCase() : '';
+      const match = (name && name.indexOf(q) !== -1) || (desc && desc.indexOf(q) !== -1);
+      card.setAttribute('data-w13-match', match ? 'true' : 'false');
     });
-    this.searchResults = filtered.slice(0, 8).map((entry: any) => {
-      return { Id: entry.item.Id, Name: entry.item.Name, Price: entry.item.Price, ImageUrl: entry.item.ImageUrl, CatalogNumber: entry.item.CatalogNumber, ShortInfo: entry.item.ShortInfo, _cat: entry.cat };
+    // For each category container, check if any of its cards matched - if not, hide the category section
+    const catContainers = document.querySelectorAll('[id^="cat11"]');
+    catContainers.forEach((cat: any) => {
+      const matched = cat.querySelector('[data-w13-match="true"]');
+      cat.setAttribute('data-w13-cat-match', matched ? 'true' : 'false');
     });
-    this.showSearchResults = true;
-  }
-  // W13-search: focus opens dropdown if there are results
-  public onSearchFocus(): void {
-    if (this.searchQuery && this.searchResults && this.searchResults.length) { this.showSearchResults = true; }
-  }
-  // W13-search: blur closes dropdown after a delay so mousedown handlers can fire
-  public onSearchBlur(): void {
-    setTimeout(() => { this.showSearchResults = false; }, 200);
-  }
-  // W13-search: user selected a result - scroll directly to item if possible, otherwise to its category, then highlight
-  public selectSearchResult(result: any): void {
-    try {
-      if (result && result._cat) {
-        try { this.selectCategory(result._cat, true, false, true); } catch (e) { }
+    // Hide category title/separator rows that have no matching items
+    const titles = document.querySelectorAll('.category-title, .my-category-title, .category-header, .category-name');
+    titles.forEach((t: any) => {
+      // find the next sibling category container
+      let sib = t.nextElementSibling;
+      while (sib && !sib.id) { sib = sib.nextElementSibling; }
+      if (sib && sib.id && sib.id.indexOf('cat11') === 0) {
+        const matched = sib.getAttribute('data-w13-cat-match') === 'true';
+        t.setAttribute('data-w13-sep-match', matched ? 'true' : 'false');
       }
-    } catch (e) { }
-    const targetName = result && result.Name ? String(result.Name).trim() : '';
-    const catKey = result && result._cat ? (result._cat.Id || result._cat.Name) : null;
-    const catTargetId = catKey !== null && catKey !== undefined ? 'cat11' + catKey : null;
-    setTimeout(() => {
-      try {
-        // Try to find the exact item DOM element by matching its name text
-        let itemEl: HTMLElement | null = null;
-        if (targetName) {
-          const nameNodes = document.querySelectorAll('.item-name, .product-name');
-          for (let i = 0; i < nameNodes.length; i++) {
-            const txt = (nameNodes[i].textContent || '').trim();
-            if (txt === targetName) {
-              itemEl = nameNodes[i].closest('.my-items, .item-card') as HTMLElement;
-              if (itemEl) { break; }
-            }
-          }
-        }
-        // Fallback: scroll to category container
-        if (!itemEl && catTargetId) {
-          itemEl = document.getElementById(catTargetId);
-        }
-        if (itemEl && (itemEl as any).scrollIntoView) {
-          (itemEl as any).scrollIntoView({ behavior: 'smooth', block: 'center' });
-          // Add a brief highlight pulse
-          try {
-            itemEl.classList.add('w13-flash');
-            setTimeout(() => { try { itemEl && itemEl.classList.remove('w13-flash'); } catch (e) { } }, 1600);
-          } catch (e) { }
-        }
-      } catch (e) { }
-    }, 120);
-    this.showSearchResults = false;
-    this.searchResults = [];
-    this.searchQuery = '';
+    });
   }
+  // W13-search: focus handler (kept for template compatibility)
+  public onSearchFocus(): void { /* no-op for in-place filter */ }
+  // W13-search: blur handler (kept for template compatibility)
+  public onSearchBlur(): void { /* no-op for in-place filter */ }
+  // W13-search: selectSearchResult kept as no-op for template compatibility
+  public selectSearchResult(_result: any): void { /* unused in filter mode */ }
 
   @HostListener('scroll', ['$event'])
   scrollItems(event) {
