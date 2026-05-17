@@ -272,22 +272,10 @@
     <div class="new-menu-container" *ngIf="isMobileMode()" scrollSpy [spiedTags]="['DIV']"
       [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl' }"
       (sectionChange)="onSectionChange($event)">
-      <!-- W13-search: mobile search input + dropdown -->
-      <div class="w13-search-wrap w13-search-mobile-wrap">
-        <div class="w13-search-box w13-search-mobile">
-          <input type="text" class="w13-search-input" placeholder="חיפוש פריט..." [(ngModel)]="searchQuery" (input)="onSearchInput($event.target.value)" (focus)="onSearchFocus()" (blur)="onSearchBlur()" aria-label="חיפוש פריט בתפריט" />
-          <span class="w13-search-icon" aria-hidden="true">⌕</span>
-        </div>
-        <div class="w13-search-dropdown" *ngIf="showSearchResults">
-          <div class="w13-search-result" *ngFor="let r of searchResults" (mousedown)="selectSearchResult(r); $event.preventDefault();">
-            <img class="w13-search-result-img" [src]="r.ImageUrl" (error)="logo($event)" alt="" />
-            <div class="w13-search-result-text">
-              <div class="w13-search-result-name">{{r.Name}}</div>
-              <div class="w13-search-result-price" *ngIf="r.Price">{{r.Price}} ₪</div>
-            </div>
-          </div>
-          <div class="w13-search-empty" *ngIf="searchQuery && !searchResults.length">לא נמצאו פריטים</div>
-        </div>
+      <!-- W13-search: mobile search input (in-place filter) -->
+      <div class="w13-search-box w13-search-mobile">
+        <input type="text" class="w13-search-input" placeholder="חיפוש פריט..." [(ngModel)]="searchQuery" (input)="onSearchInput($event.target.value)" aria-label="חיפוש פריט בתפריט" />
+        <span class="w13-search-icon" aria-hidden="true">⌕</span>
       </div>
 <!--  [ngStyle]="{'margin-top': isDigitalMenu()== true ? '65px' : '90px', 'direction':getLanguage() === 'en' ? 'ltr': 'rtl' }"-->
 
@@ -578,22 +566,10 @@
 
     <div *ngIf="!isMobileMode()" class="col-2 d-none d-lg-block" [ngStyle]="{'padding-left':getLanguage() === 'en' ? '30px': '0', 'padding-right':getLanguage() === 'en' ? '0': '15px' }">
 
-      <!-- W13-search: desktop sidebar search input + dropdown -->
-      <div class="w13-search-wrap w13-search-desktop-wrap">
-        <div class="w13-search-box w13-search-desktop">
-          <input type="text" class="w13-search-input" placeholder="חיפוש פריט..." [(ngModel)]="searchQuery" (input)="onSearchInput($event.target.value)" (focus)="onSearchFocus()" (blur)="onSearchBlur()" aria-label="חיפוש פריט בתפריט" />
-          <span class="w13-search-icon" aria-hidden="true">⌕</span>
-        </div>
-        <div class="w13-search-dropdown" *ngIf="showSearchResults">
-          <div class="w13-search-result" *ngFor="let r of searchResults" (mousedown)="selectSearchResult(r); $event.preventDefault();">
-            <img class="w13-search-result-img" [src]="r.ImageUrl" (error)="logo($event)" alt="" />
-            <div class="w13-search-result-text">
-              <div class="w13-search-result-name">{{r.Name}}</div>
-              <div class="w13-search-result-price" *ngIf="r.Price">{{r.Price}} ₪</div>
-            </div>
-          </div>
-          <div class="w13-search-empty" *ngIf="searchQuery && !searchResults.length">לא נמצאו פריטים</div>
-        </div>
+      <!-- W13-search: desktop sidebar search input (in-place filter) -->
+      <div class="w13-search-box w13-search-desktop">
+        <input type="text" class="w13-search-input" placeholder="חיפוש פריט..." [(ngModel)]="searchQuery" (input)="onSearchInput($event.target.value)" aria-label="חיפוש פריט בתפריט" />
+        <span class="w13-search-icon" aria-hidden="true">⌕</span>
       </div>
       <perfect-scrollbar style="height: 80dvh; max-height: 99vh;">
 
