@@ -1729,23 +1729,44 @@ public loadSuccessRegistrationMessage() {
   public onSearchBlur(): void {
     setTimeout(() => { this.showSearchResults = false; }, 200);
   }
-  // W13-search: user selected a result - scroll to its category and clear search
+  // W13-search: user selected a result - scroll directly to item if possible, otherwise to its category, then highlight
   public selectSearchResult(result: any): void {
     try {
       if (result && result._cat) {
         try { this.selectCategory(result._cat, true, false, true); } catch (e) { }
       }
-      const key = result && (result.Id || result.CatalogNumber);
-      const targetId = 'cat11' + (key !== undefined && key !== null ? key : '');
-      setTimeout(() => {
-        try {
-          const el = document.getElementById(targetId);
-          if (el && (el as any).scrollIntoView) {
-            (el as any).scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        } catch (e) { }
-      }, 100);
     } catch (e) { }
+    const targetName = result && result.Name ? String(result.Name).trim() : '';
+    const catKey = result && result._cat ? (result._cat.Id || result._cat.Name) : null;
+    const catTargetId = catKey !== null && catKey !== undefined ? 'cat11' + catKey : null;
+    setTimeout(() => {
+      try {
+        // Try to find the exact item DOM element by matching its name text
+        let itemEl: HTMLElement | null = null;
+        if (targetName) {
+          const nameNodes = document.querySelectorAll('.item-name, .product-name');
+          for (let i = 0; i < nameNodes.length; i++) {
+            const txt = (nameNodes[i].textContent || '').trim();
+            if (txt === targetName) {
+              itemEl = nameNodes[i].closest('.my-items, .item-card') as HTMLElement;
+              if (itemEl) { break; }
+            }
+          }
+        }
+        // Fallback: scroll to category container
+        if (!itemEl && catTargetId) {
+          itemEl = document.getElementById(catTargetId);
+        }
+        if (itemEl && (itemEl as any).scrollIntoView) {
+          (itemEl as any).scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Add a brief highlight pulse
+          try {
+            itemEl.classList.add('w13-flash');
+            setTimeout(() => { try { itemEl && itemEl.classList.remove('w13-flash'); } catch (e) { } }, 1600);
+          } catch (e) { }
+        }
+      } catch (e) { }
+    }, 120);
     this.showSearchResults = false;
     this.searchResults = [];
     this.searchQuery = '';
