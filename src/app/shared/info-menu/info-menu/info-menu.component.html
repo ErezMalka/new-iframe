@@ -1,0 +1,49 @@
+<!-- Hamburger button (always visible, positioned by parent) -->
+<button type="button"
+        class="info-menu-burger"
+        [class.is-open]="isOpen"
+        [attr.aria-label]="isHebrew ? 'תפריט מידע' : 'Info menu'"
+        [attr.aria-expanded]="isOpen"
+        (click)="toggle()">
+  <span class="bar"></span>
+  <span class="bar"></span>
+  <span class="bar"></span>
+</button>
+
+<!-- Backdrop -->
+<div class="info-menu-backdrop"
+     *ngIf="isOpen"
+     (click)="close()"></div>
+
+<!-- Drawer -->
+<aside class="info-menu-drawer"
+       [class.is-open]="isOpen"
+       [class.is-rtl]="isHebrew"
+       [attr.dir]="isHebrew ? 'rtl' : 'ltr'">
+  <div class="info-menu-header">
+    <h3>{{ isHebrew ? 'מידע ושעות פתיחה' : 'Info & Hours' }}</h3>
+    <button type="button" class="close-btn" (click)="close()" [attr.aria-label]="isHebrew ? 'סגור' : 'Close'">&times;</button>
+  </div>
+
+  <div class="info-menu-body">
+    <div class="closed-today" *ngIf="isClosedToday">
+      <strong>{{ isHebrew ? 'סגור היום' : 'Closed today' }}</strong>
+      <div class="closed-msg" *ngIf="closedTodayMessage">{{ closedTodayMessage }}</div>
+    </div>
+
+    <section class="hours-section">
+      <h4>{{ isHebrew ? 'שעות פתיחה' : 'Opening hours' }}</h4>
+      <table class="hours-table">
+        <tbody>
+          <tr *ngFor="let d of schedule" [class.is-today]="d.dayIndex === today">
+            <td class="day">{{ d.dayName }}</td>
+            <td class="time">
+              <span *ngIf="!d.closed">{{ d.open }} - {{ d.close }}</span>
+              <span *ngIf="d.closed" class="closed">{{ isHebrew ? 'סגור' : 'Closed' }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</aside>
