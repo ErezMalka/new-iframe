@@ -23,6 +23,7 @@ import {PizzaComponent} from "../pizza/pizza.component";
 
 import {NewPizzaComponent} from "../pizza/new-pizza.component";
 import { threadId } from 'worker_threads';
+import { FlyToCartService } from '../../../shared/fly-to-cart/fly-to-cart.service';
 
 class ComboData {
   combo: ComboAppAdvancedModel;
@@ -90,7 +91,8 @@ export class ItemComponent implements OnInit {
     public commonFunctionService: CommonFunctionsService,
     protected browserIdentificatorService: BrowserIdentificatorService,
     private commonFunctionsService: CommonFunctionsService,
-    private matDialog: MatDialog//,
+    private matDialog: MatDialog,
+    private flyToCart: FlyToCartService
    ) {
     
   }
@@ -349,9 +351,19 @@ export class ItemComponent implements OnInit {
   public save(isPrevious?) {
     console.log("save");
     this.showErrorComboMessage = false;
-    //if (this.isAllDataFilled()) {
-      this.isSaved = true;
-      this.bsModalRef.hide();//{ //this.dialogRef.close({
+    this.isSaved = true;
+
+    // Trigger fly-to-cart animation before closing the modal
+    try {
+      const modalImg = (document.querySelector('.modal-content .product-image img')
+        || document.querySelector('.modal-content .product-image')
+        || document.querySelector('.modal-content img')) as HTMLElement | null;
+      if (modalImg) {
+        this.flyToCart.fly(modalImg, '.side-cart', this.item && this.item.ImageUrl);
+      }
+    } catch (e) { /* never block save */ }
+
+    this.bsModalRef.hide();//{ //this.dialogRef.close({
         //isSaved: true,
        // combo: this.combo
      // });
