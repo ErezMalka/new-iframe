@@ -1,5 +1,5 @@
-undefinedimport { Component, Input, OnInit } from '@angular/core';
-import { TranslationsService } from '../translations/translations.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { TranslationsService } from '../../translations/translations.service';
 
 interface DaySchedule {
   dayIndex: number; // 0=Sunday .. 6=Saturday
@@ -22,7 +22,7 @@ export class InfoMenuComponent implements OnInit {
   public lang: string = 'he';
   public today: number = new Date().getDay();
 
-  private dayNamesHe = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+  private dayNamesHe = ['×¨××©××', '×©× ×', '×©×××©×', '×¨×××¢×', '××××©×', '×©××©×', '×©××ª'];
   private dayNamesEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   constructor(private translationService: TranslationsService) {}
@@ -74,7 +74,7 @@ export class InfoMenuComponent implements OnInit {
       const keyMap: any = {
         '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6,
         sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6,
-        'ראשון': 0, 'שני': 1, 'שלישי': 2, 'רביעי': 3, 'חמישי': 4, 'שישי': 5, 'שבת': 6
+        '×¨××©××': 0, '×©× ×': 1, '×©×××©×': 2, '×¨×××¢×': 3, '××××©×': 4, '×©××©×': 5, '×©××ª': 6
       };
       Object.keys(wh).forEach(k => {
         const idx = keyMap[String(k).toLowerCase()];
