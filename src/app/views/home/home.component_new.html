@@ -1,3 +1,8 @@
+<!-- Info hamburger menu (fixed top-end corner) -->
+<div class="info-menu-host" style="position: fixed; top: 12px; inset-inline-end: 12px; z-index: 1001;">
+  <info-menu></info-menu>
+</div>
+
 <div *ngIf="!isDigitalMenu()">
 
   <div class=" full-height"
@@ -157,7 +162,7 @@
           <div class="col-12 align-middle" style="text-align: center; height: 3rem;">
             <div style="margin-top: 10px; color: white;">Powered by <a style="color: white" href="https://bite.co.il">
                 Bite Technology</a>
-              version 789</div>
+              version 791</div>
           </div>
         </div>
       </div>
@@ -166,7 +171,7 @@
     <!--MOBILE-->
 
     <div class="d-flex d-lg-none" *ngIf="multilingual" style="position: absolute;
-       top: 0; margin-top: 1vh; min-width: none;
+       top: 0; padding-top: calc(env(safe-area-inset-top, 0px) + 1vh); margin-top: 1vh; min-width: none;
        left: 1vw; max-width: max-content;">
       <!--div  [ngClass]="{'active': translationsService.language() == 'en' }"
       class="my-btn-lang-mobile"  (click)="translationsService.setLanguage('en')">
@@ -269,7 +274,7 @@
         <div class="row"
           style="display: flex; background: rgba(255, 255, 255, 1); width: 100%; margin-top: 25px; position: fixed; bottom: 0;">
           <span class="ml-auto">Powered by <a style="color: var(--orange);" href="https://bite.co.il"> Bite
-              Technology</a> version 789</span>
+              Technology</a> version 791</span>
         </div>
       </div>
 
