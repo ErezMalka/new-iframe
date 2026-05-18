@@ -125,54 +125,56 @@ export class InfoMenuComponent implements OnInit {
   /** Open the About / Description dialog */
   public openAbout(): void {
     this.close();
-    const info = (this.appStorageService && (this.appStorageService as any).Info) || '';
+    const franchise: any = (this.appStorageService && (this.appStorageService as any).franchise) || {};
+    const info = franchise.Description || (this.appStorageService as any).Info || '';
+    let header = this.isHebrew ? '\u05d0\u05d5\u05d3\u05d5\u05ea\u05d9\u05e0\u05d5' : 'About Us';
+    try { const t = this.translationService.translate('ABOUT'); if (t) header = t; } catch (e) {}
     this.dialog.open(MessagePopupComponent, {
-      data: {
-        message: info,
-        isAbout: true,
-        title: this.isHebrew ? '\u05d0\u05d5\u05d3\u05d5\u05ea\u05d9\u05e0\u05d5' : 'About Us'
-      },
-      panelClass: 'info-menu-dialog'
+      data: { header, desc: info, isAbout: true, withoutTimeout: true },
+      minWidth: '345px',
+      disableClose: true,
+      panelClass: 'custom-mat-dialog-popup'
     });
   }
 
   public openTerms(): void {
     this.close();
     const terms = (this.appStorageService && (this.appStorageService as any).Terms) || '';
+    let header = this.isHebrew ? '\u05ea\u05e7\u05e0\u05d5\u05df' : 'Terms';
+    try { const t = this.translationService.translate('TERMS'); if (t) header = t; } catch (e) {}
     this.dialog.open(MessagePopupComponent, {
-      data: {
-        message: terms,
-        title: this.isHebrew ? '\u05ea\u05e7\u05e0\u05d5\u05df' : 'Terms'
-      },
-      panelClass: 'info-menu-dialog'
+      data: { header, desc: terms, isTerms: true, withoutTimeout: true },
+      minWidth: '345px',
+      disableClose: true,
+      panelClass: 'custom-mat-dialog-popup'
     });
   }
 
   public openPrivacy(): void {
     this.close();
     const privacy = (this.appStorageService && (this.appStorageService as any).privacyPolicy) || '';
+    let header = this.isHebrew ? '\u05de\u05d3\u05d9\u05e0\u05d9\u05d5\u05ea \u05e4\u05e8\u05d8\u05d9\u05d5\u05ea' : 'Privacy Policy';
+    try { const t = this.translationService.translate('PRIVACY_POLICY'); if (t) header = t; } catch (e) {}
     this.dialog.open(MessagePopupComponent, {
-      data: {
-        message: privacy,
-        title: this.isHebrew ? '\u05de\u05d3\u05d9\u05e0\u05d9\u05d5\u05ea \u05e4\u05e8\u05d8\u05d9\u05d5\u05ea' : 'Privacy Policy'
-      },
-      panelClass: 'info-menu-dialog'
+      data: { header, desc: privacy, isPrivacy: true, withoutTimeout: true },
+      minWidth: '345px',
+      disableClose: true,
+      panelClass: 'custom-mat-dialog-popup'
     });
   }
 
   public openContact(): void {
     this.close();
     const branch: any = this.currentBranch || {};
-    const phone = branch.ManagerPhone || branch.Phone || '';
+    const phoneNumber = branch.BranchPhone || branch.ManagerPhone || branch.Phone || '';
     const address = branch.Address || '';
+    let header = this.isHebrew ? '\u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8' : 'Contact Us';
+    try { const t = this.translationService.translate('CONTACT'); if (t) header = t; } catch (e) {}
     this.dialog.open(MessagePopupComponent, {
-      data: {
-        isContact: true,
-        phone: phone,
-        address: address,
-        title: this.isHebrew ? '\u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8' : 'Contact Us'
-      },
-      panelClass: 'info-menu-dialog'
+      data: { header, isContact: true, phoneNumber, address, withoutTimeout: true },
+      minWidth: '345px',
+      disableClose: true,
+      panelClass: 'custom-mat-dialog-popup'
     });
   }
 
