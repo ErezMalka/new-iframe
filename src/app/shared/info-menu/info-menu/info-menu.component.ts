@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslationsService } from '../../translations/translations.service';
+import { AppStorageService } from '../../../app.storage.service';
+import { MessagePopupComponent } from '../../components/message-popup/message-popup.component';
+import { DialogSignInComponent } from '../../../components/sign-in/popup/dialog-sign-in.component';
 
 interface DaySchedule {
   dayIndex: number; // 0=Sunday .. 6=Saturday
@@ -25,7 +29,11 @@ export class InfoMenuComponent implements OnInit {
   private dayNamesHe = ['\u05e8\u05d0\u05e9\u05d5\u05df', '\u05e9\u05e0\u05d9', '\u05e9\u05dc\u05d9\u05e9\u05d9', '\u05e8\u05d1\u05d9\u05e2\u05d9', '\u05d7\u05de\u05d9\u05e9\u05d9', '\u05e9\u05d9\u05e9\u05d9', '\u05e9\u05d1\u05ea'];
   private dayNamesEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  constructor(private translationService: TranslationsService) {}
+  constructor(
+    private translationService: TranslationsService,
+    private dialog: MatDialog,
+    public appStorageService: AppStorageService
+  ) {}
 
   ngOnInit() {
     try { this.lang = this.translationService.language() || 'he'; } catch (e) {}
@@ -112,5 +120,66 @@ export class InfoMenuComponent implements OnInit {
       return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
     }
     return '';
+  }
+
+  /** Open the About / Description dialog */
+  public openAbout(): void {
+    this.close();
+    const info = (this.appStorageService && (this.appStorageService as any).Info) || '';
+    this.dialog.open(MessagePopupComponent, {
+      data: {
+        message: info,
+        isAbout: true,
+        title: this.isHebrew ? '\u05d0\u05d5\u05d3\u05d5\u05ea\u05d9\u05e0\u05d5' : 'About Us'
+      },
+      panelClass: 'info-menu-dialog'
+    });
+  }
+
+  public openTerms(): void {
+    this.close();
+    const terms = (this.appStorageService && (this.appStorageService as any).Terms) || '';
+    this.dialog.open(MessagePopupComponent, {
+      data: {
+        message: terms,
+        title: this.isHebrew ? '\u05ea\u05e7\u05e0\u05d5\u05df' : 'Terms'
+      },
+      panelClass: 'info-menu-dialog'
+    });
+  }
+
+  public openPrivacy(): void {
+    this.close();
+    const privacy = (this.appStorageService && (this.appStorageService as any).privacyPolicy) || '';
+    this.dialog.open(MessagePopupComponent, {
+      data: {
+        message: privacy,
+        title: this.isHebrew ? '\u05de\u05d3\u05d9\u05e0\u05d9\u05d5\u05ea \u05e4\u05e8\u05d8\u05d9\u05d5\u05ea' : 'Privacy Policy'
+      },
+      panelClass: 'info-menu-dialog'
+    });
+  }
+
+  public openContact(): void {
+    this.close();
+    const branch: any = this.currentBranch || {};
+    const phone = branch.ManagerPhone || branch.Phone || '';
+    const address = branch.Address || '';
+    this.dialog.open(MessagePopupComponent, {
+      data: {
+        isContact: true,
+        phone: phone,
+        address: address,
+        title: this.isHebrew ? '\u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8' : 'Contact Us'
+      },
+      panelClass: 'info-menu-dialog'
+    });
+  }
+
+  public openLogin(): void {
+    this.close();
+    this.dialog.open(DialogSignInComponent, {
+      panelClass: 'info-menu-dialog'
+    });
   }
 }
