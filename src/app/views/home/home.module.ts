@@ -18,6 +18,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { InfoMenuModule } from '../../shared/info-menu/info-menu/info-menu.module';
 @NgModule({
   declarations: [
     HomeComponent
@@ -37,7 +38,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ModalModule.forRoot(),
     AddressSelectionModule,
     MatSelectModule,
-    TabsModule
+    TabsModule,
+    InfoMenuModule
   ],
   providers: [
   ],
