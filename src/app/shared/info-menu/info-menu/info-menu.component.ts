@@ -22,7 +22,7 @@ export class InfoMenuComponent implements OnInit {
   public lang: string = 'he';
   public today: number = new Date().getDay();
 
-  private dayNamesHe = ['×¨××©××', '×©× ×', '×©×××©×', '×¨×××¢×', '××××©×', '×©××©×', '×©××ª'];
+  private dayNamesHe = ['\u05e8\u05d0\u05e9\u05d5\u05df', '\u05e9\u05e0\u05d9', '\u05e9\u05dc\u05d9\u05e9\u05d9', '\u05e8\u05d1\u05d9\u05e2\u05d9', '\u05d7\u05de\u05d9\u05e9\u05d9', '\u05e9\u05d9\u05e9\u05d9', '\u05e9\u05d1\u05ea'];
   private dayNamesEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   constructor(private translationService: TranslationsService) {}
@@ -74,7 +74,7 @@ export class InfoMenuComponent implements OnInit {
       const keyMap: any = {
         '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6,
         sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6,
-        '×¨××©××': 0, '×©× ×': 1, '×©×××©×': 2, '×¨×××¢×': 3, '××××©×': 4, '×©××©×': 5, '×©××ª': 6
+        'ÃÂ¨ÃÂÃÂ©ÃÂÃÂ': 0, 'ÃÂ©ÃÂ ÃÂ': 1, 'ÃÂ©ÃÂÃÂÃÂ©ÃÂ': 2, 'ÃÂ¨ÃÂÃÂÃÂ¢ÃÂ': 3, 'ÃÂÃÂÃÂÃÂ©ÃÂ': 4, 'ÃÂ©ÃÂÃÂ©ÃÂ': 5, 'ÃÂ©ÃÂÃÂª': 6
       };
       Object.keys(wh).forEach(k => {
         const idx = keyMap[String(k).toLowerCase()];
