@@ -120,5 +120,80 @@
         </tbody>
       </table>
     </section>
+    <section class="nav-section">
+      <h4 class="nav-title">{{ isHebrew ? 'תפריט' : 'Menu' }}</h4>
+      <ul class="nav-list">
+        <li class="nav-item" (click)="openAbout()">
+          <span class="nav-icon" aria-hidden="true">&#8505;</span>
+          <span class="nav-label">{{ isHebrew ? 'אודותינו' : 'About Us' }}</span>
+        </li>
+        <li class="nav-item" (click)="openContact()">
+          <span class="nav-icon" aria-hidden="true">&#9742;</span>
+          <span class="nav-label">{{ isHebrew ? 'צור קשר' : 'Contact Us' }}</span>
+        </li>
+        <li class="nav-item" (click)="openTerms()">
+          <span class="nav-icon" aria-hidden="true">&#128196;</span>
+          <span class="nav-label">{{ isHebrew ? 'תקנון' : 'Terms' }}</span>
+        </li>
+        <li class="nav-item" (click)="openPrivacy()">
+          <span class="nav-icon" aria-hidden="true">&#128274;</span>
+          <span class="nav-label">{{ isHebrew ? 'מדיניות פרטיות' : 'Privacy Policy' }}</span>
+        </li>
+        <li class="nav-item nav-item--primary" (click)="openLogin()">
+          <span class="nav-icon" aria-hidden="true">&#128100;</span>
+          <span class="nav-label">{{ isHebrew ? 'התחברות' : 'Sign In' }}</span>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+</aside>
+<!-- Hamburger button (always visible, positioned by parent) -->
+<button type="button"
+        class="info-menu-burger"
+        [class.is-open]="isOpen"
+        [attr.aria-label]="isHebrew ? 'תפריט מידע' : 'Info menu'"
+        [attr.aria-expanded]="isOpen"
+        (click)="toggle()">
+  <span class="bar"></span>
+  <span class="bar"></span>
+  <span class="bar"></span>
+</button>
+
+<!-- Backdrop -->
+<div class="info-menu-backdrop"
+     *ngIf="isOpen"
+     (click)="close()"></div>
+
+<!-- Drawer -->
+<aside class="info-menu-drawer"
+       [class.is-open]="isOpen"
+       [class.is-rtl]="isHebrew"
+       [attr.dir]="isHebrew ? 'rtl' : 'ltr'">
+  <div class="info-menu-header">
+    <h3>{{ isHebrew ? 'מידע ושעות פתיחה' : 'Info & Hours' }}</h3>
+    <button type="button" class="close-btn" (click)="close()" [attr.aria-label]="isHebrew ? 'סגור' : 'Close'">&times;</button>
+  </div>
+
+  <div class="info-menu-body">
+    <div class="closed-today" *ngIf="isClosedToday">
+      <strong>{{ isHebrew ? 'סגור היום' : 'Closed today' }}</strong>
+      <div class="closed-msg" *ngIf="closedTodayMessage">{{ closedTodayMessage }}</div>
+    </div>
+
+    <section class="hours-section">
+      <h4>{{ isHebrew ? 'שעות פתיחה' : 'Opening hours' }}</h4>
+      <table class="hours-table">
+        <tbody>
+          <tr *ngFor="let d of schedule" [class.is-today]="d.dayIndex === today">
+            <td class="day">{{ d.dayName }}</td>
+            <td class="time">
+              <span *ngIf="!d.closed">{{ d.open }} - {{ d.close }}</span>
+              <span *ngIf="d.closed" class="closed">{{ isHebrew ? 'סגור' : 'Closed' }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </div>
 </aside>
