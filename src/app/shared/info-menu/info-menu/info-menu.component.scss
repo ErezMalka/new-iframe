@@ -17,20 +17,21 @@ $accent: var(--orange, #ff6b00);
   width: $burger-size;
   height: $burger-size;
   padding: 0;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.92);
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.2s ease, transform 0.2s ease;
   z-index: 1001;
 
-  &:hover { background-color: rgba(0,0,0,0.05); }
+  &:hover { background-color: rgba(255, 255, 255, 1); transform: scale(1.05); }
   &:focus { outline: 2px solid $accent; outline-offset: 2px; }
 
   .bar {
     display: block;
     width: 22px;
-    height: 2.5px;
+    height: 3px;
     background-color: $primary-text;
     border-radius: 2px;
     transition: transform 0.3s ease, opacity 0.2s ease;
