@@ -14,7 +14,7 @@
     <!--DESKTOP-->
 
 
-    <div *ngIf="multilingual" class="d-none d-lg-flex" style="position: fixed; top: 0; margin-top: 1vh; min-width: none;
+    <div *ngIf="multilingual" class="d-none d-xl-flex" style="position: fixed; top: 0; margin-top: 1vh; min-width: none;
     left: 1vw; max-width: max-content;">
       <!--div  type="button" [ngClass]="{'active': translationsService.language() == 'en' }"
             class="my-btn-lang"  (click)="translationsService.setLanguage('en')">
@@ -35,7 +35,7 @@
     </div>
 
 
-    <div class="d-lg-block d-none row" style="position: absolute; width: 100%; bottom: 10%;"
+    <div class="d-xl-block d-none row" style="position: absolute; width: 100%; bottom: 10%;"
       *ngIf="isSomeOrderOptionsAvailable()">
 
 
@@ -170,7 +170,7 @@
 
     <!--MOBILE-->
 
-    <div class="d-flex d-lg-none" *ngIf="multilingual" style="position: absolute;
+    <div class="d-flex d-xl-none" *ngIf="multilingual" style="position: absolute;
        top: 0; padding-top: calc(env(safe-area-inset-top, 0px) + 1vh); margin-top: 1vh; min-width: none;
        left: 1vw; max-width: max-content;">
       <!--div  [ngClass]="{'active': translationsService.language() == 'en' }"
@@ -193,7 +193,7 @@
     </div>
 
 
-    <div class="row  mx-0  d-flex d-lg-none" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
+    <div class="row  mx-0  d-flex d-xl-none" [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}"
       style="position: absolute; width: 100%; bottom: 10vh;" *ngIf="isSomeOrderOptionsAvailable()">
       <div class="col align-end" *ngIf="isLoaded" style="text-align: center; height: 100%;">
 
