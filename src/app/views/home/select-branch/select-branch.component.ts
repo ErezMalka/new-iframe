@@ -288,6 +288,8 @@ export class SelectBranchComponent implements OnInit {
       return branch.IsOpenForTA;
     }  else if(this.selectedOrderReceipt.isSit){
       return branch.IsOpenForSit;
+    } else if(this.selectedOrderReceipt.isDigitalMenu){
+              return true;
     }
   }
 
