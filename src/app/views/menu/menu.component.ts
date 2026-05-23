@@ -419,7 +419,7 @@ public displayPhone: boolean;
 
     if (!this.isDigitalMenu()) {
 
-      if (this.appStorageService.isFirstPopUp && this.currentBranch.Messages.length>0) {
+      if (this.appStorageService.isFirstPopUp && this.currentBranch && this.currentBranch.Messages && this.currentBranch.Messages.length>0) {
 
         console.log("go to displayMyMessages")
         this.displayMyMessages();
@@ -961,7 +961,7 @@ public loadSuccessRegistrationMessage() {
   public count = 0;
 
   public displayMyMessages() {
-    this.messagesFromBranch = this.currentBranch.Messages;
+    this.messagesFromBranch = this.currentBranch && this.currentBranch.Messages ? this.currentBranch.Messages : [];
     this.messagesFromBranch.sort(function (a, b) {
       return a.Order - b.Order;
     });
