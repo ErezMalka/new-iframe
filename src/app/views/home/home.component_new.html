@@ -166,7 +166,7 @@
     <!--MOBILE-->
 
     <div class="d-flex d-lg-none" *ngIf="multilingual" style="position: absolute;
-       top: 0; padding-top: calc(env(safe-area-inset-top, 0px) + 1vh); margin-top: 1vh; min-width: none;
+       top: 0;  margin-top: calc(max(env(safe-area-inset-top, 35px), 35px) + 1vh); min-width: none;
        left: 1vw; max-width: max-content;">
       <!--div  [ngClass]="{'active': translationsService.language() == 'en' }"
       class="my-btn-lang-mobile"  (click)="translationsService.setLanguage('en')">
