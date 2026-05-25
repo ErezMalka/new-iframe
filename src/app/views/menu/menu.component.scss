@@ -1634,3 +1634,18 @@ button.btn.btn-custom:active {
 /* === End W9-typography === */
 
 
+
+/* === W10-tablet-layout: at 768-991px show 2 dishes per row with mobile-like spacing === */
+/* Scope: desktop DOM (.main-menu-container .my-items) on tablet widths only. */
+/* No HTML / TS changes. Overrides Bootstrap col-3 (25%) -> 50% so two cards fit per row. */
+/* Spacing values (padding 15px, margin-bottom 10px) mirror mobile .item-card baseline. */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .main-menu-container .my-items {
+          flex: 0 0 50% !important;
+          max-width: 50% !important;
+          padding-left: 15px !important;
+          padding-right: 15px !important;
+          margin-bottom: 10px !important;
+  }
+}
+/* === End W10-tablet-layout === */
