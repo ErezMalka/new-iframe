@@ -372,8 +372,7 @@ public displayPhone: boolean;
   }
 
   isMobileMode(): boolean {
-    return this.deviceService.isMobile() || this.deviceService.isTablet() ||window.innerWidth < window.innerHeight;
-  }
+    return this.deviceService.isMobile() || this.deviceService.isTablet() || window.innerWidth < window.innerHeight || window.innerWidth <= 1024;  }
 
 
   ngOnInit() {
