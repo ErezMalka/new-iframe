@@ -42,7 +42,7 @@
             [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  class="col orderType">
         {{"ORDERTYPE_FDELIVERY" | translate}}  <br>
         <div style="display: flex;"> {{"IN" | translate}} {{futureTATime}}</div>
-        <div *ngIf="displayBranchPhone()"style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
+        <div *ngIf="currentBranch?.Name" style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
         <div  *ngIf="displayBranchPhone()" style="display: flex;">
           <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
         </div>
@@ -64,7 +64,7 @@
             [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}"  class="col orderType">
         {{"ORDER_FUTURE_DELIVERY_DATE" | translate}}  <br>
         <div style="display: flex;">{{futureDate}} {{"IN" | translate}} {{futureTATime}}</div>
-        <div *ngIf="displayBranchPhone()"style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
+        <div *ngIf="currentBranch?.Name" style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
         <div  *ngIf="displayBranchPhone()" style="display: flex; ">
           <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
         </div>
@@ -95,14 +95,14 @@
       </div>
       <div *ngIf="order.IsDelivery&& !order.IsFutureOrder" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="col orderType">
         {{"ORDERTYPE_DELIVERY" | translate}}
-        <div *ngIf="displayBranchPhone()"style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
+        <div *ngIf="currentBranch?.Name" style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
         <div  *ngIf="displayBranchPhone()" style="display: flex;">
           <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
         </div>
       </div>
       <div *ngIf="order.IsSit" [ngStyle]="{'text-align':getLanguage() === 'en' ? 'left': 'right'}" class="col orderType">
         {{"ORDERTYPE_SIT" | translate}}
-        <div *ngIf="displayBranchPhone()"style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
+        <div *ngIf="currentBranch?.Name" style="display: flex;"> {{"FROM" | translate}} {{currentBranch.Name}} </div>
         <div  *ngIf="displayBranchPhone()" style="display: flex;">
           <a [href]="'tel:'+ currentBranch.BranchPhone" style="color: #1a1c20!important;">{{ 'PHONE' | translate }}: {{currentBranch.BranchPhone}} </a>
         </div>
