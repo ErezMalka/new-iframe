@@ -159,17 +159,18 @@
     </button>
 
 
-    <!--<div class="row py-2" *ngIf="displayOrderStatus()">
+  <div class="row py-2" *ngIf="displayOrderStatus()">
       <div class="col"></div>
       <div class="col-auto">
-        <a routerLink="/{{franchiseId}}/my-order-status" routerLinkActive="active" 
-          class="btn btn-block btn-primary" type="button" 
-          style="font-size: 1.5rem;">
-          למעקב הזמנה
-        </a>
+              <a routerLink="/{{franchiseId}}/my-order-status/{{orderNumber}}" routerLinkActive="active"
+                        class="btn btn-block btn-primary" type="button"
+                        style="font-size: 1.5rem;">
+                        למעקב הזמנה
+              </a>
       </div>
-      <div class="col"></div>
-    </div>-->
+        <div class="col"></div>
   </div>
+    
+      </div>
 </div>
 <loader [show]="!isLoadingProgress()"></loader>
