@@ -1633,3 +1633,73 @@ button.btn.btn-custom:active {
 /* === End W9-typography === */
 
 
+
+
+/* === W-iPad-fix: force mobile row-card layout on iPad/tablets up to 1366px === */
+/* Targets older iPads (iPad 2 @ 1024px landscape) and other tablets that fell through.
+   Overrides the Wave 1 column layout to keep the mobile row layout (image + details side by side). */
+@media (min-width: 601px) and (max-width: 1366px) {
+    .new-menu-container .item-card.my-items {
+          display: flex !important;
+          flex-direction: row !important;
+          border-radius: 5px !important;
+          box-shadow: 0px 4px 30px #dbdbdb !important;
+          margin-left: 15px !important;
+          margin-right: 15px !important;
+          margin-bottom: 10px !important;
+          background: white !important;
+          overflow: visible !important;
+
+          .product-image {
+                  width: 150px !important;
+                  height: 125px !important;
+                  aspect-ratio: auto !important;
+                  float: right !important;
+                  border-radius: 0 !important;
+                  overflow: hidden !important;
+
+                  .p-img {
+                            width: 150px !important;
+                            height: 125px !important;
+                            object-fit: cover !important;
+            }
+      }
+
+          .product-details {
+                  width: calc(100% - 150px) !important;
+                  float: left !important;
+                  text-align: right !important;
+                  padding: 10px !important;
+                  padding-bottom: 0 !important;
+                  min-height: 125px !important;
+                  height: auto !important;
+
+                  .product-name {
+                            font-size: 16px !important;
+                            font-weight: 700 !important;
+            }
+                  .product-desc {
+                            font-size: 12.5px !important;
+                            padding-bottom: 1.7rem !important;
+            }
+                  .product-price {
+                            position: absolute !important;
+                            bottom: 0 !important;
+                            background-color: var(--orange) !important;
+                            color: white !important;
+                            font-weight: 700 !important;
+                            height: 30px !important;
+                            width: 62px !important;
+                            font-size: 14px !important;
+                            padding-top: 4px !important;
+                            text-align: center !important;
+            }
+      }
+  }
+
+    .new-menu-container .item-card.combo.my-items .product-image.combo {
+          height: 122px !important;
+          aspect-ratio: auto !important;
+  }
+}
+/* === End W-iPad-fix === */
