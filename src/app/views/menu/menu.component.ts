@@ -372,7 +372,7 @@ public displayPhone: boolean;
   }
 
   isMobileMode(): boolean {
-    return this.deviceService.isMobile() || this.deviceService.isTablet() || window.innerWidth < window.innerHeight || window.innerWidth <= 1024;  }
+        return this.deviceService.isMobile() || this.deviceService.isTablet() || window.innerWidth < window.innerHeight || window.innerWidth <= 1366 || /iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document); }
 
 
   ngOnInit() {
