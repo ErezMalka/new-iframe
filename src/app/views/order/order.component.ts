@@ -7,7 +7,7 @@ import { AppConfig } from '../../app.config';
 import { OrderAppModel } from '../../models/order/order-app.model';
 import { TranslationsService } from '../../shared/translations/translations.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AddressSelectionComponent } from "../home/address-selection/address-selection.component";
+import { AddressSelectionComponent } from "../hofme/address-selection/address-selection.component";
 import { SelectDateComponent } from "../home/select-date/select-date.component";
 import {NewComboComponent} from "../menu/combo/new-combo.component";
 
@@ -346,7 +346,7 @@ bsModalRef: BsModalRef;
   public tenbisEnd: any;
   public tranzilaTerminal: string;
   public messagesFromBranch: any;
-  public count: any;
+  public count: number = 0;
 
   public cvvForSavedCredit: any;
   public displayPaymentOptions: boolean = false;
@@ -952,6 +952,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
   }
 
   public displayMyMessages(){
+    this.count = 0;
     this.messagesFromBranch = this.currentBranch.Messages;
     this.messagesFromBranch.sort(function(a, b) {
       return a.Order - b.Order;
@@ -967,7 +968,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           if (!result.isDigitalMenu)
             this.count++;
 
-          if (this.count == this.messagesFromBranch.length) {
+          if (this.count == this.messagesFromBranch.filter(m => m.DisplayInEndOfOrder).length) {
 
             this.appStorageService.isFirstPopUp = false;
 
@@ -1031,7 +1032,11 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       });
 
     }
-    //else this.flag = false;
+    else {
+      if (callback) {
+        callback({});
+      }
+    }
   }
   public checkIfDate(){
     if(this.order.FutureDateTime instanceof Date){
