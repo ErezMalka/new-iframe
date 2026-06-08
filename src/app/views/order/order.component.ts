@@ -7,7 +7,7 @@ import { AppConfig } from '../../app.config';
 import { OrderAppModel } from '../../models/order/order-app.model';
 import { TranslationsService } from '../../shared/translations/translations.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AddressSelectionComponent } from "../hofme/address-selection/address-selection.component";
+import { AddressSelectionComponent } from "../home/address-selection/address-selection.component";
 import { SelectDateComponent } from "../home/select-date/select-date.component";
 import {NewComboComponent} from "../menu/combo/new-combo.component";
 
