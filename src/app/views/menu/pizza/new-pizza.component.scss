@@ -3634,3 +3634,38 @@ ng-scrollbar {
   }
 }
 /* === End Wave 4.4A === */
+
+
+/* === Wave 4.3-FIX: restore horizontal row layout for toppings list === */
+/* The Wave 4.3 block above turned the toppings list into a wrapping card grid
+   (flex-wrap: wrap + flex-direction: column), which breaks the combo / deals
+   ("מבצעים") pizza popup because its markup is built as Bootstrap horizontal
+   rows (.item-elem.row with .col-* children), exactly like the regular pizza
+   category. These overrides use the same selectors/specificity as Wave 4.3 and,
+   being later in the file, restore the single-column list of horizontal rows
+   while keeping the Wave 4 visual polish (radius, shadow, hover, selected). */
+:host .popup-wrapper .pizza-list,
+:host .popup-wrapper .pizza-list-right {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+:host .popup-wrapper .pizza-list .item-elem,
+:host .popup-wrapper .pizza-list-right .item-elem {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+:host .popup-wrapper .pizza-list .item-desktop,
+:host .popup-wrapper .pizza-list-right .item-desktop {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+}
+:host .popup-wrapper .pizza-list .item-desktop .topping-name,
+:host .popup-wrapper .pizza-list-right .item-desktop .topping-name {
+    margin-top: 0;
+    text-align: right;
+}
+/* === End Wave 4.3-FIX === */
