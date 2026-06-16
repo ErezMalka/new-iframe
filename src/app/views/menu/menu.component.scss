@@ -1703,3 +1703,71 @@ button.btn.btn-custom:active {
   }
 }
 /* === End W-iPad-fix === */
+
+
+/* === W13-search-icon-fix: size + position the menu search magnifier === */
+/* The search box markup is:
+   <div class="w13-search-box ...">
+     <input class="w13-search-input" ... />
+     <span class="w13-search-icon">⌕</span>
+   </div>
+   The icon had no styling, so the bare "⌕" glyph rendered tiny and unaligned.
+   These additive rules give the box position context, pad the input so text
+   never sits under the icon, and render a properly sized, vertically centred
+   magnifier pinned to the start (right in RTL) of the field. */
+.w13-search-box {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 8px 0;
+}
+
+.w13-search-box .w13-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 0 40px 0 14px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 40px;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.w13-search-box .w13-search-input:focus {
+    border-color: var(--orange, #e79115);
+    box-shadow: 0 0 0 3px rgba(231, 145, 21, 0.15);
+}
+
+.w13-search-box .w13-search-icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    font-size: 22px;
+    line-height: 1;
+    color: #8a8a8a;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.w13-search-box .w13-search-input:focus ~ .w13-search-icon {
+    color: var(--orange, #e79115);
+}
+
+/* English / LTR: flip icon to the left, pad input on the opposite side */
+[dir="ltr"] .w13-search-box .w13-search-input,
+.w13-search-box[dir="ltr"] .w13-search-input {
+    padding: 0 14px 0 40px;
+}
+[dir="ltr"] .w13-search-box .w13-search-icon,
+.w13-search-box[dir="ltr"] .w13-search-icon {
+    right: auto;
+    left: 12px;
+}
+/* === End W13-search-icon-fix === */
