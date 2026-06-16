@@ -1820,3 +1820,41 @@ button.btn.btn-custom:active {
     left: 12px !important;
 }
 /* === End W13-search-icon-fix2 === */
+
+
+/* === W13-search-icon-fix3: enlarge + recenter the magnifier glyph === */
+/* The bare ⌘-style "⌫" glyph renders thin and small. Bump its size and
+   weight so it reads clearly, keep it vertically centred and pinned to the
+   start (right in RTL, left in LTR) of the field with comfortable spacing. */
+.w13-search-box .w13-search-icon,
+.w13-search-mobile .w13-search-icon,
+.w13-search-desktop .w13-search-icon {
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    top: 50% !important;
+    right: 14px !important;
+    left: auto !important;
+    transform: translateY(-50%) !important;
+    color: #6b6b6b !important;
+    opacity: 1 !important;
+}
+
+.w13-search-box .w13-search-input,
+.w13-search-mobile .w13-search-input,
+.w13-search-desktop .w13-search-input {
+    padding-right: 46px !important;
+    padding-left: 14px !important;
+}
+
+[dir="ltr"] .w13-search-box .w13-search-icon,
+.w13-search-box[dir="ltr"] .w13-search-icon {
+    right: auto !important;
+    left: 14px !important;
+}
+[dir="ltr"] .w13-search-box .w13-search-input,
+.w13-search-box[dir="ltr"] .w13-search-input {
+    padding-right: 14px !important;
+    padding-left: 46px !important;
+}
+/* === End W13-search-icon-fix3 === */
