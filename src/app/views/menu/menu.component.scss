@@ -1771,3 +1771,52 @@ button.btn.btn-custom:active {
     left: 12px;
 }
 /* === End W13-search-icon-fix === */
+
+
+/* === W13-search-icon-fix2: force precedence over Bootstrap / generic styles === */
+/* The first fix had no !important, so generic input / span / .form-control rules
+   could override the icon size and position at runtime. These mirror the same
+   selectors with !important and a higher specificity so the magnifier reliably
+   renders larger and pinned to the start of the field. */
+.w13-search-box .w13-search-input,
+.w13-search-mobile .w13-search-input,
+.w13-search-desktop .w13-search-input {
+    width: 100% !important;
+    height: 42px !important;
+    box-sizing: border-box !important;
+    padding-right: 42px !important;
+    padding-left: 14px !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-radius: 10px !important;
+    font-size: 15px !important;
+    background: #ffffff !important;
+}
+
+.w13-search-box .w13-search-icon,
+.w13-search-mobile .w13-search-icon,
+.w13-search-desktop .w13-search-icon {
+    position: absolute !important;
+    top: 50% !important;
+    right: 12px !important;
+    left: auto !important;
+    transform: translateY(-50%) !important;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    color: #8a8a8a !important;
+    pointer-events: none !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+}
+
+[dir="ltr"] .w13-search-box .w13-search-input,
+.w13-search-box[dir="ltr"] .w13-search-input {
+    padding-right: 14px !important;
+    padding-left: 42px !important;
+}
+[dir="ltr"] .w13-search-box .w13-search-icon,
+.w13-search-box[dir="ltr"] .w13-search-icon {
+    right: auto !important;
+    left: 12px !important;
+}
+/* === End W13-search-icon-fix2 === */
