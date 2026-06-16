@@ -67,7 +67,7 @@ export class ClubMemberComponent implements OnInit {
 
   public lang: any;
 
-
+public displayMemberClubEmailField:boolean = true;
   public firstName: string;
   public lastName: string;
   public birthDay: any;
@@ -203,7 +203,9 @@ export class ClubMemberComponent implements OnInit {
     this.NewMemberVoucherActive = this.appStorageService.franchise.NewMemberVoucherActive;
     this.BirthdayVoucherActive =this.appStorageService.franchise.BirthdayVoucherActive;
     this.AnniversaryVoucherActive = this.appStorageService.franchise.AnniversaryVoucherActive;
-    
+    if (AppConfig.configSettings.hideMemberClubEmailField)
+       this.displayMemberClubEmailField =false;
+    console.log("this.displayMemberClubEmailField",this.displayMemberClubEmailField);
     //console.log("this.isback", this.isGoback);
     this.franchiseId = this.configService.franchiseId;
     this.initializeOrder();
@@ -515,14 +517,14 @@ export class ClubMemberComponent implements OnInit {
         //return this.dateIsValid(this.appUser.BirthDate);
       
     }
-    else if(this.appUser.Email == null ||
+    /*else if(this.appUser.Email == null ||
       this.appUser.Email == undefined ||
       this.appUser.Email.toString().trim().length == 0 ||  !pattern.test(this.appUser.Email.toString().trim())){
       console.log("email is undefined OR pattern");
       this.orderErrors.Email = true;
       return false;
 
-    }
+    }*/
     
     else if(!this.dateIsValid(this.appUser.BirthDate?._d)){
       console.log("date is not valid");
@@ -536,9 +538,7 @@ export class ClubMemberComponent implements OnInit {
       return false;
 
     }
-    else{
-      console.log("else????")
-    }
+    return true;
   }
 
   public trimField(value) {

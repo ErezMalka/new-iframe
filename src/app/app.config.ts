@@ -55,6 +55,7 @@ export class ConfigSettings {
   public   codeForTakeaway: string;
   public   codeForSit: string;
   public pickupPoints: boolean;
+  public hideMemberClubEmailField:boolean = false;
 }
 
 @Injectable({
