@@ -1361,7 +1361,7 @@ public loadSuccessRegistrationMessage() {
   }
 
   onSectionChange(sectionId: string) {
-    this.currentSection = sectionId;
+    this.currentSection = sectionId; if (this.isMobileMode()) { setTimeout(() => { this.scrollToMenu(sectionId); }, 0); }
     // selectCategory(this.categories.filter, true, false);
   }
 
