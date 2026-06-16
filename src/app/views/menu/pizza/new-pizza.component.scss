@@ -3669,3 +3669,39 @@ ng-scrollbar {
     text-align: right;
 }
 /* === End Wave 4.3-FIX === */
+
+
+/* === Wave 4.3-FIX2: mobile combo/deals toppings as full-width horizontal rows === */
+/* The mobile popup (isMobileMode) renders combo / deals ("מבצעים") toppings as
+   Bootstrap rows: ".row.item.noselect" containing .col-3 (image), .col (name)
+   and .col-3 (price). The base ".item" rule sets "flex: 0 0 19%; width: 95%;",
+   which collapses each row into a narrow card, producing the broken multi-column
+   grid seen in the deals popup. The regular (non-combo) mobile pizza list wraps
+   its .item inside ".row.item-elem", so it is not affected. These rules force the
+   combo/deals .item.row to span the full width and lay its columns out as a single
+   horizontal row, matching the regular category. Additive, scoped to .popup-wrapper
+   and mobile widths only. */
+:host .popup-wrapper .mat-dialog-content-custom .item.row,
+:host .popup-wrapper mat-dialog-content .item.row {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0 0 8px 0;
+    padding: 6px 10px;
+    border-radius: 12px;
+}
+:host .popup-wrapper .mat-dialog-content-custom .item.row > [class*="col"],
+:host .popup-wrapper mat-dialog-content .item.row > [class*="col"] {
+    flex-grow: 0;
+}
+:host .popup-wrapper .mat-dialog-content-custom .item.row > .col,
+:host .popup-wrapper mat-dialog-content .item.row > .col {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+/* === End Wave 4.3-FIX2 === */
