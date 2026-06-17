@@ -871,12 +871,12 @@ private getAppLanguages() {
           this.appStorageService.showClubMember = false;
           console.log("****************************************************************************************");
 
-          if (result.signIn && result.bDay && result.email || result.canceledMembership) {
+          if ((result.signIn && result.bDay ) || result.canceledMembership) {
 
             if (!result.canceledMembership) {
               this.user.Anniversary = result.annDay;
               this.user.BirthDate = result.bDay;
-              this.user.Email = result.email;
+             this.user.Email = result.email;
               this.user.AllowAdvertisement = result.enablePush;
             }
             this.user.FirstName = result.fName;
