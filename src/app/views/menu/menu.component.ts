@@ -833,9 +833,9 @@ private getAppLanguages() {
 
     }
     else{
-      minWidth = 'none';
+      minWidth = '40vw';
       maxHeight = '80vh';
-      maxWidth = '40vw';
+      maxWidth = '80vw';
       cls = 'club-member-desktop'
     }
 
