@@ -1858,3 +1858,17 @@ button.btn.btn-custom:active {
     padding-left: 46px !important;
 }
 /* === End W13-search-icon-fix3 === */
+
+
+/* ===== OOS-FIX: restore out-of-stock visual (dim + red label) ===== */
+.my-items .my-dish[style*="opacity: 0.5"],
+.my-items .my-dish[style*="opacity:0.5"],
+.my-items.item-card[style*="opacity: 0.5"],
+.my-items.item-card[style*="opacity:0.5"] {
+  animation: none !important;
+  opacity: 0.5 !important;
+  pointer-events: none;
+}
+.my-items .col[style*="color: red"] {
+  color: #d11 !important;
+}
