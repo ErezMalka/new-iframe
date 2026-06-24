@@ -130,6 +130,29 @@ export class ItemWithGarnishesComponent implements OnInit {
         return g.ShowBeforePizza;
       });
     }*/
+
+    // OOS-FIX: drop garnish groups that have no available garnish, so a
+    // mandatory group with zero available garnishes never blocks the order.
+    const isGarnishAvailable = (g: any): boolean => {
+      if (!g) return false;
+      if (g.ActiveInApp === false) return false;
+      if (g.ActiveToday !== true && g.ActiveAllWeek !== true) return false;
+      if (Array.isArray(g.DayAvailability) && g.DayAvailability.length > 0) {
+        const today = new Date().getDay();
+        if (!g.DayAvailability.some((d: any) => Number(d) === today)) return false;
+      }
+      if (typeof g.Quantity === 'number' && g.Quantity <= 0) return false;
+      return true;
+    };
+    const dropEmptyGarnishGroups = (groups: any[]): any[] => {
+      if (!Array.isArray(groups)) return groups;
+      return groups.filter((gr: any) => (gr.Garnishes || []).some(isGarnishAvailable));
+    };
+    this.item.GarnishGroups = dropEmptyGarnishGroups(this.item.GarnishGroups);
+    this.item.GeneralGarnishGroups = dropEmptyGarnishGroups(this.item.GeneralGarnishGroups);
+    this.item.GarnishGroupsBeforePizza = dropEmptyGarnishGroups(this.item.GarnishGroupsBeforePizza);
+    this.item.GarnishGroupsAfterPizza = dropEmptyGarnishGroups(this.item.GarnishGroupsAfterPizza);
+    
     this.price = this.item.Price;
     this.comments = "";
     if (this.item.SelectedPizzaPriceSize && this.item.SelectedPizzaPriceSize.Price > 0) {
