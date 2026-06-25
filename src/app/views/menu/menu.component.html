@@ -315,6 +315,7 @@
                   <span>{{"COMMON_CASH" | translate}}</span>
                 </div>
               </div>
+              <div *ngIf="!isDigitalMenu() && currentBranch.UseInventory && !isInStockCombo(item)" class="row"><div class="col" style="color: red;">אזל מהמלאי</div></div>
             </div>
 
           </div>
@@ -664,7 +665,7 @@
                     <div *ngIf="!isMobileMode() && !isDigitalMenu()" class="middle">
 
                       <button type="button" style="cursor: pointer; border-radius: 5px; background-color: var(--orange);"
-                        class=" btn btn-custom btn-block" (click)="addToCart(item, false, true, $event)">
+                        *ngIf="!(currentBranch.UseInventory && !isInStockCombo(item))" class=" btn btn-custom btn-block" (click)="addToCart(item, false, true, $event)">
                         {{ "ORDER_ADD_TO_ORDER" | translate }}
                       </button>
                     </div>
@@ -690,6 +691,7 @@
                       </div>
                     </button>
                   </div>
+                  <div *ngIf="!isDigitalMenu() && currentBranch.UseInventory && !isInStockCombo(item)" class="row"><div class="col" style="color: red;">אזל מהמלאי</div></div>
                 </div>
               </div>
               
