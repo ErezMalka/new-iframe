@@ -34,6 +34,7 @@ class ItemsData {
   icon : any;
   isShowInKioskEndOrder : boolean = false;
   isUpgrade: any;
+  useInventory: boolean;
 }
 
 class GarnishesDialog {
