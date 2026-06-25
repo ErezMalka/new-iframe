@@ -63,6 +63,7 @@ export class AdditionalItemsComponent  extends SizeMobileInitializationComponent
   public header :string;
   public maxItems: number = 100;
   public isBonusMode: boolean = false;
+  public useInventory: boolean = false;
   public comment: string;
   public minForBonus : number;
   public firstMessage : string;
@@ -148,7 +149,10 @@ public  displayItems: boolean = false
                   this.displayItems = true;
                 //  console.log("this.items sort",this.items.sort((a, b) => a.Order - b.Order).slice());
                  // this.cdr.detectChanges(); 
-                  this.items.forEach((i)=>{
+                  if (this.useInventory) {
+            this.items = this.items.filter((i) => this.isInStockUpsale(i));
+          }
+          this.items.forEach((i)=>{
                     if (!i.Amount || i.Amount == 1) i.Amount = 0;
                   });
                   this.header =data.header;
@@ -163,6 +167,9 @@ public  displayItems: boolean = false
                   }
                   if(data.isUpgrade){
                     this.isUpgrade = data.isUpgrade;
+      }
+      if (data.useInventory) {
+        this.useInventory = data.useInventory;
                   }
                   if (data.isBonusMode) {
                     this.isBonusMode = data.isBonusMode;
@@ -267,6 +274,7 @@ public  displayItems: boolean = false
   }
 
   public addAmount(item, isPizza?) {
+    if (this.useInventory && !this.isInStockUpsale(item)) { return; }
     item.IsSelected = true;
       if (!item.Amount) {
         item.Amount = 0;
@@ -304,7 +312,14 @@ public subAmount(item) {
 
 
 
+  public isInStockUpsale(item): boolean {
+    // When inventory tracking is enabled, an item is out of stock if its Quantity is below 1.
+    if (!this.useInventory) { return true; }
+    return !!item && item.Quantity != null && item.Quantity >= 1;
+  }
+
   public selectItem(item) {
+    if (this.useInventory && !this.isInStockUpsale(item)) { return; }
     if ((item.Garnishes && item.Garnishes.length > 0) ||
       (item.GarnishGroups && item.GarnishGroups.length  > 0 )) {
         console.log("if ((item.Garnishes && item.Garnishes.length > 0)");
@@ -372,6 +387,7 @@ public subAmount(item) {
   }
 
   addToCart(item?) {
+    if (item && this.useInventory && !this.isInStockUpsale(item)) { return; }
     if (item) 
     {
       if (!this.isMobileMode()) {
@@ -444,6 +460,7 @@ public subAmount(item) {
 
   addToCartUpgradeMobile() {
    var item = this.items[0];
+   if (this.useInventory && !this.isInStockUpsale(item)) { return; }
    item.Amount=1;
    if ((item.Garnishes && item.Garnishes.length > 0) ||
        (item.GarnishGroups && item.GarnishGroups.length  > 0 )) {
