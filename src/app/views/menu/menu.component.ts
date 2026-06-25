@@ -3368,7 +3368,8 @@ public cmShopCategory:any;
           items: items,
           maxItems: 1,
           isBonusMode: false,
-          isUpgrade: true
+          isUpgrade: true,
+          useInventory: this.currentBranch.UseInventory
           //this.minForBonus
         },
         minWidth: minWidth,
@@ -4078,6 +4079,7 @@ public cmShopCategory:any;
               firstMessage: firstMessage,
               icon: '../../../../assets/images/items/cart-icon-big.svg',
               bonusMSG: bonusMSG,
+              useInventory: this.currentBranch.UseInventory,
             },
             minWidth: '350px',
             width: '100%',
@@ -5279,6 +5281,7 @@ public cmShopCategory:any;
           firstMessage: firstMessage,
           icon: '../../../../assets/images/items/cart-icon-big.svg',
           bonusMSG: bonusMSG,
+          useInventory: this.currentBranch.UseInventory,
         },
         minWidth: '350px',
         width: '100%',
