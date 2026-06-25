@@ -6792,7 +6792,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
            
       });
       items = myAdditionalitems.filter((item) => {
-        return item.IsShowInKioskEndOrder && this.order.OrderItems &&
+        return item.IsShowInKioskEndOrder && !(this.currentBranch && this.currentBranch.UseInventory && item.Quantity < 1) && this.order.OrderItems &&
           this.order.OrderItems.every((currentItem) => {
             return currentItem.ItemId !== item.Id;
           });
