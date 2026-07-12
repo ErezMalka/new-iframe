@@ -1155,6 +1155,96 @@ public loadSuccessRegistrationMessage() {
 
   }
 
+   private initializeFutureMenuForBranch(continueCallBack?) {
+    // if (!this.appStorageService.isMenuWasLoaded) {
+    let hasPizzas: boolean = false;
+    let hascCombos: boolean = false;
+    //this.isLoaded = false;
+    this.menuService.getFutureMenuForBranch(this.order.BranchId, 
+                                            this.appStorageService.orderType,   
+                                            this.order.FutureDateModel.DayOfWeekId,
+                                            this.order.FutureDate,
+                                            this.order.FutureTime,
+                                             this.translationService.language()).subscribe((result) => {
+      this.imageVersionService.updateImageUrlsOfMenu(result);
+
+      this.appStorageService.backResultMenu = this.commonFunctionsService.deepCopy(result);
+      this.appStorageService.isMenuWasLoaded = true;
+      if (result) {
+        this.appStorageService.categories = result.categories;
+        this.appStorageService.clubMembershipCategories = result.clubMembershipCategories;
+
+        this.appStorageService.clubMembershipCategories.forEach(cat => {
+          if((cat.Name == this.translationService.translate('CM_JOIN') || cat.Name == 'CM_JOIN')
+          || (cat.Name == this.translationService.translate('CM_BIRTHDAY') || cat.Name == 'CM_BIRTHDAY')
+          || (cat.Name == this.translationService.translate('CM_ANNIVERSARY') || cat.Name == 'CM_ANNIVERSARY')){
+            
+            cat.Items.forEach(item => {
+              if(cat.Name == this.translationService.translate('CM_JOIN') || cat.Name == 'CM_JOIN'){
+                item.IsJoinBenefitItem;
+              }
+              if(cat.Name == this.translationService.translate('CM_BIRTHDAY') || cat.Name == 'CM_BIRTHDAY'){
+                item.IsBDayBenefitItem;
+              }
+              if(cat.Name == this.translationService.translate('CM_ANNIVERSARY') || cat.Name == 'CM_ANNIVERSARY'){
+                item.IsAnnBenefitItem;
+              }
+              item.isFreeMembershipBenefit = true;
+            });
+          }
+          
+        });
+
+
+        this.appStorageService.pizzas = result.pizzas;
+        if (result.pizzas && result.pizzas.length > 0) {
+          hasPizzas = true;
+
+        }
+        this.appStorageService.pizzaToppings = result.pizzaToppings;
+        this.appStorageService.startingPage = result.startingPage;
+        // this.prepareOrderOfItemsAndPizza();
+      }
+      this.metaDataService.getCombosForBranch(this.order.BranchId, this.appStorageService.orderType).subscribe(result => {
+        if (result) {
+          hascCombos = true;
+        }
+        this.imageVersionService.updateImageUrlsOfCombo(result);
+        this.appStorageService.backResultCombo = this.commonFunctionsService.deepCopy(result);
+        this.appStorageService.combos = result;
+
+ 
+
+
+         this.isLoadedAllData.next(createLoadedData(false, true, false));
+         // this.isLoaded = true;
+          if (continueCallBack) {
+            continueCallBack();
+          }
+       // }
+
+
+
+      }, (error) => {
+        this.isLoaded = true;
+        console.log("this.isLoaded = true");
+        console.log("ERROR: Couldn't load Combos");
+        if (continueCallBack) {
+          continueCallBack();
+        }
+        // this.messageService.displayServerErrorMessage();
+      });
+
+    }, (error) => {
+      this.isLoaded = true;
+      console.log("this.isLoaded = true");
+      this.messageService.displayServerErrorMessage();
+    });
+
+ 
+
+  }
+
   public signOut() {
     this.signInOutService.signOut();
     this.isSignedUser = false;
@@ -1163,12 +1253,22 @@ public loadSuccessRegistrationMessage() {
   public changeLanguage() {
     this.translationService.setLanguage(this.selectedLang, ()=>{
       //this.selectedLang = this.translationService.language();
-      this.initializeMenuForBranch(() => {
+      if (this.order.IsFutureOrder && this.order.FutureDateModel != undefined && this.order.FutureDateModel != null) {
+        this.initializeFutureMenuForBranch(() => {
 
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload'
-        this.router.navigateByUrl(`/${this.franchiseId}/menu`);
-      });
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload'
+          this.router.navigateByUrl(`/${this.franchiseId}/menu`);
+        });
+      } else {
+        this.initializeMenuForBranch(() => {
+
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload'
+          this.router.navigateByUrl(`/${this.franchiseId}/menu`);
+        });
+      }
+     
     }
       
       
@@ -3876,7 +3976,7 @@ public cmShopCategory:any;
   }
 
   public loadSuccessAddingToCartMessage(mealUpgrade: boolean) {
-    console.log(" loadSuccessAddingToCartMessage");
+    console.log(" loadSuccessAddingToCartMessage",this.order);
     this.routeActivate.canActivateHome = false;
 
 
@@ -4510,6 +4610,7 @@ public cmShopCategory:any;
 
   private prepareOrder() {
     this.order = this.orderService.getOrder();
+    console.log("this.order", this.order)
 
     if (this.order.OrderItems === undefined || this.order.OrderItems === null) {
       this.order.OrderItems = [];

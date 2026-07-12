@@ -60,4 +60,25 @@ export class MenuService {
     
   }
 
+   public getFutureMenuForBranch(branchId, method, dayOfWeek, dateString, timeString, lang?): Observable<any> {
+    if (lang != 
+        this.translationService.getDefaultLanguage()){
+          return this.http.get<any>(this.configService.serverUrl +
+            'Menu/GetTranslatedFutureMenuForBranch?branchID=' + branchId + 
+            '&lang=' + lang + 
+            '&method=' + method + '&dayOfWeek=' + dayOfWeek +
+            '&dateString=' + dateString + 
+            '&timeString=' + timeString + '&forApp=true&forKiosk=false');
+
+    } else {
+      return this.http.get<any>(this.configService.serverUrl +
+        'Menu/GetFutureMenuForBranch?branchID=' +
+        branchId + '&franchiseId=' +
+       '&method=' + method + '&dayOfWeek=' + dayOfWeek +
+            '&dateString=' + dateString + 
+            '&timeString=' + timeString + '&forApp=true&forKiosk=false');
+    }
+    
+  }
+
 }

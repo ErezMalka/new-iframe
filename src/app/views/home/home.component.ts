@@ -510,11 +510,20 @@ public phoneNumber:string;
                     // Handle the error
                   }
                 }
-            this.initializeMenuForBranch(() => {
+            if (_order.IsFutureOrder &&  _order.FutureDateModel != undefined &&  _order.FutureDateModel != null) { 
+    this.initializeFutureMenuForBranch(() => {
               let pathArr: string[] =  this.configService.currentUrl.split('/');
               this.router.navigateByUrl('/'+ pathArr[1]+ '/'+ pathArr[2]);
             //  this.router.navigateByUrl(`/${this.franchiseId}/menu`);
             });
+            }  else {
+ this.initializeMenuForBranch(() => {
+              let pathArr: string[] =  this.configService.currentUrl.split('/');
+              this.router.navigateByUrl('/'+ pathArr[1]+ '/'+ pathArr[2]);
+            //  this.router.navigateByUrl(`/${this.franchiseId}/menu`);
+            });
+            }
+           
           } else {
             this.isLoaded = true;
             this.messageService.displayServerErrorMessage();
@@ -1298,15 +1307,15 @@ public phoneNumber:string;
                             if (dialogResult && dialogResult.isSaved) {
                              
                               this.selectedFutureTime = dialogResult.selectedText;
-                             
+                             console.log( "this.selectedFutureTime," ,this.selectedFutureTime);
                               this.order.IsFutureOrder = true;
                               this.order.FutureDateModel = dialogResult.selectedDay;
                               this.order.FutureTime = dialogResult.selectedTime;
                               this.order.FutureDate = dialogResult.selectedDay.Date;
                               //this.getDateTimeFromTimeStr(dialogResult.selectedText) || dialogResult.selectedText;
-                          
+                             console.log( "this.order" ,this.order);
                               this.isLoaded = false;
-                              this.initializeMenuForBranch(() => {
+                              this.initializeFutureMenuForBranch(() => {
                                 this.router.navigateByUrl(`/${this.franchiseId}/menu`);
                               });
           
@@ -1374,7 +1383,7 @@ public phoneNumber:string;
                           //this.getDateTimeFromTimeStr(dialogResult.selectedText) || dialogResult.selectedText;
                       
                           this.isLoaded = false;
-                          this.initializeMenuForBranch(() => {
+                          this.initializeFutureMenuForBranch(() => {
                             this.router.navigateByUrl(`/${this.franchiseId}/menu`);
                           });
       
@@ -2100,46 +2109,7 @@ public phoneNumber:string;
         this.appStorageService.backResultCombo = this.commonFunctionsService.deepCopy(result);
         this.appStorageService.combos = result;
 
-        //Workaround for Pizza & Combo Category Image
-      /*  if (hasPizzas || hascCombos) {
-console.log("HOME GET MENU!!!!!!!!!!!!!!!!!!!!!!!");
-          this.menuService.getMenu(this.order.BranchId).subscribe((result) => {
-            const pizzaCategoryPic = result.categories.filter((cat) => {
-              return cat.Name == this.translationsService.translate('PIZZA_CATEGORY_PIC');
-            });
-
-            const comboCategoryPic = result.categories.filter((cat) => {
-              return cat.Name == this.translationsService.translate('COMBO_CATEGORY_PIC');
-            });
-
-            if (pizzaCategoryPic && pizzaCategoryPic.length > 0) {
-              let pizzaCategoryPicUrl = pizzaCategoryPic[0].ImageIFrameUrl;
-              pizzaCategoryPicUrl = pizzaCategoryPicUrl.replace(".net/", ".net/categories/iframe/");
-              pizzaCategoryPicUrl = this.imageVersionService.updateImageVersion(pizzaCategoryPicUrl);
-              AppConfig.settings.pizzaCategory = pizzaCategoryPicUrl;
-            }
-            if (comboCategoryPic && comboCategoryPic.length > 0 && this.isAppDisplayMode()) {
-              let comboCategoryPicUrl = comboCategoryPic[0].ImageIFrameUrl;
-              comboCategoryPicUrl = comboCategoryPicUrl.replace(".net/", ".net/categories/iframe/");
-              comboCategoryPicUrl = this.imageVersionService.updateImageVersion(comboCategoryPicUrl);
-              AppConfig.settings.comboCategory = comboCategoryPicUrl;
-            }
-            this.isLoadedAllData.next(createLoadedData(false, true, false));
-           // this.isLoaded = true;
-            if (continueCallBack) {
-              continueCallBack();
-            }
-
-          }, (error) => {
-           // this.isLoaded = true;
-            console.log("ERROR: Couldn't menu categories for Pizza & Combo images for iFrame");
-            this.isLoadedAllData.next(createLoadedData(false, true, false));
-            if (continueCallBack) {
-              continueCallBack();
-            }
-            // this.messageService.displayServerErrorMessage();
-          });
-        } else {*/
+       
           this.isLoadedAllData.next(createLoadedData(false, true, false));
          // this.isLoaded = true;
           if (continueCallBack) {
@@ -2177,6 +2147,93 @@ console.log("HOME GET MENU!!!!!!!!!!!!!!!!!!!!!!!");
        }
        this.isLoadedAllData.next(createLoadedData(true, true, true));
      }*/
+
+  }
+
+   private initializeFutureMenuForBranch(continueCallBack?) {
+    // if (!this.appStorageService.isMenuWasLoaded) {
+    let hasPizzas: boolean = false;
+    let hascCombos: boolean = false;
+    //this.isLoaded = false;
+    this.menuService.getFutureMenuForBranch(this.order.BranchId, 
+                                            this.appStorageService.orderType,   
+                                            this.order.FutureDateModel.DayOfWeekId,
+                                            this.order.FutureDate,
+                                            this.order.FutureTime,
+                                             this.translationsService.language()).subscribe((result) => {
+      this.imageVersionService.updateImageUrlsOfMenu(result);
+
+      this.appStorageService.backResultMenu = this.commonFunctionsService.deepCopy(result);
+      this.appStorageService.isMenuWasLoaded = true;
+      if (result) {
+        this.appStorageService.categories = result.categories;
+        this.appStorageService.clubMembershipCategories = result.clubMembershipCategories;
+
+        if (this.appStorageService.clubMembershipCategories && this.appStorageService.clubMembershipCategories != null) {
+          this.appStorageService.clubMembershipCategories.forEach(cat => {
+            if ((cat.Name == this.translationsService.translate('CM_JOIN') || cat.Name == 'CM_JOIN')
+              || (cat.Name == this.translationsService.translate('CM_BIRTHDAY') || cat.Name == 'CM_BIRTHDAY')
+              || (cat.Name == this.translationsService.translate('CM_ANNIVERSARY') || cat.Name == 'CM_ANNIVERSARY')) {
+              cat.Items.forEach(item => {
+                if (cat.Name == this.translationsService.translate('CM_JOIN') || cat.Name == 'CM_JOIN') {
+                  item.IsJoinBenefitItem = true;
+                }
+                if (cat.Name == this.translationsService.translate('CM_BIRTHDAY') || cat.Name == 'CM_BIRTHDAY') {
+                  item.IsBDayBenefitItem = true;
+                }
+                if (cat.Name == this.translationsService.translate('CM_ANNIVERSARY') || cat.Name == 'CM_ANNIVERSARY') {
+                  item.IsAnnBenefitItem = true;
+                }
+                item.isFreeMembershipBenefit = true;
+              });
+            }
+
+          });
+        }
+
+        this.appStorageService.pizzas = result.pizzas;
+        if (result.pizzas && result.pizzas.length > 0) {
+          hasPizzas = true;
+
+        }
+        this.appStorageService.pizzaToppings = result.pizzaToppings;
+        this.appStorageService.startingPage = result.startingPage;
+        // this.prepareOrderOfItemsAndPizza();
+      }
+      this.metaDataService.getCombosForBranch(this.order.BranchId, this.appStorageService.orderType).subscribe(result => {
+        if (result) {
+          hascCombos = true;
+        }
+        this.imageVersionService.updateImageUrlsOfCombo(result);
+        this.appStorageService.backResultCombo = this.commonFunctionsService.deepCopy(result);
+        this.appStorageService.combos = result;
+
+       
+          this.isLoadedAllData.next(createLoadedData(false, true, false));
+         // this.isLoaded = true;
+          if (continueCallBack) {
+            continueCallBack();
+          }
+        //}
+
+
+
+      }, (error) => {
+        this.isLoaded = true;
+        console.log("this.isLoaded = true");
+        console.log("ERROR: Couldn't load Combos");
+        if (continueCallBack) {
+          continueCallBack();
+        }
+        // this.messageService.displayServerErrorMessage();
+      });
+
+    }, (error) => {
+      this.isLoaded = true;
+      console.log("this.isLoaded = true");
+      this.messageService.displayServerErrorMessage();
+    });
+ 
 
   }
 
