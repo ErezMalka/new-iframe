@@ -10,6 +10,7 @@ export class ConfigService {
   public serverUrl: string;
   public franchiseId: number;
   public branchId: number;
+    public selectedBranchId: number =0;
   public isEatIn: boolean = false;
   public isDelivery: boolean = false;
   public isTakeaway: boolean = false;

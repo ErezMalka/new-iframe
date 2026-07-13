@@ -1137,9 +1137,10 @@ export class MyMembershipComponent extends SizeMobileInitializationComponent imp
         //return this.dateIsValid(this.appUser.BirthDate);
       
     }
-    else if(this.appUser.Email == null ||
+    else if (this.displayMemberClubEmailField && (this.appUser.Email == null ||
       this.appUser.Email == undefined ||
-      this.appUser.Email.toString().trim().length == 0 ||  !pattern.test(this.appUser.Email.toString().trim())){
+      this.appUser.Email.toString().trim().length == 0 ||  
+      !pattern.test(this.appUser.Email.toString().trim()))){
       console.log("email is undefined OR pattern");
       this.orderErrors.Email = true;
       return false;
@@ -1161,6 +1162,7 @@ export class MyMembershipComponent extends SizeMobileInitializationComponent imp
     else{
       console.log("else????")
     }
+    return true;
   }
 
   dateIsValid(date) {

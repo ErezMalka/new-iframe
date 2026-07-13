@@ -24,7 +24,8 @@ export class SignInOutService {
       franchiseId: this.configService.franchiseId,
       phone: phone,
       country: this.configService.country,
-      noVerification: cancelVerification
+      noVerification: cancelVerification,
+      branchId: this.configService.selectedBranchId
     });
   };
 
