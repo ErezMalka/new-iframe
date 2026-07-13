@@ -253,7 +253,7 @@ export class MyMembershipComponent extends SizeMobileInitializationComponent imp
 
   
   locale = 'he';
-   
+   public displayMemberClubEmailField:boolean=true;
   public combos;
   public categories;
   public addresses: any;
@@ -308,7 +308,8 @@ export class MyMembershipComponent extends SizeMobileInitializationComponent imp
 
   ngOnInit(): void {
     this.franchiseId = this.route.snapshot.paramMap.get('franchiseId');
-
+ if (AppConfig.configSettings.hideMemberClubEmailField)
+       this.displayMemberClubEmailField =false;
     this.isCollapsed = true;
     this.localeService.use(this.locale);
     this.initializeOrder();
