@@ -443,7 +443,7 @@
       </div>
       <div class="col"   
            [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}" 
-           style="overflow-y: auto; max-height: 45vh;">
+           style="overflow-y: auto; max-height: 45vh;max-height: 45vh;">
         <!--perfect-scrollbar style="height: 50vh;  overflow-y: scroll;"-->
           <ng-container  *ngFor="let topping of toppings">
             <div class="item noselect" [animation]="'pulse'" *ngIf="!checkToppingsInPizza(topping)"

@@ -121,7 +121,7 @@
 
 
 
-    <div class="content"  [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" style="overflow-y: auto; max-height: 45vh;" *ngIf="garnishGroup">
+    <div class="content"  [ngStyle]="{'direction':getLanguage() != 'he' ? 'ltr': 'rtl'}" style="overflow-y: auto; max-height: 45vh; max-height: 45svh;" *ngIf="garnishGroup">
       <div class="row item noselect" *ngFor="let garnish of garnishGroup?.Garnishes" [animation]="'pulse'"
         [ngClass]="{'selected': garnish.IsSelected}" style="padding:0px;"
         (click)="(!garnish.MaxAmount || garnish.MaxAmount <= 1) ? selectGarnish(garnish) : null"><!-- style="padding-left:15px; padding-right:0px;"-->
