@@ -860,7 +860,9 @@ matDialogRef.afterClosed().subscribe((result) => {
    }
   
    public returnToPrevPage() {
+
     localStorage.removeItem(window.location.hash);
+    console.log(localStorage.getItem(window.location.hash));
     this.closeNav();
     this.router.navigate([`/${this.franchiseId}/home`]);
   }

@@ -873,6 +873,7 @@ public phoneNumber:string;
           if (result && result.isSaved) {
             this.selectedBranch = result.selectedBranch;
             this.order.deliveryGroup = this.selectedBranch.DeliveryBranchGroup;
+          console.log(" this.continueOrder()");
             this.continueOrder();
           } else {
             console.log(" this.cancelOptionSelection();");
@@ -884,6 +885,7 @@ public phoneNumber:string;
         this.order.BranchId = this._filteredBranches[0].Id;
         this.appStorageService.branch = this.selectedBranch = this._filteredBranches[0];
         this.order.deliveryGroup = this._filteredBranches[0].DeliveryBranchGroup;
+          console.log(" this.continueOrder()");
         this.continueOrder();
         // }
       }
@@ -894,6 +896,7 @@ public phoneNumber:string;
       if (this._filteredBranches.length === 1) {
         this.order.BranchId = this._filteredBranches[0].Id;
         this.appStorageService.branch = this.selectedBranch = this._filteredBranches[0];
+          console.log(" this.continueOrder()");
         this.continueOrder();
       } else {
 
@@ -956,6 +959,7 @@ public phoneNumber:string;
               this._filteredBranches = this.selectBranchesByOrderReceipt();
               this.order.BranchId = this._filteredBranches[0].Id;
               this.appStorageService.branch = this.selectedBranch = this._filteredBranches[0];
+                console.log(" this.continueOrder()");
               this.continueOrder();
             } else {
               this.displayAddressInformation((result) => {
@@ -989,6 +993,7 @@ public phoneNumber:string;
           this._filteredBranches = this.selectBranchesByOrderReceipt();
           this.order.BranchId = this._filteredBranches[0].Id;
           this.appStorageService.branch = this.selectedBranch = this._filteredBranches[0];
+            console.log(" this.continueOrder()");
           this.continueOrder();
         } else {
           this.displayAddressInformation((result) => {
@@ -1205,9 +1210,11 @@ public phoneNumber:string;
       //console.log ("franchiseResult.franchise.IsFutureOrderAvailable",franchiseResult.franchise.IsFutureOrderAvailable);
       futureOrderAvailable = true;
       if (this.selectedOrderReceipt.isDelivery) {
+         console.log("branchDeliveryTimeOptions")
         branchDeliveryTimeOptions =
           this.buildBranchDeliveryTimeOptions(branch.OpeningTime, branch.ClosingTime, branch.IsOpen, branch.DeliveryTimeInMinutes,true);
       } else {
+        console.log("branchDeliveryTimeOptions")
         branchDeliveryTimeOptions =
           this.buildBranchDeliveryTimeOptions(branch.OpeningTime, branch.ClosingTime, branch.IsOpen, branch.TakeawayTimeInMinutes,true);
       }
@@ -1264,13 +1271,18 @@ public phoneNumber:string;
                   });
                 } else {
                   branchFutureDates.forEach((d, index) => {
-                    if (index == 0) { if (this.isToday(d.Date))
+                    if (index == 0) { if (this.isToday(d.Date)){
                       d.TimeOptions =  this.buildBranchDeliveryTimeOptions(d.OpeningTime, d.ClosingTime, branchOpenResult.IsOpen, branch.DeliveryTimeInMinutes,true);
-                    else  d.TimeOptions =  this.buildBranchDeliveryTimeOptions(d.OpeningTime, d.ClosingTime, false, branch.DeliveryTimeInMinutes,false);
-                 
-           
+console.log("if (index == 0) { if (this.isToday(d.Date)){",  d.TimeOptions);
+                    }
+                    else  {
+                      d.TimeOptions =  this.buildBranchDeliveryTimeOptions(d.OpeningTime, d.ClosingTime, false, branch.DeliveryTimeInMinutes,false);
+                 console.log("if (index == 0)else",  d.TimeOptions);
+
+                    }
                     } else {
                       d.TimeOptions =  this.buildBranchDeliveryTimeOptions(d.OpeningTime, d.ClosingTime, false, branch.DeliveryTimeInMinutes,false);
+                       console.log("if (index == 0)else",  d.TimeOptions);
                       if (index == 6) {
                         if (index == 6) {
   
@@ -1334,6 +1346,7 @@ public phoneNumber:string;
                 
               } else {//if(this.selectedOrderReceipt.isTakeAway ) {
                 branchFutureDates.forEach((d, index) => {
+                   console.log("branchDeliveryTimeOptions", d, index);
                   if (index == 0) {
                     if (this.isToday(d.Date))
                       d.TimeOptions =  this.buildBranchDeliveryTimeOptions(d.OpeningTime, d.ClosingTime, branchOpenResult.IsOpen, branch.TakeawayTimeInMinutes,true);
@@ -1401,10 +1414,12 @@ public phoneNumber:string;
 
             } else {
               if (this.selectedOrderReceipt.isDelivery && this.appStorageService.franchise.IsFutureOrderAvailable) {
+                console.log("branchDeliveryTimeOptions")
                 branchDeliveryTimeOptions =
                   this.buildBranchDeliveryTimeOptions(branchOpenResult.OpeningTime, branchOpenResult.ClosingTime, branchOpenResult.IsOpen, branch.DeliveryTimeInMinutes, true);
   
               } else if(this.selectedOrderReceipt.isTakeAway && this.appStorageService.franchise.IsFutureOrderAvailable) {
+               console.log("branchDeliveryTimeOptions")
                 branchDeliveryTimeOptions =
                   this.buildBranchDeliveryTimeOptions(branchOpenResult.OpeningTime, branchOpenResult.ClosingTime, branchOpenResult.IsOpen, branch.TakeawayTimeInMinutes,true);
   
@@ -1592,104 +1607,61 @@ public phoneNumber:string;
   }
 
 
-  private buildBranchDeliveryTimeOptions(openingTime: string, closingTime: string, isOpen: boolean, delayTimeMinutes: number, isToday: boolean) {
+  private buildBranchDeliveryTimeOptions(openingTime: string, closingTime: string, isOpen: boolean, delayTimeMinutes: number, isToday: boolean): string[] {
 
-    const openingTimeArr = openingTime.split(":").map(function (v) { return Number.parseInt(v); });
-    const closingTimeArr = closingTime.split(":").map(function (v) { return Number.parseInt(v); });
+    const SLOT_MINUTES = 15;
+
+    const toMinutes = (t: string): number => {
+      const parts = (t || "0:0").split(":").map(v => Number.parseInt(v, 10));
+      const h = isNaN(parts[0]) ? 0 : parts[0];
+      const m = isNaN(parts[1]) ? 0 : parts[1];
+      return h * 60 + m;
+    };
+
+    const toTimeStr = (totalMinutes: number): string => {
+      const norm = ((totalMinutes % 1440) + 1440) % 1440;
+      const h = Math.floor(norm / 60);
+      const m = norm % 60;
+      return (h < 10 ? "0" + h : "" + h) + ":" + (m < 10 ? "0" + m : "" + m);
+    };
+
+    const delay = delayTimeMinutes && delayTimeMinutes > 0 ? delayTimeMinutes : 0;
+
+    const openMin = toMinutes(openingTime);
+    let closeMin = toMinutes(closingTime);
+    // Overnight branch (e.g. 06:00 -> 02:00): work on a single continuous timeline.
+    if (closeMin <= openMin) {
+      closeMin += 1440;
+    }
+
     const now = new Date();
-    const nowHr = now.getHours();
-    const nowMin = now.getMinutes();
-    let minDtHr = 0;
-    let minDtMin = 0;
-    let currHr = 0;
-    let currMin = 0;
-    if (isOpen) {
-      currHr =nowHr;
-      currMin =nowMin;
-    } else {
-      currHr =openingTimeArr[0];
-      currMin =openingTimeArr[1];
-    }
-    if (delayTimeMinutes <= 60) {
-      if (currMin + delayTimeMinutes > 60) {
-        minDtHr = currHr + 1;
-        minDtMin = currMin + delayTimeMinutes - 60;
-      } else {
-        minDtHr = currHr;
-        minDtMin = currMin + delayTimeMinutes;
-      }
-
-    } else if (delayTimeMinutes > 120) {
-      minDtHr = currHr + 2;
-      delayTimeMinutes -= 120;
-      if (currMin + delayTimeMinutes > 60) {
-        minDtHr = minDtHr + 1;
-        minDtMin = currMin + delayTimeMinutes - 60;
-      } else {
-        minDtHr = minDtHr;
-        minDtMin = currMin + delayTimeMinutes;
-      }
-
-    } else {
-      minDtHr =currHr + 1;
-      delayTimeMinutes -= 60;
-      if (currMin + delayTimeMinutes > 60) {
-        minDtHr = minDtHr + 1;
-        minDtMin = currMin + delayTimeMinutes - 60;
-      } else {
-        minDtHr = minDtHr;
-        minDtMin =currMin + delayTimeMinutes;
-      }
-    }
-    // minDtHr = openingTimeArr[0];
-    // minDtMin = openingTimeArr[1];
-    const maxDtHr = closingTimeArr[0];
-    const maxDtMin = closingTimeArr[1];
-    // var isOpen = isBranchOpened(openingTime, closingTime);
-   
-    const dtOptions = [];
-
-    if (maxDtHr < minDtHr) {
-      console.log("(maxDtHr < minDtHr)");
-      //if (nowHr >= minDtHr || !isOpen) {
-        console.log(" if (nowHr >= minDtHr || !isOpen)");
-        for (let i = minDtHr; i <= 23; i++) {
-          for (let j = 0; j < 60; j += 15) {
-            if (isToday && (i < nowHr || (i === nowHr && j < nowMin))) continue;
-            if ((i === minDtHr && j < minDtMin) || (i === maxDtHr && j > maxDtMin)) continue;
-            const hr = i < 10 ? "0" + i : i;
-            const min = j < 10 ? "0" + j : j;
-            dtOptions.push(hr + ":" + min);
-          }
-        }
-     // }
-      for (let i = 0; i <= maxDtHr; i++) {
-        for (let j = 0; j < 60; j += 15) {
-          if (nowHr < minDtHr && isOpen ) {
-            if (i < nowHr || (i === nowHr && j < nowMin)) continue;
-          }
-          if (isOpen && ((i === minDtHr && j < minDtMin) || (i === maxDtHr && j > maxDtMin))) continue;
-          const hr = i < 10 ? "0" + i : i;
-          const min = j < 10 ? "0" + j : j;
-          dtOptions.push(hr + ":" + min);
-        }
-      }
-
-    }
-    else {
-      console.log("else");
-      for (let i = minDtHr; i <= maxDtHr; i++) {
-        for (let j = 0; j < 60; j += 15) {
-          if (isToday &&(i < nowHr || (i === nowHr && j < nowMin))) continue;
-          if ((i === minDtHr && j < minDtMin) || (i === maxDtHr && j > maxDtMin)) continue;
-          const hr = i < 10 ? "0" + i : i;
-          const min = j < 10 ? "0" + j : j;
-          dtOptions.push(hr + ":" + min);
-        }
-      }
+    let nowMin = now.getHours() * 60 + now.getMinutes();
+    // If we are currently open and the clock already passed midnight,
+    // "now" belongs to the tail of the same (yesterday's) opening window.
+    if (isOpen && nowMin < openMin) {
+      nowMin += 1440;
     }
 
+    // Earliest possible slot: opening time + prep/delivery delay,
+    // and never earlier than (now + delay) when we are dealing with today.
+    let earliest = openMin + delay;
+    if (isToday) {
+      earliest = Math.max(earliest, nowMin + delay);
+    }
 
+    // Round up to the next 15-minute slot.
+    earliest = Math.ceil(earliest / SLOT_MINUTES) * SLOT_MINUTES;
+
+    const dtOptions: string[] = [];
+    for (let m = earliest; m <= closeMin; m += SLOT_MINUTES) {
+      dtOptions.push(toTimeStr(m));
+    }
+console.log("buildBranchDeliveryTimeOptions openingTime",openingTime)
+    console.log("buildBranchDeliveryTimeOptions closingTime: ",closingTime)
+console.log("buildBranchDeliveryTimeOptions isOpen",isOpen)
+console.log("buildBranchDeliveryTimeOptions delayTimeMinutes",delayTimeMinutes)
+console.log("buildBranchDeliveryTimeOptions isToday",isToday)
+console.log("buildBranchDeliveryTimeOptions dtOptions",dtOptions)
     return dtOptions;
   }
 

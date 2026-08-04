@@ -293,7 +293,7 @@ export class PaymentService {
   }  
 
 
-  public GetPelecardIframeUrl(sum, user,pass,terminal,userLoginToken,franchiseId,branchId): Observable<any> {   
+  /*public GetPelecardIframeUrl(sum, user,pass,terminal,userLoginToken,franchiseId,branchId): Observable<any> {   
     return this.http.get<any>(this.configService.serverUrl +
       'Pelecard/GetPelecardIframeUrl?sum=' + sum +'&user=' 
        + user + "&pass=" + pass + "&terminal=" + terminal
@@ -311,7 +311,7 @@ export class PaymentService {
           order: order
         });
   }  
-
+*/
    public GetPelecardIframeUrlNew(order, userLoginToken, franchiseId, sum): Observable<any> {   
    
       var paramx=  franchiseId + "_" + order.BranchId + "_"  + userLoginToken + "_" + sum;
