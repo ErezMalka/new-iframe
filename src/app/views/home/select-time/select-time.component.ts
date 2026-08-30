@@ -101,7 +101,9 @@ export class SelectTimeComponent implements OnInit {
       isTA: boolean,
       branchName: string
     }) {
-    if(!AppConfig.configSettings.dontUseASAP){
+    // ASAP means "now", so it may only be offered while the branch is actually open.
+    // When the branch is closed the user must pick an explicit time slot.
+    if(!AppConfig.configSettings.dontUseASAP && data.branchOpen){
     this.txtArray.push(this.translationsService.translate('ASAP'));
     }
 

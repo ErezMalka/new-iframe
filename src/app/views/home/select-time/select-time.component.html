@@ -37,7 +37,11 @@
       </div>
     </div>
 
-    <div *ngIf="!branchOpen" style="margin-top: 12px;"></div>
+    <div *ngIf="!branchOpen" class="branch-closed-notice" style="margin-top: 12px;"
+      [ngStyle]="{'direction':getLanguage() === 'en' ? 'ltr': 'rtl'}">
+      <div class="header" style="margin-top: 0;"><b>{{header}}</b></div>
+      <div *ngIf="description" class="description">{{description}}</div>
+    </div>
 
 
 

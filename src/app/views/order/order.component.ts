@@ -3340,18 +3340,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                   this.metadataService.BranchOpenForPickupMethod(this.order.BranchId, method)
                       .subscribe((response) => {
                          this.isLoaded.isBranchOpenLoaded = true;
-                          let closed: boolean = false;
-                          const now = new Date();
-                          const currentTime = now.toTimeString().slice(0, 5); // "14:45" 
-                          if ( this.order.FutureDate == "" && this.isValidTimeString(this.order.FutureTime) &&
-                               !this.isWithinWorkingHours(this.order.FutureTime,response.OpeningTime,response.ClosingTime)){
-                              closed = true; 
-                          } else if (this.order.FutureDate != "" && this.order.FutureDateModel != undefined) {
-                            const futureday = response.FurureDates.find(item => item.Date === this.order.FutureDateModel.Date);
-                            if (futureday != undefined)
-                              if (!this.isWithinWorkingHours(this.order.FutureTime, futureday.OpeningTime, futureday.ClosingTime))
-                                closed = true;
-                          }
+                          const closed: boolean = this.isBranchClosedForFutureOrder(response);
  
                     
                           if (closed ) {//&& !this.order.IsFutureOrder
@@ -3953,18 +3942,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         this.metadataService.BranchOpenForPickupMethod(this.order.BranchId, method)
         .subscribe((response) => {
            this.isLoaded.isBranchOpenLoaded = true;
-          let closed: boolean = false;
-          const now = new Date();
-          const currentTime = now.toTimeString().slice(0, 5); // "14:45"      
-          if ( this.order.FutureDate == "" &&  this.isValidTimeString(this.order.FutureTime) &&
-                               !this.isWithinWorkingHours(this.order.FutureTime,response.OpeningTime,response.ClosingTime)){
-                              closed = true; 
-          } else if ( this.order.FutureDate != "" && this.order.FutureDateModel != undefined){
-                  const futureday = response.FurureDates.find(item => item.Date === this.order.FutureDateModel.Date);
-                  if (futureday != undefined)
-                    if ( !this.isWithinWorkingHours(this.order.FutureTime,futureday.OpeningTime,futureday.ClosingTime))
-                    closed = true; 
-          }
+          const closed: boolean = this.isBranchClosedForFutureOrder(response);
          
           if (closed ) {//&& !this.order.IsFutureOrder
             this.isLoaded.isCashPaymentLoaded = true;
@@ -4035,8 +4013,30 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
 
   isValidTimeString(value: string): boolean {
     // Must match exactly "HH:mm" format
+    if (!value) return false;
     const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
     return timeRegex.test(value.trim());
+  }
+
+  // A "future" order is not necessarily a future one: "as soon as possible" (ASAP) is
+  // stored in FutureTime as free text rather than as HH:mm, and it means "now".
+  // Such an order must therefore still require the branch to be open at this moment.
+  private isBranchClosedForFutureOrder(response: any): boolean {
+    // Order for a future date - check against that day's working hours.
+    if (this.order.FutureDate && this.order.FutureDateModel) {
+      const futureday = response.FurureDates ?
+        response.FurureDates.find(item => item.Date === this.order.FutureDateModel.Date) : undefined;
+      if (futureday == undefined || !this.isValidTimeString(this.order.FutureTime)) return false;
+      return !this.isWithinWorkingHours(this.order.FutureTime, futureday.OpeningTime, futureday.ClosingTime);
+    }
+
+    // Explicit time for today.
+    if (this.isValidTimeString(this.order.FutureTime)) {
+      return !this.isWithinWorkingHours(this.order.FutureTime, response.OpeningTime, response.ClosingTime);
+    }
+
+    // ASAP - equivalent to now, so the branch has to be open right now.
+    return !response.IsOpen;
   }
 
 

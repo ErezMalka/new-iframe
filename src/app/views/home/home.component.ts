@@ -1518,7 +1518,7 @@ console.log("if (index == 0) { if (this.isToday(d.Date)){",  d.TimeOptions);
                   const dialogRef = this.matDialog.open(SelectTimeComponent, {
                     data: {
                       txtArray: branchDeliveryTimeOptions,
-                      header: this.translationsService.translate['ORDER_BRANCH_CLOSED_NOW'],
+                      header: this.translationsService.translate('ORDER_BRANCH_CLOSED_NOW'),
                       description: description,
                       branchOpen : branchOpenResult.IsOpen,
                       isTA : this.order.IsTakeAway,
