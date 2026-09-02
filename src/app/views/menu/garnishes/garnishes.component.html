@@ -27,7 +27,7 @@
 <span *ngIf="!item" class="close-upgrade d-flex d-lg-none" [ngClass]="{'direction': lang != 'he'}" (click)="closeAndNotSaveGarnishes()"></span>
 </div>
 
-<div class="garnishes-container d-flex d-lg-none" style="margin-bottom: 25px !important; height: 100dvh;">
+<div class="garnishes-container d-flex d-lg-none" style="margin-bottom: 25px !important; height: calc(100dvh - env(safe-area-inset-bottom, 0px));">
 
 
 
@@ -230,7 +230,7 @@
 
   
   <mat-dialog-actions style="position: absolute;
-    bottom: 23px;
+    bottom: calc(23px + env(safe-area-inset-bottom, 0px));
     width: 100%;">
 
     <!--div class="row" style="width:110%; position: relative; background-color: white;">

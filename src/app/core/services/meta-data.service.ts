@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from "rxjs";
+import { EMPTY, Observable, of } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import { ConfigService } from './common-settings/config.service';
 import { TranslationsService } from "../../shared/translations/translations.service";
 
 @Injectable()
 export class MetaDataService {
+
+  private isRedirecting = false;
 
   constructor(private http: HttpClient,
     private configService: ConfigService,
@@ -34,7 +37,32 @@ export class MetaDataService {
       'MetaData/GetFranchiseWithBranches?currentVersion=' +
       this.configService.currentVersion + '&franchiseId=' +
       this.configService.franchiseId + '&lang=' + this.translationsService.language() 
-      + '&method=' + method);
+      + '&method=' + method)
+      .pipe(switchMap((data: any) => {
+        if (data && data.franchise && data.franchise.IsRedirect && data.franchise.RedirectURL) {
+          this.redirectFranchise(data.franchise.RedirectURL);
+          // Stop here - do not continue loading the app
+          return EMPTY;
+        }
+        return of(data);
+      }));
+  }
+
+  private redirectFranchise(redirectUrl: string) {
+    if (this.isRedirecting) return;
+    this.isRedirecting = true;
+    let url = (redirectUrl || '').trim();
+    if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
+      url = 'https://' + url;
+    }
+    try {
+      // When running inside an iframe redirect the hosting page, if allowed
+      const target = window.top || window;
+      target.location.replace(url);
+    } catch (error) {
+      // Cross origin iframe - redirect the iframe itself
+      window.location.replace(url);
+    }
   }
 
   public getCombos(): Observable<any> {

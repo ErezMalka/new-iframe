@@ -20,6 +20,8 @@ export class FranchiseAppModel {
   public ManagerEmail:string;
   public UseMembersClub: boolean;
   public PoinsPercentage: number;
+    public IsRedirect: boolean;
+  public RedirectURL: string;
   MinSumForVouchers: number;
   ScratchCuponActive: any;
   BonusActive: any;
