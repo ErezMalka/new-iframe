@@ -204,7 +204,7 @@
                       </div>
                     
                       <div class="col-2" *ngIf="top.Price > 0 ">
-                        {{(top.Price * pizza.FullPizza.Amount)}}{{"COMMON_CASH" | translate}}
+                        {{roundSum(top.Price * pizza.FullPizza.Amount, 2)}}{{"COMMON_CASH" | translate}}
                       </div>
                   </div>
                   </ng-container>
@@ -377,7 +377,7 @@
                     </span-->
                   </div>
                   <div class="col-2" *ngIf="top.TotalPrice > 0">
-                    {{(top.TotalPrice * item.FullPizza.Amount)}}{{"COMMON_CASH" | translate}}
+                    {{roundSum(top.TotalPrice * item.FullPizza.Amount, 2)}}{{"COMMON_CASH" | translate}}
                   </div>
 
 

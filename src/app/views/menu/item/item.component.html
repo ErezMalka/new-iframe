@@ -103,7 +103,7 @@
         </div>
         <div class="col-3" *ngIf="garnish.Price > 0">
           <div class="price-mobile" >
-            {{"COMMON_CASH" | translate}}{{garnish.Price * garnish.SelectedAmount}} 
+            {{"COMMON_CASH" | translate}}{{garnish.Price * garnish.SelectedAmount | roundPrice: 2}} 
           </div>         
         </div>
   

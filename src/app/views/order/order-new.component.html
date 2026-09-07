@@ -279,7 +279,7 @@
                 <td [ngStyle]="{'min-width': !isMobileMode() ? '23vw' :  '100%'}"
                   style="border-left: 1px dashed #B6B6B6; border-bottom-left-radius: 5px;">
                   <div class="itemPrice">
-                    {{"COMMON_CASH" | translate}}{{itemComboPrice(itemOrderCombo)}}
+                    {{"COMMON_CASH" | translate}}{{itemComboPrice(itemOrderCombo) | roundPrice:2}}
                   </div>
                   <div class="  plus-minus" style="display:inline-flex;margin-top: 5px; width: 100px;  ">
                     <div class="col-4 plus">

@@ -333,7 +333,7 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
           sum += (i.Price + garnishesSum_) * (i.Amount || 1);
         });
       }
-      return sum * (item.Amount || 1);
+      return this.roundSum(sum * (item.Amount || 1), 2);
     } else {
       if (item.FullPizza.SelectedPizzaPriceSize) {
         let sum = item.FullPizza.SelectedPizzaPriceSize.Price;
@@ -349,7 +349,7 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
           });
            
         }
-        return sum * (item.Amount || 1);
+        return this.roundSum(sum * (item.Amount || 1), 2);
         //return sum * (item.FullPizza ? (item.FullPizza.Amount || 1) : (item.Amount || 1));
       }
     }
@@ -575,7 +575,7 @@ export class OrderResultComponent extends SizeMobileInitializationComponent impl
       })
     }
     sum += extraPrice * (combo.Amount || 1);
-    return sum;
+    return this.roundSum(sum, 2);
   }
 
 

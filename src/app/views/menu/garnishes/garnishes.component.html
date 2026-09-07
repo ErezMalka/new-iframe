@@ -40,7 +40,7 @@
     <div class="item-card" *ngIf="item" style="max-height: 35vh; position: relative;">
 
       <div *ngIf="itemPriceWithNotFreeGarnishes > 0" class="product-price" [ngStyle]="{'right':getLanguage() != 'he' ? '0': '', 'left':getLanguage() === 'he' ? '0': '', 'border-radius':getLanguage() === 'he' ? '0px 5px': '5px 0px' }" >
-        <span style="font-size: 1rem;">{{itemPriceWithNotFreeGarnishes}}</span>
+        <span style="font-size: 1rem;">{{itemPriceWithNotFreeGarnishes | roundPrice: 2}}</span>
         <span>{{"COMMON_CASH" | translate}}</span>
       </div>
 
