@@ -92,6 +92,8 @@ export class NewComboComponent implements OnInit {
   public tempArr: ItemAppAdvancedModel[] = [];
   isItemWithItemGroups: boolean = false;
   private pizzaBaseLoaded: boolean = true;
+  // Comments typed in the garnishes popups (before/after pizza) of the pizza which is being built
+  private pizzaGarnishesComments: string = '';
 
 
   constructor(private modalService: BsModalService,
@@ -264,6 +266,35 @@ export class NewComboComponent implements OnInit {
 
   }
 
+  /**
+   * Joins comments coming from the different popups of one pizza (pizza popup, garnishes before/after pizza),
+   * ignoring empty/undefined values.
+   */
+  private joinComments(...comments): string {
+    return (comments || [])
+      .map((comment) => (comment == undefined || comment == null) ? '' : ('' + comment).trim())
+      .filter((comment) => comment.length > 0 && comment != 'undefined')
+      .join(' ');
+  }
+
+  /** Collects the comments of the garnishes popups until the pizza is added to the combo. */
+  private addPizzaGarnishesComments(comments) {
+    this.pizzaGarnishesComments = this.joinComments(this.pizzaGarnishesComments, comments);
+  }
+
+  /**
+   * Puts the comments of the pizza popup together with the comments of its garnishes popups
+   * on the pizza which is added to the combo. Can be called more than once for the same pizza.
+   */
+  private applyPizzaComments(pizza) {
+    if (!pizza) {
+      return;
+    }
+    const comments = this.joinComments(pizza.specialRequests, this.pizzaGarnishesComments);
+    pizza.SpecialRequest = comments;
+    pizza.SpecialRequests = comments;
+  }
+
   public includePizzaGarnishes(item: PizzaAppAdvancedModel, isBeforePizza:boolean, cancellation?, adding?) {
     if (item && (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0 )) {
       if (!this.isMobileMode()) {
@@ -427,12 +458,12 @@ export class NewComboComponent implements OnInit {
   private loadingGarnishesPopupForPizza(item, isBeforePizza: boolean,
     garnishGroup: GarnishGroupAppModel,
     selectedGarnishes, isFirstPage,
-    selectedGarnishesPrice?, cancellation?, adding?) {
+    selectedGarnishesPrice?, cancellation?, adding?, comments?) {
     const matDialogRef = this.matDialog.open(GarnishesComponent, {
       data: {
         garnishGroup: garnishGroup,
         garnishes: [],
-        comments: "",
+        comments: comments || "",
         selectedGarnishes,
         isFirstPage,
         item: item,
@@ -466,7 +497,7 @@ export class NewComboComponent implements OnInit {
             if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
               this.loadingGarnishesPopupForPizza(item, isBeforePizza,
                 grnGrp, item.SelectedGarnishes,
-                false, result.selectedGarnishesPrice, cancellation, adding);
+                false, result.selectedGarnishesPrice, cancellation, adding, result.comments);
             }
           } else if (result.returnToPreviousPage && item &&
             item.GarnishGroupsBeforePizza &&
@@ -478,7 +509,7 @@ export class NewComboComponent implements OnInit {
               this.loadingGarnishesPopupForPizza(item, isBeforePizza,
                 grnGrp, item.SelectedGarnishes,
                 item.GarnishGroupsBeforePizza.indexOf(grnGrp) === 0,
-                result.selectedGarnishesPrice, cancellation, adding);
+                result.selectedGarnishesPrice, cancellation, adding, result.comments);
             }
           } else if (!result.returnToPreviousPage) {
             this.addToCartPizzaWithGarnishes(item, isBeforePizza, result, adding);
@@ -495,7 +526,7 @@ export class NewComboComponent implements OnInit {
             if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
               this.loadingGarnishesPopupForPizza(item, isBeforePizza,
                 grnGrp, item.SelectedGarnishes,
-                false, result.selectedGarnishesPrice, cancellation, adding);
+                false, result.selectedGarnishesPrice, cancellation, adding, result.comments);
             }
           } else if (result.returnToPreviousPage && item &&
             item.GarnishGroupsAfterPizza &&
@@ -507,7 +538,7 @@ export class NewComboComponent implements OnInit {
               this.loadingGarnishesPopupForPizza(item, isBeforePizza,
                 grnGrp, item.SelectedGarnishes,
                 item.GarnishGroupsAfterPizza.indexOf(grnGrp) === 0,
-                result.selectedGarnishesPrice, cancellation, adding);
+                result.selectedGarnishesPrice, cancellation, adding, result.comments);
             }
           } else if (!result.returnToPreviousPage) {
             this.addToCartPizzaWithGarnishes(item, isBeforePizza, result, adding);
@@ -527,10 +558,13 @@ export class NewComboComponent implements OnInit {
   }
 
   private addToCartPizzaWithGarnishes(item, isBeforePizza, data?, adding?) {
+    // The comments of the garnishes popup belong to the pizza
+    this.addPizzaGarnishesComments(data ? data.comments : '');
     if (isBeforePizza){
       this.pizzaBaseLoaded = true;
     } else {
      // this.myPrepare(item);
+      this.applyPizzaComments(item);
       if (adding) {
        console.log("adding");
        adding(item);
@@ -630,7 +664,12 @@ export class NewComboComponent implements OnInit {
   private addToCartItemWithGarnishes(item, data?, adding?) {
     if (item) { //if(!this.isNotFilledAllRequiredGarnishesOfGarnishGroup(item))
       console.log("continue adding");
-      if (data && data.comments) {
+      if (item.PizzaPrices) {
+        // The comments of the garnishes popup belong to the pizza,
+        // they are added to the comments of the pizza popup itself
+        this.addPizzaGarnishesComments(data ? data.comments : '');
+        this.applyPizzaComments(item);
+      } else if (data && data.comments) {
         item.SpecialRequests = data.comments || '';
       }
       if (data) {
@@ -909,6 +948,7 @@ export class NewComboComponent implements OnInit {
     pizzaSize: PizzaSizeAppModel,
     specialRequests: string, cancellation, adding) {
       console.log("open pizza from combo");
+      this.pizzaGarnishesComments = '';
 
     if (pizza.GarnishGroupsBeforePizza && pizza.GarnishGroupsBeforePizza.length > 0) { //(this.pizzaAdditionItems && this.pizzaAdditionItems.length > 0)
       this.pizzaBaseLoaded = false;
@@ -962,6 +1002,8 @@ export class NewComboComponent implements OnInit {
                 this.includePizzaGarnishes(pizza, false, cancellation, adding);
               }
               else {
+                // Comments of the pizza popup + comments of the garnishes popups shown before the pizza
+                this.applyPizzaComments(pizza);
                 if (this.combo.NewPizzaCombos.length > 0) {
                   const itemGroupFound = this.combo.NewPizzaCombos.find(({ Id }) => Id === pizza.ComboPizzaId);
                   if (itemGroupFound) {

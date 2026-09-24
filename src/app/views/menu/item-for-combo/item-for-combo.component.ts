@@ -50,6 +50,13 @@ export class ItemForComboComponent implements OnInit {
   public itemComments: string;
   public itemName: string;
 
+  /** True when the popup displays the general garnishes of a pizza (before/after the pizza itself). */
+  public isPizzaGarnishes(): boolean {
+    return !!this.item &&
+      ((this.showBeforePizzaGarnishes && !!this.item.GarnishGroupsBeforePizza) ||
+        (!this.showBeforePizzaGarnishes && !!this.item.GarnishGroupsAfterPizza));
+  }
+
   private timeToDisplayImage = 10000;
 
   public graphics = {

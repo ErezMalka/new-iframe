@@ -145,6 +145,8 @@ export class MenuComponent implements OnInit, DoCheck, OnDestroy, AfterViewInit,
   currentSection = '';
 
   private pizzaBaseLoaded: boolean = true;
+  // Comments typed in the garnishes popups (before/after pizza), collected until the pizza is added to the cart
+  private pizzaGarnishesComments: string = '';
   selectedLang: any;
   messagesFromBranch: any;
 
@@ -2885,9 +2887,11 @@ public cmShopCategory:any;
         newPizza.ComboPizzaId = selectedPizza.ComboPizzaId;
         newPizza.PizzaComboPizzaId = selectedPizza.PizzaComboPizzaId;
         newPizza.Toppings = [];
-        newPizza.SpecialRequests = selectedPizza.SpecialRequest;
-        
-        newPizza.Comment = selectedPizza.Comment;
+        // Comments of the pizza popup + comments of its garnishes popups (filled by the combo popup)
+        newPizza.SpecialRequests = this.joinComments(selectedPizza.SpecialRequest) ||
+          this.joinComments(selectedPizza.specialRequests);
+
+        newPizza.Comment = this.joinComments(selectedPizza.Comment) || newPizza.SpecialRequests;
         if(newPizza.Comment == 'undefined undefined ' || newPizza.SpecialRequests == 'undefined undefined ' || newPizza.Comment=='undefined' || newPizza.SpecialRequests == 'undefined' || newPizza.Comment == undefined || newPizza.SpecialRequests == undefined){
           newPizza.Comment = '';
           newPizza.SpecialRequests = '';
@@ -3069,6 +3073,8 @@ public cmShopCategory:any;
   private addToCartItemWithGarnishes(item, data?, callback?) {
     if (!this.isNotFilledAllRequiredGarnishesOfGarnishGroup(item)) {
       if (item.PizzaPrices) {
+        // Keep the comments typed in the garnishes popup - they belong to the pizza
+        this.addPizzaGarnishesComments(data ? data.comments : '');
         this.myPrepare(item);
       }
       else {
@@ -3124,12 +3130,14 @@ public cmShopCategory:any;
   }
 
   private addToCartPizzaWithGarnishes(item, isBeforePizza, data?, callback?) {
+    // Keep the comments typed in the garnishes popup - they belong to the pizza
+    this.addPizzaGarnishesComments(data ? data.comments : '');
     if (isBeforePizza){
       this.pizzaBaseLoaded = true;
     } else {
       this.myPrepare(item);
     }
-     
+
   }
 
   public checkForComboOld(){
@@ -3896,15 +3904,18 @@ public cmShopCategory:any;
             if(comment2 == 'undefined' || comment2 == undefined) comment2 = '';
             if(comment == undefined || comment == 'undefined') comment = '';
             item.SelectedGarnishes = this.bsModalRef.content.item.SelectedGarnishes;
+            // The comments of this popup belong to the pizza, keep them for the moment it is added to the cart
+            this.addPizzaGarnishesComments(comment2);
             if (isBeforePizza){
-              
+
               this.pizzaBaseLoaded = true;
             } else {
               //this.myPrepare(item);
               console.log("this.preparePizzaForOrder");
             const orderPizza = this.preparePizzaForOrder(
               this.commonFunctionsService.deepCopy(this.bsModalRef.content.item),
-              this.commonFunctionsService.deepCopy(comment+' '+comment2));
+              this.commonFunctionsService.deepCopy(this.joinComments(comment, this.pizzaGarnishesComments)));
+            this.pizzaGarnishesComments = '';
               if (orderPizza.Comment != undefined && 
                   orderPizza.Comment != null && 
                   orderPizza.Comment.length > 0 )
@@ -4401,12 +4412,12 @@ public cmShopCategory:any;
   private loadingGarnishesPopupForPizza(item, isBeforePizza:boolean, 
                                         garnishGroup: GarnishGroupAppModel,
                                         selectedGarnishes, isFirstPage, 
-                                        selectedGarnishesPrice?, callback?) {
+                                        selectedGarnishesPrice?, callback?, comments?) {
     const matDialogRef = this.matDialog.open(GarnishesComponent, {
       data: {
         garnishGroup: garnishGroup,
         garnishes: [],
-        comments: "",
+        comments: comments || "",
         selectedGarnishes,
         isFirstPage,
         item: item,
@@ -4440,7 +4451,7 @@ public cmShopCategory:any;
               if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
                 this.loadingGarnishesPopupForPizza(item, isBeforePizza, 
                                               grnGrp, item.SelectedGarnishes, 
-                                              false, result.selectedGarnishesPrice);
+                                              false, result.selectedGarnishesPrice, callback, result.comments);
               }
           } else if (result.returnToPreviousPage && item && 
                   item.GarnishGroupsBeforePizza &&
@@ -4452,7 +4463,7 @@ public cmShopCategory:any;
                       this.loadingGarnishesPopupForPizza(item, isBeforePizza, 
                                               grnGrp, item.SelectedGarnishes, 
                                               item.GarnishGroupsBeforePizza.indexOf(grnGrp) === 0, 
-                                              result.selectedGarnishesPrice);
+                                              result.selectedGarnishesPrice, callback, result.comments);
                     }
             }  else if (!result.returnToPreviousPage) {
                 this.addToCartPizzaWithGarnishes(item, isBeforePizza, result, callback);
@@ -4469,7 +4480,7 @@ public cmShopCategory:any;
                 if (grnGrp && grnGrp.Garnishes && grnGrp.Garnishes.length > 0) {
                   this.loadingGarnishesPopupForPizza(item, isBeforePizza, 
                                             grnGrp, item.SelectedGarnishes, 
-                                            false, result.selectedGarnishesPrice);
+                                            false, result.selectedGarnishesPrice, callback, result.comments);
                 }
           } else if (result.returnToPreviousPage && item && 
                 item.GarnishGroupsAfterPizza &&
@@ -4481,7 +4492,7 @@ public cmShopCategory:any;
                   this.loadingGarnishesPopupForPizza(item, isBeforePizza, 
                                             grnGrp, item.SelectedGarnishes, 
                                             item.GarnishGroupsAfterPizza.indexOf(grnGrp) === 0, 
-                                            result.selectedGarnishesPrice);
+                                            result.selectedGarnishesPrice, callback, result.comments);
                   }
           }  else if (!result.returnToPreviousPage) {
                 this.addToCartPizzaWithGarnishes(item, isBeforePizza, result, callback);
@@ -4511,10 +4522,10 @@ public cmShopCategory:any;
     }
   }
 
-  public includePizzaGarnishes(item: PizzaAppAdvancedModel, isBeforePizza:boolean, callback?) {
+  public includePizzaGarnishes(item: PizzaAppAdvancedModel, isBeforePizza:boolean, callback?, comment?) {
     if (item && (item.GeneralGarnishGroups && item.GeneralGarnishGroups.length > 0 )) {
       if (!this.isMobileMode()) {
-        this.loadPizzaGarnishesPopupDesktop(item, isBeforePizza,"");        
+        this.loadPizzaGarnishesPopupDesktop(item, isBeforePizza, comment || "");
       } else {
         var garnishGrp:GarnishGroupAppModel;
         if (isBeforePizza) garnishGrp = item.GarnishGroupsBeforePizza[0];
@@ -4689,7 +4700,6 @@ public cmShopCategory:any;
     } else {
       newPizza.SpecialRequests = specialRequest + ' ';
     }
-    newPizza.SpecialRequests = specialRequest + ' ' || '';
     newPizza.Comment = '';
     if (pizza.SelectedToppings) {
       newPizza.Toppings = pizza.SelectedToppings.map((topping) => {
@@ -4885,6 +4895,7 @@ public cmShopCategory:any;
     pizzaSize?: PizzaSizeAppModel,
     specialRequests?: string) {
       clearInterval(this.stop);
+      this.pizzaGarnishesComments = '';
     if (pizza.GarnishGroupsBeforePizza && pizza.GarnishGroupsBeforePizza.length > 0) { //(this.pizzaAdditionItems && this.pizzaAdditionItems.length > 0)
   
       this.pizzaBaseLoaded = false;
@@ -4915,7 +4926,8 @@ public cmShopCategory:any;
               //if (!this.isMobileMode()) {
                 if(this.bsModalRef.content.pizza.GarnishGroupsAfterPizza && 
                    this.bsModalRef.content.pizza.GarnishGroupsAfterPizza.length>0 ){
-                    this.includePizzaGarnishes(pizza,false);
+                    // The comments of the pizza itself, they are joined with the comments of the garnishes popups
+                    this.includePizzaGarnishes(pizza, false, undefined, this.bsModalRef.content.comments);
                  // this.addToCart(this.bsModalRef.content.pizza, true, false, false, false, this.bsModalRef.content.comments );
                 } else {
                   if (!this.order.OrderPizzas) {
@@ -4925,7 +4937,9 @@ public cmShopCategory:any;
                   const orderPizza = this.preparePizzaForOrder(
                     this.commonFunctionsService.deepCopy(this.bsModalRef.content.pizza),
                     this.commonFunctionsService.deepCopy(this.bsModalRef.content.specialRequests));
-                    orderPizza.SpecialRequests = this.bsModalRef.content.comments;
+                    // Comments of the garnishes popups shown before the pizza + the comments of the pizza itself
+                    orderPizza.SpecialRequests = this.joinComments(this.pizzaGarnishesComments, this.bsModalRef.content.comments);
+                    this.pizzaGarnishesComments = '';
                   this.order.OrderPizzas.push(orderPizza);
                   this.checkOrderResultHeight();
                   this.orderService.recalculateSum();
@@ -4943,15 +4957,35 @@ public cmShopCategory:any;
 
   }
 
+  /**
+   * Joins comments coming from the different popups of one pizza (pizza popup, garnishes before/after pizza),
+   * ignoring empty/undefined values.
+   */
+  private joinComments(...comments): string {
+    return (comments || [])
+      .map((comment) => (comment == undefined || comment == null) ? '' : ('' + comment).trim())
+      .filter((comment) => comment.length > 0 && comment != 'undefined')
+      .join(' ');
+  }
+
+  /** Collects the comments of the garnishes popups until the pizza is added to the cart. */
+  private addPizzaGarnishesComments(comments) {
+    this.pizzaGarnishesComments = this.joinComments(this.pizzaGarnishesComments, comments);
+  }
+
   public myPrepare (item){
      console.log("myPrepare!!!!!!!!!!!!!!!!!!!!!");
     if (!this.order.OrderPizzas) {
       this.order.OrderPizzas = [];
     }
     console.log("this.preparePizzaForOrder");
+    // Comments of the pizza popup + comments of the garnishes popups (before/after pizza)
+    const specialRequests = this.joinComments(this.bsModalRef.content.specialRequests,
+      this.bsModalRef.content.comments, this.pizzaGarnishesComments);
+    this.pizzaGarnishesComments = '';
     const orderPizza = this.preparePizzaForOrder(
       this.commonFunctionsService.deepCopy(item), //this.bsModalRef.content.pizza
-      this.commonFunctionsService.deepCopy(this.bsModalRef.content.specialRequests));
+      this.commonFunctionsService.deepCopy(specialRequests));
     this.order.OrderPizzas.push(orderPizza);
     this.checkOrderResultHeight();
     this.orderService.recalculateSum();

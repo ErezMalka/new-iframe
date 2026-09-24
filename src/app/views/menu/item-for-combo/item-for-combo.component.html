@@ -114,7 +114,7 @@ padding-right: 2rem !important;
           </div>
 
 
-          <div class="form-group">
+          <div class="form-group" *ngIf="!isPizzaGarnishes()">
             <div class="input-group">
               <div class="input-group-prepend"
                 [ngStyle]="{'border-left':getLanguage() === 'he' ? 'none': '1px solid rgb(211, 211, 211)', 'border-right':getLanguage() === 'en' ? 'none': '1px solid rgb(211, 211, 211)'}"
