@@ -1406,41 +1406,41 @@ export class NewComboComponent implements OnInit {
 
   public message: string = "";
 
+  /**
+   * Sets the message of the first question (in display order) which is not filled.
+   * Uses the same conditions as isAllDataFilled().
+   */
   private displayNotificationMessage() {
     this.showErrorComboMessage = true;
-    var selectedItemsTemp = this.getSelectedItemsFromCombo(this.selectedItems);
-    var isNotFilled = true;
-    for (let i = 0; i < selectedItemsTemp.length; i++) {
-      if (!selectedItemsTemp[i].Name && selectedItemsTemp[i].Min > 0) {
-        var questionId = selectedItemsTemp[i].ComboItemId;
-        var isNotFilled = false;
-        break;
-      }
-    }
-    if (!isNotFilled && !this.isItemWithItemGroups) {
-      var notFilledQuestion = this.combo.ItemCombos.find(({ Id }) => Id === questionId);
-      if (notFilledQuestion == undefined) {
-        notFilledQuestion = this.combo.NewItemCombos.find(({ Id }) => Id === questionId);
-        this.message = "נא לבחור מוצר ב-" + notFilledQuestion.Name;
-      } else {
-        this.message = "נא לבחור מוצר ב-" + notFilledQuestion.Name;
-      }
-      
-    }
-    else if (!isNotFilled && this.isItemWithItemGroups) {
-      var notFilledQuestion2 = this.combo.ItemGroups.find(({ Id }) => Id === questionId);
-      this.message = "נא לבחור מוצר ב-" + notFilledQuestion2.Name;
-    } else if (this.isItemWithItemGroups ) {
-      const allItemFilled = Object.keys(this.selectedItems).every((key) => {
-        
-        const group = this.combo.ItemGroups.find(g => g.Id == key);
-        if (group.Min && this.selectedItems[key].length < group.Min) 
-          this.message = "יש לבחור מינימום " + group.Min + "פריטים ב" + group.Name;
-        
+    this.message = '';
+    const isEmpty = (selected) => !selected || selected.some(item => !item.Id);
+
+    if (this.isItemWithItemGroups) {
+      const notFilledGroup = (this.combo.ItemGroups || []).find((group) => {
+        const items = this.selectedItems[group.Id] || [];
+        const min = group.Min || 0;
+        const amountSum = items.reduce((sum, item) => sum + (item.Amount || 0), 0);
+        return !items.every(item => item.Id || item.Min == 0) || (items.length < min && amountSum < min);
       });
-      
-      return allItemFilled ;
-    };
+      if (notFilledGroup) {
+        this.message = notFilledGroup.Min > 1 ?
+          "יש לבחור מינימום " + notFilledGroup.Min + " פריטים ב-" + notFilledGroup.Name :
+          "נא לבחור מוצר ב-" + notFilledGroup.Name;
+      }
+    } else {
+      const notFilledQuestion: any =
+        [...(this.combo.NewPizzaCombos || []), ...(this.combo.PizzaCombos || [])]
+          .find(question => isEmpty(this.selectedPizzas[question.Id])) ||
+        [...(this.combo.ItemCombos || []), ...(this.combo.NewItemCombos || [])]
+          .find(question => isEmpty(this.selectedItems[question.Id]));
+      if (notFilledQuestion) {
+        this.message = "נא לבחור מוצר ב-" + (notFilledQuestion.Name || (notFilledQuestion.Pizza && notFilledQuestion.Pizza.Name) || '');
+      }
+    }
+
+    if (!this.message) {
+      this.message = this.translationService.translate('COMBO_ERROR_NO_ITEMS');
+    }
   }
 
 

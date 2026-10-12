@@ -1324,6 +1324,20 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
     this.commonFunctionsService.restrictKeysExceptDigitsAndPlus(event, !!dontIncludePlus);
   }
  public itemsOutOfStock: string[];
+
+  /**
+   * Prefixes the special requests with the item name (separated by a space, no '\n').
+   * Safe to call more than once (e.g. going back and continuing again) - the name is not added twice.
+   */
+  private prefixSpecialRequests(name, requests): string {
+    const cleanName = (name == undefined || name == null || name == 'undefined') ? '' : ('' + name).trim();
+    const cleanRequests = (requests == undefined || requests == null || requests == 'undefined') ? '' : ('' + requests).trim();
+    if (!cleanName || cleanRequests == cleanName || cleanRequests.indexOf(cleanName + ' ') == 0) {
+      return cleanRequests;
+    }
+    return cleanRequests ? cleanName + ' ' + cleanRequests : cleanName;
+  }
+
   public continuePayment() {
    var outOfStockItemsCounter = 0;
     if (this.currentBranch.UseInventory) {
@@ -1390,7 +1404,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
               if (item.ItemName == undefined || item.ItemName == "undefined" || item.ItemName == null) {
                 item.ItemName = "";
               }
-              item.SpecialRequests = item.ItemName + '\n' + requests;
+              item.SpecialRequests = this.prefixSpecialRequests(item.ItemName, requests);
             });
       
             this.order.OrderCombos.forEach(combo => {
@@ -1403,7 +1417,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                   //console.log("combo.ItemName",combo.ItemName);
                   combo.ItemName = "";
                 }
-                item.SpecialRequests = combo.ItemName + " " + requests;
+                item.SpecialRequests = this.prefixSpecialRequests(combo.ItemName, requests);
                
               });
       
@@ -1415,7 +1429,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                 if (combo.ItemName == undefined || combo.ItemName == "undefined" || combo.ItemName == null) {
                   combo.ItemName = "";
                 }
-                pizza.SpecialRequests = combo.ItemName + '\n' + requests;
+                pizza.SpecialRequests = this.prefixSpecialRequests(combo.ItemName, requests);
               });
       
       
@@ -1430,7 +1444,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
                 pizza.ItemName = "";
               }
       
-              pizza.SpecialRequests = pizza.ItemName + '\n' + pizza.SpecialRequests;
+              pizza.SpecialRequests = this.prefixSpecialRequests(pizza.ItemName, pizza.SpecialRequests);
       
             });
       
@@ -1477,7 +1491,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
           if (item.ItemName == undefined || item.ItemName == "undefined" || item.ItemName == null) {
             item.ItemName = "";
           }
-          item.SpecialRequests = item.ItemName + '\n' + requests;
+          item.SpecialRequests = this.prefixSpecialRequests(item.ItemName, requests);
         });
   
         this.order.OrderCombos.forEach(combo => {
@@ -1490,7 +1504,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
               //console.log("combo.ItemName",combo.ItemName);
               combo.ItemName = "";
             }
-            item.SpecialRequests = combo.ItemName + " " + requests;
+            item.SpecialRequests = this.prefixSpecialRequests(combo.ItemName, requests);
            
           });
   
@@ -1502,7 +1516,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
             if (combo.ItemName == undefined || combo.ItemName == "undefined" || combo.ItemName == null) {
               combo.ItemName = "";
             }
-            pizza.SpecialRequests = combo.ItemName + '\n' + requests;
+            pizza.SpecialRequests = this.prefixSpecialRequests(combo.ItemName, requests);
           });
   
   
@@ -1517,7 +1531,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
             pizza.ItemName = "";
           }
   
-          pizza.SpecialRequests = pizza.ItemName + '\n' + pizza.SpecialRequests;
+          pizza.SpecialRequests = this.prefixSpecialRequests(pizza.ItemName, pizza.SpecialRequests);
   
         });
   
