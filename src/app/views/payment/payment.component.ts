@@ -17,6 +17,7 @@ import * as moment from 'moment';
 import { ConfigService } from '../../core/services/common-settings/config.service';
 import { MeshulamService } from '../../shared/services/meshulam.service';
 import { RouteActivateService } from "../home/route-activate.service";
+import { PurchaseTrackingService } from '../../core/services/purchase-tracking.service';
 
 
 @Component({
@@ -87,7 +88,8 @@ export class PaymentComponent implements OnInit {
 
     private configService: ConfigService,
     private meshulamService:MeshulamService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private purchaseTrackingService: PurchaseTrackingService
   ) { }
 
   ngOnInit(): void {
@@ -172,6 +174,9 @@ export class PaymentComponent implements OnInit {
      
     this.paymentResult = this.appStorageService.paymentResult;
     if (this.paymentResult && this.paymentResult.Data && this.paymentResult.Data?.success) {
+      // The order was paid and created - send the purchase event (GA4 / pixels) with the order number.
+      // First thing here, so nothing below can stop it
+      this.purchaseTrackingService.trackPurchase(this.paymentResult.Data.orderId);
 
       this.pointsPerOrder = this.appStorageService.pointsPerOrder;
 
