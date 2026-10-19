@@ -9,7 +9,9 @@
     .NagishLiTrigger{z-index: 2147483647!important;}
     .nagishli *{z-index: 2147483647!important;}
   </style>
-  <base href="./">
+  <!-- No base element here on purpose. The app uses hash routing, so the router writes '#/...' urls
+       to the history. With a base element the browser resolves them against the base and drops
+       the query string, so ?gclid= / utm_* / gbraid / wbraid were lost on the first page load. -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
