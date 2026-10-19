@@ -75,6 +75,7 @@ import { ItemWithGarnishesComponent } from '../menu/item-with-garnishes/item-wit
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { MatSelectTrigger } from '@angular/material/select';
 import { BiteCreditComponent } from '../../shared/components/bite-credit/bite-credit.component';
+import { PurchaseTrackingService } from '../../core/services/purchase-tracking.service';
 
 const moment = /*_rollupMoment || */_moment;
 declare var growPayment: any;
@@ -391,7 +392,8 @@ bsModalRef: BsModalRef;
     private sanitizer: DomSanitizer,    
     protected browserIdentificatorService: BrowserIdentificatorService,
     protected deviceService: DeviceDetectorService,
-    private ngZone: NgZone) {
+    private ngZone: NgZone,
+    private purchaseTrackingService: PurchaseTrackingService) {
     super(browserIdentificatorService);
   }
 
@@ -3826,9 +3828,11 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
         }
       }
     }
-    window['dataLayer'].push({
-      'event': 'purchase',
-      'transaction_id':this.getGuid(),
+    // The 'purchase' event is no longer sent from here: this runs when the order is sent to
+    // payment (for the Pelecard iframe twice), before the payment is approved. The cart data is
+    // kept and the event is sent from the payment result screen, with the order number as
+    // transaction_id - see PurchaseTrackingService
+    this.purchaseTrackingService.setPendingPurchase({
       'value': this.resultSum(order.Sum),
       'coupon':this.order.CouponCode,
       'currency':'ILS',
@@ -3838,8 +3842,7 @@ tranzilaIframeSplitPaymentCheckTransaction(loginToken, sum) {
       'content_type': 'product_group',
       'num_items': dataLayerItems.length,
       'contents':contents
-  
-   });
+    });
     return order;
   }
 
