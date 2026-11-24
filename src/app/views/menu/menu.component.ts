@@ -483,6 +483,35 @@ public displayPhone: boolean;
 
   }
 
+  /**
+   * Stock that a single selectable option contributes to its group.
+   * Inventory quantities can come back negative (an item that was taken off the stock
+   * or that was oversold), so they are clamped at 0: an option that is not available
+   * must not eat the stock of the other options that can still be chosen instead of it.
+   */
+  private availableQuantity(option): number {
+    const quantity = Number(option && option.Quantity);
+    if (isNaN(quantity) || quantity < 0) { return 0; }
+    return quantity;
+  }
+
+  /**
+   * A group of selectable options (a deal step, an item group) is in stock as long as
+   * the options that are still available together cover the amount the group asks for.
+   * A single option that ran out only removes itself from the group.
+   */
+  private groupHasStock(options, required): boolean {
+    if (!options) { return true; }
+    const needed = Number(required);
+    if (isNaN(needed) || needed <= 0) { return true; }
+    let available = 0;
+    for (const option of options) {
+      available += this.availableQuantity(option);
+      if (available >= needed) { return true; }
+    }
+    return false;
+  }
+
   isInStock(item):boolean{
     if (item.Quantity < 1) return false;
     else if (item.ItemGroups?.length > 0){
@@ -491,14 +520,9 @@ public displayPhone: boolean;
         // Check only groups with Min > 0 (and not null/undefined)
         if (grp.Min && grp.Min > 0) {
 
-          // Sum all quantities inside this group's items
-          const totalQty = grp.GroupItems?.reduce(
-            (sum, gi) => sum + (gi.Quantity || 0),
-            0
-          ) || 0;
-
-          // If total quantity does NOT reach Min → item not in stock
-          if (totalQty < grp.Min) {
+          // The group is out of stock only when the available items in it
+          // cannot cover its Min
+          if (!this.groupHasStock(grp.GroupItems, grp.Min)) {
             return false;
           }
         }
@@ -508,26 +532,14 @@ public displayPhone: boolean;
   }
 
    isInStockCombo(combo):boolean{
- //   if (item.Quantity < 1) return false;
-    //else
     if (combo.NewItemCombos?.length > 0){
       for (const grp of combo.NewItemCombos) {
 
-        // Check only groups with Min > 0 (and not null/undefined)
-        //if (grp.Min && grp.Min > 0) {
-
-          // Sum all quantities inside this group's items
-          const totalQty = grp.Items?.reduce(
-            (sum, gi) => sum + (gi.Quantity || 0),
-            0
-
-          ) || 0;
-
-          // If total quantity does NOT reach Min → item not in stock
-          if (totalQty < grp.Quantity) {
-            return false;
-          }
-        //}
+        // The deal step is out of stock only when none of the items that can be
+        // chosen in it is available any more (an item that ran out is just skipped)
+        if (!this.groupHasStock(grp.Items, grp.Quantity)) {
+          return false;
+        }
       }
     }
     return true;
